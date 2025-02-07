@@ -18,14 +18,14 @@
                     <input type="text" name="password" id="password" placeholder="Palavra-passe">
                     <input type="submit" value="Iniciar sessão" id="submit">
                 </form>
-                <a href="forgot-password.html">Esqueceste-te da password?</a>
+                <a href="forgot-password.php">Esqueceste-te da password?</a>
             </section>
             <section id="registo">
-                <a href="register.html">Ainda não te registas-te? <span>Cria um conta</span></a>
+                <a href="register.php">Ainda não te registas-te? <span>Cria um conta</span></a>
             </section>
         </section>
         <aside>
-            <iframe src="videos-pagina-login.html" allow="autoplay;" frameborder="0" scrolling="no"></iframe>
+            <iframe src="videos-pagina-login.php" allow="autoplay;" frameborder="0" scrolling="no"></iframe>
         </aside>
     </main>
 </body>

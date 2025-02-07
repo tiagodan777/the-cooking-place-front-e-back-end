@@ -14,7 +14,7 @@
 <body>
     <header id="cabecalho-principal">
         <h1>
-            <a href="pagina-principal.html">
+            <a href="pagina-principal.php">
                 <picture>
                     <source media="(max-width: 600px)" srcset="imagens/logos/logo-pp.png">
                     <img src="imagens/logos/logo-p.png" alt="Logo do The Cooking Place">
@@ -26,8 +26,8 @@
             <input type="submit" value="Pesquisar" class="escondido">
         </form>
         <div>
-            <a href="create-edit-article.html"><span class="material-symbols-outlined">add_box</span></a>
-            <a href="profile.html"><span class="material-symbols-outlined">account_circle</span></a>
+            <a href="create-edit-article.php"><span class="material-symbols-outlined">add_box</span></a>
+            <a href="profile.php"><span class="material-symbols-outlined">account_circle</span></a>
         </div>
     </header>
     <br>
@@ -36,87 +36,87 @@
     <main>
         <section id="contatos">
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/tiago-p.jpg" alt="Foto de perfil Tiago">
                     <p>Tiago Daniel</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/foto-homem.jpg" alt="Foto de perfil Tomás">
                     <p>Tomás Dias</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/foto-mulher.jpg" alt="Foto de perfil Inês">
                     <p>Inês Bastos</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/tiago-p.jpg" alt="Foto de perfil Tiago">
                     <p>Tiago Daniel</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/foto-homem.jpg" alt="Foto de perfil Tomás">
                     <p>Tomás Dias</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/foto-mulher.jpg" alt="Foto de perfil Inês">
                     <p>Inês Bastos</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/tiago-p.jpg" alt="Foto de perfil Tiago">
                     <p>Tiago Daniel</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/foto-homem.jpg" alt="Foto de perfil Tomás">
                     <p>Tomás Dias</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/foto-mulher.jpg" alt="Foto de perfil Inês">
                     <p>Inês Bastos</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/tiago-p.jpg" alt="Foto de perfil Tiago">
                     <p>Tiago Daniel</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/foto-homem.jpg" alt="Foto de perfil Tomás">
                     <p>Tomás Dias</p>
                 </a>
             </div>
             <div>
-                <a href="messages.html">
+                <a href="messages.php">
                     <img src="imagens/fotos-perfil/foto-mulher.jpg" alt="Foto de perfil Inês">
                     <p>Inês Bastos</p>
                 </a>
             </div>
         </section>
-        <iframe src="messages.html" frameborder="0" ></iframe>
+        <iframe src="messages.php" frameborder="0" ></iframe>
     </main>
     <footer>
-        <a href="pagina-principal.html"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>
-        <a href="notifications.html"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
-        <a href="all-messages.html"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
-        <a href="whats-happening.html"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
-        <a href="profile.html"><span class="material-symbols-outlined aparece-desktop">account_circle</span> <span class="descricao-icone nao-destaque">Perfil</span></a>
-        <a href="create-edit-article.html"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
+        <a href="pagina-principal.php"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>
+        <a href="notifications.php"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
+        <a href="all-messages.php"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
+        <a href="whats-happening.php"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
+        <a href="profile.php"><span class="material-symbols-outlined aparece-desktop">account_circle</span> <span class="descricao-icone nao-destaque">Perfil</span></a>
+        <a href="create-edit-article.php"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
         <a href="#"><span class="material-symbols-outlined aparece-mobile">search</span></a>
     </footer>
 </body>
