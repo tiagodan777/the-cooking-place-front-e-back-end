@@ -1,0 +1,117 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=Glass+Antiqua&display=swap');
+
+:root {
+    --cor0: #F7D500;
+    --cor1: #ED7D3A;
+    --cor2: #2FBF71;
+    --cor3: #EF2D56;
+    --cor4: #363537;
+    --cor5: #FFFFFF;
+    --cor6: #000000
+}
+
+main {
+    width: 100vw;
+    height: calc(100vh - 52px);
+    margin-top: 150px;
+    text-align: center;
+    font-weight: normal;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+main > section {
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+}
+
+main > section > header  {
+    margin-bottom: 50px;
+    
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main > section > header > h1 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 2em;
+    color: var(--cor3);
+    font-weight: bold;
+    border: 3px solid var(--cor3);
+    margin-bottom: 20px;
+    margin-top: -50px;
+    letter-spacing: 5px;
+    padding: 10px;
+}
+
+main > section > header > a {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--cor5);
+    background-color: var(--cor0);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+main > section > header > a:hover {
+    background-color: #d6ba01;
+}
+
+main > section > table {
+    width: 480px;
+    border-collapse: collapse;
+}
+
+/*tbody > tr > th.titulo-linha {
+    color: var(--cor1);
+}*/
+
+tbody > tr {
+    padding: 20px;
+    border-top: 0.5px solid rgb(210, 210, 210);
+}
+
+tbody > tr > th {
+    text-align: left;
+    padding-left: 10px;
+    color: var(--cor4);
+}
+
+thead > tr > th {
+    font-weight: normal;
+    padding: 10px;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+thead > tr > th.mais-a-esquerda {
+    padding-left: 25px;
+}
+
+tbody > tr > td > a {
+    color: var(--cor4);
+    text-decoration: none;
+    background-color: var(--cor1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: var(--cor5);
+    text-transform: uppercase;
+}
+
+tbody > tr > td > a:hover {
+    cursor: pointer;
+    background-color: #d46f34;
+}
+
+td {
+    padding: 15px;
+    font-weight: normal;
+}
+

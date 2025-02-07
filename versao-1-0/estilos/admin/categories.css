@@ -1,0 +1,30 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=Glass+Antiqua&display=swap');
+
+:root {
+    --cor0: #F7D500;
+    --cor1: #ED7D3A;
+    --cor2: #2FBF71;
+    --cor3: #EF2D56;
+    --cor4: #363537;
+    --cor5: #FFFFFF;
+    --cor6: #000000
+}
+
+main > section > table > tbody > tr > td > a {
+    background-color: var(--cor0);
+}
+
+
+main > section > table > tbody > tr > td > a.diferente {
+    background-color: var(--cor3);
+}
+
+main > section > table > tbody > tr > td > a.diferente:hover {
+    background-color: #d2284d;
+}
+
+tbody > tr > td > a:hover {
+    cursor: pointer;
+    background-color: #d6ba01;
+}

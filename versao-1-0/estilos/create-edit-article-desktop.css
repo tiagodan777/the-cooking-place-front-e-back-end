@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+body {
+    position: relative;
+}
+
+header#cabecalho-principal {
+    position: relative;
+}
+
+hr.escondido {
+    display: none;
+}
+
+main {
+    margin-top: 0px;
+    margin-left: 250px;
+
+    width: calc(100vw - 265px);
+    /*height: calc(100vh - 150px);*/
+    /*position: absolute;
+    top: 85%;
+    left: 60%;
+    transform: translate(-50%, -50%);*/
+}
+
+main > h2 {
+    font-size: 2em;
+}
+
+main > form {
+    width: 98%;
+    border: none;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+main > form > section#imagem-video {
+    height: 1000px;
+    /*border: 1px solid rgb(210, 210, 210);*/
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center
+}
+
+main > form > section#info-text {
+    /*height: 1100px;*/
+}
+
+main > form > input[type="submit"] {
+    margin-bottom: 20px;
+    margin-right: 20px;
+
+    align-self: flex-end;
+}

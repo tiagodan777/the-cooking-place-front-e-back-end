@@ -1,0 +1,5 @@
+@charset "UTF-8";
+
+main > section > table > tbody > tr > td > img {
+    width: 150px;
+}

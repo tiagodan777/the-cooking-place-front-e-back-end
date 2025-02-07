@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cooking Place</title>
+    <link rel="shortcut icon" href="../imagens/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../estilos/style.css">
+    <link rel="stylesheet" href="../estilos/desktop.css" media="screen and (min-width: 900px)">
+    <link rel="stylesheet" href="../estilos/create-edit-article.css">
+    <link rel="stylesheet" href="../estilos/create-edit-article-desktop.css" media="screen and (min-width: 900px)">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+    <header id="cabecalho-principal">
+        <h1>
+            <a href="../pagina-principal.html">
+                <picture>
+                    <source media="(max-width: 600px)" srcset="../imagens/logos/logo-pp.png">
+                    <img src="../imagens/logos/logo-p.png" alt="Logo do The Cooking Place">
+                </picture>
+            </a>
+        </h1>
+        <form action="#" method="get">
+            <input type="search" name="search" id="search" placeholder="Pesquisa">
+            <input type="submit" value="Pesquisar" class="escondido">
+        </form>
+        <div>
+            <a href="../create-edit-article.html"><span class="material-symbols-outlined">add_box</span></a>
+            <a href="../profile.html"><span class="material-symbols-outlined">account_circle</span></a>
+        </div>
+    </header>
+    <br>
+
+    <main id="principal">
+        <h2>Adicionar Receita</h2>
+        <form action="#" method="post" autocomplete="off" id="form">
+            <section id="imagem-video">
+                <div id="div-imagem">
+                    <label for="imagem">Upload de imagem</label>
+                    <div>
+                        <input type="file" name="imagem" id="imagem" required>
+                    </div>
+                </div>
+                <div id="div-video">
+                    <label for="video">Upload de video</label>
+                    <div>
+                        <input type="file" name="video" id="video" readonly>
+                    </div>
+                </div>
+            </section>
+            <section id="info-text">
+                <div id="div-titulo">
+                    <label for="titulo">Título</label>
+                    <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="40">
+                </div>
+                <div id="div-descricao">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" name="descricao" id="descricao" placeholder="Ex: Como fazer sushi de forma rápida e descomplicada" maxlength="128" required>
+                </div>
+                <div id="div-tempo-preparo">
+                    <label for="tempo">Tempo de preparo</label>
+                    <div id="tempo-unidade">
+                        <input type="number" name="tempo" id="tempo" placeholder="Ex: 45" required min="0">
+                        <select name="unidade" id="unidade">
+                            <optgroup label="Unidade">
+                                <option value="min">Min</option>
+                                <option value="hr">Hora</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div id="numero-pessoas">
+                    <label for="numero-pessoas">Nº de Pessoas</label>
+                    <select name="numero-pessoas" id="numero-pessoas">
+                        <script>
+                            let select = window.document.querySelector('select#numero-pessoas')
+                            for (let i = 1; i <= 16; i++) {
+                                let option = window.document.createElement('option')
+                                option.value = i
+                                option.innerHTML = i
+                                select.appendChild(option)
+                            }
+                        </script>
+                    </select>
+                </div>
+                <div id="div-ingredientes">
+                    <div id="labels-ingredientes-quantidade">
+                        <label for="ingredientes">Ingredientes</label>
+                        <label for="quantidade">Quantidade</label>
+                    </div>
+                    <div class="ingredientes-quantidade">
+                        <div class="inputs-ingredientes-quantidade">
+                            <input type="text" name="ingredientes1" id="ingredientes1" placeholder="Ex: Salmão" required minlength="1" maxlength="32">
+                            <input type="text" name="quantidades1" id="quantidades1" placeholder="Ex: 3; 450g; 100ml..." required>
+                        </div>
+                    </div>
+                    <input type="button" value="Adicionar Ingrediente" onclick="adicionaIngredienteEQuantidade()">
+                </div>
+                <div id="div-passos-preparacao">
+                    <label for="div-passos-preparacao">Passos para a Preparação</label>
+                    <div id="div-textareas">
+                        <div class="textarea">
+                            <label for="passo-1">Passo 1</label>
+                            <textarea name="passo-1" id="passo-1" cols="40" rows="7"></textarea>
+                        </div>
+                    </div>
+                    <input type="button" value="Adicionar Passo" onclick="adicionaPasso()">
+                </div>
+                <div id="div-keywords-tags-e-section-actions">
+                    <div id="div-tags">
+                        <label for="tag1">Keywords / Tags</label>
+                        <div class="tags">
+                            <label for="tag1">Tag 1</label>
+                            <input type="text" name="tag1" id="tag1" placeholder="Ex: #sushi">
+                        </div>
+                    </div>
+                    <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
+                    <section id="actions">
+                        <a href="article-delete.html">Apagar</a>
+                        <input type="submit" value="Publicar Receita">
+                    </section>
+                </div>
+            </section>
+        </form>
+    </main>
+    <footer>
+        <a href="../pagina-principal.html"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>
+        <a href="../notifications.html"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
+        <a href="../all-messages.html"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
+        <a href="../whats-happening.html"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
+        <a href="../profile.html"><span class="material-symbols-outlined aparece-desktop">account_circle</span> <span class="descricao-icone nao-destaque">Perfil</span></a>
+        <a href="../create-edit-article.html"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
+        <a href="#"><span class="material-symbols-outlined aparece-mobile">search</span></a>
+    </footer>
+    <script>
+        let idNameIgrediente = 2
+        let idNamePasso = 2
+        let idNameTag = 2
+        function adicionaIngredienteEQuantidade() {
+            let inputText = window.document.createElement('input')
+            let inputNumber = window.document.createElement('input')
+            let div = window.document.createElement('div')
+            let ingredientes = window.document.querySelector('div.ingredientes-quantidade')
+            let divIngredientes = window.document.querySelector('div#div-ingredientes')
+            let form = window.document.querySelector('form#form')
+
+            inputText.type = 'text'
+            inputText.name = `ingredientes${idNameIgrediente}`
+            inputText.id = `ingredientes${idNameIgrediente}`
+            inputText.required = false
+            inputText.minLength = 1
+            inputText.maxLength = 32
+
+            inputNumber.type = 'number'
+            inputNumber.name = `quantidades${idNameIgrediente}`
+            inputNumber.id = `quantidades${idNameIgrediente}`
+            inputNumber.required = false
+
+            div.className = 'inputs-ingredientes-quantidade'
+
+            /*divIngredientes.style.border = '2px solid red'*/
+            //divIngredientes.style.height += '300px'
+            //main.style.height = Number(alturaMain)
+            //form.style.height = Number(form.offsetHeight) + Number(200)
+
+
+            div.appendChild(inputText)
+            div.appendChild(inputNumber)
+            ingredientes.appendChild(div)
+            idNameIgrediente++
+
+        }
+        
+        function adicionaPasso() {
+            let label = window.document.createElement('label')
+            let textArea = window.document.createElement('textarea')
+            let div = window.document.createElement('div')
+            let divTextAreas = window.document.querySelector('div#div-textareas')
+
+            label.setAttribute("for", `passo-${idNamePasso}`)
+            label.innerHTML = `Passo ${idNamePasso}`
+            textArea.name = `passo-${idNamePasso}`
+            textArea.id = `passo-${idNamePasso}`
+            textArea.cols = 40
+            textArea.rows = 7
+
+            div.className = 'textarea'
+
+            div.appendChild(label)
+            div.appendChild(textArea)
+            divTextAreas.appendChild(div)
+
+            idNamePasso++
+        }
+
+        function adicionaTag() {
+            let label = window.document.createElement('label')
+            let input = window.document.createElement('input')
+            let div = window.document.createElement('div')
+            let divTags = window.document.querySelector('div#div-tags')
+
+            label.setAttribute("for", `tag-${idNameTag}`)
+            label.innerHTML = `Tag ${idNameTag}`
+            input.name = `tag-${idNameTag}`
+            input.id = `tag-${idNameTag}`
+
+            div.className = 'tags'
+
+            div.appendChild(label)
+            div.appendChild(input)
+            divTags.appendChild(div)
+
+            idNameTag++
+        }
+    </script>
+</body>
+</html>
