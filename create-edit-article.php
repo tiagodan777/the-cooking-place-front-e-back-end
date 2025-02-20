@@ -21,7 +21,7 @@
                 </picture>
             </a>
         </h1>
-        <form action="#" method="get">
+        <form action="search.php" method="get">
             <input type="search" name="search" id="search" placeholder="Pesquisa">
             <input type="submit" value="Pesquisar" class="escondido">
         </form>
@@ -131,7 +131,7 @@
         <a href="whats-happening.php"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
         <a href="profile.php"><span class="material-symbols-outlined aparece-desktop">account_circle</span> <span class="descricao-icone nao-destaque">Perfil</span></a>
         <a href="create-edit-article.php"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
-        <a href="#"><span class="material-symbols-outlined aparece-mobile">search</span></a>
+        <a href="search.php"><span class="material-symbols-outlined aparece-mobile">search</span></a>
     </footer>
     <script>
         let idNameIgrediente = 2
