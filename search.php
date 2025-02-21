@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="estilos/style.css">
     <link rel="stylesheet" href="estilos/desktop.css" media="screen and (min-width: 900px)">
     <link rel="stylesheet" href="estilos/search.css">
+    <link rel="stylesheet" href="estilos/search-desktop.css" media="screen and (min-width: 900px)">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -339,7 +340,12 @@
     </footer>
     <script>
         function mudaPosicao(pos) {
-            let posicoes = [0, 30, 69];
+            let posicoes = []
+            if (window.innerWidth <= 900) {
+                posicoes = [0, 30, 69]
+            } else {
+                posicoes = [0, 37, 75]
+            }
             let linha = window.document.querySelector('div#linha-que-move')
             for (let c = 0; c <= 2; c++) {
                 let label = window.document.querySelector(`label#label-${c}`)

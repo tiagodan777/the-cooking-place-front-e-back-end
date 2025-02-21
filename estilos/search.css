@@ -1,12 +1,21 @@
 @charset "UTF-8";
 
+header#cabecalho-principal {
+    z-index: 10;
+}
+
 section#opcoes {
     width: 100vw;
     margin-top: 100px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 section#opcoes > section {
-    width: 100%;
+    width: 500px;
 
     display: flex;
     flex-flow: row nowrap;
@@ -24,7 +33,7 @@ section#opcoes > section > div > input[type="radio"] {
 
 section#opcoes > div#linha-principal {
     margin: 20px auto;
-    width: 80vw;
+    width: 400px;
     height: 1px;
     background-color: rgb(230, 230, 230);
 }
@@ -36,6 +45,7 @@ section#opcoes > div#linha-principal > div#linha-que-move {
 }
 
 main {
+
     height: calc(100vh - 223px);
     display: flex;
     flex-flow: row wrap;
@@ -45,6 +55,7 @@ main {
 
 main > div {
     position: relative;
+    margin-bottom: 7px;
 }
 
 main > div > a > img { 
@@ -57,7 +68,7 @@ footer.info {
     padding: 5px;
     margin: 0px;
     position: absolute;
-    top: 155px;
+    top: 68%;
     background-color: transparent;
     border: none;
 
