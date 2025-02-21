@@ -4,8 +4,21 @@ body {
     position: relative;
 }
 
-header#cabecalho-principal {
+/*header#cabecalho-principal {
     position: relative;
+}*/
+
+header#cabecalho-principal {
+    width: 100vw;
+    border-bottom: 0.5px solid var(--cor4);
+    padding: 15px 20px 0px 20px;
+    position: fixed;
+    background-color: var(--cor5);
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
 hr.escondido {
@@ -13,7 +26,7 @@ hr.escondido {
 }
 
 main {
-    margin-top: 0px;
+    margin-top: 100px;
     margin-left: 250px;
 
     width: calc(100vw - 265px);
