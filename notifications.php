@@ -1,3 +1,18 @@
+<?php
+require_once 'includes/database-conection.php';
+require_once 'includes/functions.php';
+
+$link = '';
+
+$sql = "SELECT n.mensagem, n.emissor_id,
+        CONCAT(m.forename, ' ', m.surname) AS emissor,
+        m.picture
+        FROM notificacao AS n
+        JOIN membro AS m ON n.emissor_id = m.id
+        WHERE n.recetor_id = '1';";
+
+$notificacoes = pdo($pdo, $sql)->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -31,34 +46,33 @@
         </div>
     </header>
     <br>
-
     <main>
         <h1>Notificações</h1>
-        <div>
-            <section id="perfil">
-                <div>
-                    <img src="imagens/fotos-perfil/tiago-p.jpg" alt="Foto perfil de Tiago">
-                </div>
-            </section>
-            <section id="informacao">
-                <p><span class="perfil">Tiago Daniel</span> publicou uma nova receita</p>
-            </section>
-            <section id="seguir">
-                <a href="#">Seguir</a>
-            </section>
-        </div>
-        <div>
-            <section id="perfil">
-                <div>
-                    <img src="imagens/fotos-perfil/foto-homem.jpg" alt="Foto perfil de Homem">
-                </div>
-            </section>
-            <section id="informacao">
-                <p><span class="perfil">Tomás Dias</span> começou a seguir-te</p>
-            </section>
-            <section id="seguir">
-                <a href="#">Seguir</a>
-            </section>
-        </div>
+        <?php foreach ($notificacoes as $notificacao) { ?>
+            <?php
+                if ($notificacao['mensagem'] == "começou a seguir-te") {
+                    $link = 'profile.php?id=' . $notificacao['emissor_id'];
+                } elseif ($notificacao['mensagem'] == "publicou uma receita" || $notificacao['mensagem'] == "gostou da tua receita") {
+                    $link = 'article.php?id=' . $notificacao['emissor_id'];
+                }    
+            ?>
+            <div>
+                <a href="<?= $link ?>">
+                    <section id="perfil">
+                        <div>
+                            <img src="imagens/fotos-perfil/<?= html_escape($notificacao['picture'] ?? 'blank.jpg') ?>" alt="Foto perfil de <?= html_escape($notificacao['emissor']) ?>">
+                        </div>
+                    </section>
+                    <section id="informacao">
+                        <p><span class="perfil"><?= $notificacao['emissor'] ?></span> <?= $notificacao['mensagem'] ?></p>
+                    </section>
+                </a>
+                <section id="seguir">
+                    <?php if ($notificacao['mensagem'] == 'começou a seguir-te') { ?>
+                        <a href="profile.php?id=<?= $notificacao['emissor_id'] ?>">Seguir</a>
+                    <?php } ?>
+                </section>
+            </div>
+        <?php } ?>
     </main>
 <?php require_once 'includes/footer.php'; ?>

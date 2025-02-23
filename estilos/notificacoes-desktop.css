@@ -11,3 +11,11 @@ main {
 main > div {
     width: 500px;
 }
+
+main > div > a {
+    width: 400px;
+}
+
+main > div > section#seguir {
+    width: 150px;
+}

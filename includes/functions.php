@@ -25,6 +25,6 @@ function postado_ha_x_horas($string) {
     } elseif ($idade < 604800) {
         return [date('j', $idade), 'dias'];
     } else {
-        return [date('d F Y'), ''];
+        return [date('j F Y', $idade), ''];
     }
 }
