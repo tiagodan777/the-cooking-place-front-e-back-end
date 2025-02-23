@@ -1,3 +1,15 @@
+<?php
+require_once 'includes/database-conection.php';
+require_once 'includes/functions.php';
+
+$sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.imagem_alt_text, r.membro_id,
+        CONCAT(m.forename, ' ', m.surname) AS autor,
+        m.picture
+        FROM receita AS r
+        JOIN membro AS m ON r.membro_id = m.id;";
+$articles = pdo($pdo, $sql)->fetchAll();
+$count = 0;
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -30,202 +42,40 @@
     </header>
     <br>
     <main>
-        <article id="primeiro-artigo">
-            <header>
-                <a href="profile.php">
-                    <img src="imagens/fotos-perfil/tiago-p.jpg" alt="Foto de perfil de Tiago">
-                    <span class="nome">Tiago Daniel</span>
-                </a>
-                <span class="data">Há 7h</span>
-                <br>
-            </header>
-            <section>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-            </section>
-            <aside class="aside-principal">
+        <?php foreach ($articles as $article) { ?>
+            <?php $data = postado_ha_x_horas($article['data']); ?>
+            <article <?php if ($count == 0) { echo "id='primeiro-artigo'"; $count++; } ?>>
+                <header>
+                    <a href="profile.php?id=<?= $article['membro_id'] ?>">
+                        <img src="imagens/fotos-perfil/<?= html_escape($article['picture']) ?>" alt="Foto de perfil de <?= html_escape($article['autor']) ?>">
+                        <span class="nome"><?= html_escape($article['autor']) ?></span>
+                    </a>
+                    <span class="data">Há <?php echo "$data[0] $data[1]"; ?></span>
+                    <br>
+                </header>
                 <section>
-                    <div class="icones">
-                        <span class="icones-reacao"><img src="imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/share-icon.png" alt="Ícone comentário"></span>
-                    </div>
-                    <div class="numeros">
-                        <span>3231</span>
-                        <span>100</span>
-                        <span>55</span>
-                    </div>
-                    <h2>Sushi</h2>
-                    <p>Como fazer sushi clássico de maneira simples e rápida</p>
+                    <a href="article.php?id=<?= $article['id'] ?>"><img src="imagens/comida/<?= html_escape($article['imagem_file']) ?>" alt="<?= html_escape($article['imagem_alt_text']) ?>"></a>
                 </section>
-                <aside>
-                    <a href="#">Ver os 100 comentários</a>
+                <aside class="aside-principal">
+                    <section>
+                        <div class="icones">
+                            <span class="icones-reacao"><img src="imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span>
+                            <span class="icones-reacao"><img src="imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
+                            <span class="icones-reacao"><img src="imagens/icons/share-icon.png" alt="Ícone comentário"></span>
+                        </div>
+                        <div class="numeros">
+                            <span>3231</span>
+                            <span>100</span>
+                            <span>55</span>
+                        </div>
+                        <h2><?= html_escape($article['titulo']) ?></h2>
+                        <p><?= html_escape($article['descricao']) ?></p>
+                    </section>
+                    <aside>
+                        <a href="#">Ver os 100 comentários</a>
+                    </aside>
                 </aside>
-            </aside>
-        </article>
-        <article>
-            <header>
-                <a href="profile.php">
-                    <img src="imagens/fotos-perfil/foto-homem.jpg" alt="Foto de perfil de Tomás">
-                    <span class="nome">Tomás Dias</span>
-                </a>
-                <span class="data">Há 30 min</span>
-            </header>
-            <section>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-            </section>
-            <aside class="aside-principal">
-                <section>
-                    <div class="icones">
-                        <span class="icones-reacao"><img src="imagens/icons/banana-icon.png" alt="Like banana"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/share-icon.png" alt="Ícone comentário"></span>
-                    </div>
-                    <div class="numeros">
-                        <span>694</span>
-                        <span>22</span>
-                        <span>33</span>
-                    </div>
-                    <h2>Lasanha tradicional</h2>
-                    <p>Lasanha sem sabor a plástico verde queimado</p>
-                </section>
-                <aside>
-                    <a href="#">Ver os 33 comentários</a>
-                </aside>
-            </aside>
-        </article>
-        <article>
-            <header>
-                <a href="profile.php">
-                    <img src="imagens/fotos-perfil/foto-mulher.jpg" alt="Foto de perffil de Inês">
-                    <span class="nome">Inês Bastos</span>
-                </a>
-                <span class="data">Há 9h</span>
-            </header>
-            <section>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-            </section>
-            <aside class="aside-principal">
-                <section>
-                    <div class="icones">
-                        <span class="icones-reacao"><img src="imagens/icons/green-apple-icon.png" alt="Like maçã verde"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/share-icon.png" alt="Ícone comentário"></span>
-                    </div>
-                    <div class="numeros">
-                        <span>7221</span>
-                        <span>504</span>
-                        <span>787</span>
-                    </div>
-                    <h2>Bacalhau de Natas</h2>
-                    <p>O melhor bacalhau de natas</p>
-                </section>
-                <aside>
-                    <a href="#">Ver os 787 comentários</a>
-                </aside>
-            </aside>
-        </article>
-        <article>
-            <header>
-                <a href="profile.php">
-                    <img src="imagens/fotos-perfil/tiago-p.jpg" alt="Foto de perfil de Tiago">
-                    <span class="nome">Tiago Daniel</span>
-                </a>
-                <span class="data">Há 7h</span>
-            </header>
-            <section>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-            </section>
-            <aside class="aside-principal">
-                <section>
-                    <div class="icones">
-                        <span class="icones-reacao"><img src="imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/share-icon.png" alt="Ícone comentário"></span>
-                    </div>
-                    <div class="numeros">
-                        <span>3231</span>
-                        <span>100</span>
-                        <span>55</span>
-                    </div>
-                    <h2>Sushi</h2>
-                    <p>Como fazer sushi clássico de maneira simples e rápida</p>
-                </section>
-                <aside>
-                    <a href="#">Ver os 100 comentários</a>
-                </aside>
-            </aside>
-        </article>
-        <article>
-            <header>
-                <a href="profile.php">
-                    <img src="imagens/fotos-perfil/foto-homem.jpg" alt="Foto de perfil de Tomás">
-                    <span class="nome">Tomás Dias</span>
-                </a>
-                <span class="data">Há 30 min</span>
-            </header>
-            <section>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-            </section>
-            <aside class="aside-principal">
-                <section>
-                    <div class="icones">
-                        <span class="icones-reacao"><img src="imagens/icons/banana-icon.png" alt="Like banana"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/share-icon.png" alt="Ícone comentário"></span>
-                    </div>
-                    <div class="numeros">
-                        <span>694</span>
-                        <span>22</span>
-                        <span>33</span>
-                    </div>
-                    <h2>Lasanha</h2>
-                    <p>Lasanha sem sabor a plástico verde queimado</p>
-                </section>
-                <aside>
-                    <a href="#">Ver os 33 comentários</a>
-                </aside>
-            </aside>
-        </article>
-        <article>
-            <header>
-                <a href="profile.php">
-                    <img src="imagens/fotos-perfil/foto-mulher.jpg" alt="Foto de perffil de Inês">
-                    <span class="nome">Inês Bastos</span>
-                </a>
-                <span class="data">Há 9h</span>
-            </header>
-            <section>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-            </section>
-            <aside class="aside-principal">
-                <section>
-                    <div class="icones">
-                        <span class="icones-reacao"><img src="imagens/icons/green-apple-icon.png" alt="Like maçã verde"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
-                        <span class="icones-reacao"><img src="imagens/icons/share-icon.png" alt="Ícone comentário"></span>
-                    </div>
-                    <div class="numeros">
-                        <span>7221</span>
-                        <span>504</span>
-                        <span>787</span>
-                    </div>
-                    <h2>Bacalhau de Natas</h2>
-                    <p>O melhor bacalhau de natas</p>
-                </section>
-                <aside>
-                    <a href="#">Ver os 787 comentários</a>
-                </aside>
-            </aside>
-        </article>
+            </article>
+        <?php } ?>
     </main>
-    <footer>
-        <a href="index.php"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>
-        <a href="notifications.php"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
-        <a href="all-messages.php"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
-        <a href="whats-happening.php"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
-        <a href="profile.php"><span class="material-symbols-outlined aparece-desktop">account_circle</span> <span class="descricao-icone nao-destaque">Perfil</span></a>
-        <a href="create-edit-article.php"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
-        <a href="search.php"><span class="material-symbols-outlined aparece-mobile">search</span></a>
-    </footer>
-</body>
-</html>
+<?php require_once 'includes/footer.php'; ?>
