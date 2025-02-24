@@ -11,6 +11,10 @@
     --cor6: #000000
 }
 
+main {
+    width: 100vw;
+}
+
 main > section > table > tbody > tr > td > a {
     background-color: var(--cor0);
 }
