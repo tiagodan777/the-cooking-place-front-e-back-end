@@ -3,7 +3,7 @@ require_once 'includes/database-conection.php';
 require_once 'includes/functions.php';
 
 $term = filter_input(INPUT_GET, 'search');
-$show = filter_input(INPUT_GET, 'show', FILTER_VALIDATE_INT) ?? 3;
+$show = filter_input(INPUT_GET, 'show', FILTER_VALIDATE_INT) ?? 15;
 $from = filter_input(INPUT_GET, 'from', FILTER_VALIDATE_INT) ?? 0;
 
 $count = 0;
