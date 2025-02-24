@@ -1,3 +1,51 @@
+<?php
+require_once 'includes/database-conection.php';
+require_once 'includes/functions.php';
+
+$term = filter_input(INPUT_GET, 'search');
+$show = filter_input(INPUT_GET, 'show', FILTER_VALIDATE_INT) ?? 3;
+$from = filter_input(INPUT_GET, 'from', FILTER_VALIDATE_INT) ?? 0;
+
+$count = 0;
+$receitas = [];
+$arguments = [];
+
+if ($term) {
+    $arguments['term1'] = '%' . $term . '%';
+    $arguments['term2'] = '%' . $term . '%';
+    $arguments['term3'] = '%' . $term . '%';
+    $arguments['term4'] = '%' . $term . '%';
+    $arguments['term5'] = '%' . $term . '%';
+
+    $sql = "SELECT COUNT(titulo) FROM receita
+            WHERE titulo LIKE :term1
+            OR descricao LIKE :term2
+            OR ingredientes LIKE :term3
+            OR passos_preparacao LIKE :term4
+            OR keywords LIKE :term5;";
+    $count = pdo($pdo, $sql, $arguments)->fetchColumn();
+
+    if ($count > 0) {
+        $arguments['show'] = $show;
+        $arguments['from'] = $from;
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file, r.imagem_alt_text
+                FROM receita AS r
+                WHERE titulo LIKE :term1
+                OR descricao LIKE :term2
+                OR ingredientes LIKE :term3
+                OR passos_preparacao LIKE :term4
+                OR keywords LIKE :term5
+                LIMIT :show
+                OFFSET :from;";
+        $receitas = pdo($pdo, $sql, $arguments)->fetchAll();
+    }
+}
+
+if ($count > $show) {
+    $total_pages = ceil($count / $show);
+    $current_page = ceil($from / $show) + 1;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -40,295 +88,39 @@
         <div id="linha-principal"><div id="linha-que-move"></div></div>
     </section>
     <main>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/sushi.jpg" alt="Foto de Sushi">
-            </a>
-            <footer class="info">
-                <p class="author">Tiago Daniel</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>10 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
+        <?php foreach ($receitas as $receita) { ?>
+            <div>
+                <a href="article.php?id=<?= $receita['id'] ?>">
+                    <img src="imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="<?= html_escape($receita['imagem_alt_text']) ?>">
+                </a>
+                <footer class="info">
+                    <h1><?= html_escape($receita['titulo']) ?></h1>
+                    <h2><?= html_escape($receita['descricao']) ?></h2>
+                    <div class="stats">
+                        <div class="likes">
+                            <span>10 mil</span>
+                            <span class="material-symbols-outlined">favorite</span>
+                        </div>
+                        <div class="views">
+                            <span>250 mil</span>
+                            <span class="material-symbols-outlined">visibility</span>
+                        </div>
                     </div>
-                    <div class="views">
-                        <span>250 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/comida-brasileira.jpg" alt="Foto de Comida Brasileira">
-            </a>
-            <footer class="info">
-                <p class="author">Inês Bastos</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>20 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>550 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/polvo.jpg" alt="Foto de Polvo">
-            </a>
-            <footer class="info">
-                <p class="author">Tomás Dias</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>10 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>50 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/hamburger.jpg" alt="Foto de Hamburger">
-            </a>
-            <footer class="info">
-                <p class="author">Rodrigo Reis</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>100 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>1 M</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/sushi.jpg" alt="Foto de Sushi">
-            </a>
-            <footer class="info">
-                <p class="author">Tiago Daniel</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>10 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>250 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/comida-brasileira.jpg" alt="Foto de Comida Brasileira">
-            </a>
-            <footer class="info">
-                <p class="author">Inês Bastos</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>20 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>550 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/polvo.jpg" alt="Foto de Polvo">
-            </a>
-            <footer class="info">
-                <p class="author">Tomás Dias</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>10 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>50 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/hamburger.jpg" alt="Foto de Hamburger">
-            </a>
-            <footer class="info">
-                <p class="author">Rodrigo Reis</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>100 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>1 M</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/sushi.jpg" alt="Foto de Sushi">
-            </a>
-            <footer class="info">
-                <p class="author">Tiago Daniel</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>10 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>250 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/comida-brasileira.jpg" alt="Foto de Comida Brasileira">
-            </a>
-            <footer class="info">
-                <p class="author">Inês Bastos</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>20 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>550 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/polvo.jpg" alt="Foto de Polvo">
-            </a>
-            <footer class="info">
-                <p class="author">Tomás Dias</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>10 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>50 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/hamburger.jpg" alt="Foto de Hamburger">
-            </a>
-            <footer class="info">
-                <p class="author">Rodrigo Reis</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>100 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>1 M</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/sushi.jpg" alt="Foto de Sushi">
-            </a>
-            <footer class="info">
-                <p class="author">Tiago Daniel</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>10 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>250 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/comida-brasileira.jpg" alt="Foto de Comida Brasileira">
-            </a>
-            <footer class="info">
-                <p class="author">Inês Bastos</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>20 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>550 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/polvo.jpg" alt="Foto de Polvo">
-            </a>
-            <footer class="info">
-                <p class="author">Tomás Dias</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>10 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>50 mil</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-        <div>
-            <a href="article.php">
-                <img src="imagens/comida/hamburger.jpg" alt="Foto de Hamburger">
-            </a>
-            <footer class="info">
-                <p class="author">Rodrigo Reis</p>
-                <div class="stats">
-                    <div class="likes">
-                        <span>100 mil</span>
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
-                    <div class="views">
-                        <span>1 M</span>
-                        <span class="material-symbols-outlined">visibility</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
+                </footer>
+            </div>
+        <?php } ?>
     </main>
+    <aside>
+        <?php if ($count > $show) { ?>
+            <nav class="pagination">
+                <ul>
+                    <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                        <li><a href="?search=<?= $term ?>&show=<?= $show ?>&from=<?= (($i - 1) * $show) ?>" class="<?= ($i == $current_page) ? 'ativo' : '' ?>"><?= $i ?></a></li>
+                    <?php } ?>
+                </ul>
+            </nav>
+        <?php } ?>
+    </aside>
     <script>
         function mudaPosicao(pos) {
             let posicoes = []

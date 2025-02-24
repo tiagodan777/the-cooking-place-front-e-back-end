@@ -8,6 +8,11 @@ $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.imagem_alt_
         FROM receita AS r
         JOIN membro AS m ON r.membro_id = m.id;";
 $articles = pdo($pdo, $sql)->fetchAll();
+
+$sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture 
+        FROM membro 
+        WHERE id = 1;";
+$membro = pdo($pdo, $sql)->fetch();
 $count = 0;
 ?>
 <!DOCTYPE html>
@@ -37,7 +42,7 @@ $count = 0;
         </form>
         <div>
             <a href="create-edit-article.php"><span class="material-symbols-outlined">add_box</span></a>
-            <a href="profile.php"><span class="material-symbols-outlined">account_circle</span></a>
+            <a href="profile.php?id=<?= html_escape($membro['id']) ?>"><img src="imagens/fotos-perfil/<?= html_escape($membro['picture']) ?>" alt="Foto de perfil de <?= html_escape($membro['nome']) ?>" class="membro-foto-perfil"></a>
         </div>
     </header>
     <br>

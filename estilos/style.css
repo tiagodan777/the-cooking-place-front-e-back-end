@@ -185,6 +185,11 @@ footer > a > span.descricao-icone {
     display: none !important;
 }
 
+img.membro-foto-perfil {
+    width: 30px;
+    border-radius: 50%
+}
+
 footer > a > span.aparece-desktop {
     content: ;
 }
