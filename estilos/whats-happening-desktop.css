@@ -43,6 +43,7 @@ main > section#todos-videos > div.video-individual {
     width: 95%;
     height: 95%; /* Cada vídeo ocupa 100% da tela */
     display: flex;
+    flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
     scroll-snap-align: start; /* Faz cada vídeo começar do topo */
@@ -72,6 +73,16 @@ main > section#todos-videos > div.video-individual > nav > ul > li {
 
 main > section#todos-videos > div.video-individual > nav > ul > li > a {
     color: var(--cor4);
+}
+
+main > section#todos-videos > div.video-individual > div#info {
+    position: absolute;
+    top: 68%;
+    left: 12%;
+}
+
+main > section#todos-videos > div.video-individual > div#info  > h1 {
+    margin-bottom: 20px;
 }
 
 footer {

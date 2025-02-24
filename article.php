@@ -1,3 +1,32 @@
+<?php
+require_once 'includes/database-conection.php';
+require_once 'includes/functions.php';
+
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$id) {
+    include 'error-page.php';
+}
+
+$sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo,
+        r.unidade_tempo, r.numero_pessoas, r.ingredientes, r.quantidades,
+        r.passos_preparacao, r.keywords, r.imagem_file, r.imagem_alt_text,
+        r.video_file, r.categoria_id, r.membro_id,
+        m.id, 
+        CONCAT(m.forename, ' ', m.surname) AS autor,
+        m.picture
+        FROM receita AS r
+        JOIN membro AS m ON r.membro_id = m.id
+        WHERE r.id = :id;";
+
+$receita = pdo($pdo, $sql, [$id])->fetch();
+if (!$receita) {
+    include 'error-page.php';
+}
+
+$ingredientes = explode(',', $receita['ingredientes']);
+$quantidades = explode(',', $receita['quantidades']);
+$passos_preparacao = explode('#', $receita['passos_preparacao']);
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -32,18 +61,17 @@
         </div>
     </header>
     <br>
-
     <main>
         <section id="topo">
             <section id="imagem">
                 <picture>
-                    <source media="(max-width: 700px)" srcset="imagens/comida/croppped/sushi.jpg">
-                    <img src="imagens/comida/sushi.jpg" alt="Foto de sushi">
+                    <source media="(max-width: 700px)" srcset="imagens/comida/croppped/<?= $receita['imagem_file'] ?>">
+                    <img src="imagens/comida/<?= $receita['imagem_file'] ?>" alt="<?= $receita['imagem_alt_text'] ?>">
                 </picture>
             </section>
             <section id="info">
-                <h1 id="titulo-receita">Sushi</h1>
-                <h2 id="descricao-receita">Como fazer sushi clássico de maneira simples e rápida</h2>
+                <h1 id="titulo-receita"><?= html_escape($receita['titulo']) ?></h1>
+                <h2 id="descricao-receita"><?= html_escape($receita['descricao']) ?></h2>
                 <section>
                     <div>
                         <div id="reacoes">
@@ -60,9 +88,11 @@
                         </div>
                     </div>
                     <div>
-                        <p>Tempo de preparo: 45 min</p>
-                        <p>26/01/2025</p>
-                        <p>Nº pessoas: 6</p>
+                        <p>Tempo de preparo: <?= html_escape($receita['tempo_preparo']) ?> <?= html_escape($receita['unidade_tempo']) ?></p>
+                        <p>Data: <?= date('d F Y', strtotime(html_escape($receita['data']))) ?></p>
+                        <p>Nº pessoas: <?= html_escape($receita['numero_pessoas']) ?></p>
+                        <br>
+                        <a href="profile.php?id=<?= $receita['id'] ?>" id="user"> <img src="imagens/fotos-perfil/<?= html_escape($receita['picture']) ?>" alt="Foto de perfil de <?= html_escape($receita['autor']) ?>"><?= html_escape(html_escape($receita['autor'])) ?></a>
                     </div>
                 </section>
             </section>
@@ -71,28 +101,26 @@
             <section id="ingredientes">
                 <h2>Ingredientes</h2>
                 <ul>
-                    <li><input type="checkbox" name="salmao" id="salmao"><label for="salmao"> Salmão (500g)</label></li>
-                    <li><input type="checkbox" name="abacate" id="abacate"><label for="abacate">Abacate (350g)</label></li>
-                    <li><input type="checkbox" name="alga_nori" id="alga_nori"><label for="alga_nori">Alga Nori (150g)</label></li>
-                    <li><input type="checkbox" name="molho_soja" id="molho_soja"><label for="">Molho soja (350ml)</label></li>
-                    <li><input type="checkbox" name="arroz_sushi" id="arrow_shushi"><label for="molho_soja">Arrow Sushi (400g)</label></li>
-                    <li><input type="checkbox" name="vinagre" id="vinagre"><label for="vinagre">Vinagre (150ml)</label></li>
-                    <li><input type="checkbox" name="acucar" id="acucar"><label for="acucar">Açúcar (100g)</label></li>
-                    <li><input type="checkbox" name="sal" id="sal"><label for="sal">Sal (50g)</label></li>
+                    <?php
+                        $i = 0;
+                        while ($i < count($ingredientes)) {
+                     ?>
+                        <li><input type="checkbox" name="<?= strtolower($ingredientes[$i]) ?>" id="<?= strtolower($ingredientes[$i]) ?>"><label for="<?= strtolower($ingredientes[$i]) ?>"><?= html_escape($ingredientes[$i]) ?> (<?= $quantidades[$i] ?>)</label></li>
+                    <?php
+                           $i++; 
+                        } 
+                    ?>
                 </ul>
             </section>
             <section id="video">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/nIoOv6lWYnk?si=BD3aeRopuRLQom_Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <?= $receita['video_file'] ?>
             </section>
         </section>
         <section id="steps">
             <ul>
-                <li><span>Passo 1:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam eum quae voluptates quis, id cumque ab animi iste labore blanditiis dignissimos soluta cupiditate nesciunt magnam tempore atque expedita beatae officia.</li>
-                <li><span>Passo 2:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Est fugiat totam error, aperiam dolores repellat sequi tenetur dolor incidunt nostrum soluta quia possimus! Pariatur aspernatur hic mollitia laudantium sapiente quisquam!</li>
-                <li><span>Passo 3:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam eum quae voluptates quis, id cumque ab animi iste labore blanditiis dignissimos soluta cupiditate nesciunt magnam tempore atque expedita beatae officia.</li>
-                <li><span>Passo 4:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Est fugiat totam error, aperiam dolores repellat sequi tenetur dolor incidunt nostrum soluta quia possimus! Pariatur aspernatur hic mollitia laudantium sapiente quisquam!</li>
-                <li><span>Passo 5:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam eum quae voluptates quis, id cumque ab animi iste labore blanditiis dignissimos soluta cupiditate nesciunt magnam tempore atque expedita beatae officia.</li>
-                <li><span>Passo 6:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Est fugiat totam error, aperiam dolores repellat sequi tenetur dolor incidunt nostrum soluta quia possimus! Pariatur aspernatur hic mollitia laudantium sapiente quisquam!</li>
+                <?php foreach ($passos_preparacao as $passo) { ?>
+                    <li><span>Passo </span><?= $passo ?></li>
+                <?php } ?>
             </ul>
         </section>
         <aside>

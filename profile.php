@@ -1,3 +1,26 @@
+<?php
+require_once 'includes/database-conection.php';
+require_once 'includes/functions.php';
+
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$id) {
+    include 'error-page.php';
+}
+
+$sql = "SELECT id, CONCAT(forename, ' ', surname) AS full_name, joined, bio, picture
+        FROM membro
+        WHERE id = :id;";
+
+$membro = pdo($pdo, $sql, [$id])->fetch();
+if (!$membro) {
+    include 'error-page.php';
+}
+
+$sql = "SELECT id, imagem_file, imagem_alt_text , membro_id
+        FROM receita
+        WHERE membro_id = :id;";
+$receitas = pdo($pdo, $sql, [$id])->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -34,10 +57,10 @@
     <main>
         <header>
             <div id="foto_e_bio">
-                <img src="imagens/fotos-perfil/tiago-g.png" alt="Foto de perfil de Tiago">
-                <p>Uma pequena Bio só mesmo de apresentação para não ficar muito clutterd</p>
+                <img src="imagens/fotos-perfil/<?= $membro['picture'] ?>" alt="Foto de perfil de <?= $membro['full_name'] ?>">
+                <p><?= $membro['bio'] ?></p>
             </div>
-            <h1>Tiago Daniel</h1>
+            <h1><?= $membro['full_name'] ?></h1>
             <div id="estatisticas_numeros">
                 <span>1M</span>
                 <span>399</span>
@@ -48,52 +71,13 @@
                 <span>a seguir</span>
                 <span>receitas</span>
             </div>
-            <p id="joined">Membro desde: <span>Jan de 2025</span></p>
+            <p id="joined">Membro desde: <span><?= date('F Y', strtotime($membro['joined'])) ?></span></p>
         </header>
         <section>
             <div>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
-                <a href="article.php"><img src="imagens/comida/sushi.jpg" alt="Foto de sushi"></a>
-                <a href="article.php"><img src="imagens/comida/bacalhau.jpg" alt="Foto de bacalhau"></a>
-                <a href="article.php"><img src="imagens/comida/lasanha.jpg" alt="Foto de lasanha"></a>
+                <?php foreach ($receitas as $receita) { ?>
+                    <a href="article.php?id=<?= $receita['id'] ?>"><img src="imagens/comida/<?= $receita['imagem_file'] ?>" alt="Foto de <?= $receita['imagem_alt_text'] ?>"></a>
+                <?php } ?>
         </section>
     </main>
 <?php require_once 'includes/footer.php'; ?>

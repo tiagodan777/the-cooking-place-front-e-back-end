@@ -1,3 +1,15 @@
+<?php
+require_once 'includes/database-conection.php';
+require_once 'includes/functions.php';
+
+$sql = "SELECT q.titulo, q.descricao, q.file, q.receita_acoplada_id, q.membro_id,
+        m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
+        FROM quik AS q
+        JOIN membro AS m ON q.membro_id = m.id;";
+
+$quiks = pdo($pdo, $sql)->fetchAll();
+$i = 1;
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -33,42 +45,28 @@
     <main id="principal">
         <h1 id="o-que-esta-a-acontecer">O que está a acontecer?</h1>
         <section id="todos-videos">
+            <?php foreach ($quiks as $quik) { ?>
             <div class="video-individual">
-                <video src="videos-verticais/video-1.mp4" id="video-1" muted loop playsinline controls></video>
-                <nav id="navegacao-1">
+                <video src="videos-verticais/<?= html_escape($quik['file']) ?>" id="video_<?= $i ?>" muted loop playsinline controls></video>
+                <nav id="navegacao_<?= $i ?>">
                     <ul>
                         <li><a href="#"><img src="imagens/icons/banana-icon.png" alt="Ícone de banana"></a><p>20 mil</p></li>
                         <li><a href="#"><span class="material-symbols-outlined">thumb_down</span></a><p>20 mil</p></li>
                         <li><a href="#"><span class="material-symbols-outlined">chat</span></a><p>20 mil</p></li>
                         <li><a href="#"><span class="material-symbols-outlined">send</span></a><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">account_circle</span></a><p>20 mil</p></li>
+                        <li><a href="profile.php?id=<?= $quik['membro_id'] ?>"><img src="imagens/fotos-perfil/<?= $quik['picture'] ?>" alt="Foto de Perfil de <?= $quik['autor'] ?>"></a></li>
                     </ul>
                 </nav>
+                <div id="info">
+                    <h1><?= html_escape($quik['titulo']) ?></h1>
+                    <?php if ($quik['receita_acoplada_id'] == 0) { ?>
+                        <p><?= html_escape($quik['descricao']) ?><?= html_escape($quik['descricao']) ?></p>
+                    <?php } else { ?>
+                        <a href="article.php?id=<?= $quik['receita_acoplada_id'] ?>"><?= html_escape($quik['descricao']) ?></a> 
+                    <?php } ?>
+                </div>
             </div>
-            <div class="video-individual">
-                <video src="videos-verticais/video-2.mp4" id="video-2" muted loop playsinline controls></video>
-                <nav id="navegacao-2">
-                    <ul>
-                        <li><a href="#"><img src="imagens/icons/hamburger-icon.png" alt="Ícone de hamburger"><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">thumb_down</span></a><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">chat</span></a><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">send</span></a><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">account_circle</span></a><p>20 mil</p></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="video-individual">
-                <video src="videos-verticais/video-3.mp4" id="video-3" muted loop playsinline controls></video>
-                <nav id="navegacao-3">
-                    <ul>
-                        <li><a href="#"><img src="imagens/icons/green-apple-icon.png" alt="Ícone de maçã verde"></a><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">thumb_down</span></a><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">chat</span></a><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">send</span></a><p>20 mil</p></li>
-                        <li><a href="#"><span class="material-symbols-outlined">account_circle</span></a><p>20 mil</p></li>
-                    </ul>
-                </nav>
-            </div>
+            <?php } ?>
         </section>
     </main>
     <script>
@@ -77,7 +75,7 @@
             let altura = window.innerHeight;
 
             for (let id = 1; id <= 3; id++) {
-                let video = window.document.querySelector(`video#video-${id}`)
+                let video = window.document.querySelector(`video#video_${id}`)
 
                 video.style.width = `${largura}px`
                 video.style.height = `${altura}px`
@@ -89,7 +87,7 @@
             let altura = window.innerHeight;
 
             for (let id = 1; id <= 3; id++) {
-                let nav = window.document.querySelector(`nav#navegacao-${id}`)
+                let nav = window.document.querySelector(`nav#navegacao_${id}`)
 
                 let top = altura - 225
                 let left = largura - 35
