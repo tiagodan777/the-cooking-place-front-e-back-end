@@ -1,3 +1,85 @@
+<?php
+require_once '../includes/database-conection.php';
+require_once '../includes/functions.php';
+require_once '../includes/validade.php';
+
+$uploads = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'imagens/comida' . DIRECTORY_SEPARATOR;
+$file_types = ['image/jpeg', 'image/png', 'image/gif'];
+$file_exts = ['jpeg', 'jpg', 'png', 'gif'];
+$max_size = 5240880;
+
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$temp = $_FILES['imagem']['tmp_name'] ?? '';
+$destination = '';
+
+$receita = [
+    'id' => $id,
+    'titulo' => '',
+    'descricao' => '',
+    'tempo_preparo' => '',
+    'unidade_tempo' => '',
+    'numero_pessoas' => '',
+    'ingredientes' => '',
+    'quantidades' => '',
+    'passos_preparacao' => '',
+    'keywords' => '',
+    'imagem_file' => '',
+    'imagem_alt_text' => '',
+];
+$erros = [
+    'warning' => '',
+    'titulo' => '',
+    'descricao' => '',
+    'tempo_preparo' => '',
+    'unidade_tempo' => '',
+    'numero_pessoas' => '',
+    'ingredientes' => '',
+    'quantidades' => '',
+    'passos_preparacao' => '',
+    'keywords' => '',
+    'imagem_file' => '',
+    'imagem_alt_text' => '',
+    'categoria_id' => 0,
+    'membro_id' => 0,
+];
+
+if ($id) {
+    $sql = "SELECT id, titulo, descricao, tempo_preparo, unidade_tempo
+            numero_pessoas, ingredientes, quantidades, passos_preparacao,
+            keyowrds, imagem_file, imagem_alt_text
+            FROM receita
+            WHERE id = :id;";
+    $receita = pdo($pdo, $sql, [$id]);
+    if (!$receita) {
+        redirect('article.php', ['failure' => 'Receita não encontrada']);
+    }
+}
+
+$saved_image = $receita['imagem_file'] ? true : false;
+
+$sql = "SELECT id, forename, surname FROM membro;";
+$autores = pdo($pdo, $sql)->fetchAll();
+
+$sql = "SELECT id, nome FROM categoria;";
+$categorias = pdo($pdo, $sql);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $receita['titulo'] = $_POST['titulo'];
+    $receita['descricao'] = $_POST['descricao'];
+    $receita['tempo_preparo'] = $_POST['tempo_preparo'];
+    $receita['unidade_tempo'] = $_POST['unidade_tempo'];
+    $receita['numero_pessoas'] = $_POST['numero_pessoas'];
+    $receita['ingredientes'] = $_POST['ingredientes'];
+    $receita['quantidades'] = $_POST['quantiades'];
+    
+
+    $erros['imagem_file'] = ($_FILES['imagem']['error'] === 1) ? 'Ficheiro demasiado grande' : '';
+
+    if ($temp && $_FILES['imagem']['error'] === 0) {
+        $receita['imagem_alt_text'] = 'Foto de ';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -21,7 +103,7 @@
                 </picture>
             </a>
         </h1>
-        <form action="#" method="get">
+        <form action="../search.php" method="get">
             <input type="search" name="search" id="search" placeholder="Pesquisa">
             <input type="submit" value="Pesquisar" class="escondido">
         </form>
@@ -34,13 +116,14 @@
 
     <main id="principal">
         <h2>Adicionar Receita</h2>
-        <form action="#" method="post" autocomplete="off" id="form">
+        <form action="create-edit-article.php" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
             <section id="imagem-video">
                 <div id="div-imagem">
                     <label for="imagem">Upload de imagem</label>
                     <div>
                         <input type="file" name="imagem" id="imagem" required>
                     </div>
+                    <input type="text" name="imagem_alt_text" id="imagem_alt_text">
                 </div>
                 <div id="div-video">
                     <label for="video">Upload de video</label>
@@ -52,7 +135,7 @@
             <section id="info-text">
                 <div id="div-titulo">
                     <label for="titulo">Título</label>
-                    <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="40">
+                    <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64">
                 </div>
                 <div id="div-descricao">
                     <label for="descricao">Descrição</label>
@@ -61,7 +144,7 @@
                 <div id="div-tempo-preparo">
                     <label for="tempo">Tempo de preparo</label>
                     <div id="tempo-unidade">
-                        <input type="number" name="tempo" id="tempo" placeholder="Ex: 45" required min="0">
+                        <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" required min="0">
                         <select name="unidade" id="unidade">
                             <optgroup label="Unidade">
                                 <option value="min">Min</option>
@@ -82,6 +165,16 @@
                                 select.appendChild(option)
                             }
                         </script>
+                    </select>
+                </div>
+                <div id="div-categorias">
+                    <label for="categoria_id">Categoria</label>
+                    <select name="categoria_id" id="categoria_id">
+                        <option value="teste">Teste</option>
+                    </select>
+                    <label for="membro_id">Membro</label>
+                    <select name="membro_id" id="membros_id">
+                        <option value="Teste">Teste</option>
                     </select>
                 </div>
                 <div id="div-ingredientes">
