@@ -143,7 +143,7 @@
             inputText.minLength = 1
             inputText.maxLength = 32
 
-            inputNumber.type = 'number'
+            inputNumber.type = 'text'
             inputNumber.name = `quantidades${idNameIgrediente}`
             inputNumber.id = `quantidades${idNameIgrediente}`
             inputNumber.required = false

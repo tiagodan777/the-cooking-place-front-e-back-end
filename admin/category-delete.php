@@ -1,3 +1,36 @@
+<?php 
+require_once '../includes/database-conection.php';
+require_once '../includes/functions.php';
+
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$categoria = '';
+
+if (!$id) {
+    redirect('categories.php', ['failure' => 'Categoria não encontrada']);
+}
+
+$sql = "SELECT nome FROM categoria
+        WHERE id = :id;";
+$categoria = pdo($pdo, $sql, [$id])->fetchColumn();
+if (!$categoria) {
+    redirect('categories.php', ['failure' => 'Categoria não encontrada']);
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    try {
+        $sql = "DELETE FROM categoria 
+                WHERE id = :id;";
+        pdo($pdo, $sql, [$id]);
+        redirect('categories.php', ['success' => 'Categoria apagada']);
+    } catch (PDOException $e) {
+        if ($e->errorInfo[1] === 1451) {
+            redirect('categories.php', ['failure' => 'Existem artigos que pertencem a esta categoria que têm de ser apagados ou colocados noutra categoria']);
+        } else {
+            throw $e;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -20,7 +53,7 @@
                 </picture>
             </a>
         </h1>
-        <form action="#" method="get">
+        <form action="../search.php" method="get">
             <input type="search" name="search" id="search" placeholder="Pesquisa">
             <input type="submit" value="Pesquisar" class="escondido">
         </form>
@@ -34,11 +67,11 @@
         <section id="apagar">
             <h2>Apagar Categoria</h2>
             <section id="dados">
-                <p>Confirma para apagar a categoria: <span>Peixe</span></p>
+                <p>Confirma para apagar a categoria: <span><?= $categoria ?></span></p>
             </section>
             <section id="opcoes">
-                <form action="#" method="post">
-                    <a href="pagina-principal.html">Cancelar</a>
+                <form action="category-delete.php?id=<?= $id ?>" method="post">
+                    <a href="categories.php">Cancelar</a>
                     <input type="submit" value="Confirmar">
                 </form>
             </section>

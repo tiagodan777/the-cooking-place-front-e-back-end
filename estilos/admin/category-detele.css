@@ -30,6 +30,7 @@ main > section#apagar > section#dados > p {
 
 main > section#apagar > section#dados > p > span {
     font-weight: bold;
+    font-style: italic;
 }
 
 main > section#apagar > section#opcoes > form {

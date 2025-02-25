@@ -26,8 +26,6 @@ $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture
     <link rel="stylesheet" href="../estilos/style.css">
     <link rel="stylesheet" href="../estilos/desktop.css" media="screen and (min-width: 900px)">
     <link rel="stylesheet" href="../estilos/admin/style.css">
-    <link rel="stylesheet" href="../estilos/admin/category.css">
-    <link rel="stylesheet" href="../estilos/admin/category-desktop.css" media="screen and (min-width: 900px">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -40,7 +38,7 @@ $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture
                 </picture>
             </a>
         </h1>
-        <form action="../search.php" method="get">
+        <form action="#" method="get">
             <input type="search" name="search" id="search" placeholder="Pesquisa">
             <input type="submit" value="Pesquisar" class="escondido">
         </form>
@@ -53,15 +51,15 @@ $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture
     <main>
         <section>
             <header>
-                <h1>Admin</h1>
+                <h1>ADMIN</h1>
             </header>
             <table>
                 <thead>
                     <tr>
-                        <th scope="col"></th>
+                        <th></th>
                         <th scope="col">Contagem</th>
-                        <th scope="col" class="mais-a-esquerda">Adicionar</th>
-                        <th scope="col" class="mais-a-esquerda">Ver</th>
+                        <th scope="col">Criar</th>
+                        <th scope="col">Ver</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,32 +67,32 @@ $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture
                         <th scope="row" class="titulo-linha">Categorias</th>
                         <td><?= $categorias ?></td>
                         <td><a href="category.php">Adicionar</a></td>
-                        <td><a href="categories.php" class="diferente">Ver</a></td>
+                        <td><a href="categories.php">Ver</a></td>
                     </tr>
                     <tr>
                         <th scope="row" class="titulo-linha">Receitas</th>
                         <td><?= $receitas ?></td>
-                        <td><a href="create-edit-article.html">Adicionar</a></td>
-                        <td><a href="articles.html" class="diferente">Ver</a></td>
+                        <td><a href="create-edit-article.php">Adicionar</a></td>
+                        <td><a href="articles.php">Ver</a></td>
                     </tr>
                     <tr>
                         <th scope="row" class="titulo-linha">Membros</th>
                         <td><?= $membros ?></td>
-                        <td><a href="members.html">Adicionar</a></td>
-                        <td><a href="members.html" class="diferente">Ver</a></td>
+                        <td><a href="register.php">Adicionar</a></td>
+                        <td><a href="members.php">Ver</a></td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </main>
     <footer>
-        <a href="index.php"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>
-        <a href="notifications.php"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
-        <a href="all-messages.php"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
-        <a href="whats-happening.php"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
-        <a href="profile.php?id=<?= $membro['id'] ?>"><img src="../imagens/fotos-perfil/<?= html_escape($membro['picture']) ?>" alt="Foto de perfil de <?= html_escape($membro['nome']) ?>" class="membro-foto-perfil"> <span class="descricao-icone nao-destaque">Perfil</span></a>
-        <a href="create-edit-article.php"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
-        <a href="search.php"><span class="material-symbols-outlined aparece-mobile">search</span></a>
+        <a href="../pagina-principal.html"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>
+        <a href="../notifications.html"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
+        <a href="../all-messages.html"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
+        <a href="../whats-happening.html"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
+        <a href="../profile.html"><span class="material-symbols-outlined aparece-desktop">account_circle</span> <span class="descricao-icone nao-destaque">Perfil</span></a>
+        <a href="../create-edit-article.html"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
+        <a href="#"><span class="material-symbols-outlined aparece-mobile">search</span></a>
     </footer>
 </body>
 </html>
