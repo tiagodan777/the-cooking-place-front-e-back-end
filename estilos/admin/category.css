@@ -14,16 +14,23 @@
 main {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-evenly;
+    /*justify-content: space-evenly;*/
     align-items: center;
-
-    width: 500px;
-    height: 450px;
-    margin-top: 100px;
-    color: var(--cor4);
 }
 
-main > h1 {
+main > section {
+    width: 500px;
+    height: 450px;
+    color: var(--cor4);
+    margin-top: -150px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+main > section > h1 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 2em;
     color: var(--cor4);
@@ -33,7 +40,7 @@ main > h1 {
     padding-left: 35px;
 }
 
-main > form {
+main > section > form {
     width: 400px;
     height: 350px;
 
@@ -43,14 +50,14 @@ main > form {
     align-items: flex-start;
 }
 
-main > form > div {
+main > section > form > div {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-evenly;
     align-items: flex-start;
 }
 
-main > form > div > input {
+main > section > form > div > input {
     width: 400px;
     font-size: 1em;
     padding: 8px;
@@ -58,13 +65,13 @@ main > form > div > input {
     border-radius: 3px;
 }
 
-main > form > div > textarea {
+main > section > form > div > textarea {
     width: 400px;
     border: 1px solid rgb(210, 210, 210);
     border-radius: 3px;
 }
 
-main > form > input {
+main > section > form > input {
     color: var(--cor5);
     background-color: var(--cor0);
     text-transform: uppercase;

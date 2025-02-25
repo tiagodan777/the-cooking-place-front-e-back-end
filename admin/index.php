@@ -2,18 +2,19 @@
 require_once '../includes/database-conection.php';
 require_once '../includes/functions.php';
 
-$success = $_GET['success'] ?? null;
-$failure = $_GET['failure'] ?? null;
+$sql = "SELECT COUNT(*) FROM categoria;";
+$categorias = pdo($pdo, $sql)->fetchColumn();
 
-$sql = "SELECT id, nome, descricao 
-        FROM categoria;";
+$sql = "SELECT COUNT(*) FROM receita;";
+$receitas = pdo($pdo, $sql)->fetchColumn();
 
-$categorias = pdo($pdo, $sql)->fetchAll();
+$sql = "SELECT COUNT(*) FROM membro;";
+$membros = pdo($pdo, $sql)->fetchColumn();
 
 $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture 
         FROM membro 
         WHERE id = 1;";
-$membro = pdo($pdo, $sql)->fetch();
+        $membro = pdo($pdo, $sql)->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="pt-pt">
@@ -25,7 +26,8 @@ $membro = pdo($pdo, $sql)->fetch();
     <link rel="stylesheet" href="../estilos/style.css">
     <link rel="stylesheet" href="../estilos/desktop.css" media="screen and (min-width: 900px)">
     <link rel="stylesheet" href="../estilos/admin/style.css">
-    <link rel="stylesheet" href="../estilos/admin/categories.css">
+    <link rel="stylesheet" href="../estilos/admin/category.css">
+    <link rel="stylesheet" href="../estilos/admin/category-desktop.css" media="screen and (min-width: 900px">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -44,34 +46,43 @@ $membro = pdo($pdo, $sql)->fetch();
         </form>
         <div>
             <a href="../create-edit-article.html"><span class="material-symbols-outlined">add_box</span></a>
-            <a href="../profile.html"><img src="../imagens/fotos-perfil/<?= html_escape($membro['picture']) ?>" alt="Foto de perfil de <?= html_escape($membro['nome']) ?>" class="membro-foto-perfil"></a>
+            <a href="../profile.html"><span class="material-symbols-outlined">account_circle</span></a>
         </div>
     </header>
     <br>
     <main>
         <section>
             <header>
-                <h1>Categorias</h1>
-                <?php if ($success) { ?><div class="alert-success"><?= $success ?></div> <?php } ?>
-                <?php if ($failure) { ?><div class="alter-failure"><?= $failure ?></div> <?php } ?>
-                <a href="category.php">Adicionar nova categoria</a>
+                <h1>Admin</h1>
             </header>
             <table>
                 <thead>
                     <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col" class="mais-a-esquerda">Editar</th>
-                        <th scope="col" class="mais-a-esquerda">Apagar</th>
+                        <th scope="col"></th>
+                        <th scope="col">Contagem</th>
+                        <th scope="col" class="mais-a-esquerda">Adicionar</th>
+                        <th scope="col" class="mais-a-esquerda">Ver</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($categorias as $categoria) { ?>
                     <tr>
-                        <th scope="row" class="titulo-linha"><?= html_escape($categoria['nome']) ?></th>
-                        <td><a href="category.php?id=<?= $categoria['id'] ?>">Editar</a></td>
-                        <td><a href="category-delete.php?id=<?= $categoria['id'] ?>" class="diferente">Apagar</a></td>
+                        <th scope="row" class="titulo-linha">Categorias</th>
+                        <td><?= $categorias ?></td>
+                        <td><a href="category.php">Adicionar</a></td>
+                        <td><a href="categories.php" class="diferente">Ver</a></td>
                     </tr>
-                    <?php } ?>
+                    <tr>
+                        <th scope="row" class="titulo-linha">Receitas</th>
+                        <td><?= $receitas ?></td>
+                        <td><a href="create-edit-article.html">Adicionar</a></td>
+                        <td><a href="articles.html" class="diferente">Ver</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="titulo-linha">Membros</th>
+                        <td><?= $membros ?></td>
+                        <td><a href="members.html">Adicionar</a></td>
+                        <td><a href="members.html" class="diferente">Ver</a></td>
+                    </tr>
                 </tbody>
             </table>
         </section>
