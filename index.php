@@ -2,7 +2,7 @@
 require_once 'includes/database-conection.php';
 require_once 'includes/functions.php';
 
-$sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.imagem_alt_text, r.membro_id,
+$sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id,
         CONCAT(m.forename, ' ', m.surname) AS autor,
         m.picture
         FROM receita AS r
@@ -59,7 +59,7 @@ $count = 0;
                     <br>
                 </header>
                 <section>
-                    <a href="article.php?id=<?= $article['id'] ?>"><img src="imagens/comida/<?= html_escape($article['imagem_file']) ?>" alt="<?= html_escape($article['imagem_alt_text']) ?>"></a>
+                    <a href="article.php?id=<?= $article['id'] ?>"><img src="imagens/comida/<?= html_escape($article['imagem_file']) ?>" alt="Foto de <?= html_escape($article['titulo'])?> publicada por <?= html_escape($article['autor']) ?>"></a>
                 </section>
                 <aside class="aside-principal">
                     <section>

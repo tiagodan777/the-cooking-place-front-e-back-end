@@ -36,6 +36,19 @@ function redirect($location, $parameters = [], $response_code = 302) {
     exit;
 }
 
+function create_filename($basename, $upload_path) {
+    $filename = pathinfo($basename, PATHINFO_FILENAME);
+    $extention = pathinfo($basename, PATHINFO_EXTENSION);
+    preg_replace('[^A-z0-9]', '-', $basename);
+
+    $i = 1;
+    while (file_exists($upload_path . $basename)) {
+        $basename = $filename . $i . '.' . $extention;
+        $i++;
+    }
+    return $basename;
+}
+
 set_exception_handler('handle_exception');
 function handle_exception($e) {
     error_log($e);

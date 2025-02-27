@@ -14,7 +14,7 @@ $membros = pdo($pdo, $sql)->fetchColumn();
 $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture 
         FROM membro 
         WHERE id = 1;";
-        $membro = pdo($pdo, $sql)->fetch();
+$membro = pdo($pdo, $sql)->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="pt-pt">
