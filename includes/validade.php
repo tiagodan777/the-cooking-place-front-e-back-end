@@ -19,7 +19,7 @@ function is_member_id($member_id, $member_id_list) {
 
 function is_category_id($category_id, $category_id_list) {
     foreach ($category_id_list as $category) {
-        if ($category_id == $category) {
+        if ($category_id == $category['id']) {
             return true;
         }
     }

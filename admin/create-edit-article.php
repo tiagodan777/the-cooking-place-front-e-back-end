@@ -101,13 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $erros['titulo'] = is_text($receita['titulo'], 1, 64) ? '' : 'O título deve ter entre 1 e 64 caracteres';
     $erros['descricao'] = is_text($receita['descricao'], 1, 256) ? '' : 'A descrição deve ter entre 1 e 256 caracteres';
-    $erros['tempo_preparo'] = is_number($receita['tempo_preparo'], 1, 60) ? : 'O tempo de preparo deve ser entre 1 e 60';
+    $erros['tempo_preparo'] = is_number($receita['tempo_preparo'], 0, 60) ? '' : 'O tempo de preparo deve ser entre 1 e 60';
     $erros['unidade_tempo'] = in_array($receita['unidade_tempo'], $unidades_tempo) ? '' : 'A unidade de tempo deve ser minutos ou horas';
-    $erros['numero_pessoas'] = is_number($receita['numero_pessoas'], 1, 16) ? '' : 'O número de pessoas deve ser entre 1 e 16';
-    $erros['ingredientes'] = is_text($receita['ingredientes'], 1, 1024) ? '' : 'A soma de todos os caracteres de todos os ingredientes não deve ser maior que 1024';
-    $erros['quantidades'] = is_text($receita['quantidades'], 1, 1024) ? '' : 'A soma de todos os caracteres de todas as quantiades não deve ser maior que 1024';
-    $erros['passos_preparacao'] = is_text($receita['passos_preparacao'], 1, 65244) ? '' : 'A soma de todos oscaracteres de todos os passos de preparação não deve ser maior que 65244';
-    $erros['keywords'] = is_text($receita['keywords'], 1, 1024) ? '' : 'A soma de todos os caracteres de todas as keywords não deve ser mairo que 1024';
+    $erros['numero_pessoas'] = is_number($receita['numero_pessoas'], 0, 16) ? '' : 'O número de pessoas deve ser entre 1 e 16';
+    $erros['ingredientes'] = is_text($receita['ingredientes'], 0, 1024) ? '' : 'A soma de todos os caracteres de todos os ingredientes não deve ser maior que 1024';
+    $erros['quantidades'] = is_text($receita['quantidades'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as quantiades não deve ser maior que 1024';
+    $erros['passos_preparacao'] = is_text($receita['passos_preparacao'], 0, 65244) ? '' : 'A soma de todos oscaracteres de todos os passos de preparação não deve ser maior que 65244';
+    $erros['keywords'] = is_text($receita['keywords'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as keywords não deve ser mairo que 1024';
     $erros['categoria_id'] = is_category_id($receita['categoria_id'], $categorias) ? '' : 'A categoria selectionada não é válida';
     $erros['membro_id'] = is_member_id($receita['membro_id'], $autores);
 
@@ -125,18 +125,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
     
             if ($id) {
-                unset($receita['imagem_file']);
                 $sql = "UPDATE receita
                         SET titulo = :titulo, descricao = :descricao, tempo_preparo = :tempo_preparo,
                             unidade_tempo = :unidade_tempo, numero_pessoas = :numero_pessoas, ingredientes = :ingredientes,
                             quantidades = :quantidades, passos_preparacao = :passos_preparacao, keywords = :keywords,
-                            categoria_id = :categoria_id, membro_id = :membro_id
+                            imagem_file = :imagem_file, categoria_id = :categoria_id, membro_id = :membro_id
                         WHERE id = :id;";
             } else {
-                $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas
-                                            ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id) VALUES
-                        (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantiades,
-                        :passos_preparacao, :keywords, :categoria_id, :membro_id);";
+                unset($arguments['id']);
+                /*echo "<pre>";;
+                var_dump($receita);
+                var_dump($arguments);
+                echo "</pre>";*/
+                $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas,
+                                            ingredientes, quantidades, passos_preparacao, keywords, imagem_file, categoria_id, membro_id) VALUES
+                        (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades,
+                        :passos_preparacao, :keywords, :imagem_file, :categoria_id, :membro_id);";
             }
             pdo($pdo, $sql, $arguments);
             redirect('articles.php', ['success' => 'Artigo guardado']);  
@@ -168,14 +172,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         main > form > section#imagem-video > div#div-imagem > label, main > form > section#imagem-video > div#div-video > label {
-            text-align: <?= ($receita['imagem_file' != '']) ? 'left' : 'center' ?>;
+            text-indent: <?= ($receita['imagem_file'] != '') ? '-225px' : '0px' ?>;
         }
     </style>
 </head>
 <body>
     <header id="cabecalho-principal">
         <h1>
-            <a href="../pagina-principal.html">
+            <a href="index.php">
                 <picture>
                     <source media="(max-width: 600px)" srcset="../imagens/logos/logo-pp.png">
                     <img src="../imagens/logos/logo-p.png" alt="Logo do The Cooking Place">
@@ -206,9 +210,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div>
                             <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
                         </div>
+                        <span class="error"><?= $erros['imagem_file'] ?></span>
                     <?php } else { ?>
                         <label for="imagem">Imagem:</label>  
                         <img src="../imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $autor ?>">
+                        <a href="image-delete.php?id=<?= $receita['id'] ?>">Apagar imagem</a>
                     <?php } ?>
                 </div>
                 <div id="div-video">
@@ -228,21 +234,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div id="div-titulo">
                     <label for="titulo">Título</label>
                     <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64" value="<?= html_escape($receita['titulo']) ?>">
+                    <span class="error"><?= $erros['titulo'] ?></span>
                 </div>
                 <div id="div-descricao">
                     <label for="descricao">Descrição</label>
                     <input type="text" name="descricao" id="descricao" placeholder="Ex: Como fazer sushi de forma rápida e descomplicada" maxlength="256" required value="<?= html_escape($receita['descricao']) ?>">
+                    <span class="error"><?= $erros['descricao'] ?></span>
                 </div>
                 <div id="div-tempo-preparo">
                     <label for="tempo">Tempo de preparo</label>
                     <div id="tempo-unidade">
-                        <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" required min="0" value="<?= html_escape($receita['tempo_preparo']) ?>">
+                        <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" min="0" value="<?= html_escape($receita['tempo_preparo']) ?>">
+                        <span class="error"><?= $erros['tempo_preparo'] ?></span>
                         <select name="unidade_tempo" id="unidade_tempo">
                             <optgroup label="Unidade">
                                 <option value="min" <?= ($receita['unidade_tempo'] == 'min') ? 'selected' : '' ?>>Min</option>
                                 <option value="hr" <?= ($receita['unidade_tempo'] == 'hr') ? 'selected' : ''?>>Hora</option>
                             </optgroup>
                         </select>
+                        <span class="error"><?= $erros['unidade_tempo'] ?></span>
                     </div>
                 </div>
                 <div id="numero-pessoas">
@@ -252,20 +262,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="<?= $i ?>" <?= ($receita['numero_pessoas'] == $i) ? 'selected' : '' ?>><?= $i ?></option>
                         <?php } ?>
                     </select>
+                    <span class="error"><?= $erros['numero_pessoas'] ?></span>
                 </div>
                 <div id="div-categorias">
                     <label for="categoria_id">Categoria</label>
                     <select name="categoria_id" id="categoria_id">
-                    <?php foreach ($categorias as $categoria) { ?>
-                        <option value="<?= $categoria['id'] ?>" <?= ($categoria['id'] == $receita['categoria_id']) ? 'selected' : '' ?>><?= html_escape($categoria['nome']) ?></option>
-                    <?php } ?>
+                        <?php foreach ($categorias as $categoria) { ?>
+                            <option value="<?= $categoria['id'] ?>" <?= ($categoria['id'] == $receita['categoria_id']) ? 'selected' : '' ?>><?= html_escape($categoria['nome']) ?></option>
+                        <?php } ?>
                     </select>
+                    <span class="error"><?= $erros['categoria_id'] ?></span>
                     <label for="membro_id">Membro</label>
                     <select name="membro_id" id="membros_id">
                         <?php foreach ($autores as $autor) { ?>
                             <option value="<?= $autor['id'] ?>" <?= ($autor['id'] == $receita['membro_id']) ? 'selected' : '' ?>><?= html_escape($autor['forename'] . ' ' . $autor['surname']) ?></option>
                         <?php } ?>
                     </select>
+                    <span class="error"><?= $erros['membro_id'] ?></span>
                 </div>
                 <div id="div-ingredientes">
                     <div id="labels-ingredientes-quantidade">
@@ -278,8 +291,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $quantiades = explode(',', $receita['quantidades']);
                             for ($i = 1; $i <= count($ingredientes); $i++) { ?>
                                 <div class="inputs-ingredientes-quantidade">
-                                    <input type="text" name="ingredientes<?= $i ?>" id="ingredientes<?= $i ?>" placeholder="Ex: Salmão" required minlength="1" maxlength="32" value="<?= html_escape($ingredientes[$i-1]) ?>">
-                                    <input type="text" name="quantidades<?= $i ?>" id="quantidades<?= $i ?>" placeholder="Ex: 3; 450g; 100ml..." required value="<?= html_escape($quantiades[$i-1]) ?>">
+                                    <input type="text" name="ingredientes<?= $i ?>" id="ingredientes<?= $i ?>" placeholder="Ex: Salmão" minlength="1" maxlength="32" value="<?= html_escape($ingredientes[$i-1]) ?>">
+                                    <span class="error"><?= $erros['ingredientes'] ?></span>
+                                    <input type="text" name="quantidades<?= $i ?>" id="quantidades<?= $i ?>" placeholder="Ex: 3; 450g; 100ml..." value="<?= html_escape($quantiades[$i-1]) ?>">
+                                    <span class="error"><?= $erros['quantidades'] ?></span>
                                 </div>
                         <?php } ?>
                     </div>
@@ -295,6 +310,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="textarea">
                                     <label for="passo<?= $i ?>">Passo <?= $i ?></label>
                                     <textarea name="passo<?= $i ?>" id="passo<?= $i ?>" cols="40" rows="7"><?= html_escape($passo) ?></textarea>
+                                    <span class="error"><?= $erros['passos_preparacao'] ?></span>
                                 </div>
                         <?php
                             $i++;
@@ -313,6 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="tags">
                                     <label for="tag<?= $i ?>">Tag <?= $i ?></label>
                                     <input type="text" name="tag<?= $i ?>" id="tag<?= $i ?>" placeholder="Ex: #sushi" value="<?= html_escape($keyword) ?>">
+                                    <span class="error"><?= $erros['keywords'] ?></span>
                                 </div>
                         <?php } ?>
                     </div>
