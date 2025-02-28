@@ -47,12 +47,13 @@ main > form {
 
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
 }
 
 main > form > section#imagem-video {
-    height: 1000px;
+    width: 800px;
+    height: 1100px;
     /*border: 1px solid rgb(210, 210, 210);*/
 
     display: flex;
@@ -61,8 +62,15 @@ main > form > section#imagem-video {
     align-items: center
 }
 
+main > form > section#imagem-video > div#div-imagem, main > form > section#imagem-video > div#div-video {
+    height: 500px;
+    border: 1px solid rgb(210, 210, 210);
+    /*box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.313);*/
+}
+
 main > form > section#info-text {
     /*height: 1100px;*/
+    width: 800px;
 }
 
 main > form > input[type="submit"] {

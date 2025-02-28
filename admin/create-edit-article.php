@@ -13,6 +13,7 @@ $unidades_tempo = ['min', 'hr'];
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $temp = $_FILES['imagem']['tmp_name'] ?? '';
 $destination = '';
+$autor = '';
 
 $receita = [
     'id' => $id,
@@ -26,6 +27,8 @@ $receita = [
     'passos_preparacao' => '',
     'keywords' => '',
     'imagem_file' => '',
+    'categoria_id' => 0,
+    'membro_id' => 0,
 ];
 $erros = [
     'warning' => '',
@@ -39,17 +42,17 @@ $erros = [
     'passos_preparacao' => '',
     'keywords' => '',
     'imagem_file' => '',
-    'categoria_id' => 0,
-    'membro_id' => 0,
+    'categoria_id' => '',
+    'membro_id' => '',
 ];
 
 if ($id) {
-    $sql = "SELECT id, titulo, descricao, tempo_preparo, unidade_tempo
+    $sql = "SELECT id, titulo, descricao, tempo_preparo, unidade_tempo,
             numero_pessoas, ingredientes, quantidades, passos_preparacao,
-            keyowrds, imagem_file, imagem_alt_text
+            keywords, imagem_file, imagem_alt_text, categoria_id, membro_id
             FROM receita
             WHERE id = :id;";
-    $receita = pdo($pdo, $sql, [$id]);
+    $receita = pdo($pdo, $sql, [$id])->fetch();
     if (!$receita) {
         redirect('article.php', ['failure' => 'Receita não encontrada']);
     }
@@ -89,6 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $receita['keywords'] = $_POST['keywords'];
     $receita['membro_id'] = $_POST['membro_id'];
     $receita['categoria_id'] = $_POST['categoria_id'];
+
+    foreach ($autores as $autor) {
+        if ($receita['membro_id'] == $autor['id']) {
+            $autor = $autor['forename'] . ' ' . $autor['surname'];
+        }
+    }
 
     $erros['titulo'] = is_text($receita['titulo'], 1, 64) ? '' : 'O título deve ter entre 1 e 64 caracteres';
     $erros['descricao'] = is_text($receita['descricao'], 1, 256) ? '' : 'A descrição deve ter entre 1 e 256 caracteres';
@@ -153,6 +162,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../estilos/create-edit-article.css">
     <link rel="stylesheet" href="../estilos/create-edit-article-desktop.css" media="screen and (min-width: 900px)">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+        main > form > section#imagem-video > div#div-imagem, main > form > section#imagem-video > div#div-video {
+            border: <?= ($receita['imagem_file'] != '') ? 'none' : '1px solid rgb(210, 210, 210)' ?>;
+        }
+    </style>
 </head>
 <body>
     <header id="cabecalho-principal">
@@ -183,10 +197,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="create-edit-article.php?id=<?= $id ?>" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
             <section id="imagem-video">
                 <div id="div-imagem">
-                    <label for="imagem">Upload de imagem</label>
-                    <div>
-                        <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
-                    </div>
+                    <?php if (!$receita['imagem_file']) { ?>
+                        <label for="imagem">Upload de imagem</label>
+                        <div>
+                            <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
+                        </div>
+                    <?php } else { ?>
+                        <label for="imagem">Imagem:</label>  
+                        <img src="../imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $autor ?>">
+                    <?php } ?>
                 </div>
                 <div id="div-video">
                     <label for="video">Upload de video</label>
@@ -204,20 +223,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <section id="info-text">
                 <div id="div-titulo">
                     <label for="titulo">Título</label>
-                    <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64">
+                    <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64" value="<?= html_escape($receita['titulo']) ?>">
                 </div>
                 <div id="div-descricao">
                     <label for="descricao">Descrição</label>
-                    <input type="text" name="descricao" id="descricao" placeholder="Ex: Como fazer sushi de forma rápida e descomplicada" maxlength="256" required>
+                    <input type="text" name="descricao" id="descricao" placeholder="Ex: Como fazer sushi de forma rápida e descomplicada" maxlength="256" required value="<?= html_escape($receita['descricao']) ?>">
                 </div>
                 <div id="div-tempo-preparo">
                     <label for="tempo">Tempo de preparo</label>
                     <div id="tempo-unidade">
-                        <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" required min="0">
+                        <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" required min="0" value="<?= html_escape($receita['tempo_preparo']) ?>">
                         <select name="unidade_tempo" id="unidade_tempo">
                             <optgroup label="Unidade">
-                                <option value="min">Min</option>
-                                <option value="hr">Hora</option>
+                                <option value="min" <?= ($receita['unidade_tempo'] == 'min') ? 'selected' : '' ?>>Min</option>
+                                <option value="hr" <?= ($receita['unidade_tempo'] == 'hr') ? 'selected' : ''?>>Hora</option>
                             </optgroup>
                         </select>
                     </div>
@@ -225,28 +244,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div id="numero-pessoas">
                     <label for="numero-pessoas">Nº de Pessoas</label>
                     <select name="numero_pessoas" id="numero-pessoas">
-                        <script>
-                            let select = window.document.querySelector('select#numero-pessoas')
-                            for (let i = 1; i <= 16; i++) {
-                                let option = window.document.createElement('option')
-                                option.value = i
-                                option.innerHTML = i
-                                select.appendChild(option)
-                            }
-                        </script>
+                        <?php for ($i = 1; $i <= 16; $i++) { ?>
+                            <option value="<?= $i ?>" <?= ($receita['numero_pessoas'] == $i) ? 'selected' : '' ?>><?= $i ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div id="div-categorias">
                     <label for="categoria_id">Categoria</label>
                     <select name="categoria_id" id="categoria_id">
                     <?php foreach ($categorias as $categoria) { ?>
-                        <option value="<?= $categoria['id'] ?>"><?= html_escape($categoria['nome']) ?></option>
+                        <option value="<?= $categoria['id'] ?>" <?= ($categoria['id'] == $receita['categoria_id']) ? 'selected' : '' ?>><?= html_escape($categoria['nome']) ?></option>
                     <?php } ?>
                     </select>
                     <label for="membro_id">Membro</label>
                     <select name="membro_id" id="membros_id">
                         <?php foreach ($autores as $autor) { ?>
-                            <option value="<?= $autor['id'] ?>"><?= html_escape($autor['forename'] . ' ' . $autor['surname']) ?></option>
+                            <option value="<?= $autor['id'] ?>" <?= ($autor['id'] == $receita['membro_id']) ? 'selected' : '' ?>><?= html_escape($autor['forename'] . ' ' . $autor['surname']) ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -256,20 +269,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="quantidade">Quantidade</label>
                     </div>
                     <div class="ingredientes-quantidade">
-                        <div class="inputs-ingredientes-quantidade">
-                            <input type="text" name="ingredientes1" id="ingredientes1" placeholder="Ex: Salmão" required minlength="1" maxlength="32">
-                            <input type="text" name="quantidades1" id="quantidades1" placeholder="Ex: 3; 450g; 100ml..." required>
-                        </div>
+                        <?php 
+                            $ingredientes = explode(',', $receita['ingredientes']);
+                            $quantiades = explode(',', $receita['quantidades']);
+                            for ($i = 1; $i <= count($ingredientes); $i++) { ?>
+                                <div class="inputs-ingredientes-quantidade">
+                                    <input type="text" name="ingredientes<?= $i ?>" id="ingredientes<?= $i ?>" placeholder="Ex: Salmão" required minlength="1" maxlength="32" value="<?= html_escape($ingredientes[$i-1]) ?>">
+                                    <input type="text" name="quantidades<?= $i ?>" id="quantidades<?= $i ?>" placeholder="Ex: 3; 450g; 100ml..." required value="<?= html_escape($quantiades[$i-1]) ?>">
+                                </div>
+                        <?php } ?>
                     </div>
                     <input type="button" value="Adicionar Ingrediente" onclick="adicionaIngredienteEQuantidade()">
                 </div>
                 <div id="div-passos-preparacao">
                     <label for="div-passos-preparacao">Passos para a Preparação</label>
                     <div id="div-textareas">
-                        <div class="textarea">
-                            <label for="passo1">Passo 1</label>
-                            <textarea name="passo1" id="passo1" cols="40" rows="7"></textarea>
-                        </div>
+                        <?php
+                            $passos_preparacao = explode('#', $receita['passos_preparacao']);
+                            $i = 1;
+                            foreach ($passos_preparacao as $passo) {?>
+                                <div class="textarea">
+                                    <label for="passo<?= $i ?>">Passo <?= $i ?></label>
+                                    <textarea name="passo<?= $i ?>" id="passo<?= $i ?>" cols="40" rows="7"><?= html_escape($passo) ?></textarea>
+                                </div>
+                        <?php
+                            $i++;
+                        } ?>
                     </div>
                     <input type="button" value="Adicionar Passo" onclick="adicionaPasso()">
                 </div>
