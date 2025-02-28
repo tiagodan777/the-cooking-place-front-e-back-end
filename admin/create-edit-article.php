@@ -166,6 +166,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         main > form > section#imagem-video > div#div-imagem, main > form > section#imagem-video > div#div-video {
             border: <?= ($receita['imagem_file'] != '') ? 'none' : '1px solid rgb(210, 210, 210)' ?>;
         }
+
+        main > form > section#imagem-video > div#div-imagem > label, main > form > section#imagem-video > div#div-video > label {
+            text-align: <?= ($receita['imagem_file' != '']) ? 'left' : 'center' ?>;
+        }
     </style>
 </head>
 <body>
@@ -301,10 +305,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div id="div-keywords-tags-e-section-actions">
                     <div id="div-tags">
                         <label for="tag1">Keywords / Tags</label>
-                        <div class="tags">
-                            <label for="tag1">Tag 1</label>
-                            <input type="text" name="tag1" id="tag1" placeholder="Ex: #sushi">
-                        </div>
+                        <?php
+                            $keywords = explode('#', $receita['keywords']);
+                            $i = 1;
+                            foreach ($keywords as $keyword) {
+                        ?>
+                                <div class="tags">
+                                    <label for="tag<?= $i ?>">Tag <?= $i ?></label>
+                                    <input type="text" name="tag<?= $i ?>" id="tag<?= $i ?>" placeholder="Ex: #sushi" value="<?= html_escape($keyword) ?>">
+                                </div>
+                        <?php } ?>
                     </div>
                     <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
                     <section id="actions">
