@@ -52,8 +52,8 @@ $membro = pdo($pdo, $sql)->fetch();
         <section>
             <header>
                 <h1>Categorias</h1>
-                <?php if ($success) { ?><div class="alert-success"><?= $success ?></div> <?php } ?>
-                <?php if ($failure) { ?><div class="alter-failure"><?= $failure ?></div> <?php } ?>
+                <?php if ($success) { ?> <div class="alert-success"><?= $success ?></div> <?php } ?>
+                <?php if ($failure) { ?> <div class="alert-failure"><?= $failure ?></div> <?php } ?>
                 <a href="category.php">Adicionar nova categoria</a>
             </header>
             <table>

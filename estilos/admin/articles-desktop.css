@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+html, body {
+    font-size: 1em;
+}
+
 main > section > table > tbody > tr > td > img {
     width: 150px;
 }

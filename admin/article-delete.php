@@ -1,3 +1,29 @@
+<?php
+require_once '../includes/database-conection.php';
+require_once '../includes/functions.php';
+
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$path = '../imagens/comida/';
+
+if (!$id) {
+    redirect('articles.php', ['failure' => 'Receita não encontrada']);
+}
+
+$sql = "SELECT id, titulo, imagem_file FROM receita WHERE id = :id";
+$receita = pdo($pdo, $sql, [$id])->fetch();
+if (!$receita) {
+    redirect('articles.php', ['failure' => 'Receita não encontrada']);
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (file_exists($path . $receita['imagem_file']) && $receita['imagem_file'] != null) {
+        unlink($path . $receita['imagem_file']);
+    }
+    $sql = "DELETE FROM receita where id = :id";
+    pdo($pdo, $sql, [$id]);
+    redirect('articles.php', ['success' => 'Receita apagada com sucesso']);
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -16,7 +42,7 @@
 <body>
     <header id="cabecalho-principal">
         <h1>
-            <a href="../pagina-principal.html">
+            <a href="index.php">
                 <picture>
                     <source media="(max-width: 600px)" srcset="../imagens/logos/logo-pp.png">
                     <img src="../imagens/logos/logo-p.png" alt="Logo do The Cooking Place">
@@ -38,12 +64,12 @@
         <section id="apagar">
             <h2>Apagar Receita</h2>
             <section id="dados">
-                <p>Confirma para apagar a receita: Sushi</p>
-                <img src="../imagens/comida/sushi.jpg" alt="Foto de sushi">
+                <p>Confirma para apagar a receita: <?= html_escape($receita['titulo']) ?></p>
+                <img src="../imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?>">
             </section>
             <section id="opcoes">
-                <form action="#" method="post">
-                    <a href="pagina-principal.html">Cancelar</a>
+                <form action="article-delete.php?id=<?= $id ?>" method="post">
+                    <a href="articles.php">Cancelar</a>
                     <input type="submit" value="Confirmar">
                 </form>
             </section>

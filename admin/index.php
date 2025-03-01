@@ -31,14 +31,14 @@ $membro = pdo($pdo, $sql)->fetch();
 <body>
     <header id="cabecalho-principal">
         <h1>
-            <a href="../pagina-principal.html">
+            <a href="index.php">
                 <picture>
                     <source media="(max-width: 600px)" srcset="../imagens/logos/logo-pp.png">
                     <img src="../imagens/logos/logo-p.png" alt="Logo do The Cooking Place">
                 </picture>
             </a>
         </h1>
-        <form action="#" method="get">
+        <form action="../search.php" method="get">
             <input type="search" name="search" id="search" placeholder="Pesquisa">
             <input type="submit" value="Pesquisar" class="escondido">
         </form>

@@ -56,6 +56,10 @@ main > form > section#imagem-video > div#div-imagem, main > form > section#image
     align-items: center
 }
 
+main > form > section#imagem-video > div#div-video {
+    margin-top: 50px;
+}
+
 main > form > section#imagem-video > div#div-imagem > div {
     width: 300px;
     height: 320px;

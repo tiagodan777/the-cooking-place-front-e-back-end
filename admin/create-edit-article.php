@@ -12,6 +12,7 @@ $unidades_tempo = ['min', 'hr'];
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $temp = $_FILES['imagem']['tmp_name'] ?? '';
+$erro_com_a_imagem = $_FILES['imagem']['error'] ?? '';
 $destination = '';
 $autor = '';
 
@@ -67,7 +68,7 @@ $sql = "SELECT id, forename, surname FROM membro;";
 $autores = pdo($pdo, $sql)->fetchAll();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $erros['imagem_file'] = ($_FILES['imagem']['error'] === 1) ? 'Ficheiro demasiado grande' : '';
+    $erros['imagem_file'] = ($temp === '' && $erro_com_a_imagem === 1) ? 'Ficheiro demasiado grande' : '';
 
     if ($temp && $_FILES['imagem']['error'] === 0) {
         $erros['imagem_file'] .= in_array(mime_content_type($temp), $file_types) ? '' : 'Tipo de ficherio não permitido';
@@ -125,15 +126,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
     
             if ($id) {
+                unset($arguments['imagem_alt_text']);
                 $sql = "UPDATE receita
                         SET titulo = :titulo, descricao = :descricao, tempo_preparo = :tempo_preparo,
                             unidade_tempo = :unidade_tempo, numero_pessoas = :numero_pessoas, ingredientes = :ingredientes,
                             quantidades = :quantidades, passos_preparacao = :passos_preparacao, keywords = :keywords,
                             imagem_file = :imagem_file, categoria_id = :categoria_id, membro_id = :membro_id
                         WHERE id = :id;";
+                echo "<pre>";
+                var_dump($receita);
+                var_dump($arguments);
+                echo "</pre>";
             } else {
                 unset($arguments['id']);
-                /*echo "<pre>";;
+                /*echo "<pre>";
                 var_dump($receita);
                 var_dump($arguments);
                 echo "</pre>";*/
@@ -212,8 +218,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <span class="error"><?= $erros['imagem_file'] ?></span>
                     <?php } else { ?>
-                        <label for="imagem">Imagem:</label>  
-                        <img src="../imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $autor ?>">
+                        <label for="imagem_guardada">Imagem:</label>  
+                        <img src="../imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $autor ?>" id="imagem_guardada">
+                        <br>
                         <a href="image-delete.php?id=<?= $receita['id'] ?>">Apagar imagem</a>
                     <?php } ?>
                 </div>
@@ -224,10 +231,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                 </div>
                 <div id="inputs-escondidos">
-                    <input type="text" name="ingredientes" id="ingredientes" value="">
-                    <input type="text" name="quantidades" id="quantidades" value="">
-                    <input type="text" name="passos_preparacao" id="passos_preparacao" value="">
-                    <input type="text" name="keywords" id="keywords" value="">
+                    <input type="text" name="ingredientes" id="ingredientes" value="<?= html_escape($receita['ingredientes']) ?>">
+                    <input type="text" name="quantidades" id="quantidades" value="<?= html_escape($receita['quantidades']) ?>">
+                    <input type="text" name="passos_preparacao" id="passos_preparacao" value="<?= html_escape($receita['passos_preparacao']) ?>">
+                    <input type="text" name="keywords" id="keywords" value="<?= html_escape($receita['keywords']) ?>">
                 </div>
             </section>
             <section id="info-text">

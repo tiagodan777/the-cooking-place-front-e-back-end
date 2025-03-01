@@ -115,3 +115,18 @@ td {
     font-weight: normal;
 }
 
+div.alert-success {
+    margin-top: 20px;
+    background-color: #2fbf708f;
+    color: #FFFFFF;
+    padding: 10px 100px;
+    border-radius: 10px;
+}
+
+div.alert-failure {
+    margin-top: 20px;
+    background-color: #ef2d5783;
+    color: #FFFFFF;
+    padding: 10px 100px;
+    border-radius: 10px;
+}
