@@ -1,10 +1,10 @@
 <?php
 define('APP_ROOT', dirname(__FILE__, 2));
-require_once APP_ROOT . 'config/config.php';
-require_once APP_ROOT . 'src/functions.php';
+require_once APP_ROOT . '/config/config.php';
+require_once APP_ROOT . '/src/functions.php';
 
 spl_autoload_register(function($class) {
-    $path = APP_ROOT . 'src/classes/';
+    $path = APP_ROOT . '/src/classes/';
     require $path . $class . '.php';
 });
 
@@ -14,5 +14,5 @@ if (DEV !== true) {
     register_shutdown_function('handle_shutdown');
 }
 
-$cms = new CMS($dsn, $username, $passowrd);
-unset($dsn, $username, $passowrd);
+$cms = new CMS($dsn, $username, $password);
+unset($dsn, $username, $password);
