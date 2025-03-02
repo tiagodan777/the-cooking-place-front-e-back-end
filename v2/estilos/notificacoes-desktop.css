@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+h1 {
+    padding-bottom: 20px;
+}
+
+main {
+    margin-top: 150px;
+}
+
+main > div {
+    width: 500px;
+}
+
+main > div > a {
+    width: 400px;
+}
+
+main > div > section#seguir {
+    width: 150px;
+}

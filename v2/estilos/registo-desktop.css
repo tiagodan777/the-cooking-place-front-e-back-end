@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+main {
+    background-color: var(--cor5);
+    justify-content: space-between;
+}
+
+main > div#conteiner {
+    width: 50vw;
+    height: 100vh;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+main > div#conteiner > section {
+    box-shadow: none;
+}
+
+main > div#conteiner > section > form {
+    
+}
+
+main > div#video {
+    width: 50vw;
+    height: 100vh;
+    display: block;
+}
+
+main > div#video > video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover; /* Faz com que o vídeo preencha toda a área */
+    object-position: center 30%; /* Ajusta a parte visível do vídeo */
+}
