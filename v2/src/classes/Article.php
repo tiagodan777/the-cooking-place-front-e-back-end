@@ -18,12 +18,137 @@ class Article {
         return $this->db->runSQL($sql, [$id])->fetch();
     }
 
-    public function getAll() {
+    public function getAll($category = null, $member = null) {
+        $arguments['categoria'] = $category;
+        $arguments['categoria1'] = $category;
+        $arguments['membro'] = $member;
+        $arguments['membro1'] = $member;
+
         $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file, m.id
                 CONCAT(m.forename, ' ', m.surname) AS autor,
                 m.picture
                 FROM receita AS r
-                JOIN membro AS m ON r.membro_id = r.id;";
+                JOIN membro AS m ON r.membro_id = r.id
+                WHERE (r.categoria_id = :categoria OR categoria1 IS NULL)
+                AND (r.membro_id = :membro OR membro1 IS NULL);";
         return $this->db->runSQL($sql)->fetchAll();
+    }
+
+    public function searchCount($term) {
+        $arguments['term1'] = '%' . $term . '%';
+        $arguments['term2'] = '%' . $term . '%';
+        $arguments['term3'] = '%' . $term . '%';
+        $arguments['term4'] = '%' . $term . '%';
+        $arguments['term5'] = '%' . $term . '%';
+        $arguments['term6'] = '%' . $term . '%';
+        $arguments['term7'] = '%' . $term . '%';
+        $arguments['term8'] = '%' . $term . '%';
+        
+        $sql = "SELECT COUNT(*) FROM receita AS r
+                JOIN categoria AS c ON r.categoria_id = c.id
+                JOIN membro AS m ON r.membro_id = m.id
+                WHERE r.titulo LIKE :term1
+                OR r.descricao LIKE :term2
+                OR r.ingredientes LIKE :term3
+                OR r.passos_preparacao LIKE :term4
+                OR r.keywords LIKE :term5
+                OR c.nome LIKE :term6
+                OR m.forename LIKE :term7
+                OR m.surname LIKE :term8;";
+
+        return $this->db->runSQL($sql, $arguments)->fetchColumn();
+    }
+
+    public function search($term) {
+        $arguments['term1'] = '%' . $term . '%';
+        $arguments['term2'] = '%' . $term . '%';
+        $arguments['term3'] = '%' . $term . '%';
+        $arguments['term4'] = '%' . $term . '%';
+        $arguments['term5'] = '%' . $term . '%';
+        $arguments['term6'] = '%' . $term . '%';
+        $arguments['term7'] = '%' . $term . '%';
+        $arguments['term8'] = '%' . $term . '%';
+
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file FROM receita AS r
+                JOIN categoria AS c ON r.categoria_id = c.id
+                JOIN membro AS m ON r.membro_id = m.id
+                WHERE r.titulo LIKE :term1
+                OR r.descricao LIKE :term2
+                OR r.ingredientes LIKE :term3
+                OR r.passos_preparacao LIKE :term4
+                OR r.keywords LIKE :term5
+                OR c.nome LIKE :term6
+                OR m.forename LIKE :term7
+                OR m.surname LIKE :term8;";
+        return $this->db->runSQL($sql, $arguments)->fetchAll();
+    }
+
+    public function count() {
+        $sql = "SELECT COUNT(*) FROM article;";
+
+        return $this->db->runSQL($sql);
+    }
+
+    public function create($article, $temp, $destination) {
+        try {
+            if ($temp) {
+                $imagick = new Imagick($temp);
+                $imagick->cropThumbnailImage(500, 500);
+                $imagick->writeImage($destination);
+            }
+
+            $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file) VALUES
+                    (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file);";
+
+            $this->db->runSQL($sql, $article);
+            return true;
+        } catch (Exception $e) {
+            if (file_exists($destination)) {
+                unlink($destination);
+            }
+            throw $e;
+        }
+    }
+
+    public function update($article, $temp, $destination) {
+        try {
+            if ($temp) {
+                $imagick = new Imagick($temp);
+                $imagick->cropThumbnailImage(500, 500);
+                $imagick->writeImage($destination);
+            }
+
+            $sql = "UPDATE receita SET titulo = :titulo, descricao = :descricao, tempo_preparo = :tempo_preparo, unidade_tempo = :unidade_tempo, numero_pessoas = :numero_pessoas, ingredientes = :ingredientes,
+                    quantidades = :quantidades, passos_preparacao = :passos_preparacao, keywords = :keywords, categoria_id = :categoria_id, membro_id = :membro_id, imagem_file = :imagem_file
+                    WHERE id = :id;";
+
+            $this->db->runSQL($sql, $article);
+            return true;
+        } catch (Exception $e) {
+            if (file_exists($destination)) {
+                unlink($destination);
+            }
+            throw $e;
+        }
+    }
+
+    public function delete($id) {
+        $sql = "DELETE FROM receita WHERE id = :id;";
+
+        $this->db->runSQL($sql);
+        return true;
+    }
+
+    public function imageDelete($id, $path) {
+        $sql = "SELECT imagem_file FROM receita WHERE id = :id";
+        $file = $this->db->runSQL($sql, [$id])->fetchColumn();
+
+        if (file_exists($path . $file)) {
+            unlink($path . $file);
+        }
+
+        $sql = "UPDATE receita SET imagem_file = null WHERE id = :id;";
+        $this->db->runSQL($sql, [$id]);
+        return true;
     }
 }

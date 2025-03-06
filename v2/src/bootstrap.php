@@ -8,7 +8,7 @@ spl_autoload_register(function($class) {
     require $path . $class . '.php';
 });
 
-if (DEV !== true) {
+if (DEV !== false) {
     set_exception_handler('handle_exception');
     set_error_handler('handle_error');
     register_shutdown_function('handle_shutdown');
