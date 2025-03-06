@@ -25,10 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "<pre>";
     var_dump($article);
     echo "</pre>";
-}*/
+}
 
 $id = 48;
 $cms->getArticle()->imageDelete($id, UPLOADS);
+*/
+
+$id = 3;
+$membro = $cms->getMember()->getAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,9 +42,14 @@ $cms->getArticle()->imageDelete($id, UPLOADS);
     <title>Document</title>
 </head>
 <body>
-    <form action="teste.php" method="post" enctype="multipart/form-data">
+    <!--<form action="teste.php" method="post" enctype="multipart/form-data">
         <input type="file" name="imagem" id="imagem">
         <input type="submit" value="Enviar">
-    </form>
+    </form>-->
+    <pre>
+        <?php
+            var_dump($membro);
+        ?>
+    </pre>
 </body>
 </html>
