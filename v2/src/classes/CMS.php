@@ -26,7 +26,7 @@ class CMS {
 
     public function getMember() {
         if ($this->member === null) {
-            $this->member = new Membwer($this->db);
+            $this->member = new Member($this->db);
         }
         return $this->member;
     }
