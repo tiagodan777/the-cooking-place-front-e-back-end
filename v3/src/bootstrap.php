@@ -14,5 +14,5 @@ if (DEV !== false) {
     register_shutdown_function('handle_shutdown');
 }
 
-$cms = new CMS($dsn, $username, $password);
+$cms = new \TiagoDaniel\CMS\CMS($dsn, $username, $password);
 unset($dsn, $username, $password);

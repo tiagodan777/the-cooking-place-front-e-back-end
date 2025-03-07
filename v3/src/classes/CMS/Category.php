@@ -1,4 +1,6 @@
 <?php
+namespace TiagoDaniel\CMS;
+
 class Category {
     private $db;
 
@@ -29,7 +31,7 @@ class Category {
                     (:nome, :descricao);";
             $this->db->runSQL($sql, $category);
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             if ($e->errorInfo[1] === 1062) {
                 return false;
             } else {
@@ -45,7 +47,7 @@ class Category {
                     WHERE id = :id;";
             $this->db->runSQL($sql, $category);
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             if ($e->errorInfo[1] === 1062) {
                 return false;
             } else {
@@ -59,7 +61,7 @@ class Category {
             $sql = "DELETE FROM categoria WHERE id = :id;";
             $this->db->runSQL($sql, [$id]);
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             if ($e->errorInfo[1] === 1217) {
                 return false;
             } else {

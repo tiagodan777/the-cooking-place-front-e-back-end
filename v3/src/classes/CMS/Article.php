@@ -1,4 +1,6 @@
 <?php
+namespace TiagoDaniel\CMS;
+
 class Article {
     private $db;
 
@@ -109,7 +111,7 @@ class Article {
     public function create($article, $temp, $destination) {
         try {
             if ($temp) {
-                $imagick = new Imagick($temp);
+                $imagick = new \Imagick($temp);
                 $imagick->cropThumbnailImage(500, 500);
                 $imagick->writeImage($destination);
             }
@@ -119,7 +121,7 @@ class Article {
 
             $this->db->runSQL($sql, $article);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (file_exists($destination)) {
                 unlink($destination);
             }
@@ -130,7 +132,7 @@ class Article {
     public function update($article, $temp, $destination) {
         try {
             if ($temp) {
-                $imagick = new Imagick($temp);
+                $imagick = new \Imagick($temp);
                 $imagick->cropThumbnailImage(500, 500);
                 $imagick->writeImage($destination);
             }
@@ -141,7 +143,7 @@ class Article {
 
             $this->db->runSQL($sql, $article);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (file_exists($destination)) {
                 unlink($destination);
             }

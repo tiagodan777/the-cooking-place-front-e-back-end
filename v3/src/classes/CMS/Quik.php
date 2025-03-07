@@ -1,4 +1,6 @@
 <?php
+namespace TiagoDaniel\CMS;
+
 class Quik {
     private $db;
 

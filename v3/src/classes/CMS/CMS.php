@@ -1,4 +1,6 @@
 <?php
+namespace TiagoDaniel\CMS;
+
 class CMS {
     protected $db = null;
     protected $article = null;
