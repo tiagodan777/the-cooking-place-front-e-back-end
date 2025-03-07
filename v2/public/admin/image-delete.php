@@ -3,7 +3,10 @@ require_once '../../src/bootstrap.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $path = APP_ROOT . 'public/imagens/comida/';
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 if (!$id) {
     redirect('articles.php', ['failure' => 'Receita não encontrada']);
 }
