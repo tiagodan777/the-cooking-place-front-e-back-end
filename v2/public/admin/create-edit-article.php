@@ -106,9 +106,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $arguments = $receita;
         if ($id) {
             unset($arguments['imagem_alt_text']);
+            unset($arguments['data']);
+            unset($arguments['nome']);
+            unset($arguments['autor']);
+            unset($arguments['picture']);
+            echo "<pre>";
+            var_dump($arguments);
+            echo "</pre>";
             $guardada = $cms->getArticle()->update($arguments, $temp, $destination);
         } else {
             unset($arguments['id']);
+            unset($arguments['data']);
+            unset($arguments['nome']);
+            unset($arguments['autor']);
+            unset($arguments['picture']);
             $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
         }
         redirect('articles.php', ['success' => 'Artigo guardado']);  
@@ -177,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="imagem_guardada">Imagem:</label>  
                         <img src="../imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $autor ?>" id="imagem_guardada">
                         <br>
-                        <a href="image-delete.php?id=<?= $receita['id'] ?>">Apagar imagem</a>
+                        <a href="image-delete.php?id=<?= $id ?>">Apagar imagem</a>
                     <?php } ?>
                 </div>
                 <div id="div-video">

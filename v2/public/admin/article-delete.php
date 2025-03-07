@@ -3,7 +3,7 @@ require_once '../../src/bootstrap.php';
 
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$path = '../imagens/comida/';
+$path = APP_ROOT . 'public/imagens/comida/';
 
 if (!$id) {
     redirect('articles.php', ['failure' => 'Receita não encontrada']);

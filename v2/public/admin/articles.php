@@ -44,7 +44,7 @@ $failure = $_GET['failure'] ?? null;
         <section>
             <header>
                 <h1>Receitas</h1>
-                <a href="create-edit-article.html">Adicionar nova receita</a>
+                <a href="create-edit-article.php">Adicionar nova receita</a>
                 <?php if ($success) { ?> <div class="alert-success"><?= $success ?></div> <?php } ?>
                 <?php if ($failure) { ?> <div class="alert-failure"><?= $failure ?></div> <?php } ?>
             </header>
@@ -55,8 +55,8 @@ $failure = $_GET['failure'] ?? null;
                         <th scope="col">Título</th>
                         <th scope="col">Publicado</th>
                         <th scope="col">Autor</th>
-                        <th scope="col"><a href="create-edit-article.html">Editar</a></th>
-                        <th scope="col"><a href="article-delete.html">Apagar</a></th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Apagar</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -8,9 +8,9 @@ class Article {
     }
 
     public function get($id) {
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, 
-                r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
-                r.imagem_file, c.nome, m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, r.numero_pessoas, 
+                r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, r.imagem_file, r.categoria_id,
+                r.membro_id, c.nome, m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
                 JOIN membro AS m ON r.membro_id = m.id
@@ -18,19 +18,31 @@ class Article {
         return $this->db->runSQL($sql, [$id])->fetch();
     }
 
+    /*public function get($id) {
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, 
+                r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
+                r.imagem_file, r.categoria_id, r.membro_id, c.nome, m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
+                FROM receita AS r
+                JOIN categoria AS c ON r.categoria_id = c.id
+                JOIN membro AS m ON r.membro_id = m.id
+                WHERE r.id = :id;";
+        return $this->db->runSQL($sql, [$id])->fetch();
+    }*/
+
     public function getAll($category = null, $member = null) {
         $arguments['categoria'] = $category;
         $arguments['categoria1'] = $category;
         $arguments['membro'] = $member;
         $arguments['membro1'] = $member;
 
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file, r.data, m.id,
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file,
                 CONCAT(m.forename, ' ', m.surname) AS autor,
-                m.picture
+                m.picture 
                 FROM receita AS r
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE (r.categoria_id = :categoria OR :categoria1 IS null)
-                AND (r.membro_id = :membro OR :membro1 IS null);";
+                AND (r.membro_id = :membro OR :membro1 IS null)
+                ORDER BY id ASC;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
 
@@ -143,8 +155,10 @@ class Article {
         $sql = "SELECT imagem_file FROM receita WHERE id = :id";
         $file = $this->db->runSQL($sql, [$id])->fetchColumn();
 
-        if (file_exists($path . $file)) {
-            unlink($path . $file);
+        echo $path;
+
+        if (file_exists($path)) {
+            unlink($path);
         }
 
         $sql = "UPDATE receita SET imagem_file = null WHERE id = :id;";
