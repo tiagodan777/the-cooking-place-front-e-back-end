@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+hr.escondido {
+    display: none;
+}
+
+main {
+    width: calc(100vw - 300px);
+    margin-left: 265px;
+    margin-top: 85.5px;
+    border-top: 1px solid rgb(210, 210, 210);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+main > section#contatos {
+    width: 35%;
+}
+
+main > section#contatos > div  {
+    width: 100%;
+}
+
+main > section#contatos > div > a {
+    width: 100%;
+    color: var(--cor6);
+    text-decoration: none;
+    padding: 20px;
+    border-right: 1px solid rgb(210, 210, 210);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+iframe {
+    width: 65%;
+    height: 100vh;
+}

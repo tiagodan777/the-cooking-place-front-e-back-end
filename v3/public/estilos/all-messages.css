@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+
+h1 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.2em;
+    font-weight: bold;
+    align-self: center;
+}
+
+p {
+    font-weight: normal;
+    padding: 10px;
+}
+
+main {
+    margin-top: 80px;
+}
+
+main > section#contatos {
+    width: 100vw;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+main > section#contatos > div > a {
+    width: 100vw;
+    color: var(--cor6);
+    text-decoration: none;
+    padding: 20px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main > section#contatos > div > a:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+main > section#contatos > div > a > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgb(210, 210, 210);
+}

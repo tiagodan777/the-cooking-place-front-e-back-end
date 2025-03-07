@@ -42,7 +42,7 @@ $count = 0;
             <?php $data = postado_ha_x_horas($article['data']); ?>
             <article <?php if ($count == 0) { echo "id='primeiro-artigo'"; $count++; } ?>>
                 <header>
-                    <a href="profile.php?id=<?= $article['membro_id'] ?>">
+                    <a href="profile.php?id=<?= $article['id'] ?>">
                         <img src="imagens/fotos-perfil/<?= html_escape($article['picture']) ?>" alt="Foto de perfil de <?= html_escape($article['autor']) ?>">
                         <span class="nome"><?= html_escape($article['autor']) ?></span>
                     </a>

@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+html, body {
+    font-size: 1em;
+}
+
+header {
+    height: 70px;
+    border-bottom: 1px solid rgb(210, 210, 210);
+    padding: 10px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+header > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgb(210, 210, 210);
+}
+
+header > p {
+    font-weight: bold;
+}
+
+main {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+}
+
+p {
+    max-width: 550px;
+    min-width: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: normal;
+    margin: 5px;
+}
+
+div.recebida {
+    /*margin-left: 50px;*/
+    align-self: flex-start;
+}
+
+div.recebida > div.mensagens-recebidas {
+    color: var(--cor6);
+    margin-right: 150px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+div.recebida > div.mensagens-recebidas > p {
+    background-color: rgb(240, 240, 240);
+}
+
+div.enviada {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+
+    /*margin-right: 50px;*/
+    align-self: flex-end;
+}
+
+div.enviada > div.mensagens-enviadas {
+    color: var(--cor5);
+    margin-left: 150px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+div.enviada > div.mensagens-enviadas > p {
+    background-color: var(--cor3);
+}
+
+main > div > img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+section {
+    width: 95%;
+    position: fixed;
+    top: 70%;
+    left: 2.5%;
+    padding: 7px;
+    background-color: var(--cor5);
+    border: 1px solid rgb(210, 210, 210);
+    border-radius: 35px;
+}
+
+section > form > input#msg {
+    width: 85%;
+    padding: 10px;
+    border: none;
+}
+
+section > form > input#enviar {
+    background-color: var(--cor5);
+    color: var(--cor1);
+    border: none;
+    font-weight: bold;
+}
+
+section > form > input#enviar:hover {
+    cursor: pointer;
+    color: #c4652f;
+}
+
+section > form > input[type="text"]:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #ccc;
+}
