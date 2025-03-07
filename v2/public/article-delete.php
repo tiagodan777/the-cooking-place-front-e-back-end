@@ -1,3 +1,25 @@
+<?php
+require_once '../src/bootstrap.php';
+
+
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$path = APP_ROOT . 'public/imagens/comida/';
+
+if (!$id) {
+    redirect('profile.php', ['failure' => 'Receita não encontrada']);
+}
+
+$receita = $cms->getArticle()->get($id);
+if (!$receita) {
+    redirect('profile.php', ['failure' => 'Receita não encontrada']);
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $cms->getArticle()->imageDelete($id, $path);
+    $cms->getArticle()->delete($id);
+    redirect('profile.php', ['success' => 'Receita apagada com sucesso']);
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -38,12 +60,12 @@
         <section id="apagar">
             <h2>Apagar Receita</h2>
             <section id="dados">
-                <p>Confirma para apagar a receita: Sushi</p>
-                <img src="imagens/comida/sushi.jpg" alt="Foto de sushi">
+                <p>Confirma para apagar a receita: <?= html_escape($receita['titulo']) ?></p>
+                <img src="imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?>">
             </section>
             <section id="opcoes">
-                <form action="#" method="post">
-                    <a href="index.php">Cancelar</a>
+                <form action="article-delete.php?id=<?= $id ?>" method="post">
+                    <a href="article.php?id=<?= $id ?>">Cancelar</a>
                     <input type="submit" value="Confirmar">
                 </form>
             </section>
