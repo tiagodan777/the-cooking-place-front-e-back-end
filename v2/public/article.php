@@ -1,24 +1,12 @@
 <?php
-require_once 'includes/database-conection.php';
-require_once 'includes/functions.php';
+require_once '../src/bootstrap.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id) {
     include 'error-page.php';
 }
 
-$sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo,
-        r.unidade_tempo, r.numero_pessoas, r.ingredientes, r.quantidades,
-        r.passos_preparacao, r.keywords, r.imagem_file, r.imagem_alt_text,
-        r.video_file, r.categoria_id, r.membro_id,
-        m.id, 
-        CONCAT(m.forename, ' ', m.surname) AS autor,
-        m.picture
-        FROM receita AS r
-        JOIN membro AS m ON r.membro_id = m.id
-        WHERE r.id = :id;";
-
-$receita = pdo($pdo, $sql, [$id])->fetch();
+$receita = $cms->getArticle()->get($id);
 if (!$receita) {
     include 'error-page.php';
 }
@@ -66,7 +54,7 @@ $passos_preparacao = explode('#', $receita['passos_preparacao']);
             <section id="imagem">
                 <picture>
                     <source media="(max-width: 700px)" srcset="imagens/comida/croppped/<?= $receita['imagem_file'] ?>">
-                    <img src="imagens/comida/<?= $receita['imagem_file'] ?>" alt="<?= $receita['imagem_alt_text'] ?>">
+                    <img src="imagens/comida/<?= $receita['imagem_file'] ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $receita['autor'] ?>">
                 </picture>
             </section>
             <section id="info">

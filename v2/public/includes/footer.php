@@ -1,11 +1,6 @@
 <?php
-require_once 'includes/database-conection.php';
-require_once 'includes/functions.php';
-
-$sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture 
-        FROM membro 
-        WHERE id = 1;";
-$membro = pdo($pdo, $sql)->fetch();
+//require_once '../../src/bootstrap.php';
+$membro = $cms->getMember()->get(1);
 ?>
 <footer>
         <a href="index.php"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>

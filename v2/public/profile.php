@@ -1,25 +1,17 @@
 <?php
-require_once 'includes/database-conection.php';
-require_once 'includes/functions.php';
+require_once '../src/bootstrap.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id) {
     include 'error-page.php';
 }
 
-$sql = "SELECT id, CONCAT(forename, ' ', surname) AS full_name, joined, bio, picture
-        FROM membro
-        WHERE id = :id;";
-
-$membro = pdo($pdo, $sql, [$id])->fetch();
+$membro = $cms->getMember()->get($id);
 if (!$membro) {
     include 'error-page.php';
 }
 
-$sql = "SELECT id, imagem_file, imagem_alt_text , membro_id
-        FROM receita
-        WHERE membro_id = :id;";
-$receitas = pdo($pdo, $sql, [$id])->fetchAll();
+$receitas = $cms->getArticle()->getAll(member:$id);
 ?>
 <!DOCTYPE html>
 <html lang="pt-pt">
@@ -57,10 +49,10 @@ $receitas = pdo($pdo, $sql, [$id])->fetchAll();
     <main>
         <header>
             <div id="foto_e_bio">
-                <img src="imagens/fotos-perfil/<?= $membro['picture'] ?>" alt="Foto de perfil de <?= $membro['full_name'] ?>">
+                <img src="imagens/fotos-perfil/<?= $membro['picture'] ?>" alt="Foto de perfil de <?= $membro['nome'] ?>">
                 <p><?= $membro['bio'] ?></p>
             </div>
-            <h1><?= $membro['full_name'] ?></h1>
+            <h1><?= $membro['nome'] ?></h1>
             <div id="estatisticas_numeros">
                 <span>1M</span>
                 <span>399</span>
@@ -76,7 +68,7 @@ $receitas = pdo($pdo, $sql, [$id])->fetchAll();
         <section>
             <div>
                 <?php foreach ($receitas as $receita) { ?>
-                    <a href="article.php?id=<?= $receita['id'] ?>"><img src="imagens/comida/<?= $receita['imagem_file'] ?>" alt="Foto de <?= $receita['imagem_alt_text'] ?>"></a>
+                    <a href="article.php?id=<?= $receita['id'] ?>"><img src="imagens/comida/<?= $receita['imagem_file'] ?>" alt="Foto de <?= $receita['titulo'] ?> publicada por <?= $receita['autor'] ?>"></a>
                 <?php } ?>
         </section>
     </main>

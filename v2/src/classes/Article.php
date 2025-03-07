@@ -9,7 +9,7 @@ class Article {
 
     public function get($id) {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, r.numero_pessoas, 
-                r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, r.imagem_file, r.categoria_id,
+                r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, r.imagem_file, r.video_file, r.categoria_id,
                 r.membro_id, c.nome, m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
@@ -35,7 +35,7 @@ class Article {
         $arguments['membro'] = $member;
         $arguments['membro1'] = $member;
 
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file,
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id,
                 CONCAT(m.forename, ' ', m.surname) AS autor,
                 m.picture 
                 FROM receita AS r
@@ -71,7 +71,7 @@ class Article {
         return $this->db->runSQL($sql, $arguments)->fetchColumn();
     }
 
-    public function search($term) {
+    public function search($term, $show, $from) {
         $arguments['term1'] = '%' . $term . '%';
         $arguments['term2'] = '%' . $term . '%';
         $arguments['term3'] = '%' . $term . '%';
@@ -80,8 +80,12 @@ class Article {
         $arguments['term6'] = '%' . $term . '%';
         $arguments['term7'] = '%' . $term . '%';
         $arguments['term8'] = '%' . $term . '%';
+        $arguments['show'] = $show;
+        $arguments['from'] = $from;
 
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file FROM receita AS r
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file,
+                CONCAT(m.forename, ' ', m.surname) AS autor
+                FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE r.titulo LIKE :term1
@@ -91,7 +95,9 @@ class Article {
                 OR r.keywords LIKE :term5
                 OR c.nome LIKE :term6
                 OR m.forename LIKE :term7
-                OR m.surname LIKE :term8;";
+                OR m.surname LIKE :term8
+                LIMIT :show
+                OFFSET :from;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
 

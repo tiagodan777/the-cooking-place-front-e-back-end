@@ -1,18 +1,9 @@
 <?php
-require_once 'includes/database-conection.php';
-require_once 'includes/functions.php';
+require_once '../src/bootstrap.php';
 
-$sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id,
-        CONCAT(m.forename, ' ', m.surname) AS autor,
-        m.picture
-        FROM receita AS r
-        JOIN membro AS m ON r.membro_id = m.id;";
-$articles = pdo($pdo, $sql)->fetchAll();
+$articles = $cms->getArticle()->getAll();
 
-$sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture 
-        FROM membro 
-        WHERE id = 1;";
-$membro = pdo($pdo, $sql)->fetch();
+$membro = $cms->getMember()->get(1);
 $count = 0;
 ?>
 <!DOCTYPE html>

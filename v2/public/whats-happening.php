@@ -1,13 +1,7 @@
 <?php
-require_once 'includes/database-conection.php';
-require_once 'includes/functions.php';
+require_once '../src/bootstrap.php';
 
-$sql = "SELECT q.titulo, q.descricao, q.file, q.receita_acoplada_id, q.membro_id,
-        m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
-        FROM quik AS q
-        JOIN membro AS m ON q.membro_id = m.id;";
-
-$quiks = pdo($pdo, $sql)->fetchAll();
+$quiks = $cms->getQuik()->getAll();
 $i = 1;
 ?>
 <!DOCTYPE html>

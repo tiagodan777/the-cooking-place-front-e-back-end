@@ -1,17 +1,9 @@
 <?php
-require_once 'includes/database-conection.php';
-require_once 'includes/functions.php';
+require_once '../src/bootstrap.php';
 
 $link = '';
 
-$sql = "SELECT n.mensagem, n.emissor_id,
-        CONCAT(m.forename, ' ', m.surname) AS emissor,
-        m.picture
-        FROM notificacao AS n
-        JOIN membro AS m ON n.emissor_id = m.id
-        WHERE n.recetor_id = '1';";
-
-$notificacoes = pdo($pdo, $sql)->fetchAll();
+$notificacoes = $cms->getNotification()->getAll(1);
 ?>
 <!DOCTYPE html>
 <html lang="pt-pt">

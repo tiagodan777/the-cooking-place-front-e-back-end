@@ -1,6 +1,5 @@
 <?php
-require_once 'includes/database-conection.php';
-require_once 'includes/functions.php';
+require_once '../src/bootstrap.php';
 
 $term = filter_input(INPUT_GET, 'search');
 $show = filter_input(INPUT_GET, 'show', FILTER_VALIDATE_INT) ?? 15;
@@ -11,33 +10,10 @@ $receitas = [];
 $arguments = [];
 
 if ($term) {
-    $arguments['term1'] = '%' . $term . '%';
-    $arguments['term2'] = '%' . $term . '%';
-    $arguments['term3'] = '%' . $term . '%';
-    $arguments['term4'] = '%' . $term . '%';
-    $arguments['term5'] = '%' . $term . '%';
-
-    $sql = "SELECT COUNT(titulo) FROM receita
-            WHERE titulo LIKE :term1
-            OR descricao LIKE :term2
-            OR ingredientes LIKE :term3
-            OR passos_preparacao LIKE :term4
-            OR keywords LIKE :term5;";
-    $count = pdo($pdo, $sql, $arguments)->fetchColumn();
+    $count = $cms->getArticle()->searchCount($term);
 
     if ($count > 0) {
-        $arguments['show'] = $show;
-        $arguments['from'] = $from;
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file, r.imagem_alt_text
-                FROM receita AS r
-                WHERE titulo LIKE :term1
-                OR descricao LIKE :term2
-                OR ingredientes LIKE :term3
-                OR passos_preparacao LIKE :term4
-                OR keywords LIKE :term5
-                LIMIT :show
-                OFFSET :from;";
-        $receitas = pdo($pdo, $sql, $arguments)->fetchAll();
+        $receitas = $cms->getArticle()->search($term, $show, $from);
     }
 }
 
@@ -91,7 +67,7 @@ if ($count > $show) {
         <?php foreach ($receitas as $receita) { ?>
             <div>
                 <a href="article.php?id=<?= $receita['id'] ?>">
-                    <img src="imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="<?= html_escape($receita['imagem_alt_text']) ?>">
+                    <img src="imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= html_escape($receita['autor']) ?>">
                 </a>
                 <footer class="info">
                     <h1><?= html_escape($receita['titulo']) ?></h1>
