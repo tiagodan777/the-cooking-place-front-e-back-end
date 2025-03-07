@@ -24,7 +24,7 @@ $failure = $_GET['failure'] ?? null;
 <body>
     <header id="cabecalho-principal">
         <h1>
-            <a href="../pagina-principal.html">
+            <a href="index.php">
                 <picture>
                     <source media="(max-width: 600px)" srcset="../imagens/logos/logo-pp.png">
                     <img src="../imagens/logos/logo-p.png" alt="Logo do The Cooking Place">
