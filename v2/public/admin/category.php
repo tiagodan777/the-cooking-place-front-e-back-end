@@ -1,7 +1,5 @@
 <?php
-require_once '../includes/database-conection.php';
-require_once '../includes/functions.php';
-require_once '../includes/validade.php';
+require_once '../../src/bootstrap.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $categoria = [
@@ -16,10 +14,7 @@ $erros = [
 ];
 
 if ($id) {
-    $sql = "SELECT id, nome , descricao
-            FROM categoria
-            WHERE id = :id;";
-    $categoria = pdo($pdo, $sql, [$id])->fetch();
+    $categoria = $cms->getCategory()->get($id);
     if (!$categoria) {
         redirect('categories.php', ['falha' => 'Categoria não encontrada']);
     }
@@ -29,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $categoria['nome'] = $_POST['nome'];
     $categoria['descricao'] = $_POST['descricao'];
 
-    $erros['nome'] = is_text($categoria['nome'], 1, 32) ? '' : 'O nome da categoria deve ter entre 1 e 32 caracteres';
-    $erros['descricao'] = is_text($categoria['descricao'], 1, 256) ? '' : 'A descrição da categoria deve ter entre 1 e 256 catacteres';
+    $erros['nome'] = Validate::isText($categoria['nome'], 1, 32) ? '' : 'O nome da categoria deve ter entre 1 e 32 caracteres';
+    $erros['descricao'] = Validate::isText($categoria['descricao'], 1, 256) ? '' : 'A descrição da categoria deve ter entre 1 e 256 catacteres';
 
     $invalido = implode($erros);
 
@@ -39,33 +34,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $arguments = $categoria;
         if ($id) {
-            $sql = "UPDATE categoria
-                    SET nome = :nome
-                    descricao = :descricao
-                    WHERE id = :id";
+            $guardado = $cms->getCategory()->update($arguments);
         } else {
             unset($arguments['id']);
-            $sql = "INSERT INTO categoria (nome, descricao) VALUES
-            (:nome, :descricao);";
+            $guardado = $cms->getCategory()->create($arguments);
         }
 
-        try {
-            pdo($pdo, $sql, $arguments);
+        if ($guardado) {
             redirect('categories.php', ['success' => 'Categoria guardada']);
-        } catch (PDOException $e) {
-            if ($e->errorInfo[1] === 1062) {
-                $erros['warning'] = 'O nome "' . $arguments['nome'] . '" já foi utilizado noutra categoria';
-            } else {
-                throw $e;
-            }
+        } 
+        else {
+            $erros['warning'] = 'O nome "' . $arguments['nome'] . '"  já foi utilizado noutra categoria';
         }
     }
 }
 
-$sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture 
-        FROM membro 
-        WHERE id = 1;";
-$membro = pdo($pdo, $sql)->fetch();
+$membro = $cms->getMember()->get(1);
 ?>
 <!DOCTYPE html>
 <html lang="pt-pt">
@@ -107,7 +91,7 @@ $membro = pdo($pdo, $sql)->fetch();
             <?php if ($erros['warning']) { ?>
                 <div class="alter-failure"><?= $erros['warning'] ?></div>
             <?php } ?>
-            <form action="category.php" method="post">
+            <form action="category.php?id=<?= $id ?>" method="post">
                 <div id="div-nome">
                     <label for="nome">Nome:</label>
                     <input type="text" name="nome" id="nome" value="<?= html_escape($categoria['nome']) ?>">

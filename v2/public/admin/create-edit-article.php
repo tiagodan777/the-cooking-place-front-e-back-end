@@ -1,12 +1,5 @@
 <?php
-require_once '../includes/database-conection.php';
-require_once '../includes/functions.php';
-require_once '../includes/validade.php';
-
-$uploads = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'imagens/comida' . DIRECTORY_SEPARATOR;
-$file_types = ['image/jpeg', 'image/png', 'image/gif',];
-$file_exts = ['jpeg', 'jpg', 'png', 'gif',];
-$max_size = 5240880;
+require_once '../../src/bootstrap.php';
 
 $unidades_tempo = ['min', 'hr'];
 
@@ -48,37 +41,30 @@ $erros = [
 ];
 
 if ($id) {
-    $sql = "SELECT id, titulo, descricao, tempo_preparo, unidade_tempo,
-            numero_pessoas, ingredientes, quantidades, passos_preparacao,
-            keywords, imagem_file, imagem_alt_text, categoria_id, membro_id
-            FROM receita
-            WHERE id = :id;";
-    $receita = pdo($pdo, $sql, [$id])->fetch();
+    $receita = $cms->getArticle()->get($id);
     if (!$receita) {
-        redirect('article.php', ['failure' => 'Receita não encontrada']);
+        redirect('articles.php', ['failure' => 'Receita não encontrada']);
     }
 }
 
 $saved_image = $receita['imagem_file'] ? true : false;
 
-$sql = "SELECT id, nome FROM categoria ORDER BY id;";
-$categorias = pdo($pdo, $sql)->fetchAll();
+$categorias = $cms->getCategory()->getAll();
 
-$sql = "SELECT id, forename, surname FROM membro;";
-$autores = pdo($pdo, $sql)->fetchAll();
+$autores = $cms->getMember()->getAll();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $erros['imagem_file'] = ($temp === '' && $erro_com_a_imagem === 1) ? 'Ficheiro demasiado grande' : '';
 
     if ($temp && $_FILES['imagem']['error'] === 0) {
-        $erros['imagem_file'] .= in_array(mime_content_type($temp), $file_types) ? '' : 'Tipo de ficherio não permitido';
+        $erros['imagem_file'] .= in_array(mime_content_type($temp), MEDIA_TYPES) ? '' : 'Tipo de ficherio não permitido';
         $ext = strtolower(pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION));
-        $erros['imagem_file'] .= in_array($ext, $file_exts) ? '' : 'Tipo de extensão não permitida';
-        $erros['imagem_file'] .= ($_FILES['imagem']['size'] <= $max_size) ? '' : 'Ficherio demasiado grande';
+        $erros['imagem_file'] .= in_array($ext, FILE_EXTENSIONS) ? '' : 'Tipo de extensão não permitida';
+        $erros['imagem_file'] .= ($_FILES['imagem']['size'] <= MAX_SIZE) ? '' : 'Ficherio demasiado grande';
 
         if ($erros['imagem_file'] === '') {
-            $receita['imagem_file'] = create_filename($_FILES['imagem']['name'], $uploads);
-            $destination = $uploads . $receita['imagem_file'];
+            $receita['imagem_file'] = create_filename($_FILES['imagem']['name'], UPLOADS);
+            $destination = UPLOADS . $receita['imagem_file'];
         }
     }
 
@@ -96,21 +82,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     foreach ($autores as $autor) {
         if ($receita['membro_id'] == $autor['id']) {
-            $autor = $autor['forename'] . ' ' . $autor['surname'];
+            $autor = $autor['nome'];
         }
     }
 
-    $erros['titulo'] = is_text($receita['titulo'], 1, 64) ? '' : 'O título deve ter entre 1 e 64 caracteres';
-    $erros['descricao'] = is_text($receita['descricao'], 1, 256) ? '' : 'A descrição deve ter entre 1 e 256 caracteres';
-    $erros['tempo_preparo'] = is_number($receita['tempo_preparo'], 0, 60) ? '' : 'O tempo de preparo deve ser entre 1 e 60';
+    $erros['titulo'] = Validate::isText($receita['titulo'], 1, 64) ? '' : 'O título deve ter entre 1 e 64 caracteres';
+    $erros['descricao'] = Validate::isText($receita['descricao'], 1, 256) ? '' : 'A descrição deve ter entre 1 e 256 caracteres';
+    $erros['tempo_preparo'] = Validate::isNumber($receita['tempo_preparo'], 0, 60) ? '' : 'O tempo de preparo deve ser entre 1 e 60';
     $erros['unidade_tempo'] = in_array($receita['unidade_tempo'], $unidades_tempo) ? '' : 'A unidade de tempo deve ser minutos ou horas';
-    $erros['numero_pessoas'] = is_number($receita['numero_pessoas'], 0, 16) ? '' : 'O número de pessoas deve ser entre 1 e 16';
-    $erros['ingredientes'] = is_text($receita['ingredientes'], 0, 1024) ? '' : 'A soma de todos os caracteres de todos os ingredientes não deve ser maior que 1024';
-    $erros['quantidades'] = is_text($receita['quantidades'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as quantiades não deve ser maior que 1024';
-    $erros['passos_preparacao'] = is_text($receita['passos_preparacao'], 0, 65244) ? '' : 'A soma de todos oscaracteres de todos os passos de preparação não deve ser maior que 65244';
-    $erros['keywords'] = is_text($receita['keywords'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as keywords não deve ser mairo que 1024';
-    $erros['categoria_id'] = is_category_id($receita['categoria_id'], $categorias) ? '' : 'A categoria selectionada não é válida';
-    $erros['membro_id'] = is_member_id($receita['membro_id'], $autores);
+    $erros['numero_pessoas'] = Validate::isNumber($receita['numero_pessoas'], 0, 16) ? '' : 'O número de pessoas deve ser entre 1 e 16';
+    $erros['ingredientes'] = Validate::isText($receita['ingredientes'], 0, 1024) ? '' : 'A soma de todos os caracteres de todos os ingredientes não deve ser maior que 1024';
+    $erros['quantidades'] = Validate::isText($receita['quantidades'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as quantiades não deve ser maior que 1024';
+    $erros['passos_preparacao'] = Validate::isText($receita['passos_preparacao'], 0, 65244) ? '' : 'A soma de todos oscaracteres de todos os passos de preparação não deve ser maior que 65244';
+    $erros['keywords'] = Validate::isText($receita['keywords'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as keywords não deve ser mairo que 1024';
+    $erros['categoria_id'] = Validate::isCategoryId($receita['categoria_id'], $categorias) ? '' : 'A categoria selectionada não é válida';
+    $erros['membro_id'] = Validate::isMemberId($receita['membro_id'], $autores);
 
     $invalid = implode($erros);
 
@@ -118,44 +104,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $erros['warning'] = 'Por favor corrige os error seguintes';
     } else {
         $arguments = $receita;
-        try {
-            if ($destination) {
-                $imagick = new Imagick($temp);
-                $imagick->cropThumbnailImage(500, 500);
-                $imagick->writeImage($destination);
-            }
-    
-            if ($id) {
-                unset($arguments['imagem_alt_text']);
-                $sql = "UPDATE receita
-                        SET titulo = :titulo, descricao = :descricao, tempo_preparo = :tempo_preparo,
-                            unidade_tempo = :unidade_tempo, numero_pessoas = :numero_pessoas, ingredientes = :ingredientes,
-                            quantidades = :quantidades, passos_preparacao = :passos_preparacao, keywords = :keywords,
-                            imagem_file = :imagem_file, categoria_id = :categoria_id, membro_id = :membro_id
-                        WHERE id = :id;";
-                echo "<pre>";
-                var_dump($receita);
-                var_dump($arguments);
-                echo "</pre>";
-            } else {
-                unset($arguments['id']);
-                /*echo "<pre>";
-                var_dump($receita);
-                var_dump($arguments);
-                echo "</pre>";*/
-                $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas,
-                                            ingredientes, quantidades, passos_preparacao, keywords, imagem_file, categoria_id, membro_id) VALUES
-                        (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades,
-                        :passos_preparacao, :keywords, :imagem_file, :categoria_id, :membro_id);";
-            }
-            pdo($pdo, $sql, $arguments);
-            redirect('articles.php', ['success' => 'Artigo guardado']);  
-        } catch (PDOException $e) {
-            if (file_exists($destination)) {
-                unlink($destination);
-            }
-            throw $e;
+        if ($id) {
+            unset($arguments['imagem_alt_text']);
+            $guardada = $cms->getArticle()->update($arguments, $temp, $destination);
+        } else {
+            unset($arguments['id']);
+            $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
         }
+        redirect('articles.php', ['success' => 'Artigo guardado']);  
     }
     $receita['imagem_file'] = $saved_image ? $receita['imagem_file'] : '';
 }
@@ -282,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="membro_id">Membro</label>
                     <select name="membro_id" id="membros_id">
                         <?php foreach ($autores as $autor) { ?>
-                            <option value="<?= $autor['id'] ?>" <?= ($autor['id'] == $receita['membro_id']) ? 'selected' : '' ?>><?= html_escape($autor['forename'] . ' ' . $autor['surname']) ?></option>
+                            <option value="<?= $autor['id'] ?>" <?= ($autor['id'] == $receita['membro_id']) ? 'selected' : '' ?>><?= html_escape($autor['nome']) ?></option>
                         <?php } ?>
                     </select>
                     <span class="error"><?= $erros['membro_id'] ?></span>

@@ -1,33 +1,22 @@
 <?php 
-require_once '../includes/database-conection.php';
-require_once '../includes/functions.php';
+require_once '../../src/bootstrap.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$categoria = '';
-
 if (!$id) {
     redirect('categories.php', ['failure' => 'Categoria não encontrada']);
 }
 
-$sql = "SELECT nome FROM categoria
-        WHERE id = :id;";
-$categoria = pdo($pdo, $sql, [$id])->fetchColumn();
+$categoria = $cms->getCategory()->get($id);
 if (!$categoria) {
     redirect('categories.php', ['failure' => 'Categoria não encontrada']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    try {
-        $sql = "DELETE FROM categoria 
-                WHERE id = :id;";
-        pdo($pdo, $sql, [$id]);
+    $apagada = $cms->getCategory()->delete($id);
+    if ($apagada) {
         redirect('categories.php', ['success' => 'Categoria apagada']);
-    } catch (PDOException $e) {
-        if ($e->errorInfo[1] === 1451) {
-            redirect('categories.php', ['failure' => 'Existem artigos que pertencem a esta categoria que têm de ser apagados ou colocados noutra categoria']);
-        } else {
-            throw $e;
-        }
+    } else {
+        redirect('categories.php', ['failure' => 'Existem artigos que pertencem a esta categoria que têm de ser apagados ou colocados noutra categoria']);
     }
 }
 ?>
@@ -67,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <section id="apagar">
             <h2>Apagar Categoria</h2>
             <section id="dados">
-                <p>Confirma para apagar a categoria: <span><?= $categoria ?></span></p>
+                <p>Confirma para apagar a categoria: <span><?= $categoria['nome'] ?></span></p>
             </section>
             <section id="opcoes">
                 <form action="category-delete.php?id=<?= $id ?>" method="post">

@@ -49,19 +49,19 @@ function create_filename($basename, $upload_path) {
     return $basename;
 }
 
-set_error_handler('handle_error');
+//set_error_handler('handle_error');
 function handle_error($type, $message, $file, $line) {
     throw new ErrorException($message, 0, $type, $file, $line);
 } 
 
-set_exception_handler('handle_exception');
+//set_exception_handler('handle_exception');
 function handle_exception($e) {
     error_log($e);
     http_response_code(500);
     echo "<h1>Desculpa, ocurreu um problema</h1>";
 }
 
-register_shutdown_function('handle_shutdown');
+//register_shutdown_function('handle_shutdown');
 function handle_shutdown() {
     $error = error_get_last();
     if ($error) {

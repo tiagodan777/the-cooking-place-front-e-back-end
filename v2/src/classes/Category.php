@@ -1,4 +1,4 @@
-l<?php
+<?php
 class Category {
     private $db;
 
@@ -19,7 +19,7 @@ class Category {
     }
 
     public function count() {
-        $sql = "SELECT COUNT(*) FROM categoria;";
+        $sql = "SELECT COUNT(*) FROM categoria";
         return $this->db->runSQL($sql)->fetchColumn();
     }
 

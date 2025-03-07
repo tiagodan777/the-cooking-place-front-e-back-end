@@ -1,19 +1,12 @@
 <?php
-require_once '../includes/database-conection.php';
-require_once '../includes/functions.php';
+require_once '../../src/bootstrap.php';
+
+$categorias = $cms->getCategory()->getAll();
+
+$membro = $cms->getMember()->get(1);
 
 $success = $_GET['success'] ?? null;
 $failure = $_GET['failure'] ?? null;
-
-$sql = "SELECT id, nome, descricao 
-        FROM categoria;";
-
-$categorias = pdo($pdo, $sql)->fetchAll();
-
-$sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture 
-        FROM membro 
-        WHERE id = 1;";
-$membro = pdo($pdo, $sql)->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="pt-pt">

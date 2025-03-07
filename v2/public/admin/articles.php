@@ -1,11 +1,7 @@
 <?php
-require_once '../includes/database-conection.php';
-require_once '../includes/functions.php';
+require_once '../../src/bootstrap.php';
 
-$sql = "SELECT r.id, r.titulo, r.data, r.imagem_file, CONCAT(m.forename, ' ', m.surname) AS autor
-        FROM receita AS r
-        JOIN membro AS m ON r.membro_id = m.id;";
-$receitas = pdo($pdo, $sql)->fetchAll();
+$receitas = $cms->getArticle()->getAll();
 
 $success = $_GET['success'] ?? null;
 $failure = $_GET['failure'] ?? null;
@@ -34,7 +30,7 @@ $failure = $_GET['failure'] ?? null;
                 </picture>
             </a>
         </h1>
-        <form action="#" method="get">
+        <form action="../search.php" method="get">
             <input type="search" name="search" id="search" placeholder="Pesquisa">
             <input type="submit" value="Pesquisar" class="escondido">
         </form>

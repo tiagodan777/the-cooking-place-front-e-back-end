@@ -19,4 +19,9 @@ class Member {
                 FROM membro;";
         return $this->db->runSQL($sql)->fetchAll();
     }
+
+    public function count() {
+        $sql = "SELECT COUNT(*) FROM membro;";
+        return $this->db->runSQL($sql)->fetchColumn();
+    }
 }

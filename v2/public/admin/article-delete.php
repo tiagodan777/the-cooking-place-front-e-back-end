@@ -1,6 +1,6 @@
 <?php
-require_once '../includes/database-conection.php';
-require_once '../includes/functions.php';
+require_once '../../src/bootstrap.php';
+
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $path = '../imagens/comida/';
@@ -9,18 +9,14 @@ if (!$id) {
     redirect('articles.php', ['failure' => 'Receita não encontrada']);
 }
 
-$sql = "SELECT id, titulo, imagem_file FROM receita WHERE id = :id";
-$receita = pdo($pdo, $sql, [$id])->fetch();
+$receita = $cms->getArticle()->get($id);
 if (!$receita) {
     redirect('articles.php', ['failure' => 'Receita não encontrada']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (file_exists($path . $receita['imagem_file']) && $receita['imagem_file'] != null) {
-        unlink($path . $receita['imagem_file']);
-    }
-    $sql = "DELETE FROM receita where id = :id";
-    pdo($pdo, $sql, [$id]);
+    $cms->getArticle()->imageDelete($id, $path);
+    $cms->getArticle()->delete($id);
     redirect('articles.php', ['success' => 'Receita apagada com sucesso']);
 }
 ?>
@@ -49,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </picture>
             </a>
         </h1>
-        <form action="#" method="get">
+        <form action="../search.php" method="get">
             <input type="search" name="search" id="search" placeholder="Pesquisa">
             <input type="submit" value="Pesquisar" class="escondido">
         </form>

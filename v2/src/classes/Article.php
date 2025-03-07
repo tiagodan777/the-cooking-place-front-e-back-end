@@ -9,12 +9,12 @@ class Article {
 
     public function get($id) {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, 
-                r.numero_pessoas, r.ingredientes, r.quantiades, r.passos_preparacao, r.keywords, 
+                r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
                 r.imagem_file, c.nome, m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
                 JOIN membro AS m ON r.membro_id = m.id
-                WHERE id = :id;";
+                WHERE r.id = :id;";
         return $this->db->runSQL($sql, [$id])->fetch();
     }
 
@@ -24,14 +24,14 @@ class Article {
         $arguments['membro'] = $member;
         $arguments['membro1'] = $member;
 
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file, m.id
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file, r.data, m.id,
                 CONCAT(m.forename, ' ', m.surname) AS autor,
                 m.picture
                 FROM receita AS r
-                JOIN membro AS m ON r.membro_id = r.id
-                WHERE (r.categoria_id = :categoria OR categoria1 IS NULL)
-                AND (r.membro_id = :membro OR membro1 IS NULL);";
-        return $this->db->runSQL($sql)->fetchAll();
+                JOIN membro AS m ON r.membro_id = m.id
+                WHERE (r.categoria_id = :categoria OR :categoria1 IS null)
+                AND (r.membro_id = :membro OR :membro1 IS null);";
+        return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
 
     public function searchCount($term) {
@@ -84,9 +84,9 @@ class Article {
     }
 
     public function count() {
-        $sql = "SELECT COUNT(*) FROM article;";
+        $sql = "SELECT COUNT(*) FROM receita;";
 
-        return $this->db->runSQL($sql);
+        return $this->db->runSQL($sql)->fetchColumn();
     }
 
     public function create($article, $temp, $destination) {
@@ -135,7 +135,7 @@ class Article {
     public function delete($id) {
         $sql = "DELETE FROM receita WHERE id = :id;";
 
-        $this->db->runSQL($sql);
+        $this->db->runSQL($sql, [$id]);
         return true;
     }
 

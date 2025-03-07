@@ -1,20 +1,13 @@
 <?php
-require_once '../includes/database-conection.php';
-require_once '../includes/functions.php';
+require_once '../../src/bootstrap.php';
 
-$sql = "SELECT COUNT(*) FROM categoria;";
-$categorias = pdo($pdo, $sql)->fetchColumn();
+$categorias = $cms->getCategory()->count();
 
-$sql = "SELECT COUNT(*) FROM receita;";
-$receitas = pdo($pdo, $sql)->fetchColumn();
+$receitas = $cms->getArticle()->count();
 
-$sql = "SELECT COUNT(*) FROM membro;";
-$membros = pdo($pdo, $sql)->fetchColumn();
+$membros = $cms->getMember()->count();
 
-$sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, picture 
-        FROM membro 
-        WHERE id = 1;";
-$membro = pdo($pdo, $sql)->fetch();
+$membro = $cms->getMember()->get(1);
 ?>
 <!DOCTYPE html>
 <html lang="pt-pt">
