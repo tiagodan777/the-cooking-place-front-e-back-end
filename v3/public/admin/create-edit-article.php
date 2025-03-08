@@ -1,4 +1,6 @@
 <?php
+use TiagoDaniel\Validate\Validate;
+
 require_once '../../src/bootstrap.php';
 
 $unidades_tempo = ['min', 'hr'];

@@ -1,4 +1,6 @@
 <?php
+namespace TiagoDaniel\Validate;
+
 class Validate {
     public static function isNumber($number, $min = 0, $max = 100) {
         return ($number >= $min && $number <= $max);
