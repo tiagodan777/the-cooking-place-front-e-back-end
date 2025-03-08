@@ -82,6 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $receita['membro_id'] = $_POST['membro_id'];
     $receita['categoria_id'] = $_POST['categoria_id'];
 
+    $purifier = new HTMLPurifier();
+    $purifier->config->set('HTML.Allowed', 'p,br,strong,em,a[href],img[src|alt]');
+    $receita['passos_preparacao'] = $purifier->purify($receita['passos_preparacao']);
+
     foreach ($autores as $autor) {
         if ($receita['membro_id'] == $autor['id']) {
             $autor = $autor['nome'];
@@ -150,6 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-indent: <?= ($receita['imagem_file'] != '') ? '-225px' : '0px' ?>;
         }
     </style>
+    <script src="https://cdn.tiny.cloud/1/15o0mmza4d35kbiaelkhhskfnwqu38tiwme0qzhshegll8zr/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body>
     <header id="cabecalho-principal">
@@ -285,8 +290,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             foreach ($passos_preparacao as $passo) {?>
                                 <div class="textarea">
                                     <label for="passo<?= $i ?>">Passo <?= $i ?></label>
-                                    <textarea name="passo<?= $i ?>" id="passo<?= $i ?>" cols="40" rows="7"><?= html_escape($passo) ?></textarea>
-                                    <span class="error"><?= $erros['passos_preparacao'] ?></span>
+                                    <script>
+                                        tinymce.init({
+                                            selector: 'textarea',
+                                            plugins: [
+                                            // Core editing features
+                                            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+                                            // Your account includes a free trial of TinyMCE premium features
+                                            // Try the most popular premium features until Mar 22, 2025:
+                                            'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+                                            ],
+                                            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                                            tinycomments_mode: 'embedded',
+                                            tinycomments_author: 'Author name',
+                                            mergetags_list: [
+                                            { value: 'First.Name', title: 'First Name' },
+                                            { value: 'Email', title: 'Email' },
+                                            ],
+                                            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+                                        });
+                                        </script>
+                                        <textarea name="passo<?= $i ?>" id="passo<?= $i ?>"><?= $passo ?></textarea>
+                                        <span class="error"><?= $erros['passos_preparacao'] ?></span>
                                 </div>
                         <?php
                             $i++;
