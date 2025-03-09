@@ -17,15 +17,15 @@ function html_escape($text) {
 function postado_ha_x_horas($string) {
     $idade = time() - 3600 - strtotime($string);
     if ($idade < 60) {
-        return [date('s', $idade), 'segundos'];
+        return date('s', $idade) . ' segundos';
     } elseif($idade < 3600) {
-        return [date('i', $idade), 'minutos'];
+        return date('i', $idade) . ' minutos';
     } elseif ($idade < 86400) {
-        return [date('G', $idade), 'horas'];
+        return date('G', $idade) . ' horas';
     } elseif ($idade < 604800) {
-        return [date('j', $idade), 'dias'];
+        return date('j', $idade) . ' dias';
     } else {
-        return [date('j F Y', $idade), ''];
+        return date('j F Y', $idade) . '';
     }
 }
 
