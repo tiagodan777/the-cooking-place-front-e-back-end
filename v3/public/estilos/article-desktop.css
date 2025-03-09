@@ -1,17 +1,17 @@
 @charset "UTF-8";
 
-h1#titulo-receita {
+main#article h1#titulo-receita {
     font-size: 3em;
     padding: 20px 0px 0px 0px;
     font-weight: bolder;
     text-align: center;
 }
 
-header#cabecalho-principal > form {
+main#article header#cabecalho-principal > form {
     visibility: visible;
 }
 
-header#cabecalho-principal > form > input[type="search"] {
+main#article header#cabecalho-principal > form > input[type="search"] {
     font-size: 1.1em;
     width: 25vw;
     padding: 12px;
@@ -19,16 +19,16 @@ header#cabecalho-principal > form > input[type="search"] {
     border-radius: 25px;
 }
 
-header#cabecalho-principal > form > input.escondido {
+main#article header#cabecalho-principal > form > input.escondido {
     display: none;
 }
 
 
-main {
+main#article {
     margin: auto;
 }
 
-main > section#topo {
+main#article > section#topo {
     width: 100%;
     margin-top: 100px;
 
@@ -38,27 +38,27 @@ main > section#topo {
     align-items: flex-start;
 }
 
-main > section#topo > section#imagem {
+main#article > section#topo > section#imagem {
     width: 50%;
     /*margin-left: 70px;*/
 }
 
-main > section#topo > section#imagem > picture > img {
+main#article > section#topo > section#imagem > picture > img {
     width: 100%;
 }
 
-main > section#topo > section#info {
+main#article > section#topo > section#info {
     width: 50%;
 }
 
-main > section#topo section#info > section {
+main#article > section#topo section#info > section {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
     align-items: center;
 }
 
-main > section#needs {
+main#article > section#needs {
     width: 95%;
     margin-top: 100px;
 
@@ -68,19 +68,19 @@ main > section#needs {
     align-items: flex-start;
 }
 
-main > section#needs section#ingredientes {
+main#article > section#needs section#ingredientes {
     /*align-self: flex-start;*/
     margin-top: -20px;
     margin-bottom: 20px;
     width: 25%;
 }
 
-main > section#needs section#video {
+main#article > section#needs section#video {
     position: relative;
     width: 75%;
 }
 
-main > section#needs section#video > iframe {
+main#article > section#needs section#video > iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -91,7 +91,7 @@ main > section#needs section#video > iframe {
     width: 500px;
 }*/
 
-footer {
+/*footer {
     width: 100%;
     position: fixed;
     top: 94%;
@@ -115,5 +115,5 @@ footer > a > span.descricao-icone {
 
 footer > a > span.aparece-desktop {
 
-}
+}*/
 

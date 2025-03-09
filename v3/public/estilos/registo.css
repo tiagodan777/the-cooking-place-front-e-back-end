@@ -11,7 +11,7 @@
     --cor6: #000000
 }
 
-* {
+/* {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
@@ -26,13 +26,13 @@ html, body {
 
 body {
     background-color: var(--cor0);
-}
+}*/
 
-main > div#conteiner > section > h1 {
+main#register > div#conteiner > section > h1 {
     margin-top: 130px;
 }
 
-main {
+main#register {
     width: 100vw;
     height: 100vh;
     margin-top: -150px;
@@ -43,13 +43,13 @@ main {
     align-items: center;
 }
 
-main > div#conteiner > section {
+main#registermain#register > div#conteiner > section {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.419);
     padding: 20px;
     border-radius: 15px;
 }
 
-main >div#conteiner > section, main > div#conteiner >  section > form {
+main#registermain#register >div#conteiner > section, main#registermain#register > div#conteiner >  section > form {
     width: 400px;
     height: 600px;
     background-color: var(--cor5);
@@ -60,7 +60,7 @@ main >div#conteiner > section, main > div#conteiner >  section > form {
     align-items: center;
 }
 
-main > div#conteiner > section > form {
+main#registermain#register > div#conteiner > section > form {
     margin-bottom: 100px;
 
     display: flex;
@@ -69,7 +69,7 @@ main > div#conteiner > section > form {
     align-items: center;
 }
 
-main > div#conteiner > section > form > fieldset {
+main#registermain#register > div#conteiner > section > form > fieldset {
 
     border: none;
 
@@ -79,7 +79,7 @@ main > div#conteiner > section > form > fieldset {
     align-items: center;
 }
 
-main > div#conteiner > section > form > fieldset#contatos {
+main#registermain#register > div#conteiner > section > form > fieldset#contatos {
     width: 100%;
     height: 35%;
     
@@ -89,7 +89,7 @@ main > div#conteiner > section > form > fieldset#contatos {
     align-items: center;
 }
 
-main > div#conteiner > section > form > fieldset#nascimento, main > div#conteiner > section > form > fieldset#genero {
+main#registermain#register > div#conteiner > section > form > fieldset#nascimento, main#registermain#register > div#conteiner > section > form > fieldset#genero {
     width: 350px;
 
     display: flex;
@@ -98,7 +98,7 @@ main > div#conteiner > section > form > fieldset#nascimento, main > div#conteine
     align-items: center;
 }
 
-main > div#conteiner > section > form > fieldset#genero {
+main#registermain#register > div#conteiner > section > form > fieldset#genero {
 
     display: flex;
     flex-flow: row nowrap;
@@ -106,7 +106,7 @@ main > div#conteiner > section > form > fieldset#genero {
     align-items: center;
 }
 
-main > div#conteiner > section > form > fieldset#passwords {
+main#registermain#register > div#conteiner > section > form > fieldset#passwords {
     width: 100%;
     height: 25%;
 
@@ -116,30 +116,30 @@ main > div#conteiner > section > form > fieldset#passwords {
     align-items: center;
 }
 
-main > div#conteiner > section > form > fieldset > legend {
+main#registermain#register > div#conteiner > section > form > fieldset > legend {
     text-align: left;
     padding-left: 15px;
     font-size: 0.8em;
     border: none;
 }
 
-input {
+main#register input {
     width: 325px;
     padding: 10px;
     color: var(--cor4);
 }
 
-select {
+main#register select {
     padding: 10px 45px 10px 0px;
     margin: 5px;
 }
 
-input[type="radio"] {
+main#register input[type="radio"] {
     width: 20px;
     background-color: var(--cor5);
 }
 
-input[type="submit"] {
+main#register input[type="submit"] {
     background-color: var(--cor3);
     border-radius: 10px;
     color: var(--cor5);
@@ -147,15 +147,15 @@ input[type="submit"] {
     border: none;
 }
 
-input[type="submit"]:hover {
+main#register input[type="submit"]:hover {
     cursor: pointer;
     background-color: #cf274b;
 }
 
-.escondido {
+main#register .escondido {
     display: none;
 }
 
-div#video {
+main#register div#video {
     display: none;
 }

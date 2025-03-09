@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-main {
+main#article-delete {
     width: 100vw;
 }   
 
-main > section#apagar {
+main#article-delete > section#apagar {
     width: 500px;
     height: 600px;
 
@@ -14,12 +14,12 @@ main > section#apagar {
     align-items: center;
 }
 
-main > section#apagar > h2 {
+main#article-delete > section#apagar > h2 {
     margin-bottom: -45px;
     margin-top: -90px;
 } 
 
-main > section#apagar > section#dados > p {
+main#article-delete > section#apagar > section#dados > p {
     font-weight: lighter;
     color: var(--cor4);
     margin-top: 10px;
@@ -27,11 +27,11 @@ main > section#apagar > section#dados > p {
     margin-left: 30px;
 }
 
-main > section#apagar > section#dados > img {
+main#article-delete > section#apagar > section#dados > img {
     width: 300px;
 }
 
-main > section#apagar > section#opcoes > form {
+main#article-delete > section#apagar > section#opcoes > form {
     width: 500px;
     height: 100px;
 
@@ -41,7 +41,7 @@ main > section#apagar > section#opcoes > form {
     align-items: center;
 }
 
-main > section#apagar > section#opcoes > form > a {
+main#article-delete > section#apagar > section#opcoes > form > a {
     text-decoration: none;
     color: var(--cor5);
     background-color: var(--cor3);
@@ -52,12 +52,12 @@ main > section#apagar > section#opcoes > form > a {
     font-weight: bold
 }
 
-main > section#apagar > section#opcoes > form > a:hover {
+main#article-delete > section#apagar > section#opcoes > form > a:hover {
     background-color: #cf264b;
     cursor: pointer;
 }
 
-main > section#apagar > section#opcoes > form > input {
+main#article-delete > section#apagar > section#opcoes > form > input {
     color: var(--cor5);
     background-color: var(--cor2);
     border-radius: 5px;
@@ -68,7 +68,7 @@ main > section#apagar > section#opcoes > form > input {
     font-size: 1em;
 }
 
-main > section#apagar > section#opcoes > form > input:hover {
+main#article-delete > section#apagar > section#opcoes > form > input:hover {
     background-color: #29a460;
     cursor: pointer;
 }

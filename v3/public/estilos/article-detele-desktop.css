@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
-main {
+main#article {
     width: calc(100vw - 400px);
 }
 
-main > section#apagar {
+main#article > section#apagar {
     height: 900px;
 }  
 
-main > section#apagar > section#dados > img {
+main#article > section#apagar > section#dados > img {
     width: 500px;
 }

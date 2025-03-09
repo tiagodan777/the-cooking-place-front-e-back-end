@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-header#cabecalho-principal {
+/*header#cabecalho-principal {
     border-bottom: 0px solid rgb(210, 210, 210);
     padding: 10px;
     justify-content: space-between;
@@ -18,14 +18,14 @@ header#cabecalho-principal > h1#o-que-esta-a-acontecer {
     left: 54%;
     transform: translate(-50%, -50%);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
+}*/
 
-main {
+main#whats-happening {
     height: 100vh;
 }
 
 
-main > section#todos-videos {
+main#whats-happening > section#todos-videos {
     width: 50vw;
     height: 85vh; /* Garante que o contêiner ocupa a tela inteira */
     overflow-y: auto; /* Habilita a rolagem vertical */
@@ -39,7 +39,7 @@ main > section#todos-videos {
     align-items: center;
 }
 
-main > section#todos-videos > div.video-individual {
+main#whats-happening > section#todos-videos > div.video-individual {
     width: 95%;
     height: 95%; /* Cada vídeo ocupa 100% da tela */
     display: flex;
@@ -52,7 +52,7 @@ main > section#todos-videos > div.video-individual {
     /*position: relative;*/
 }
 
-main > section#todos-videos > div.video-individual > video {
+main#whats-happening > section#todos-videos > div.video-individual > video {
     /*width: 100%;
     height: 100%;*/
     object-fit: cover; /* Faz o vídeo cobrir toda a tela */
@@ -62,34 +62,34 @@ main > section#todos-videos > div.video-individual > video {
     border-radius: 20px;
 }
 
-main > section#todos-videos > div.video-individual > nav {
+main#whats-happening > section#todos-videos > div.video-individual > nav {
     position: sticky;
     transform: translate(-100%, -20%);
 }
 
-main > section#todos-videos > div.video-individual > nav > ul > li {
+main#whats-happening > section#todos-videos > div.video-individual > nav > ul > li {
     color: var(--cor4);
 }
 
-main > section#todos-videos > div.video-individual > nav > ul > li > a {
+main#whats-happening > section#todos-videos > div.video-individual > nav > ul > li > a {
     color: var(--cor4);
 }
 
-main > section#todos-videos > div.video-individual > div#info {
+main#whats-happening > section#todos-videos > div.video-individual > div#info {
     position: absolute;
     top: 68%;
     left: 12%;
 }
 
-main > section#todos-videos > div.video-individual > div#info  > h1 {
+main#whats-happening > section#todos-videos > div.video-individual > div#info  > h1 {
     margin-bottom: 20px;
 }
 
-footer {
+/*footer {
     background-color: var(--cor5);
     opacity: 1;
 }
 
 footer > a {
     color: var(--cor4);
-}
+}*/

@@ -1,21 +1,21 @@
 @charset "UTF-8";
 
-h1 {
+main#notifications h1 {
     padding-bottom: 20px;
 }
 
-main {
+main#notifications {
     margin-top: 150px;
 }
 
-main > div {
+main#notifications > div {
     width: 500px;
 }
 
-main > div > a {
+main#notifications > div > a {
     width: 400px;
 }
 
-main > div > section#seguir {
+main#notifications > div > section#seguir {
     width: 150px;
 }

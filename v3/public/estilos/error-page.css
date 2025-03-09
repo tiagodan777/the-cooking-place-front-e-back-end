@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-main {
+main#error-page {
     width: calc(100vw - 285px);
     height: calc(100vh - 120px);
     margin-left: 285px;
@@ -11,20 +11,20 @@ main {
     align-items: flex-start;
 }
 
-main > div#texto > h1 {
+main#error-page > div#texto > h1 {
     margin-top: 200px;
     font-family: "Glass Antiqua", serif;
     font-size: 2em;
     color: var(--cor4);
 }
 
-main > div#texto > p {
+main#error-page > div#texto > p {
     margin-top: 25px;
     text-indent: 25px;
     font-weight: normal;
 }
 
-main > div#texto > p > a {
+main#error-page > div#texto > p > a {
     text-decoration: none;
     font-weight: bold;
     color: var(--cor4);
@@ -32,6 +32,6 @@ main > div#texto > p > a {
     transition: color 0.2s;
 }
 
-main > div#texto > p > a:hover {
+main#error-page > div#texto > p > a:hover {
     color: var(--cor0);
 }

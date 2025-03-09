@@ -4,7 +4,7 @@ hr.escondido {
     display: none;
 }
 
-main {
+main#all-messages {
     width: calc(100vw - 300px);
     margin-left: 265px;
     margin-top: 85.5px;
@@ -16,15 +16,15 @@ main {
     align-items: flex-start;
 }
 
-main > section#contatos {
+main#all-messages > section#contatos {
     width: 35%;
 }
 
-main > section#contatos > div  {
+main#all-messages > section#contatos > div  {
     width: 100%;
 }
 
-main > section#contatos > div > a {
+main#all-messages > section#contatos > div > a {
     width: 100%;
     color: var(--cor6);
     text-decoration: none;
@@ -37,7 +37,7 @@ main > section#contatos > div > a {
     align-items: center;
 }
 
-iframe {
+main#all-messages iframe {
     width: 65%;
     height: 100vh;
 }

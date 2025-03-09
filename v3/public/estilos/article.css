@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-html, body {
+/*html, body {
     font-weight: normal;
 }
 
@@ -16,47 +16,47 @@ header#cabecalho-principal {
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-}
+}*/
 
-h1#titulo-receita {
+main#article h1#titulo-receita {
     padding: 20px 0px 0px 0px;
     font-weight: bolder;
 }
 
-h2#descricao-receita {
+main#article h2#descricao-receita {
     text-align: center;
 }
 
-main {
+main#article  {
     margin-top: 68px;
 }
 
-main > section#topo > section#imagem > picture > img {
+main#article  > section#topo > section#imagem > picture > img {
     width: 100vw;
 }
 
-main > section#topo section#info {
+main#article > section#topo section#info {
     padding: 0px 10px;
 }
 
-main > section#topo section#info > h2 {
+main#article > section#topo section#info > h2 {
     font-size: 1.4em;
     font-weight: lighter;
 }
 
-main > section#topo section#info > section {
+main#article > section#topo section#info > section {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
 }
 
-main > section#topo section#info > section > div > p {
+main#article > section#topo section#info > section > div > p {
     font-weight: normal;
     margin: 5px;
 }
 
-main > section#topo section#info > section > div > a#user {
+main#article > section#topo section#info > section > div > a#user {
     font-weight: bold;
     margin: 0px;
     text-decoration: none;
@@ -68,94 +68,94 @@ main > section#topo section#info > section > div > a#user {
     align-items: center;
 }
 
-main > section#topo section#info > section > div > a#user > img {
+main#article > section#topo section#info > section > div > a#user > img {
     border-radius: 50%;
 }
 
-main > section#topo section#info > section > div > div#reacoes {
+main#article > section#topo section#info > section > div > div#reacoes {
     margin: 20px;
 }
 
-main > section#topo section#info > section > div > div#reacoes > div.icones {
+main#article > section#topo section#info > section > div > div#reacoes > div.icones {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
 }
 
-main > section#topo section#info > section > div > div#reacoes > div.icones > span.icones-reacao {
+main#article > section#topo section#info > section > div > div#reacoes > div.icones > span.icones-reacao {
     flex: 0 0 50px;
 }
 
-main > section#topo section#info > section > div > div#reacoes > div.numeros {
+main#article > section#topo section#info > section > div > div#reacoes > div.numeros {
     display: flex;
     flex-flow: row;
     align-items: center;
 }
 
-main > section#topo section#info > section > div > div#reacoes > div.numeros > span {
+main#article > section#topo section#info > section > div > div#reacoes > div.numeros > span {
     font-size: 0.9em;
 
     flex: 0 0 55px;
 }
 
-main > section#needs {
+main#article > section#needs {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: flex-start;
 }
 
-main > section#needs section#ingredientes {
+main#article > section#needs section#ingredientes {
     /*align-self: flex-start;*/
     margin-top: -20px;
     margin-bottom: 20px;
 }
 
-main > section#needs section#ingredientes > h2 {
+main#article > section#needs section#ingredientes > h2 {
     margin: 10px;
 }
 
-main > section#needs section#ingredientes > ul {
+main#article > section#needs section#ingredientes > ul {
     list-style-type: none;
     list-style: none;
 }
 
-main > section#needs section#ingredientes > ul > li {
+main#article > section#needs section#ingredientes > ul > li {
     padding: 10px;
 }
 
-main > section#needs section#ingredientes > ul > li > input, main > section#ingredientes > ul > li > label {
+main#article > section#needs section#ingredientes > ul > li > input, main > section#ingredientes > ul > li > label {
     padding: 20px;
 }
 
-main > section#needs section#video {
+main#article > section#needs section#video {
     position: relative;
     width: 100vw;
 }
 
-main > section#needs section#video > iframe {
+main#article > section#needs section#video > iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
 }
 
-main > section#steps > ul {
+main#article > section#steps > ul {
     list-style-type: none;
     line-height: 1.75em;
 }
 
-main > section#needs section#steps > ul > li {
+main#article > section#needs section#steps > ul > li {
     margin: 15px 10px;
 }
 
-main > section#steps > ul > li > span {
+main#article > section#steps > ul > li > span {
     display: block;
     font-weight: 600;
     font-size: 1.2em;
 }
 
-main > aside {
+main#article > aside {
     width: 90vw;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.298);
     padding: 15px;
@@ -163,17 +163,17 @@ main > aside {
     margin-bottom: 100px;
 }
 
-main > aside > h3 {
+maimain#articlen > aside > h3 {
     margin: 10px 0px 20px 0px;
 }
 
-main > aside > article {
+main#article > aside > article {
     border: 0.5px solid #cecece;
     padding: 10px;
     border-radius: 5px;
     margin: 15px;
 }
 
-main > aside > article > h4 {
+main#article > aside > article > h4 {
     margin: 10px 0px;
 }

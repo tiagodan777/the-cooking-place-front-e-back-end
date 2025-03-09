@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-h1 {
+main#login-principal h1 {
     margin: 0px 0px 30px 0px;
 }
 
-main {
+main#login-principal {
     margin-top: 0px;
 
     display: flex;
@@ -13,7 +13,7 @@ main {
     align-items: flex-start;
 }
 
-main > section#principal {
+main#login-principal > section#principal {
     width: 50%;
     height: 100%;
 
@@ -27,19 +27,19 @@ main > section#principal > section#login {
     border: none;
 }
 
-main > section#principal > section#login > a {
+main#login-principal > section#principal > section#login > a {
     color: var(--cor6);
 }
 
-main > section#principal > section#registo {
+main#login-principal > section#principal > section#registo {
     border: none;
 }
 
-main > aside {
+main#login-principal > aside {
     order: 1;
 }
 
-aside {
+main#login-principal aside {
     width: 50%;
     height: 100%;
     visibility: visible;
@@ -51,7 +51,7 @@ aside {
     align-items: center;
 }
 
-aside > iframe {
+main#login-principal aside > iframe {
     padding: 0px;
     margin-top: -10px;
     margin-left: -20px;

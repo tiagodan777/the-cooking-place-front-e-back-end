@@ -1,12 +1,12 @@
 @charset "UTF-8";
 
-h1 {
+main#notifications h1 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.2em;
     font-weight: bold;
 }
 
-main {
+main#notifications {
     margin-top: 80px;
     font-size: 0.9em;
 
@@ -16,19 +16,19 @@ main {
     align-items: center;
 }
 
-main > div {
+main#notifications > div {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
     align-items: center;
 }
 
-main > div:hover {
+main#notifications > div:hover {
     background-color: rgb(245, 245, 245);
     cursor: pointer;
 }
 
-main > div > a {
+main#notifications > div > a {
     color: var(--cor4);
     width: 100vw;
     font-weight: normal;
@@ -40,22 +40,22 @@ main > div > a {
     align-items: center;
 }
 
-main > div > a > section#perfil > div {
+main#notifications > div > a > section#perfil > div {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
 }
 
-main > div > a > section#perfil > div > img {
+main#notifications > div > a > section#perfil > div > img {
     border-radius: 50%;
 }
 
-main > div > a > section#informacao > p > span.perfil {
+main#notifications > div > a > section#informacao > p > span.perfil {
     font-weight: bold;
 }
 
-main > div > section#seguir > a {
+main#notifications > div > section#seguir > a {
     font-weight: bold;
     text-decoration: none;
     color: var(--cor5);
@@ -64,6 +64,6 @@ main > div > section#seguir > a {
     border-radius: 8px;
 }
 
-main > div > section#seguir > a:hover {
+main#notifications > div > section#seguir > a:hover {
     background-color: #c76730;
 }

@@ -17,21 +17,21 @@
     box-sizing: border-box;
 }
 
-html, body {
+/*html, body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     width: 100vw;
     height: 100vh;
 }
 
 body {
-    /*background-image: linear-gradient(-45deg, var(--cor0), var(--cor1));*/
-}
+    /*background-image: linear-gradient(-45deg, var(--cor0), var(--cor1));
+}*/
 
-h1 {
+main#login-principal h1 {
     margin: 30px 0px;
 }
 
-main {
+main#login-principal {
     /*background-color: var(--cor1);*/
     height: 100vh;
     margin-top: 30px;
@@ -42,14 +42,14 @@ main {
     align-items: center;
 }
 
-main > section#principal {
+main#login-principal > section#principal {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
 }
 
-main > section#principal > section#login {
+main#login-principal > section#principal > section#login {
     width: 375px;
     height: 405px;
     border: 1px solid var(--cor1);
@@ -61,27 +61,27 @@ main > section#principal > section#login {
     align-items: center;
 }
 
-main > section#principal > section#login > form {
+main#login-principal > section#principal > section#login > form {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
 }
 
-main > section#principal > section#login > form > input {
+main#login-principal > section#principal > section#login > form > input {
     width: 300px;
     padding: 12px;
     margin: 3px;
     border: 1px solid #ccc;
 }
 
-main > section#principal > section#login > form > input:focus {
+main#login-principal > section#principal > section#login > form > input:focus {
     outline: none;
     box-shadow: none;
     border: 1px solid #ccc;
 }
 
-main > section#principal > section#login > form > input#submit {
+main#login-principal > section#principal > section#login > form > input#submit {
     background-color: var(--cor3);
     border-radius: 10px;
     color: var(--cor5);
@@ -89,18 +89,18 @@ main > section#principal > section#login > form > input#submit {
     margin-top: 10px;
 }
 
-main > section#principal > section#login > form > input#submit:hover {
+main#login-principal > section#principal > section#login > form > input#submit:hover {
     cursor: pointer;
     background-color: #cf274b;
 }
 
-main > section#principal > section#login > a {
+main#login-principal > section#principal > section#login > a {
     color: var(--cor);
     text-decoration: none;
     margin-top: 25px;
 }
 
-main > section#principal > section#registo {
+main#login-principal > section#principal > section#registo {
     width: 375px;
     height: 70px;
     border: 1px solid var(--cor1);
@@ -111,16 +111,16 @@ main > section#principal > section#registo {
     align-items: center;
 }
 
-main > section#principal > section#registo > a {
+main#login-principal > section#principal > section#registo > a {
     color: var(--cor4);
     text-decoration: none;
 }
 
-main > section#principal > section#registo > a > span {
+main#login-principal > section#principal > section#registo > a > span {
     color: var(--cor1);
     font-weight: bold;
 }
 
-aside {
+main#login-principal aside {
     visibility: hidden;
 }

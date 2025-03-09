@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-html, body {
+/*html, body {
     font-size: 1em;
-}
+}*/
 
-header {
+header#messages-1 {
     height: 70px;
     border-bottom: 1px solid rgb(210, 210, 210);
     padding: 10px;
@@ -15,24 +15,24 @@ header {
     align-items: center;
 }
 
-header > img {
+header#messages-1 > img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     border: 1px solid rgb(210, 210, 210);
 }
 
-header > p {
+header#messages-1 > p {
     font-weight: bold;
 }
 
-main {
+main#messages-2 {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
 }
 
-p {
+main#messages-2  p {
     max-width: 550px;
     min-width: 10px;
     padding: 15px;
@@ -41,23 +41,23 @@ p {
     margin: 5px;
 }
 
-div.recebida {
+main#messages-2  div.recebida {
     /*margin-left: 50px;*/
     align-self: flex-start;
 }
 
-div.recebida > div.mensagens-recebidas {
+main#messages-2  div.recebida > div.mensagens-recebidas {
     color: var(--cor6);
     margin-right: 150px;
     border-radius: 10px;
     margin: 10px;
 }
 
-div.recebida > div.mensagens-recebidas > p {
+main#messages-2 div.recebida > div.mensagens-recebidas > p {
     background-color: rgb(240, 240, 240);
 }
 
-div.enviada {
+main#messages-2 div.enviada {
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-end;
@@ -66,18 +66,18 @@ div.enviada {
     align-self: flex-end;
 }
 
-div.enviada > div.mensagens-enviadas {
+main#messages-2 div.enviada > div.mensagens-enviadas {
     color: var(--cor5);
     margin-left: 150px;
     border-radius: 10px;
     margin: 10px;
 }
 
-div.enviada > div.mensagens-enviadas > p {
+main#messages-2 div.enviada > div.mensagens-enviadas > p {
     background-color: var(--cor3);
 }
 
-main > div > img {
+main#messages-2  > div > img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -94,25 +94,25 @@ section {
     border-radius: 35px;
 }
 
-section > form > input#msg {
+section#messages-3 > form > input#msg {
     width: 85%;
     padding: 10px;
     border: none;
 }
 
-section > form > input#enviar {
+section#messages-3 > form > input#enviar {
     background-color: var(--cor5);
     color: var(--cor1);
     border: none;
     font-weight: bold;
 }
 
-section > form > input#enviar:hover {
+section#messages-3 > form > input#enviar:hover {
     cursor: pointer;
     color: #c4652f;
 }
 
-section > form > input[type="text"]:focus {
+section#messages-3 > form > input[type="text"]:focus {
     outline: none;
     box-shadow: none;
     border: 1px solid #ccc;

@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-main {
+main#profile {
     align-self: center;
 }
 
-main > header {
+main#profile > header {
     width: 70vw;
     margin-top: 100px;
     margin-bottom: 200px;
@@ -13,49 +13,49 @@ main > header {
     align-items: center;
 }
 
-main > header > div#foto_e_bio {
+main#profile > header > div#foto_e_bio {
     width: 100%;
 
     flex-flow: column nowrap;
 }
 
-main > header > div#foto_e_bio > img {
+main#profile > header > div#foto_e_bio > img {
     width: 150px;
     margin-right: 0px;
 }
 
-main > header > div#foto_e_bio > p {
+main#profile > header > div#foto_e_bio > p {
     padding-right: 25px;
     align-self: flex-end;
     margin-top: -100px;
     margin-bottom: 200px;
 }
 
-main > header > h1 {
+main#profile > header > h1 {
     margin-top: -140px;
     margin-bottom: 40px;
     font-size: 1.8em;
 }
 
-main > header > div#estatisticas_numeros {
+main#profile > header > div#estatisticas_numeros {
     width: 100%;
 
     justify-content: center;
 }
 
-main > header > div#estatisticas_legenda {
+main#profile > header > div#estatisticas_legenda {
     width: 100%;
     margin-bottom: 200px;
 
     justify-content: center;
 }
 
-main > header > p {
+main#profile > header > p {
     margin-top: -225px;
     padding-right: 40px;
 }
 
-main > section {
+main#profile > section {
     width: 60vw;
 
     display: flex;
@@ -64,15 +64,15 @@ main > section {
     align-items: center;
 }
 
-main > section > div {
+main#profile > section > div {
     width: 90%;
 }
 
-main > section > div > a {
+main#profile > section > div > a {
     width: 240px;
     height: 240px;
 }
 
-main > section > div > a:hover {
+main#profile > section > div > a:hover {
     opacity: 0.5;
 }
