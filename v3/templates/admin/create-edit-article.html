@@ -1,151 +1,14 @@
-<?php
-use TiagoDaniel\Validate\Validate;
-
-require_once '../src/bootstrap.php';
-
-$unidades_tempo = ['min', 'hr'];
-
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$temp = $_FILES['imagem']['tmp_name'] ?? '';
-$erro_com_a_imagem = $_FILES['imagem']['error'] ?? '';
-$destination = '';
-$autor = '';
-
-$receita = [
-    'id' => $id,
-    'titulo' => '',
-    'descricao' => '',
-    'tempo_preparo' => '',
-    'unidade_tempo' => '',
-    'numero_pessoas' => '',
-    'ingredientes' => '',
-    'quantidades' => '',
-    'passos_preparacao' => '',
-    'keywords' => '',
-    'imagem_file' => '',
-    'categoria_id' => 0,
-    'membro_id' => 0,
-];
-$erros = [
-    'warning' => '',
-    'titulo' => '',
-    'descricao' => '',
-    'tempo_preparo' => '',
-    'unidade_tempo' => '',
-    'numero_pessoas' => '',
-    'ingredientes' => '',
-    'quantidades' => '',
-    'passos_preparacao' => '',
-    'keywords' => '',
-    'imagem_file' => '',
-    'categoria_id' => '',
-    'membro_id' => '',
-];
-
-if ($id) {
-    $receita = $cms->getArticle()->get($id);
-    if (!$receita) {
-        redirect('profile.php', ['failure' => 'Receita não encontrada']);
-    }
-}
-
-$saved_image = $receita['imagem_file'] ? true : false;
-
-$categorias = $cms->getCategory()->getAll();
-
-$autores = $cms->getMember()->getAll();
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $erros['imagem_file'] = ($temp === '' && $erro_com_a_imagem === 1) ? 'Ficheiro demasiado grande' : '';
-
-    if ($temp && $_FILES['imagem']['error'] === 0) {
-        $erros['imagem_file'] .= in_array(mime_content_type($temp), MEDIA_TYPES) ? '' : 'Tipo de ficherio não permitido';
-        $ext = strtolower(pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION));
-        $erros['imagem_file'] .= in_array($ext, FILE_EXTENSIONS) ? '' : 'Tipo de extensão não permitida';
-        $erros['imagem_file'] .= ($_FILES['imagem']['size'] <= MAX_SIZE) ? '' : 'Ficherio demasiado grande';
-
-        if ($erros['imagem_file'] === '') {
-            $receita['imagem_file'] = create_filename($_FILES['imagem']['name'], UPLOADS);
-            $destination = UPLOADS . $receita['imagem_file'];
-        }
-    }
-
-    $receita['titulo'] = $_POST['titulo'];
-    $receita['descricao'] = $_POST['descricao'];
-    $receita['tempo_preparo'] = $_POST['tempo_preparo'];
-    $receita['unidade_tempo'] = $_POST['unidade_tempo'];
-    $receita['numero_pessoas'] = $_POST['numero_pessoas'];
-    $receita['ingredientes'] = $_POST['ingredientes'];
-    $receita['quantidades'] = $_POST['quantidades'];
-    $receita['passos_preparacao'] = $_POST['passos_preparacao'];
-    $receita['keywords'] = $_POST['keywords'];
-    $receita['membro_id'] = $_POST['membro_id'];
-    $receita['categoria_id'] = $_POST['categoria_id'];
-
-    $purifier = new HTMLPurifier();
-    $purifier->config->set('HTML.Allowed', 'p,br,strong,em,a[href],img[src|alt]');
-    $receita['passos_preparacao'] = $purifier->purify($receita['passos_preparacao']);
-
-    foreach ($autores as $autor) {
-        if ($receita['membro_id'] == $autor['id']) {
-            $autor = $autor['nome'];
-        }
-    }
-
-    $erros['titulo'] = Validate::isText($receita['titulo'], 1, 64) ? '' : 'O título deve ter entre 1 e 64 caracteres';
-    $erros['descricao'] = Validate::isText($receita['descricao'], 1, 256) ? '' : 'A descrição deve ter entre 1 e 256 caracteres';
-    $erros['tempo_preparo'] = Validate::isNumber($receita['tempo_preparo'], 0, 60) ? '' : 'O tempo de preparo deve ser entre 1 e 60';
-    $erros['unidade_tempo'] = in_array($receita['unidade_tempo'], $unidades_tempo) ? '' : 'A unidade de tempo deve ser minutos ou horas';
-    $erros['numero_pessoas'] = Validate::isNumber($receita['numero_pessoas'], 0, 16) ? '' : 'O número de pessoas deve ser entre 1 e 16';
-    $erros['ingredientes'] = Validate::isText($receita['ingredientes'], 0, 1024) ? '' : 'A soma de todos os caracteres de todos os ingredientes não deve ser maior que 1024';
-    $erros['quantidades'] = Validate::isText($receita['quantidades'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as quantiades não deve ser maior que 1024';
-    $erros['passos_preparacao'] = Validate::isText($receita['passos_preparacao'], 0, 65244) ? '' : 'A soma de todos oscaracteres de todos os passos de preparação não deve ser maior que 65244';
-    $erros['keywords'] = Validate::isText($receita['keywords'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as keywords não deve ser mairo que 1024';
-    $erros['categoria_id'] = Validate::isCategoryId($receita['categoria_id'], $categorias) ? '' : 'A categoria selectionada não é válida';
-    $erros['membro_id'] = Validate::isMemberId($receita['membro_id'], $autores);
-
-    $invalid = implode($erros);
-
-    if ($invalid) {
-        $erros['warning'] = 'Por favor corrige os error seguintes';
-    } else {
-        $arguments = $receita;
-        if ($id) {
-            unset($arguments['imagem_alt_text']);
-            unset($arguments['data']);
-            unset($arguments['nome']);
-            unset($arguments['autor']);
-            unset($arguments['picture']);
-            unset($arguments['video_file']);
-            echo "<pre>";
-            var_dump($arguments);
-            echo "</pre>";
-            $guardada = $cms->getArticle()->update($arguments, $temp, $destination);
-        } else {
-            unset($arguments['id']);
-            unset($arguments['data']);
-            unset($arguments['nome']);
-            unset($arguments['autor']);
-            unset($arguments['picture']);
-            unset($arguments['video_file']);
-            $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
-        }
-        redirect('index.php', ['success' => 'Artigo guardado', 'id' => $id]);  
-    }
-    $receita['imagem_file'] = $saved_image ? $receita['imagem_file'] : '';
-}
-?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Cooking Place</title>
-    <link rel="shortcut icon" href="imagens/icons/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="estilos/style.css">
-    <link rel="stylesheet" href="estilos/desktop.css" media="screen and (min-width: 900px)">
-    <link rel="stylesheet" href="estilos/create-edit-article.css">
-    <link rel="stylesheet" href="estilos/create-edit-article-desktop.css" media="screen and (min-width: 900px)">
+    <link rel="shortcut icon" href="../imagens/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../estilos/style.css">
+    <link rel="stylesheet" href="../estilos/desktop.css" media="screen and (min-width: 900px)">
+    <link rel="stylesheet" href="../estilos/create-edit-article.css">
+    <link rel="stylesheet" href="../estilos/create-edit-article-desktop.css" media="screen and (min-width: 900px)">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <style>
         main > form > section#imagem-video > div#div-imagem, main > form > section#imagem-video > div#div-video {
@@ -156,24 +19,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-indent: <?= ($receita['imagem_file'] != '') ? '-225px' : '0px' ?>;
         }
     </style>
+    <script src="https://cdn.tiny.cloud/1/15o0mmza4d35kbiaelkhhskfnwqu38tiwme0qzhshegll8zr/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body>
     <header id="cabecalho-principal">
         <h1>
             <a href="index.php">
                 <picture>
-                    <source media="(max-width: 600px)" srcset="imagens/logos/logo-pp.png">
-                    <img src="imagens/logos/logo-p.png" alt="Logo do The Cooking Place">
+                    <source media="(max-width: 600px)" srcset="../imagens/logos/logo-pp.png">
+                    <img src="../imagens/logos/logo-p.png" alt="Logo do The Cooking Place">
                 </picture>
             </a>
         </h1>
-        <form action="search.php" method="get">
+        <form action="../search.php" method="get">
             <input type="search" name="search" id="search" placeholder="Pesquisa">
             <input type="submit" value="Pesquisar" class="escondido">
         </form>
         <div>
-            <a href="create-edit-article.php"><span class="material-symbols-outlined">add_box</span></a>
-            <a href="profile.php"><span class="material-symbols-outlined">account_circle</span></a>
+            <a href="../create-edit-article.html"><span class="material-symbols-outlined">add_box</span></a>
+            <a href="../profile.html"><span class="material-symbols-outlined">account_circle</span></a>
         </div>
     </header>
     <br>
@@ -194,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <span class="error"><?= $erros['imagem_file'] ?></span>
                     <?php } else { ?>
                         <label for="imagem_guardada">Imagem:</label>  
-                        <img src="imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $autor ?>" id="imagem_guardada">
+                        <img src="../imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $autor ?>" id="imagem_guardada">
                         <br>
                         <a href="image-delete.php?id=<?= $id ?>">Apagar imagem</a>
                     <?php } ?>
@@ -344,7 +208,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </section>
         </form>
     </main>
-    <?php require_once 'includes/footer.php'; ?>
+    <footer>
+        <a href="../pagina-principal.html"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>
+        <a href="../notifications.html"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
+        <a href="../all-messages.html"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
+        <a href="../whats-happening.html"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
+        <a href="../profile.html"><span class="material-symbols-outlined aparece-desktop">account_circle</span> <span class="descricao-icone nao-destaque">Perfil</span></a>
+        <a href="../create-edit-article.html"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
+        <a href="#"><span class="material-symbols-outlined aparece-mobile">search</span></a>
+    </footer>
     <script>
         let idNameIgrediente = 2
         let idNamePasso = 2

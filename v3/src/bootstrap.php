@@ -12,3 +12,7 @@ if (DEV !== false) {
 
 $cms = new \TiagoDaniel\CMS\CMS($dsn, $username, $password);
 unset($dsn, $username, $password);
+
+//$twig_options['cache'] = APP_ROOT . '/var/cache';
+$twig_options['debug'] = DEV;
+
