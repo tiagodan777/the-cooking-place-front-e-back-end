@@ -1,32 +1,32 @@
-
+{% extends 'layout.html' %}
+{% block content %}
 <main id="notifications">
     <h1>Notificações</h1>
-    <?php foreach ($notificacoes as $notificacao) { ?>
-        <?php
-            if ($notificacao['mensagem'] == "começou a seguir-te") {
-                $link = 'profile.php?id=' . $notificacao['emissor_id'];
-            } elseif ($notificacao['mensagem'] == "publicou uma receita" || $notificacao['mensagem'] == "gostou da tua receita") {
-                $link = 'article.php?id=' . $notificacao['emissor_id'];
-            }    
-        ?>
+    {% for notificacao in notificacoes %}
+        {% if notificacao.mensagem == 'começou a seguir-te' %}
+            {% set link = 'profile.php?id=' ~ notificacao.emissor_id %}
+        {% elseif notificacao.mensagem == 'publicou uma receira' or notificacao.mensagem == 'gostou da tua receita' %}
+            {% set link = 'article.php?id=' . notificacao.emissor_id %}
+        {% endif %}
         <div>
-            <a href="<?= $link ?>">
+            <a href="{{ link }}">
                 <section id="perfil">
                     <div>
-                        <img src="imagens/fotos-perfil/<?= html_escape($notificacao['picture'] ?? 'blank.jpg') ?>" alt="Foto perfil de <?= html_escape($notificacao['emissor']) ?>">
+                        <img src="{{ doc_root }}imagens/fotos-perfil/{{ notificacao.picture ?? 'blank.png' }}" alt="Foto perfil de {{ notificacao.emissor }} ?>">
                     </div>
                 </section>
                 <section id="informacao">
-                    <p><span class="perfil"><?= $notificacao['emissor'] ?></span> <?= $notificacao['mensagem'] ?></p>
+                    <p><span class="perfil">{{ notificacao.emissor }}</span> {{ notificacao.mensagem }}</p>
                 </section>
             </a>
             <section id="seguir">
-                <?php if ($notificacao['mensagem'] == 'começou a seguir-te') { ?>
-                    <a href="profile.php?id=<?= $notificacao['emissor_id'] ?>">Seguir</a>
-                <?php } ?>
+                {% if notificacao.mensagem == 'começou a seguir-te' %}
+                    <a href="profile.php?id={{ notificacao.emissor_id }}">Seguir</a>
+                {% endif %}
             </section>
         </div>
-    <?php } ?>
+    {% endfor %}
 </main>
+{% endblock %}
 
     

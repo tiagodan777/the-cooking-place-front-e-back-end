@@ -162,7 +162,7 @@ class Article {
         $sql = "SELECT imagem_file FROM receita WHERE id = :id";
         $file = $this->db->runSQL($sql, [$id])->fetchColumn();
 
-        echo $path;
+        $path .= $file;
 
         if (file_exists($path)) {
             unlink($path);

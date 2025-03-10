@@ -1,33 +1,41 @@
-
+{% extends 'layout.html' %}
+{% block content %}
+{% if receita.imagem_file != '' %}
+    {% set borda = 'none' %}
+    {% set text_indent = '-225px' %}
+{% else %}
+    {% set borda = '1px solid rgb(210, 210, 210)' %}
+    {% set text_indent = '0px' %}
+{% endif %}
 <style>
-    main > form > section#imagem-video > div#div-imagem, main > form > section#imagem-video > div#div-video {
-        border: <?= ($receita['imagem_file'] != '') ? 'none' : '1px solid rgb(210, 210, 210)' ?>;
+    main#create-edit-article > form > section#imagem-video > div#div-imagem, main#create-edit-article > form > section#imagem-video > div#div-video { 
+        border: {{ borda }};
     }
 
-    main > form > section#imagem-video > div#div-imagem > label, main > form > section#imagem-video > div#div-video > label {
-        text-indent: <?= ($receita['imagem_file'] != '') ? '-225px' : '0px' ?>;
+    main#create-edit-article > form > section#imagem-video > div#div-imagem > label, main#create-edit-article > form > section#imagem-video > div#div-video > label {
+        text-indent: {{ text_indent }};
     }
 </style>
 <main id="create-edit-article">
     <h2>Adicionar/Editar Receita</h2>
-    <?php if ($erros['warning']) { ?>
-        <div class="alert-danger"><?= $erros['warning'] ?></div>
-    <?php } ?>
-    <form action="create-edit-article.php?id=<?= $id ?>" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+    {% if erros.warning %}
+        <div class="alert-danger">{{ erros.warning }}</div>
+    {% endif %}
+    <form action="create-edit-article.php?id={{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
         <section id="imagem-video">
             <div id="div-imagem">
-                <?php if (!$receita['imagem_file']) { ?>
+                {% if not receita.imagem_file %}
                     <label for="imagem">Upload de imagem</label>
                     <div>
                         <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
                     </div>
-                    <span class="error"><?= $erros['imagem_file'] ?></span>
-                <?php } else { ?>
+                    <span class="error">{{ erros.imagem_file }}</span>
+                {% else %}
                     <label for="imagem_guardada">Imagem:</label>  
-                    <img src="imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= $autor ?>" id="imagem_guardada">
+                    <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ autor }}" id="imagem_guardada">
                     <br>
-                    <a href="image-delete.php?id=<?= $id ?>">Apagar imagem</a>
-                <?php } ?>
+                    <a href="image-delete.php?id={{ receita.id }}">Apagar imagem</a>
+                {% endif %}
             </div>
             <div id="div-video">
                 <label for="video">Upload de video</label>
@@ -36,61 +44,72 @@
                 </div>
             </div>
             <div id="inputs-escondidos">
-                <input type="text" name="ingredientes" id="ingredientes" value="<?= html_escape($receita['ingredientes']) ?>">
-                <input type="text" name="quantidades" id="quantidades" value="<?= html_escape($receita['quantidades']) ?>">
-                <input type="text" name="passos_preparacao" id="passos_preparacao" value="<?= html_escape($receita['passos_preparacao']) ?>">
-                <input type="text" name="keywords" id="keywords" value="<?= html_escape($receita['keywords']) ?>">
+                <input type="text" name="ingredientes" id="ingredientes" value="{{ receita.ingredientes }}">
+                <input type="text" name="quantidades" id="quantidades" value="<?= {{ receita.quantidades }} ?>">
+                <input type="text" name="passos_preparacao" id="passos_preparacao" value="{{ receita.passos_preparacao }}">
+                <input type="text" name="keywords" id="keywords" value="{{ receita.keywords }}">
             </div>
         </section>
         <section id="info-text">
             <div id="div-titulo">
                 <label for="titulo">Título</label>
-                <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64" value="<?= html_escape($receita['titulo']) ?>">
-                <span class="error"><?= $erros['titulo'] ?></span>
+                <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64" value="{{ receita.titulo }}">
+                <span class="error">{{ erros.titulo }}</span>
             </div>
             <div id="div-descricao">
                 <label for="descricao">Descrição</label>
-                <input type="text" name="descricao" id="descricao" placeholder="Ex: Como fazer sushi de forma rápida e descomplicada" maxlength="256" required value="<?= html_escape($receita['descricao']) ?>">
-                <span class="error"><?= $erros['descricao'] ?></span>
+                <input type="text" name="descricao" id="descricao" placeholder="Ex: Como fazer sushi de forma rápida e descomplicada" maxlength="256" required value="{{ receita.descricao }}">
+                <span class="error">{{ erros.descricao }}</span>
             </div>
             <div id="div-tempo-preparo">
                 <label for="tempo">Tempo de preparo</label>
                 <div id="tempo-unidade">
-                    <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" min="0" value="<?= html_escape($receita['tempo_preparo']) ?>">
-                    <span class="error"><?= $erros['tempo_preparo'] ?></span>
+                    <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" min="0" value="{{ receita.tempo_preparo }}">
+                    <span class="error">{{ erros.tempo_preparo }}</span>
                     <select name="unidade_tempo" id="unidade_tempo">
                         <optgroup label="Unidade">
-                            <option value="min" <?= ($receita['unidade_tempo'] == 'min') ? 'selected' : '' ?>>Min</option>
-                            <option value="hr" <?= ($receita['unidade_tempo'] == 'hr') ? 'selected' : ''?>>Hora</option>
+                            {% if receita.unidade_tempo == 'min' %}
+                                {% set min_selected = 'selected' %}
+                                {% set hr_selected = '' %}
+                            {% else %}
+                                {% set hr_selected = 'selected' %}
+                                {% set min_selected = '' %}
+                            {% endif %}
+                            <option value="min" {{ min_selected }}>Min</option>
+                            <option value="hr" {{ hr_selected }}>Hora</option>
                         </optgroup>
                     </select>
-                    <span class="error"><?= $erros['unidade_tempo'] ?></span>
+                    <span class="error">{{ erros.unidade_tempo }}</span>
                 </div>
             </div>
             <div id="numero-pessoas">
                 <label for="numero-pessoas">Nº de Pessoas</label>
                 <select name="numero_pessoas" id="numero-pessoas">
-                    <?php for ($i = 1; $i <= 16; $i++) { ?>
-                        <option value="<?= $i ?>" <?= ($receita['numero_pessoas'] == $i) ? 'selected' : '' ?>><?= $i ?></option>
-                    <?php } ?>
+                    {% set count = 16 %}
+                    {% for i in 1..count %}
+                        {% set selected = receita.numero_pessoas == i ? 'selected' : '' %}
+                        <option value="{{ i }}" {{ selected }}>{{ i }}</option>
+                    {% endfor %}
                 </select>
-                <span class="error"><?= $erros['numero_pessoas'] ?></span>
+                <span class="error">{{ erros.numero_pessoas }}</span>
             </div>
             <div id="div-categorias">
                 <label for="categoria_id">Categoria</label>
                 <select name="categoria_id" id="categoria_id">
-                    <?php foreach ($categorias as $categoria) { ?>
-                        <option value="<?= $categoria['id'] ?>" <?= ($categoria['id'] == $receita['categoria_id']) ? 'selected' : '' ?>><?= html_escape($categoria['nome']) ?></option>
-                    <?php } ?>
+                    {% for categoria in categorias %}
+                        {% set selected = categoria.id == receita.categoria_id ? 'selected' : '' %}
+                        <option value="{{ categoria.id }}" {{ selected }}>{{ categoria.nome }}</option>
+                    {% endfor %}
                 </select>
-                <span class="error"><?= $erros['categoria_id'] ?></span>
+                <span class="error">{{ erros.categoria_id }}</span>
                 <label for="membro_id">Membro</label>
                 <select name="membro_id" id="membros_id">
-                    <?php foreach ($autores as $autor) { ?>
-                        <option value="<?= $autor['id'] ?>" <?= ($autor['id'] == $receita['membro_id']) ? 'selected' : '' ?>><?= html_escape($autor['nome']) ?></option>
-                    <?php } ?>
+                    {% for autor in autores %}
+                        {% set selected = autor.id == receita.membro_id ? 'selected' : '' %}
+                        <option value="{{ autor.id }}" {{ selected }}>{{ autor.nome }}</option>
+                    {% endfor %}
                 </select>
-                <span class="error"><?= $erros['membro_id'] ?></span>
+                <span class="error">{{ erros.membor_id }}</span>
             </div>
             <div id="div-ingredientes">
                 <div id="labels-ingredientes-quantidade">
@@ -98,72 +117,43 @@
                     <label for="quantidade">Quantidade</label>
                 </div>
                 <div class="ingredientes-quantidade">
-                    <?php 
-                        $ingredientes = explode(',', $receita['ingredientes']);
-                        $quantiades = explode(',', $receita['quantidades']);
-                        for ($i = 1; $i <= count($ingredientes); $i++) { ?>
-                            <div class="inputs-ingredientes-quantidade">
-                                <input type="text" name="ingredientes<?= $i ?>" id="ingredientes<?= $i ?>" placeholder="Ex: Salmão" minlength="1" maxlength="32" value="<?= html_escape($ingredientes[$i-1]) ?>">
-                                <span class="error"><?= $erros['ingredientes'] ?></span>
-                                <input type="text" name="quantidades<?= $i ?>" id="quantidades<?= $i ?>" placeholder="Ex: 3; 450g; 100ml..." value="<?= html_escape($quantiades[$i-1]) ?>">
-                                <span class="error"><?= $erros['quantidades'] ?></span>
-                            </div>
-                    <?php } ?>
+                    {% set count = count_ingredientes %}
+                    {% for i in 1..count %}
+                        <div class="inputs-ingredientes-quantidade">
+                            <input type="text" name="ingredientes{{ i }}" id="ingredientes{{ i }}" placeholder="Ex: Salmão" minlength="1" maxlength="32" value="{{ ingredientes[i-1] }}">
+                            <span class="error">{{ erros.ingredientes }}</span>
+                            <input type="text" name="quantidades{{ i }}" id="quantidades{{ i }}" placeholder="Ex: 3; 450g; 100ml..." value="{{ quantidades[i-1] }}">
+                            <span class="error">{{ erros.quantidades }}</span>
+                        </div>
+                    {% endfor %}
                 </div>
                 <input type="button" value="Adicionar Ingrediente" onclick="adicionaIngredienteEQuantidade()">
             </div>
             <div id="div-passos-preparacao">
                 <label for="div-passos-preparacao">Passos para a Preparação</label>
                 <div id="div-textareas">
-                    <?php
-                        $passos_preparacao = explode('#', $receita['passos_preparacao']);
-                        $i = 1;
-                        foreach ($passos_preparacao as $passo) {?>
-                            <div class="textarea">
-                                <label for="passo<?= $i ?>">Passo <?= $i ?></label>
-                                <script>
-                                    tinymce.init({
-                                        selector: 'textarea',
-                                        plugins: [
-                                        // Core editing features
-                                        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                                        // Your account includes a free trial of TinyMCE premium features
-                                        // Try the most popular premium features until Mar 22, 2025:
-                                        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
-                                        ],
-                                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                                        tinycomments_mode: 'embedded',
-                                        tinycomments_author: 'Author name',
-                                        mergetags_list: [
-                                        { value: 'First.Name', title: 'First Name' },
-                                        { value: 'Email', title: 'Email' },
-                                        ],
-                                        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-                                    });
-                                    </script>
-                                    <textarea name="passo<?= $i ?>" id="passo<?= $i ?>"><?= $passo ?></textarea>
-                                    <span class="error"><?= $erros['passos_preparacao'] ?></span>
-                            </div>
-                    <?php
-                        $i++;
-                    } ?>
+                    {% set count = count_passos_preparacao %}
+                    {% for i in 1..count %}
+                        <div class="textarea">
+                            <label for="passo{{ i }}">Passo {{ i }}</label>
+                                <textarea name="passo{{ i }}" id="passo{{ i }}" cols="40" rows="7">{{ passos_preparacao[i-1] }}</textarea>
+                                <span class="error">{{ erros.passos_preparacao }}</span>
+                        </div>
+                    {% endfor %}
                 </div>
                 <input type="button" value="Adicionar Passo" onclick="adicionaPasso()">
             </div>
             <div id="div-keywords-tags-e-section-actions">
                 <div id="div-tags">
                     <label for="tag1">Keywords / Tags</label>
-                    <?php
-                        $keywords = explode('#', $receita['keywords']);
-                        $i = 1;
-                        foreach ($keywords as $keyword) {
-                    ?>
-                            <div class="tags">
-                                <label for="tag<?= $i ?>">Tag <?= $i ?></label>
-                                <input type="text" name="tag<?= $i ?>" id="tag<?= $i ?>" placeholder="Ex: #sushi" value="<?= html_escape($keyword) ?>">
-                                <span class="error"><?= $erros['keywords'] ?></span>
-                            </div>
-                    <?php } ?>
+                    {% set count = count_keywords %}
+                    {% for i in 1..count %}
+                        <div class="tags">
+                            <label for="tag{{ 1 }}">Tag {{ i }}</label>
+                            <input type="text" name="tag{{ i }}" id="tag{{ i }}" placeholder="Ex: #sushi" value="{{ keywords[i-1] }}">
+                            <span class="error">{{ erros.keywords }}</span>
+                        </div>
+                    {% endfor %}
                 </div>
                 <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
                 <section id="actions">
@@ -174,7 +164,6 @@
         </section>
     </form>
 </main>
-<?php require_once 'includes/footer.php'; ?>
 <script>
     let idNameIgrediente = 2
     let idNamePasso = 2
@@ -299,5 +288,4 @@
         idNameTag++
     }
 </script>
-</body>
-</html>
+{% endblock %}

@@ -16,6 +16,12 @@ if (!$receita) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cms->getArticle()->imageDelete($id, $path);
     redirect('create-edit-article.php', ['success' => 'Imagem apagar com êxito', 'id' => $id]);   
-
 }
+
+$membro = $cms->getMember()->get(1);
+
+$data['receita'] = $receita;
+$data['membro'] = $membro;
+
+echo $twig->render('image-delete.html', $data);
 ?>

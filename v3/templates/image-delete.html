@@ -1,16 +1,18 @@
-
+{% extends 'layout.html' %}
+{% block content %}
 <main id="image-delete">
     <section id="apagar">
         <h2>Apagar Imagem</h2>
         <section id="dados">
             <p>Confirma para apagar a imagem:</p>
-            <img src="imagens/comida/<?= $receita['imagem_file'] ?>" alt="">
+            <img src="{{ doc_root}}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} postado por {{ receita.autor }}">
         </section>
         <section id="opcoes">
-            <form action="image-delete.php?id=<?= $id ?>" method="post">
-                <a href="create-edit-article.php?id=<?= $id ?>">Cancelar</a>
+            <form action="image-delete.php?id={{ receita.id }}" method="post">
+                <a href="create-edit-article.php?id={{ receita.id }}">Cancelar</a>
                 <input type="submit" value="Confirmar">
             </form>
         </section>
     </section>
 </main>
+{% endblock %}

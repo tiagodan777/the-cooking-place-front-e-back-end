@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Cooking Place</title>
-    <link rel="shortcut icon" href="imagens/icons/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="estilos/login.css">
-    <link rel="stylesheet" href="estilos/login-tablet.css" media="screen and (min-width: 768px)">
+    <link rel="shortcut icon" href="{{ doc_root }}imagens/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{ doc_root }}estilos/login.css">
+    <link rel="stylesheet" href="{{ doc_root }}estilos/login-tablet.css" media="screen and (min-width: 768px)">
 </head>
 <body>
     <main id="login-principal">
         <section id="principal">
             <section id="login">
-                <h1><img src="imagens/logos/logo-p.png" alt=""></h1>
+                <h1><img src="{{ doc_root }}imagens/logos/logo-p.png" alt=""></h1>
                 <form action="#" method="post">
                     <input type="text" name="user" id="user" placeholder="Nº de telemóvel, nome de utilizador, email">
                     <input type="text" name="password" id="password" placeholder="Palavra-passe">
@@ -25,7 +25,7 @@
             </section>
         </section>
         <aside>
-            <iframe src="videos-pagina-login.php" allow="autoplay;" frameborder="0" scrolling="no"></iframe>
+            <video src="../public/videos-pagina-login/video-1.mov" autoplay muted loop playsinline id="tablet">O neu navegador não suporta vídeos neste formato</video>
         </aside>
     </main>
 </body>

@@ -1,11 +1,12 @@
-
+{% extends 'layout.html' %}
+{% block content %}
 <main id="profile">
     <header>
         <div id="foto_e_bio">
-            <img src="imagens/fotos-perfil/<?= $membro['picture'] ?>" alt="Foto de perfil de <?= $membro['nome'] ?>">
-            <p><?= $membro['bio'] ?></p>
+            <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
+            <p>{{ membro.bio }}</p>
         </div>
-        <h1><?= $membro['nome'] ?></h1>
+        <h1>{{ membro.nome }}</h1>
         <div id="estatisticas_numeros">
             <span>1M</span>
             <span>399</span>
@@ -16,15 +17,17 @@
             <span>a seguir</span>
             <span>receitas</span>
         </div>
-        <p id="joined">Membro desde: <span><?= date('F Y', strtotime($membro['joined'])) ?></span></p>
+        <p id="joined">Membro desde: <span>{{ membro.joined|date('F Y') }}</span></p>
     </header>
     <section>
         <div>
-            <?php foreach ($receitas as $receita) { ?>
-                <a href="article.php?id=<?= $receita['id'] ?>"><img src="imagens/comida/<?= $receita['imagem_file'] ?>" alt="Foto de <?= $receita['titulo'] ?> publicada por <?= $receita['autor'] ?>"></a>
-            <?php } ?>
+            {% for receita in receitas %}
+                <a href="article.php?id={{ receita.id }}"><img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></a>
+            {% endfor %}
+        </div>
     </section>
 </main>
+{% endblock %}
 
 
     

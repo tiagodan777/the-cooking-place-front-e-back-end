@@ -12,4 +12,9 @@ if (!$membro) {
 }
 
 $receitas = $cms->getArticle()->getAll(member:$id);
+
+$data['receitas'] = $receitas;
+$data['membro'] = $membro;
+
+echo $twig->render('profile.html', $data);
 ?>
