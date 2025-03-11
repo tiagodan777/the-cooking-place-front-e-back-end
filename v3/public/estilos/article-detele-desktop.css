@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
-main#article {
+main#article-delete {
     width: calc(100vw - 400px);
 }
 
-main#article > section#apagar {
+main#article-delete > section#apagar {
     height: 900px;
 }  
 
-main#article > section#apagar > section#dados > img {
+main#article-delete > section#apagar > section#dados > img {
     width: 500px;
 }

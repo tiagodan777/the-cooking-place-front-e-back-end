@@ -14,6 +14,8 @@ if ($term) {
 
     if ($count > 0) {
         $receitas = $cms->getArticle()->search($term, $show, $from);
+    } else {
+        redirect('error-page.php', ['message' => 'Não foram encontrados resultados']);
     }
 }
 

@@ -136,7 +136,7 @@
                     {% for i in 1..count %}
                         <div class="textarea">
                             <label for="passo{{ i }}">Passo {{ i }}</label>
-                                <textarea name="passo{{ i }}" id="passo{{ i }}" cols="40" rows="7">{{ passos_preparacao[i-1] }}</textarea>
+                                <textarea name="passo{{ i }}" id="passo{{ i }}" cols="40" rows="7">{{ passos_preparacao[i-1]|raw }}</textarea>
                                 <span class="error">{{ erros.passos_preparacao }}</span>
                         </div>
                     {% endfor %}
