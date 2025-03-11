@@ -1,4 +1,5 @@
-
+{% extends 'layout.html' %}
+{% block content %}
 <section id="opcoes-search">
     <section>
         <div><label for="receitas" onclick="mudaPosicao(0)" id="label-0" style="font-weight: bold;">Receitas</label> <input type="radio" name="opcao" id="receitas" checked></div>
@@ -8,14 +9,14 @@
     <div id="linha-principal"><div id="linha-que-move"></div></div>
 </section>
 <main id="search">
-    <?php foreach ($receitas as $receita) { ?>
+    {% for receita in receitas %}
         <div>
-            <a href="article.php?id=<?= $receita['id'] ?>">
-                <img src="imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= html_escape($receita['autor']) ?>">
+            <a href="article.php?id={{ receita.id }}">
+                <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}">
             </a>
             <footer class="info">
-                <h1><?= html_escape($receita['titulo']) ?></h1>
-                <h2><?= html_escape($receita['descricao']) ?></h2>
+                <h1>{{ receita.titulo }}</h1>
+                <h2>{{ receita.descricao }}</h2>
                 <div class="stats">
                     <div class="likes">
                         <span>10 mil</span>
@@ -28,18 +29,19 @@
                 </div>
             </footer>
         </div>
-    <?php } ?>
+    {% endfor %}
 </main>
 <aside id="search-aside">
-    <?php if ($count > $show) { ?>
+    {% if count > show %}
         <nav class="pagination">
             <ul>
-                <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-                    <li><a href="?search=<?= $term ?>&show=<?= $show ?>&from=<?= (($i - 1) * $show) ?>" class="<?= ($i == $current_page) ? 'ativo' : '' ?>"><?= $i ?></a></li>
-                <?php } ?>
+                {% for i in 1..total_pages %}
+                    {% set ativo =  i == current_page ? 'ativo' : '' %}
+                    <li><a href="?search={{ term|e('url') }}&show={{ show }}&from= {{ (i - 1) * show }}" class="{{ ativo }}">{{ i }}</a></li>
+                {% endfor %}
             </ul>
         </nav>
-    <?php } ?>
+    {% endif %}
 </aside>
 <script>
     function mudaPosicao(pos) {
@@ -63,6 +65,7 @@
         label.style.transition = '0.3s'
     }
 </script>
+{% endblock %}
 
 
 

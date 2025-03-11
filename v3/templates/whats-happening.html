@@ -1,29 +1,30 @@
-
+{% extends 'layout.html' %}
+{% block content %}
 <main id="whats-happening">
     <h1 id="o-que-esta-a-acontecer">O que está a acontecer?</h1>
     <section id="todos-videos">
-        <?php foreach ($quiks as $quik) { ?>
-        <div class="video-individual">
-            <video src="videos-verticais/<?= html_escape($quik['file']) ?>" id="video_<?= $i ?>" muted loop playsinline controls></video>
-            <nav id="navegacao_<?= $i ?>">
-                <ul>
-                    <li><a href="#"><img src="imagens/icons/banana-icon.png" alt="Ícone de banana"></a><p>20 mil</p></li>
-                    <li><a href="#"><span class="material-symbols-outlined">thumb_down</span></a><p>20 mil</p></li>
-                    <li><a href="#"><span class="material-symbols-outlined">chat</span></a><p>20 mil</p></li>
-                    <li><a href="#"><span class="material-symbols-outlined">send</span></a><p>20 mil</p></li>
-                    <li><a href="profile.php?id=<?= $quik['membro_id'] ?>"><img src="imagens/fotos-perfil/<?= $quik['picture'] ?>" alt="Foto de Perfil de <?= $quik['autor'] ?>"></a></li>
-                </ul>
-            </nav>
-            <div id="info">
-                <h1><?= html_escape($quik['titulo']) ?></h1>
-                <?php if ($quik['receita_acoplada_id'] == 0) { ?>
-                    <p><?= html_escape($quik['descricao']) ?><?= html_escape($quik['descricao']) ?></p>
-                <?php } else { ?>
-                    <a href="article.php?id=<?= $quik['receita_acoplada_id'] ?>"><?= html_escape($quik['descricao']) ?></a> 
-                <?php } ?>
+        {% for quik in quiks %}
+            <div class="video-individual">
+                <video src="{{ doc_root }}videos-verticais/{{ quik.file }}" id="video_{{ i }}" muted loop playsinline controls></video>
+                <nav id="navegacao_{{ i }}">
+                    <ul>
+                        <li><a href="#"><img src="{{ doc_root }}imagens/icons/banana-icon.png" alt="Ícone de banana"></a><p>20 mil</p></li>
+                        <li><a href="#"><span class="material-symbols-outlined">thumb_down</span></a><p>20 mil</p></li>
+                        <li><a href="#"><span class="material-symbols-outlined">chat</span></a><p>20 mil</p></li>
+                        <li><a href="#"><span class="material-symbols-outlined">send</span></a><p>20 mil</p></li>
+                        <li><a href="profile.php?id={{ quik.membro_id }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ quik.picture }}" alt="Foto de Perfil de {{ quik.autor }}"></a></li>
+                    </ul>
+                </nav>
+                <div id="info">
+                    <h1>{{ quik.titulo }}</h1>
+                    {% if quik.receita_acoplada_id == 0 %}
+                        <p>{{ quik.descricao }}</p>
+                    {% else %}
+                        <a href="article.php?id={{ quik.receita_acoplada_id }}">{{ quik.descricao }}</a> 
+                    {% endif %}
+                </div>
             </div>
-        </div>
-        <?php } ?>
+        {% endfor %}
     </section>
 </main>
 <script>
@@ -116,3 +117,4 @@ let observer = new IntersectionObserver((entries) => {
 videos.forEach(video => observer.observe(video));
 });
 </script>
+{% endblock %}
