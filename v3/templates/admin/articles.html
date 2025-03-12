@@ -1,12 +1,12 @@
 {% extends 'admin/layout.html' %}
 {% block content %}
-<main>
+<main id="articles">
     <section>
         <header>
             <h1>Receitas</h1>
             <a href="create-edit-article.php">Adicionar nova receita</a>
-            {% if success %}> <div class="alert-success"><?= $success ?></div> {% endif %}
-            {% if failure %} <div class="alert-failure"><?= $failure ?></div> {% endif %}
+            {% if success %}> <div class="alert-success">{{ success }}</div> {% endif %}
+            {% if failure %} <div class="alert-failure">{{ failure }}</div> {% endif %}
         </header>
         <table>
             <thead>
@@ -20,16 +20,6 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($receitas as $receita) { ?>
-                    <tr>
-                        <td><img src="../imagens/comida/<?= html_escape($receita['imagem_file']) ?>" alt="Foto de <?= html_escape($receita['titulo']) ?> publicada por <?= html_escape($receita['autor']) ?>"></td>
-                        <td><?= html_escape($receita['titulo']) ?></td>
-                        <td><?= date('d F Y', strtotime($receita['data'])) ?></td>
-                        <td><?= html_escape($receita['autor']) ?></td>
-                        <td><a href="create-edit-article.php?id=<?= $receita['id'] ?>" class="editar">Editar</a></td>
-                        <td><a href="article-delete.php?id=<?= $receita['id'] ?>" class="apagar">Apagar</a></td>
-                    </tr>
-                <?php } ?>
                 {% for receita in receitas %}
                     <tr>
                         <td><img src="{{ doc_root }}/imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></td>

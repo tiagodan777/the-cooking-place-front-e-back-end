@@ -4,6 +4,7 @@ html, body {
     font-size: 1em;
 }
 
-main > section > table > tbody > tr > td > img {
+main#articles > section > table > tbody > tr > td > img {
     width: 150px;
+    border-radius: none !important;
 }
