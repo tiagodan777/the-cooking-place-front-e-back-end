@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-main {
+main#category-delete {
     width: 100vw;
 }   
 
-main > section#apagar {
+main#category-delete > section#apagar {
     width: 500px;
     height: 300px;
     margin-top: 200px;
@@ -15,12 +15,12 @@ main > section#apagar {
     align-items: center;
 }
 
-main > section#apagar > h2 {
+main#category-delete > section#apagar > h2 {
     margin-bottom: -45px;
     margin-top: -90px;
 } 
 
-main > section#apagar > section#dados > p {
+main#category-delete > section#apagar > section#dados > p {
     font-weight: lighter;
     color: var(--cor4);
     margin-top: 10px;
@@ -28,12 +28,12 @@ main > section#apagar > section#dados > p {
     margin-left: 30px;
 }
 
-main > section#apagar > section#dados > p > span {
+main#category-delete > section#apagar > section#dados > p > span {
     font-weight: bold;
     font-style: italic;
 }
 
-main > section#apagar > section#opcoes > form {
+main#category-delete > section#apagar > section#opcoes > form {
     width: 500px;
     height: 100px;
 
@@ -43,7 +43,7 @@ main > section#apagar > section#opcoes > form {
     align-items: center;
 }
 
-main > section#apagar > section#opcoes > form > a {
+main#category-delete > section#apagar > section#opcoes > form > a {
     text-decoration: none;
     color: var(--cor5);
     background-color: var(--cor3);
@@ -54,12 +54,12 @@ main > section#apagar > section#opcoes > form > a {
     font-weight: bold
 }
 
-main > section#apagar > section#opcoes > form > a:hover {
+main#category-delete > section#apagar > section#opcoes > form > a:hover {
     background-color: #cf264b;
     cursor: pointer;
 }
 
-main > section#apagar > section#opcoes > form > input {
+main#category-delete > section#apagar > section#opcoes > form > input {
     color: var(--cor5);
     background-color: var(--cor2);
     border-radius: 5px;
@@ -70,7 +70,7 @@ main > section#apagar > section#opcoes > form > input {
     font-size: 1em;
 }
 
-main > section#apagar > section#opcoes > form > input:hover {
+main#category-delete > section#apagar > section#opcoes > form > input:hover {
     background-color: #29a460;
     cursor: pointer;
 }

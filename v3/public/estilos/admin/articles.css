@@ -15,6 +15,10 @@ html, body {
     font-size: 0.9em;
 }
 
+main#articles > section {
+    margin-top: 300px;
+}
+
 main#articles > section > table > thead > tr > th > a {
     text-decoration: none;
     color: var(--cor4);
@@ -35,4 +39,5 @@ main#articles > section > table > tbody > tr > td > a.apagar:hover {
 main#articles > section > table > tbody > tr > td > img {
     width: 13vw;
     border-radius: none !important;
+    border-radius: 0px !important;
 }

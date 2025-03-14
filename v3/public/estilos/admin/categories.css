@@ -11,24 +11,25 @@
     --cor6: #000000
 }
 
-main {
+main#categories {
     width: 100vw;
+    margin-top: 200px;
 }
 
-main > section > table > tbody > tr > td > a {
+main#categories > section > table > tbody > tr > td > a {
     background-color: var(--cor0);
 }
 
 
-main > section > table > tbody > tr > td > a.diferente {
+main#categories > section > table > tbody > tr > td > a.diferente {
     background-color: var(--cor3);
 }
 
-main > section > table > tbody > tr > td > a.diferente:hover {
+main#categories > section > table > tbody > tr > td > a.diferente:hover {
     background-color: #d2284d;
 }
 
-tbody > tr > td > a:hover {
+main#categories tbody > tr > td > a:hover {
     cursor: pointer;
     background-color: #d6ba01;
 }

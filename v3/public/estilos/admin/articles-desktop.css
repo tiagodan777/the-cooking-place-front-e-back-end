@@ -6,5 +6,5 @@ html, body {
 
 main#articles > section > table > tbody > tr > td > img {
     width: 150px;
-    border-radius: none !important;
+    border-radius: 0px !important;
 }
