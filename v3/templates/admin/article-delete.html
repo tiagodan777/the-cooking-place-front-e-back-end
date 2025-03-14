@@ -7,9 +7,12 @@
             <p>Confirma para apagar a receita: {{ receita.titulo }}</p>
             <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }}">
         </section>
+        <pre>
+            {{ dump(receita) }}
+        </pre>
         <section id="opcoes">
             <form action="article-delete.php?id={{ receita.id }}" method="post">
-                <a href="article.php?id={{ receita.id }}">Cancelar</a>
+                <a href="articles.php">Cancelar</a>
                 <input type="submit" value="Confirmar">
             </form>
         </section>

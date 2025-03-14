@@ -6,6 +6,8 @@ $show = filter_input(INPUT_GET, 'show', FILTER_VALIDATE_INT) ?? 15;
 $from = filter_input(INPUT_GET, 'from', FILTER_VALIDATE_INT) ?? 0;
 
 $count = 0;
+$total_pages = 0;
+$current_page = 0;
 $receitas = [];
 $arguments = [];
 

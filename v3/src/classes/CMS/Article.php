@@ -43,7 +43,7 @@ class Article {
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE (r.categoria_id = :categoria OR :categoria1 IS null)
                 AND (r.membro_id = :membro OR :membro1 IS null)
-                ORDER BY id ASC;";
+                ORDER BY id DESC;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
 
