@@ -12,7 +12,7 @@ class Article {
     public function get($id) {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, 
                 r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
-                r.imagem_file, r.video_file, r.categoria_id, r.membro_id, c.nome, m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
+                r.imagem_file, r.video_file, r.categoria_id, r.membro_id, c.nome, m.id AS id_membro, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
                 JOIN membro AS m ON r.membro_id = m.id

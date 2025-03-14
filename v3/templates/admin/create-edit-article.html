@@ -51,6 +51,7 @@
             </div>
         </section>
         <section id="info-text">
+            {{ dump(receita) }}
             <div id="div-titulo">
                 <label for="titulo">Título</label>
                 <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64" value="{{ receita.titulo }}">

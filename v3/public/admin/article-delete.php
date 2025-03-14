@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $artigo_apagado = $cms->getArticle()->delete($id);
     if ($imagem_apagada && $artigo_apagado) {
         redirect('articles.php', ['success' => 'Receita apagada com sucesso']);
+    } else {                                                  // Otherwise
+        throw new Exception('Não foi possível apagar a receita');      // Throw an exception
     }
 }
 
