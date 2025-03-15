@@ -28,5 +28,9 @@ class Validate {
         }
         return false;
     }
+
+    public static function isEmail($email) {
+        return (filter_var($email, FILTER_VALIDATE_EMAIL)) ? true: false;
+    }
 }
 

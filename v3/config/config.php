@@ -12,6 +12,16 @@ $username = 'reisupremo';
 $password = 'Tiago1234';
 $dsn = "$type:host=$server;dbname=$db;port=$port;charset=$charset";
 
+$email_config = [
+    'server' => '',
+    'port' => '',
+    'username' => '',
+    'password' => '',
+    'secutiry' => '',
+    'admin_email' => '',
+    'debug' => (DEV) ? 2 : 0,
+];
+
 define('MEDIA_TYPES', ['image/jpeg', 'image/png', 'image/gif',]);
 define('FILE_EXTENSIONS', ['jpeg', 'jpg', 'png', 'gif',]);
 define('MAX_SIZE', '5248800');
