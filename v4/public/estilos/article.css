@@ -68,6 +68,17 @@ main#article > section#topo section#info > section > div > a#user {
     align-items: center;
 }
 
+main#article > section#topo section#info > section > div > a#editar {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--cor5);
+    padding: 10px 20px;
+    background-color: var(--cor1);
+    transform: translate(50px, 50px);
+    border-radius: 10px;
+    margin: 10px;
+}
+
 main#article > section#topo section#info > section > div > a#user > img {
     border-radius: 50%;
 }

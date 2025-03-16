@@ -19,6 +19,10 @@ $twig_options['debug'] = DEV;
 $loader = new \Twig\Loader\FilesystemLoader([APP_ROOT . '/templates']);
 $twig = new Twig\Environment($loader, $twig_options);
 $twig->addGlobal('doc_root', DOC_ROOT);
+
+$cookie = $cms->getCookie();
+$twig->addGlobal('cookie', $cookie);
+
 if (DEV === true) {
     $twig->addExtension(new \Twig\Extension\DebugExtension);
 }

@@ -47,4 +47,19 @@ class Member {
             throw $e;
         }
     }
+
+    public function login($user, $password) {
+        $arguments['user1'] = $user;
+        $arguments['user2'] = $user;
+        $sql = "SELECT id, forename, surname, nascimento, genero, email, telefone, password, joined, bio, picture, role
+                FROM membro
+                WHERE email = :user1
+                OR telefone = :user2;";
+        $member = $this->db->runSQL($sql, $arguments)->fetch();
+        if (!$member) {
+            return false;
+        }
+        $authenticated = password_verify($password, $member['password']);
+        return ($authenticated ? $member : false);
+    }
 }

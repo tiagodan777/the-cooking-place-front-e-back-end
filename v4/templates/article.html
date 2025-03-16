@@ -32,6 +32,11 @@
                     <p>Nº pessoas: {{ receita.numero_pessoas }}</p>
                     <br>
                     <a href="profile.php?id={{ receita.id_membro }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">{{ receita.autor }}</a>
+                    <br>
+                    <br>
+                    {% if cookie.id == receita.membro_id %}
+                        <a href="create-edit-article.php?id={{ receita.id }}" id="editar">Editar</a>
+                    {% endif %}
                 </div>
             </section>
         </section>

@@ -55,6 +55,22 @@ header#cabecalho-principal > form {
     visibility: hidden;
 }
 
+header#cabecalho-principal > div {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    vertical-align: middle;
+}
+
+header#cabecalho-principal > div > a {
+    color: var(--cor1);
+    text-decoration: none;
+    vertical-align: middle;
+
+}
+
 header#cabecalho-principal > div > span {
     font-size: 1.7em;
     padding: 2px;

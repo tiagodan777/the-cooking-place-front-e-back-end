@@ -5,7 +5,7 @@ define("ROOT_FOLTER", 'public');
 
 $type = 'mysql';
 $server = 'localhost';
-$db = 'the-cooking-place-testes';
+$db = 'the-cooking-place';
 $port = '8889';
 $charset = 'utf8mb4';
 $username = 'reisupremo';

@@ -8,6 +8,7 @@ class CMS {
     protected $member = null;
     protected $notification = null;
     protected $quik = null;
+    protected $cookie = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -47,5 +48,12 @@ class CMS {
             $this->quik = new Quik($this->db);
         }
         return $this->quik;
+    }
+
+    public function getCookie() {
+        if ($this->cookie === null) {
+            $this->cookie = new Cookie($this->db);
+        }
+        return $this->cookie;
     }
 }
