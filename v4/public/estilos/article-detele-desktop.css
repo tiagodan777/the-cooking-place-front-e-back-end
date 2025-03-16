@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+main#article-delete {
+    width: 100vw;
+}
+
+main#article-delete > section#apagar {
+    height: 900px;
+}  
+
+main#article-delete > section#apagar > section#dados > img {
+    width: 500px;
+}

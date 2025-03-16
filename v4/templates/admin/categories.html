@@ -1,0 +1,31 @@
+{% extends 'admin/layout.html' %}
+{% block content %}
+<main id="categories">
+    <section>
+        <header>
+            <h1>Categorias</h1>
+            {% if success %} <div class="alert-success">{{ success }}</div> {% endif %}
+            {% if failure %} <div class="alert-failure">{{ failure }}</div> {% endif %}
+            <a href="category.php">Adicionar nova categoria</a>
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col" class="mais-a-esquerda">Editar</th>
+                    <th scope="col" class="mais-a-esquerda">Apagar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                    <tr>
+                        <th scope="row" class="titulo-linha">{{ categoria.nome }}</th>
+                        <td><a href="category.php?id={{ categoria.id }}">Editar</a></td>
+                        <td><a href="category-delete.php?id={{ categoria.id }}" class="diferente">Apagar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,179 @@
+@charset "UTF-8";
+
+html, body {
+    font-weight: normal;
+}
+
+/*header#cabecalho-principal {
+    width: 100vw;
+    border-bottom: 0.5px solid var(--cor4);
+    padding: 15px 20px 0px 20px;
+    position: fixed;
+    background-color: var(--cor5);
+    z-index: 10;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}*/
+
+main#article h1#titulo-receita {
+    padding: 20px 0px 0px 0px;
+    font-weight: bolder;
+}
+
+main#article h2#descricao-receita {
+    text-align: center;
+}
+
+main#article  {
+    margin-top: 68px;
+}
+
+main#article  > section#topo > section#imagem > picture > img {
+    width: 100vw;
+}
+
+main#article > section#topo section#info {
+    padding: 0px 10px;
+}
+
+main#article > section#topo section#info > h2 {
+    font-size: 1.4em;
+    font-weight: lighter;
+}
+
+main#article > section#topo section#info > section {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main#article > section#topo section#info > section > div > p {
+    font-weight: normal;
+    margin: 5px;
+}
+
+main#article > section#topo section#info > section > div > a#user {
+    font-weight: bold;
+    margin: 0px;
+    text-decoration: none;
+    color: var(--cor4);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+main#article > section#topo section#info > section > div > a#user > img {
+    border-radius: 50%;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes {
+    margin: 20px;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.icones {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.icones > span.icones-reacao {
+    flex: 0 0 50px;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.numeros {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.numeros > span {
+    font-size: 0.9em;
+
+    flex: 0 0 55px;
+}
+
+main#article > section#needs {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+main#article > section#needs section#ingredientes {
+    /*align-self: flex-start;*/
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+
+main#article > section#needs section#ingredientes > h2 {
+    margin: 10px;
+}
+
+main#article > section#needs section#ingredientes > ul {
+    list-style-type: none;
+    list-style: none;
+}
+
+main#article > section#needs section#ingredientes > ul > li {
+    padding: 10px;
+}
+
+main#article > section#needs section#ingredientes > ul > li > input, main > section#ingredientes > ul > li > label {
+    padding: 20px;
+}
+
+main#article > section#needs section#video {
+    position: relative;
+    width: 100vw;
+}
+
+main#article > section#needs section#video > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+}
+
+main#article > section#steps > ul {
+    list-style-type: none;
+    line-height: 1.75em;
+}
+
+main#article > section#needs section#steps > ul > li {
+    margin: 15px 10px;
+}
+
+main#article > section#steps > ul > li > span {
+    display: block;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+main#article > aside {
+    width: 90vw;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.298);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 100px;
+}
+
+maimain#articlen > aside > h3 {
+    margin: 10px 0px 20px 0px;
+}
+
+main#article > aside > article {
+    border: 0.5px solid #cecece;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px;
+}
+
+main#article > aside > article > h4 {
+    margin: 10px 0px;
+}
