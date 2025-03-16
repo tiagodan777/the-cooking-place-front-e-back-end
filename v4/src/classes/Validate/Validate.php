@@ -32,5 +32,22 @@ class Validate {
     public static function isEmail($email) {
         return (filter_var($email, FILTER_VALIDATE_EMAIL)) ? true: false;
     }
+
+    public static function isGenero($genero) {
+        $allowed_types = ['M', 'F', 'D'];
+        return in_array($genero, $allowed_types);
+    }
+
+    public static function isPassword($password)
+    {
+        if ( mb_strlen($password) >= 8                     // Length 8 or more chars
+            and preg_match('/[A-Z]/', $password)             // Contains uppercase A-Z
+            and preg_match('/[a-z]/', $password)             // Contains lowercase a-z
+            and preg_match('/[0-9]/', $password)             // Contains 0-9
+        ) {
+            return true;                                     // Passed all tests
+        }
+        return false;                                      // Invalid password
+    }
 }
 

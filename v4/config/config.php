@@ -1,6 +1,6 @@
 <?php
 define('DEV', true);
-define("DOC_ROOT", '/the-cooking-place-front-e-back-end/v3/public/');
+define("DOC_ROOT", '/the-cooking-place-front-e-back-end/v4/public/');
 define("ROOT_FOLTER", 'public');
 
 $type = 'mysql';

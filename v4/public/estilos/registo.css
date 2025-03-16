@@ -30,7 +30,7 @@ body {
 
 main#register > div#conteiner > section > h1 {
     margin-top: 130px;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
 main#register {
@@ -101,12 +101,16 @@ main#register > div#conteiner > section > form > fieldset#contatos > div {
 }
 
 main#register > div#conteiner > section > form > fieldset#nascimento, main#register > div#conteiner > section > form > fieldset#genero {
-    width: 350px;
+    width: 335px;
 
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
+}
+
+main#register > div#conteiner > section > form > fieldset#nascimento {
+    margin-top: 20px;
 }
 
 main#register > div#conteiner > section > form > fieldset#genero {
