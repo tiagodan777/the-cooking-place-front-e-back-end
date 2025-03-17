@@ -16,9 +16,11 @@
                 <form action="login.php" method="post">
                     <input type="text" name="user" id="user" placeholder="Nº de telemóvel, nome de utilizador, email">
                     <input type="password" name="password" id="password" placeholder="Palavra-passe">
+                    <span class="error">{{ erros.password }}</span>
                     <input type="submit" value="Iniciar sessão" id="submit">
+                    <span class="error">{{ erros.message }}</span>
                 </form>
-                <a href="forgot-password.php">Esqueceste-te da password?</a>
+                <a href="password-lost.php">Esqueceste-te da password?</a>
             </section>
             <section id="registo">
                 <a href="register.php">Ainda não te registas-te? <span>Cria um conta</span></a>

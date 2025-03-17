@@ -2,6 +2,7 @@
 define('DEV', true);
 define("DOC_ROOT", '/the-cooking-place-front-e-back-end/v4/public/');
 define("ROOT_FOLTER", 'public');
+define('DOMAIN', 'http://localhost:8888'); 
 
 $type = 'mysql';
 $server = 'localhost';
@@ -17,7 +18,7 @@ $email_config = [
     'port' => '',
     'username' => '',
     'password' => '',
-    'secutiry' => '',
+    'security' => '',
     'admin_email' => '',
     'debug' => (DEV) ? 2 : 0,
 ];

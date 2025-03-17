@@ -2,6 +2,7 @@
 use TiagoDaniel\Validate\Validate;
 
 require_once '../../src/bootstrap.php';
+is_admin($cookie->role);
 
 $unidades_tempo = ['min', 'hr'];
 

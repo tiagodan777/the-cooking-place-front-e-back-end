@@ -34,6 +34,13 @@ function create_filename($basename, $upload_path) {
     return $basename;
 }
 
+function is_admin($role) {
+    if ($role !== 'imperador_supremo_do_universo') {
+        header('Location: ' . DOC_ROOT);
+        exit;
+    }
+}
+
 //set_error_handler('handle_error');
 function handle_error($type, $message, $file, $line) {
     throw new ErrorException($message, 0, $type, $file, $line);

@@ -9,14 +9,14 @@ class Cookie {
         $this->id = $_COOKIE['id'] ?? 0;
         $this->forename = $_COOKIE['forename'] ?? '';
         $this->picture = $_COOKIE['picture'] ?? '';
-        $this->role = $_COOKIE['role'] ?? '';
+        $this->role = $_COOKIE['role'] ?? 'public';
     }
 
     public function create($member) {
-        setcookie('id', $member['id'], time() + 180, '/', '', false, true);
-        setcookie('forename', $member['forename'], time() + 180, '/', '', false, true);
-        setcookie('picture', $member['picture'], time() + 180, '/', '', false, true);
-        setcookie('role', $member['role'], time() + 180, '/', '', false, true);
+        setcookie('id', $member['id'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
+        setcookie('forename', $member['forename'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
+        setcookie('picture', $member['picture'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
+        setcookie('role', $member['role'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
     }
 
     public function uptade($member) {

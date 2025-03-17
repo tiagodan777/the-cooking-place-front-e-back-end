@@ -2,4 +2,4 @@
 require_once '../src/bootstrap.php';
 
 $cms->getCookie()->delete();
-redirect('');
+redirect('index.php');

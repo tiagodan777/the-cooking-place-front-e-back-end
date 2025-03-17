@@ -9,6 +9,7 @@ class CMS {
     protected $notification = null;
     protected $quik = null;
     protected $cookie = null;
+    protected $token = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -55,5 +56,12 @@ class CMS {
             $this->cookie = new Cookie($this->db);
         }
         return $this->cookie;
+    }
+
+    public function getToken() {
+        if ($this->token === null) {
+            $this->token = new Token($this->db);
+        }
+        return $this->token;
     }
 }

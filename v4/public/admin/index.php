@@ -1,5 +1,6 @@
 <?php
 require_once '../../src/bootstrap.php';
+is_admin($cookie->role);
 
 $categorias = $cms->getCategory()->count();
 

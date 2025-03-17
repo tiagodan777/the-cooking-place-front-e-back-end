@@ -12,7 +12,7 @@ class Member {
     }
 
     public function get($id) {
-        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture
+        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture, email
                 FROM membro
                 WHERE id = :id;";
         return $this->db->runSQL($sql, [$id])->fetch();
@@ -61,5 +61,20 @@ class Member {
         }
         $authenticated = password_verify($password, $member['password']);
         return ($authenticated ? $member : false);
+    }
+
+    public function getIdByEmail($email) {
+        $sql = "SELECT id FROM membro
+                WHERE email = :email;";
+        return $this->db->runSQL($sql, [$email])->fetchColumn();
+    }
+
+    public function passwordUpdate($id, $password) {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "UPDATE membro
+                SET password = :hash
+                WHERE id = :id;";
+        $this->db->runSQL($sql, ['id' => $id, 'hash' => $hash,]);
+        return true;
     }
 }
