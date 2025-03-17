@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main id="edit-profile">
+    <section>
+        <h1>Editar Perfil</h1>
+        {% if erros.warning %}
+            <div class="alter-failure">{{ erros.warning }}</div>
+        {% endif %}
+        <form action="edit-profile.php?id={{ cookie.id }}" method="post">
+            <div id="div-imagem">
+                {% if membro.picture %}
+                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
+                {% else %}
+                    <img src="{{ doc_root }}imagens/fotos-perfil/blank.png" alt="Foto de perdil genérica">
+                {% endif %}
+                <a href="edit-profile.picture.php">Mudar Foto de Perfil</a>
+            </div>
+            <div id="informacoes">
+                <div>
+                    <label for="nome">Primeiro Nome</label><input type="text" name="primeiro_nome" id="primeiro_nome" placeholder="Primeiro nome" minlength="1" maxlength="60" required autocomplete="name" value="{{ membro.primeiro_nome }}">
+                    <span class="error">{{ erros.primeiro_nome }}</span>
+                </div>
+
+                <div>
+                    <label for="nome">Último Nome</label><input type="text" name="ultimo_nome" id="ultimo_nome" placeholder="Último nome" minlength="1" maxlength="60" required autocomplete="name" value="{{ membro.ultimo_nome }}">
+                    <span class="error">{{ erros.ultimo_nome }}</span>
+                </div>
+
+                <div>
+                    <label for="telemovel">Nº de Telemóvel</label><input type="tel" name="telemovel" id="telemovel" placeholder="Número de telemóvel" required minlength="9" maxlength="9" autocomplete="tel" value="{{ membro.telemovel }}">
+                    <span class="error">{{ error.telemovel }}</span>
+                </div>
+                
+                <div>
+                    <label for="email">Email</label><input type="email" name="email" id="email" placeholder="Email" required autocomplete="email" value="{{ membro.email }}">
+                    <span class="error">{{ error.email }}</span>
+                </div>
+                
+                <div>
+                    <label for="bio">Bio</label><br>
+                    <textarea name="bio" id="bio" cols="47" rows="7"></textarea>
+                </div>
+            </div>            
+            <input type="submit" value="Guardar">
+        </form>
+    </section>
+</main>
+{% endblock %}
+
+
+    

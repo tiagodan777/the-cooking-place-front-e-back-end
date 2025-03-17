@@ -3,13 +3,15 @@ use TiagoDaniel\Validate\Validate;
 
 require_once '../src/bootstrap.php';
 
+require_login($cookie);
+
 $unidades_tempo = ['min', 'hr'];
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $temp = $_FILES['imagem']['tmp_name'] ?? '';
 $erro_com_a_imagem = $_FILES['imagem']['error'] ?? '';
 $destination = '';
-$autor = '';
+/*$autor = '';*/
 
 $receita = [
     'id' => $id,
@@ -53,7 +55,7 @@ $saved_image = $receita['imagem_file'] ? true : false;
 
 $categorias = $cms->getCategory()->getAll();
 
-$autores = $cms->getMember()->getAll();
+/*$autores = $cms->getMember()->getAll();*/
 
 $membro = $cms->getMember()->get(1);
 
@@ -88,11 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $purifier->config->set('HTML.Allowed', 'p,br,strong,em,a[href],img[src|alt]');
     $receita['passos_preparacao'] = $purifier->purify($receita['passos_preparacao']);
 
-    foreach ($autores as $autor) {
+    /*foreach ($autores as $autor) {
         if ($receita['membro_id'] == $autor['id']) {
             $autor = $autor['nome'];
         }
-    }
+    }*/
 
     $erros['titulo'] = Validate::isText($receita['titulo'], 1, 64) ? '' : 'O título deve ter entre 1 e 64 caracteres';
     $erros['descricao'] = Validate::isText($receita['descricao'], 1, 256) ? '' : 'A descrição deve ter entre 1 e 256 caracteres';
@@ -104,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $erros['passos_preparacao'] = Validate::isText($receita['passos_preparacao'], 0, 65244) ? '' : 'A soma de todos oscaracteres de todos os passos de preparação não deve ser maior que 65244';
     $erros['keywords'] = Validate::isText($receita['keywords'], 0, 1024) ? '' : 'A soma de todos os caracteres de todas as keywords não deve ser mairo que 1024';
     $erros['categoria_id'] = Validate::isCategoryId($receita['categoria_id'], $categorias) ? '' : 'A categoria selectionada não é válida';
-    $erros['membro_id'] = Validate::isMemberId($receita['membro_id'], $autores);
+    /*$erros['membro_id'] = Validate::isMemberId($receita['membro_id'], $autores);*/
 
     $invalid = implode($erros);
 
@@ -142,8 +144,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $data['receita'] = $receita;
 $data['erros'] = $erros;
 $data['categorias'] = $categorias;
-$data['autores'] = $autores;
-$data['autor'] = $autor;
+/*$data['autores'] = $autores;
+$data['autor'] = $autor;*/
 $data['membro'] = $membro;
 $data['ingredientes'] = explode(',', $receita['ingredientes']);
 $data['quantidades'] = explode(',', $receita['quantidades']);

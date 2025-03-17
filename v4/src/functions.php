@@ -41,6 +41,12 @@ function is_admin($role) {
     }
 }
 
+function require_login($cookie) {
+    if ($cookie->id == 0) {
+        redirect('login.php', ['failure' => 'Tens de fazer login para ter acesso a essa funcionalidade']);
+    }
+}
+
 //set_error_handler('handle_error');
 function handle_error($type, $message, $file, $line) {
     throw new ErrorException($message, 0, $type, $file, $line);

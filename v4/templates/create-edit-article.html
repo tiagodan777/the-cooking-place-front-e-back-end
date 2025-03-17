@@ -71,9 +71,12 @@
                             {% if receita.unidade_tempo == 'min' %}
                                 {% set min_selected = 'selected' %}
                                 {% set hr_selected = '' %}
-                            {% else %}
+                            {% elseif receita.unidade_tempo == 'hr' %}
                                 {% set hr_selected = 'selected' %}
                                 {% set min_selected = '' %}
+                            {% else %}
+                                {% set min_selected = 'selected' %}
+                                {% set hr_selected = '' %}
                             {% endif %}
                             <option value="min" {{ min_selected }}>Min</option>
                             <option value="hr" {{ hr_selected }}>Hora</option>
@@ -102,13 +105,8 @@
                     {% endfor %}
                 </select>
                 <span class="error">{{ erros.categoria_id }}</span>
-                <label for="membro_id">Membro</label>
-                <select name="membro_id" id="membros_id">
-                    {% for autor in autores %}
-                        {% set selected = autor.id == receita.membro_id ? 'selected' : '' %}
-                        <option value="{{ autor.id }}" {{ selected }}>{{ autor.nome }}</option>
-                    {% endfor %}
-                </select>
+
+                <input type="hidden" name="membro_id" value="{{ cookie.id }}">
                 <span class="error">{{ erros.membor_id }}</span>
             </div>
             <div id="div-ingredientes">
