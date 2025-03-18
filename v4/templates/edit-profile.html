@@ -10,24 +10,25 @@
             <div id="div-imagem">
                 {% if membro.picture %}
                     <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
+                    <a href="edit-profile-picture.php?id={{ membro.id }}">Mudar Foto de Perfil</a>
                 {% else %}
-                    <img src="{{ doc_root }}imagens/fotos-perfil/blank.png" alt="Foto de perdil genérica">
+                    <img src="{{ doc_root }}imagens/fotos-perfil/blank.png" alt="Foto de perfil genérica">
+                    <a href="edit-profile-picture.php?id={{ membro.id }}">Adicionar foto de perfil</a>
                 {% endif %}
-                <a href="edit-profile.picture.php">Mudar Foto de Perfil</a>
             </div>
             <div id="informacoes">
                 <div>
-                    <label for="nome">Primeiro Nome</label><input type="text" name="primeiro_nome" id="primeiro_nome" placeholder="Primeiro nome" minlength="1" maxlength="60" required autocomplete="name" value="{{ membro.primeiro_nome }}">
+                    <label for="nome">Primeiro Nome</label><input type="text" name="primeiro_nome" id="primeiro_nome" placeholder="Primeiro nome" minlength="1" maxlength="60" required autocomplete="name" value="{{ membro.forename }}">
                     <span class="error">{{ erros.primeiro_nome }}</span>
                 </div>
 
                 <div>
-                    <label for="nome">Último Nome</label><input type="text" name="ultimo_nome" id="ultimo_nome" placeholder="Último nome" minlength="1" maxlength="60" required autocomplete="name" value="{{ membro.ultimo_nome }}">
+                    <label for="nome">Último Nome</label><input type="text" name="ultimo_nome" id="ultimo_nome" placeholder="Último nome" minlength="1" maxlength="60" required autocomplete="name" value="{{ membro.surname }}">
                     <span class="error">{{ erros.ultimo_nome }}</span>
                 </div>
 
                 <div>
-                    <label for="telemovel">Nº de Telemóvel</label><input type="tel" name="telemovel" id="telemovel" placeholder="Número de telemóvel" required minlength="9" maxlength="9" autocomplete="tel" value="{{ membro.telemovel }}">
+                    <label for="telemovel">Nº de Telemóvel</label><input type="tel" name="telefone" id="telefone" placeholder="Número de telemóvel" required minlength="9" maxlength="9" autocomplete="tel" value="{{ membro.telefone }}">
                     <span class="error">{{ error.telemovel }}</span>
                 </div>
                 
@@ -38,9 +39,73 @@
                 
                 <div>
                     <label for="bio">Bio</label><br>
-                    <textarea name="bio" id="bio" cols="47" rows="7"></textarea>
+                    <textarea name="bio" id="bio" cols="47" rows="7">{{ membro.bio }}</textarea>
+                </div>
+
+                <div id="nascimento">
+                    <label for="data-nascimento">Data de nascimento</label><br>
+                    <select name="dia" id="dia">
+                        {% set count = 31 %}
+                        {% for i in 1..count %}
+                            {% if i < 10 %}
+                                {% if dia == i %}
+                                    <option value="0{{i}}" selected>{{ i }}</option>
+                                {% else %}
+                                    <option value="0{{i}}">{{ i }}</option>
+                                {% endif %}
+                            {% else %}
+                                {% if dia == i %}
+                                    <option value="{{i}}" selected>{{ i }}</option>
+                                {% else %}
+                                    <option value="{{i}}">{{ i }}</option>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="error">{{ error.dia }}</span>
+                    <select name="mes" id="mes">
+                        {% set count = 12 %}
+                        {% for i in 1..count %}
+                            {% if i < 10 %}
+                                {% if mes == i %}
+                                    <option value="0{{i}}" selected>{{ meses[i-1] }}</option>
+                                {% else %}
+                                    <option value="0{{i}}">{{ meses[i-1] }}</option>
+                                {% endif %}
+                            {% else %}
+                                {% if mes == i %}
+                                    <option value="{{i}}" selected>{{ meses[i-1] }}</option>
+                                {% else %}
+                                    <option value="{{i}}">{{ meses[i-1] }}</option>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="error">{{ error.mes }}</span>
+                    <select name="ano" id="ano">
+                        {% set count = 2025 %}
+                        {% for i in count..1900 %}
+                            {% if ano == i %}
+                                <option value="{{i}}" selected>{{ i }}</option>
+                            {% else %}
+                                <option value="{{i}}">{{ i }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="error">{{ error.ano }}</span>
+                </div>
+                <div id="genero">
+                    <label for="select_genero">Género</label><br>
+                    <select name="genero" id="select_genero">
+                        <option value="M" {% if membro.genero == 'M' %} selected {% endif %}>Masculino</option>
+                        <option value="F" {% if membro.genero == 'F' %} selected {% endif %}>Feminino</option>
+                        <option value="D" {% if membro.genero == 'D' %} selected {% endif %}>Desconhecido</option>
+                    </select>
+                    <span class="error">{{ error.genero }}</span>
                 </div>
             </div>            
+            <pre>{{ dump(membro) }}</pre>
+            {{ dump(nome) }}
             <input type="submit" value="Guardar">
         </form>
     </section>

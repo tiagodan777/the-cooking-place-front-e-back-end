@@ -96,6 +96,11 @@ main#edit-profile > section > form > div#informacoes > div > input {
     border-radius: 3px;
 }
 
+main#edit-profile > section > form > div > div#nascimento > select, main#edit-profile > section > form > div > div#genero > select {
+    padding: 10px 45px 10px 0px;
+    margin: 10px 0px;
+}
+
 /*main#edit-profile > section > form > div > textarea {
     width: 400px;
     border: 1px solid rgb(210, 210, 210);
