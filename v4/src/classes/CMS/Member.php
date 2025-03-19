@@ -1,8 +1,6 @@
 <?php
 namespace TiagoDaniel\CMS;
 
-use ReturnTypeWillChange;
-
 class Member {
     private $db;
 
