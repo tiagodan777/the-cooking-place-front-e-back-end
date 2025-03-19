@@ -2,7 +2,7 @@
 {% block content %}
 <main id="edit-profile-picture">
     <section id="apagar">
-        {% if membro.picture %}
+        {% if membro.picture != 'blank.jpg' %}
             <h2>Apagar Foto de perfil</h2>
             <section class="dados" id="dados-apagar">
                 <p>Confirma para apagar a Foto</p>
