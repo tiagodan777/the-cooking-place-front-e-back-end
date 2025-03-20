@@ -1,0 +1,40 @@
+{% extends 'admin/layout.html' %}
+{% block content %}
+<main id="index">
+    <section>
+        <header>
+            <h1>ADMIN</h1>
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">Contagem</th>
+                    <th scope="col">Criar</th>
+                    <th scope="col">Ver</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" class="titulo-linha">Categorias</th>
+                    <td>{{ categorias }}</td>
+                    <td><a href="category.php">Adicionar</a></td>
+                    <td><a href="categories.php">Ver</a></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="titulo-linha">Receitas</th>
+                    <td>{{ receitas }}</td>
+                    <td><a href="create-edit-article.php">Adicionar</a></td>
+                    <td><a href="articles.php">Ver</a></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="titulo-linha">Membros</th>
+                    <td>{{ membros }}</td>
+                    <td><a href="register.php">Adicionar</a></td>
+                    <td><a href="members.php">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+{% endblock %}
