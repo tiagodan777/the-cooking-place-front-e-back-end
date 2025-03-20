@@ -29,6 +29,7 @@ main#article h2#descricao-receita {
 
 main#article  {
     margin-top: 68px;
+    font-weight: normal;
 }
 
 main#article  > section#topo > section#imagem > picture > img {
@@ -154,16 +155,27 @@ main#article > section#needs section#video > iframe {
 main#article > section#steps > ul {
     list-style-type: none;
     line-height: 1.75em;
+    width: 700px;
+    margin-left: -400px;
+    text-align: justify;
 }
 
-main#article > section#needs section#steps > ul > li {
-    margin: 15px 10px;
+main#article > section#steps > ul > li {
+    margin-bottom: 30px;
 }
 
 main#article > section#steps > ul > li > span {
     display: block;
     font-weight: 600;
     font-size: 1.2em;
+    margin: 5px;
+}
+
+main#article > section#steps > ul > li > span.passo {
+    display: block;
+    font-weight: normal;
+    font-size: 1em;
+    text-indent: 20px;
 }
 
 main#article > aside {

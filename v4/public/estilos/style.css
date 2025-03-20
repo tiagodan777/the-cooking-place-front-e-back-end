@@ -210,3 +210,18 @@ footer > a > span.aparece-desktop {
     content: ;
 }
 
+.success {
+    background-color: #2fbf707c;
+    color: var(--cor5);
+    padding: 10px 35px;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.failure, .error {
+    background-color: #ef2d577e;
+    color: var(--cor5);
+    padding: 10px 35px;
+    border-radius: 5px;
+    margin: 10px;
+}

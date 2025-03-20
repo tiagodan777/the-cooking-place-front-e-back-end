@@ -47,7 +47,7 @@
             <ul>
                 {% set i = 0 %}
                 {% for ingrediente in ingredientes %}
-                    <li><input type="checkbox" name="<?= {{ ingrediente|lower }} ?>" id="{{ ingrediente|lower }}"><label for="{{ ingrediente|lower }}">{{ ingrediente }} {{ quantidades[i] }}</label></li>
+                    <li><input type="checkbox" name="<?= {{ ingrediente|lower }} ?>" id="{{ ingrediente|lower }}"> <label for="{{ ingrediente|lower }}">{{ ingrediente }} {{ quantidades[i] }}</label></li>
                     {% set i = i + 1 %}
                 {% endfor %}
             </ul>
@@ -59,7 +59,7 @@
     <section id="steps">
         <ul>
             {% for passo in passos_preparacao %}
-                <li><span>Passo </span>{{ passo }}</li>
+                <li><span>Passo {{ loop.index }} </span><span class="passo">{{ passo }}</span></li>
             {% endfor %}
         </ul>
     </section>

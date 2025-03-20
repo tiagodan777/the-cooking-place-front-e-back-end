@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!$apagar) {
             redirect('edit-profile.php', ['message' => 'Não foi possível apagar a foto de perfil']);
         } else {
-            setcookie('picture', '', time() - 3600, '/', '', false, true);
+            setcookie('picture', 'blank.jpg', time() + 60 * 60 * 24 * 7, '/', '', false, true);
             redirect('edit-profile-picture.php', ['message' => 'Foto de perdil apagada']);
         }
     } else {

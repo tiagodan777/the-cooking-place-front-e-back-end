@@ -32,7 +32,7 @@ main#profile > header > div#foto_e_bio > p {
 }
 
 main#profile > header > h1 {
-    margin-top: -120px;
+    margin-top: -90px;
     margin-bottom: 40px;
     font-size: 1.8em;
 }
@@ -57,6 +57,7 @@ main#profile > header > p {
 
 main#profile > section {
     width: 60vw;
+    margin-top: 0px;
 
     display: flex;
     flex-flow: row nowrap;

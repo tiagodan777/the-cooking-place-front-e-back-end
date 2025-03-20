@@ -4,6 +4,7 @@ require_once '../src/bootstrap.php';
 
 $user = '';
 $errors = [];
+$success = $_GET['success'] ?? '';
 
 $logged_in = $_COOKIE['id'] ?? 0;
 
@@ -33,5 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $data['user'] = $user;
 $data['erros'] = $errors;
+$data['success'] = $success;
 
 echo $twig->render('login.html', $data);

@@ -42,7 +42,7 @@
         </form>
         <div>
             <a href="{{ doc_root }}create-edit-article.php"><span class="material-symbols-outlined">add_box</span></a>
-            <a href="{{ doc_root }}profile.php?id={{ membro.id }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de membro.nome" class="membro-foto-perfil"></a>
+            <a href="{{ doc_root }}profile.php?id={{ cookie.id }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ cookie.picture }}" alt="Foto de perfil de {{ cookie.nome }}" class="membro-foto-perfil"></a>
         </div>
     </header>
     <br>
@@ -53,7 +53,7 @@
         <a href="{{ doc_root }}notifications.php"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
         <a href="{{ doc_root }}all-messages.php"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
         <a href="{{ doc_root }}whats-happening.php"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
-        <a href="{{ doc_root }}profile.php?id={{ membro.id }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}" class="membro-foto-perfil"> <span class="descricao-icone nao-destaque">Perfil</span></a>
+        <a href="{{ doc_root }}profile.php?id={{ cookie.id }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ cookie.picture }}" alt="Foto de perfil de {{ cookie.nome }}" class="membro-foto-perfil"> <span class="descricao-icone nao-destaque">Perfil</span></a>
         <a href="{{ doc_root }}create-edit-article.php"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
         <a href="{{ doc_root }}search.php"><span class="material-symbols-outlined aparece-mobile">search</span></a>
     </footer>

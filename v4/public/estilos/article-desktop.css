@@ -72,7 +72,7 @@ main#article > section#needs section#ingredientes {
     /*align-self: flex-start;*/
     margin-top: -20px;
     margin-bottom: 20px;
-    width: 25%;
+    width: 30%;
 }
 
 main#article > section#needs section#video {
@@ -86,6 +86,7 @@ main#article > section#needs section#video > iframe {
     left: 0;
     width: 100%;
 }
+
 
 /*main > section#topo > section > picture > img {
     width: 500px;

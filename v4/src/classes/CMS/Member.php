@@ -110,7 +110,7 @@ class Member {
     public function pictureCreate($member, $temp, $destination) {
         try {   
             $imagick = new \Imagick($temp);
-            $imagick->cropThumbnailImage(150, 150);
+            $imagick->cropThumbnailImage(100, 100);
             $imagick->writeImage($destination);
 
             $sql = "UPDATE membro
@@ -141,5 +141,25 @@ class Member {
         $sql = "UPDATE membro SET picture = 'blank.jpg' WHERE id = :id;";
         $this->db->runSQL($sql, [$id]);
         return true;
+    }
+
+    public function delete($member) {
+        try {
+            $this->db->beginTransaction();
+
+            $sql = "DELETE FROM receita 
+                    WHERE membro_id = :id;";
+            $this->db->runSQL($sql, [$member['id']]);
+
+            $sql = "DELETE FROM membro
+                    WHERE id = :id;";
+            $this->db->runSQL($sql, [$member['id']]);
+
+            $this->db->commit();
+        } catch (\PDOException $e) {
+            $this->db->rollBack();
+
+            return false;
+        }
     }
 }

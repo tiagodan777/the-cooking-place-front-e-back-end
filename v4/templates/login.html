@@ -12,13 +12,14 @@
     <main id="login-principal">
         <section id="principal">
             <section id="login">
+                {% if success %} <span class="success">{{ success }}</span> {% endif %}
                 <h1><a href="index.php"><img src="{{ doc_root }}imagens/logos/logo-p.png" alt=""></a></h1>
                 <form action="login.php" method="post">
                     <input type="text" name="user" id="user" placeholder="Nº de telemóvel, nome de utilizador, email">
                     <input type="password" name="password" id="password" placeholder="Palavra-passe">
-                    <span class="error">{{ erros.password }}</span>
+                    {% if erros.password %} <span class="error">{{ erros.password }}</span> {% endif %}
                     <input type="submit" value="Iniciar sessão" id="submit">
-                    <span class="error">{{ erros.message }}</span>
+                    {% if erros.message %} <span class="error">{{ erros.message }}</span> {% endif %}
                 </form>
                 <a href="password-lost.php">Esqueceste-te da password?</a>
             </section>

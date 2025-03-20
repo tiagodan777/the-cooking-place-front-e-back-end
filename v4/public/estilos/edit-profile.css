@@ -112,8 +112,21 @@ main#edit-profile > section > form > input {
     background-color: var(--cor0);
     text-transform: uppercase;
     border: none;
-    padding: 5px 10px;
+    padding: 10px 20px;
     border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
 
     align-self: flex-end;
+}
+
+main#edit-profile > section > form > a#apagar-conta {
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: var(--cor3);
+    color: var(--cor5);
+    font-weight: normal;
+    align-self: flex-start;
+    margin-top: 80px;
+    border-radius: 5px;
 }
