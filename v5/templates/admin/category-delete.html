@@ -1,0 +1,17 @@
+{% extends 'admin/layout.html' %}
+{% block content %}
+<main id="category-delete">
+    <section id="apagar">
+        <h2>Apagar Categoria</h2>
+        <section id="dados">
+            <p>Confirma para apagar a categoria: <span>{{ categoria.nome }}</span></p>
+        </section>
+        <section id="opcoes">
+            <form action="category-delete.php?id={{ categoria.id }}" method="post">
+                <a href="categories.php">Cancelar</a>
+                <input type="submit" value="Confirmar">
+            </form>
+        </section>
+    </section>
+</main>
+{% endblock %}

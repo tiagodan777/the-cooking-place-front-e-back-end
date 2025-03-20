@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main id="contact">
+    <section>
+        <h1>Fala connosco</h1>
+        <form action="contact.php" method="post">
+            <div><label for="email">Email</label><br><br><input type="email" name="email" id="email" placeholder="Ex: tiagoamdaniel488@gmail.com"><br><span></span></div>
+            <br>
+            <div><label for="message">Mensagem</label><br><br><textarea name="message" id="message" rows="8"></textarea></div>
+            <input type="submit" value="Enviar">
+        </form>
+    </section>
+</main>
+{% endblock %}

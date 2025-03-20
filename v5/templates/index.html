@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main id="index">
+    {% for article in articles %}
+        <article {% if count == 0 %} id='primeiro-artigo' {% set count = 1 %} {% endif %}>
+            <header>
+                <a href="{{ doc_root }}profile.php?id={{ article.membro_id }}">
+                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ article.picture }}" alt="Foto de perfil de {{ article.autor }}">
+                    <span class="nome">{{ article.autor }}</span>
+                </a>
+                <span class="data">Há {{ article.data|date }}</span>
+                <br>
+            </header>
+            <section>
+                <a href="{{ doc_root }}article.php?id={{ article.id }}"><img src="{{ doc_root }}imagens/comida/{{ article.imagem_file }}" alt="Foto de {{ article.titulo }} publicada por {{ article.autor }}"></a>
+            </section>
+            <aside class="aside-principal">
+                <section>
+                    <div class="icones">
+                        <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span>
+                        <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
+                        <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
+                    </div>
+                    <div class="numeros">
+                        <span>3231</span>
+                        <span>100</span>
+                        <span>55</span>
+                    </div>
+                    <h2>{{ article.titulo }}</h2>
+                    <p>{{ article.descricao }}</p>
+                </section>
+                <aside>
+                    <a href="#">Ver os 100 comentários</a>
+                </aside>
+            </aside>
+        </article>
+    {% endfor %}
+</main>
+{% endblock %}

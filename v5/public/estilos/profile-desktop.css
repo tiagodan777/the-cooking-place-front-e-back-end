@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+main#profile {
+    align-self: center;
+}
+
+main#profile > header {
+    width: 70vw;
+    margin-top: 100px;
+    margin-bottom: 200px;
+
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+main#profile > header > div#foto_e_bio {
+    width: 100%;
+
+    flex-flow: column nowrap;
+}
+
+main#profile > header > div#foto_e_bio > img {
+    width: 150px;
+    margin-right: 0px;
+}
+
+main#profile > header > div#foto_e_bio > p {
+    padding-right: 25px;
+    align-self: flex-end;
+    margin-top: -100px;
+    margin-bottom: 200px;
+}
+
+main#profile > header > h1 {
+    margin-top: -90px;
+    margin-bottom: 40px;
+    font-size: 1.8em;
+}
+
+main#profile > header > div#estatisticas_numeros {
+    width: 100%;
+
+    justify-content: center;
+}
+
+main#profile > header > div#estatisticas_legenda {
+    width: 100%;
+    margin-bottom: 200px;
+
+    justify-content: center;
+}
+
+main#profile > header > p {
+    margin-top: -225px;
+    padding-right: 40px;
+}
+
+main#profile > section {
+    width: 60vw;
+    margin-top: 0px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+main#profile > section > div {
+    width: 90%;
+}
+
+main#profile > section > div > a {
+    width: 240px;
+    height: 240px;
+}
+
+main#profile > section > div > a:hover {
+    opacity: 0.5;
+}

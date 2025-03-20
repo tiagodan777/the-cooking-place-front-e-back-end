@@ -1,0 +1,289 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if receita.imagem_file != '' %}
+    {% set borda = 'none' %}
+    {% set text_indent = '-225px' %}
+{% else %}
+    {% set borda = '1px solid rgb(210, 210, 210)' %}
+    {% set text_indent = '0px' %}
+{% endif %}
+<style>
+    main#create-edit-article > form > section#imagem-video > div#div-imagem, main#create-edit-article > form > section#imagem-video > div#div-video { 
+        border: {{ borda }};
+    }
+
+    main#create-edit-article > form > section#imagem-video > div#div-imagem > label, main#create-edit-article > form > section#imagem-video > div#div-video > label {
+        text-indent: {{ text_indent }};
+    }
+</style>
+<main id="create-edit-article">
+    <h2>Adicionar/Editar Receita</h2>
+    {% if erros.warning %}
+        <div class="alert-danger">{{ erros.warning }}</div>
+    {% endif %}
+    <form action="create-edit-article.php?id={{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+        <section id="imagem-video">
+            <div id="div-imagem">
+                {% if not receita.imagem_file %}
+                    <label for="imagem">Upload de imagem</label>
+                    <div>
+                        <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
+                    </div>
+                    <span class="error">{{ erros.imagem_file }}</span>
+                {% else %}
+                    <label for="imagem_guardada">Imagem:</label>  
+                    <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ autor }}" id="imagem_guardada">
+                    <br>
+                    <a href="image-delete.php?id={{ receita.id }}">Apagar imagem</a>
+                {% endif %}
+            </div>
+            <div id="div-video">
+                <label for="video">Upload de video</label>
+                <div>
+                    <input type="file" name="video" id="video" readonly>
+                </div>
+            </div>
+            <div id="inputs-escondidos">
+                <input type="text" name="ingredientes" id="ingredientes" value="{{ receita.ingredientes }}">
+                <input type="text" name="quantidades" id="quantidades" value="{{ receita.quantidades }}">
+                <input type="text" name="passos_preparacao" id="passos_preparacao" value="{{ receita.passos_preparacao }}">
+                <input type="text" name="keywords" id="keywords" value="{{ receita.keywords }}">
+            </div>
+        </section>
+        <section id="info-text">
+            <div id="div-titulo">
+                <label for="titulo">Título</label>
+                <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64" value="{{ receita.titulo }}">
+                <span class="error">{{ erros.titulo }}</span>
+            </div>
+            <div id="div-descricao">
+                <label for="descricao">Descrição</label>
+                <input type="text" name="descricao" id="descricao" placeholder="Ex: Como fazer sushi de forma rápida e descomplicada" maxlength="256" required value="{{ receita.descricao }}">
+                <span class="error">{{ erros.descricao }}</span>
+            </div>
+            <div id="div-tempo-preparo">
+                <label for="tempo">Tempo de preparo</label>
+                <div id="tempo-unidade">
+                    <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" min="0" value="{{ receita.tempo_preparo }}">
+                    <span class="error">{{ erros.tempo_preparo }}</span>
+                    <select name="unidade_tempo" id="unidade_tempo">
+                        <optgroup label="Unidade">
+                            {% if receita.unidade_tempo == 'min' %}
+                                {% set min_selected = 'selected' %}
+                                {% set hr_selected = '' %}
+                            {% elseif receita.unidade_tempo == 'hr' %}
+                                {% set hr_selected = 'selected' %}
+                                {% set min_selected = '' %}
+                            {% else %}
+                                {% set min_selected = 'selected' %}
+                                {% set hr_selected = '' %}
+                            {% endif %}
+                            <option value="min" {{ min_selected }}>Min</option>
+                            <option value="hr" {{ hr_selected }}>Hora</option>
+                        </optgroup>
+                    </select>
+                    <span class="error">{{ erros.unidade_tempo }}</span>
+                </div>
+            </div>
+            <div id="numero-pessoas">
+                <label for="numero-pessoas">Nº de Pessoas</label>
+                <select name="numero_pessoas" id="numero-pessoas">
+                    {% set count = 16 %}
+                    {% for i in 1..count %}
+                        {% set selected = receita.numero_pessoas == i ? 'selected' : '' %}
+                        <option value="{{ i }}" {{ selected }}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <span class="error">{{ erros.numero_pessoas }}</span>
+            </div>
+            <div id="div-categorias">
+                <label for="categoria_id">Categoria</label>
+                <select name="categoria_id" id="categoria_id">
+                    {% for categoria in categorias %}
+                        {% set selected = categoria.id == receita.categoria_id ? 'selected' : '' %}
+                        <option value="{{ categoria.id }}" {{ selected }}>{{ categoria.nome }}</option>
+                    {% endfor %}
+                </select>
+                <span class="error">{{ erros.categoria_id }}</span>
+
+                <input type="hidden" name="membro_id" value="{{ cookie.id }}">
+                <span class="error">{{ erros.membor_id }}</span>
+            </div>
+            <div id="div-ingredientes">
+                <div id="labels-ingredientes-quantidade">
+                    <label for="ingredientes">Ingredientes</label>
+                    <label for="quantidade">Quantidade</label>
+                </div>
+                <div class="ingredientes-quantidade">
+                    {% set count = count_ingredientes %}
+                    {% for i in 1..count %}
+                        <div class="inputs-ingredientes-quantidade">
+                            <input type="text" name="ingredientes{{ i }}" id="ingredientes{{ i }}" placeholder="Ex: Salmão" minlength="1" maxlength="32" value="{{ ingredientes[i-1] }}">
+                            <span class="error">{{ erros.ingredientes }}</span>
+                            <input type="text" name="quantidades{{ i }}" id="quantidades{{ i }}" placeholder="Ex: 3; 450g; 100ml..." value="{{ quantidades[i-1] }}">
+                            <span class="error">{{ erros.quantidades }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+                <input type="button" value="Adicionar Ingrediente" onclick="adicionaIngredienteEQuantidade()">
+            </div>
+            <div id="div-passos-preparacao">
+                <label for="div-passos-preparacao">Passos para a Preparação</label>
+                <div id="div-textareas">
+                    {% set count = count_passos_preparacao %}
+                    {% for i in 1..count %}
+                        <div class="textarea">
+                            <label for="passo{{ i }}">Passo {{ i }}</label>
+                                <textarea name="passo{{ i }}" id="passo{{ i }}" cols="40" rows="7">{{ passos_preparacao[i-1]|raw }}</textarea>
+                                <span class="error">{{ erros.passos_preparacao }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+                <input type="button" value="Adicionar Passo" onclick="adicionaPasso()">
+            </div>
+            <div id="div-keywords-tags-e-section-actions">
+                <div id="div-tags">
+                    <label for="tag1">Keywords / Tags</label>
+                    {% set count = count_keywords %}
+                    {% for i in 1..count %}
+                        <div class="tags">
+                            <label for="tag{{ 1 }}">Tag {{ i }}</label>
+                            <input type="text" name="tag{{ i }}" id="tag{{ i }}" placeholder="Ex: #sushi" value="{{ keywords[i-1] }}">
+                            <span class="error">{{ erros.keywords }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+                <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
+                <section id="actions">
+                    <a href="article-delete.html">Apagar</a>
+                    <input type="submit" value="Publicar Receita" onclick="adicionaIngredienteEQuantidade(true), adicionaPasso(true), adicionaTag(true)">
+                </section>
+            </div>
+        </section>
+    </form>
+</main>
+<script>
+    let idNameIgrediente = 2
+    let idNamePasso = 2
+    let idNameTag = 2
+    function adicionaIngredienteEQuantidade(ultimo = false) {
+        let inputText = window.document.createElement('input')
+        let inputNumber = window.document.createElement('input')
+        let div = window.document.createElement('div')
+        let ingredientes = window.document.querySelector('div.ingredientes-quantidade')
+        let divIngredientes = window.document.querySelector('div#div-ingredientes')
+        let inputHiddenIngredientes = window.document.querySelector('input#ingredientes')
+        let inputHiddenQuantidades = window.document.querySelector('input#quantidades')
+        let idNameIgredienteAnterior = idNameIgrediente - 1
+        let inputAnteriorIngredientes = window.document.querySelector(`input#ingredientes${idNameIgredienteAnterior}`)
+        let inputAnteriorQuantidades = window.document.querySelector(`input#quantidades${idNameIgredienteAnterior}`)
+        let form = window.document.querySelector('form#form')
+
+        inputText.type = 'text'
+        inputText.name = `ingredientes${idNameIgrediente}`
+        inputText.id = `ingredientes${idNameIgrediente}`
+        inputText.required = false
+        inputText.minLength = 1
+        inputText.maxLength = 32
+
+        inputNumber.type = 'text'
+        inputNumber.name = `quantidades${idNameIgrediente}`
+        inputNumber.id = `quantidades${idNameIgrediente}`
+        inputNumber.required = false
+
+        div.className = 'inputs-ingredientes-quantidade'
+
+        if (!ultimo) {
+            inputHiddenIngredientes.value += `${inputAnteriorIngredientes.value}, `
+            inputHiddenQuantidades.value += `${inputAnteriorQuantidades.value}, `
+        } else {
+            let inputAtualQuantidades = window.document.querySelector(`input#quantidades${idNameIgredienteAnterior}`)
+            let inputAtualIngredientes = window.document.querySelector(`input#ingredientes${idNameIgredienteAnterior}`)
+            inputHiddenIngredientes.value += `${inputAtualIngredientes.value}`
+            inputHiddenQuantidades.value += `${inputAtualQuantidades.value}`
+        }
+        
+        /*divIngredientes.style.border = '2px solid red'*/
+        //divIngredientes.style.height += '300px'
+        //main.style.height = Number(alturaMain)
+        //form.style.height = Number(form.offsetHeight) + Number(200)
+
+
+        div.appendChild(inputText)
+        div.appendChild(inputNumber)
+        ingredientes.appendChild(div)
+        idNameIgrediente++
+
+    }
+    
+    function adicionaPasso(ultimo = false) {
+        let label = window.document.createElement('label')
+        let textArea = window.document.createElement('textarea')
+        let div = window.document.createElement('div')
+        let divTextAreas = window.document.querySelector('div#div-textareas')
+        let inputHiddenPassosPreparacao = window.document.querySelector('input#passos_preparacao')
+        let idNamePassoAnterior = idNamePasso - 1
+        let inputAnteriorPasso = window.document.querySelector(`textarea#passo${idNamePassoAnterior}`)
+
+        label.setAttribute("for", `passo${idNamePasso}`)
+        label.innerHTML = `Passo ${idNamePasso}`
+        textArea.name = `passo${idNamePasso}`
+        textArea.id = `passo${idNamePasso}`
+        textArea.cols = 40
+        textArea.rows = 7
+
+        div.className = 'textarea'
+
+        if (!ultimo) {
+            if (idNamePasso == 2) {
+                inputHiddenPassosPreparacao.value += `${inputAnteriorPasso.value}`
+            } else {
+                inputHiddenPassosPreparacao.value += `#${inputAnteriorPasso.value}`
+            }
+        } else {
+            let inputAtualPasso = window.document.querySelector(`textarea#passo${idNamePassoAnterior}`)
+            if (idNamePasso == 2) {
+                inputHiddenPassosPreparacao.value += `${inputAtualPasso.value}`
+            } else {
+                inputHiddenPassosPreparacao.value += `#${inputAtualPasso.value}`
+            }
+        }
+
+        div.appendChild(label)
+        div.appendChild(textArea)
+        divTextAreas.appendChild(div)
+
+        idNamePasso++
+    }
+
+    function adicionaTag(ultimo = false) {
+        let label = window.document.createElement('label')
+        let input = window.document.createElement('input')
+        let div = window.document.createElement('div')
+        let divTags = window.document.querySelector('div#div-tags')
+        let inputHiddenKeywords = window.document.querySelector('input#keywords')
+        let idNameTagAnterior = idNameTag - 1
+        let inputAnteriorTag = window.document.querySelector(`input#tag${idNameTagAnterior}`)
+
+        label.setAttribute("for", `tag${idNameTag}`)
+        label.innerHTML = `Tag ${idNameTag}`
+        input.name = `tag${idNameTag}`
+        input.id = `tag${idNameTag}`
+
+        div.className = 'tags'
+
+        if (!ultimo) {
+            inputHiddenKeywords.value += `${inputAnteriorTag.value}, `
+        } else {
+            let inputAtualTag = window.document.querySelector(`input#tag${idNameTagAnterior}`)
+            inputHiddenKeywords.value += `${inputAtualTag.value}`
+        }
+
+        div.appendChild(label)
+        div.appendChild(input)
+        divTags.appendChild(div)
+
+        idNameTag++
+    }
+</script>
+{% endblock %}
