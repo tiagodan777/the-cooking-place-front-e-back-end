@@ -14,7 +14,13 @@ class Article {
                 r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
                 r.imagem_file, r.video_file, r.categoria_id, r.membro_id, r.seo_title,
                 c.nome,
-                m.id AS id_membro,CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name AS seo_member
+                m.id AS id_membro,CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name AS seo_member,
+                (SELECT COUNT(receita_id)
+                FROM likes
+                WHERE likes.receita_id = r.id) AS likes,
+                (SELECT COUNT(receita_id)
+                FROM opiniao
+                WHERE opiniao.receita_id = r.id) AS opinioes
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
                 JOIN membro AS m ON r.membro_id = m.id
@@ -40,7 +46,10 @@ class Article {
         $arguments['membro1'] = $member;
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id, r.seo_title,
                 CONCAT(m.forename, ' ', m.surname) AS autor,
-                m.picture, m.seo_name AS seo_member
+                m.picture, m.seo_name AS seo_member,
+                (SELECT COUNT(receita_id)
+                FROM likes
+                WHERE likes.receita_id = r.id) AS likes
                 FROM receita AS r
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE (r.categoria_id = :categoria OR :categoria1 IS null)

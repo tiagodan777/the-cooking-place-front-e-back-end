@@ -17,13 +17,25 @@
             <aside class="aside-principal">
                 <section>
                     <div class="icones">
-                        <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span>
+                        {% if cookie.id != 0 %}
+                            <a href="{{ doc_root}}like/{{ receita.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                        {% else %}
+                            <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                        {% endif %}
                         <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
                         <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
                     </div>
                     <div class="numeros">
-                        <span>3231</span>
-                        <span>100</span>
+                        {% if receita.likes != '' %}
+                            <span>{{ receita.likes }}</span>
+                        {% else %} 
+                            <span>0</span>
+                        {% endif %}
+                        {% if receita.opinioes != '' %}
+                            <span>{{ receita.opinioes }}</span>
+                        {% else %}
+                            <span>0</span>
+                        {% endif %}
                         <span>55</span>
                     </div>
                     <h2>{{ receita.titulo }}</h2>

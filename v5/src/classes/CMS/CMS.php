@@ -10,6 +10,7 @@ class CMS {
     protected $quik = null;
     protected $cookie = null;
     protected $token = null;
+    protected $like = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -63,5 +64,12 @@ class CMS {
             $this->token = new Token($this->db);
         }
         return $this->token;
+    }
+
+    public function getLike() {
+        if ($this->like === null) {
+            $this->like = new Like($this->db);
+        }
+        return $this->like;
     }
 }

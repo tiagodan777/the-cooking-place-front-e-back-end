@@ -148,8 +148,14 @@ main > article > aside.aside-principal > section > div.icones {
     align-items: center;
 }
 
-main > article > aside.aside-principal > section > div.icones > span.icones-reacao {
+main > article > aside.aside-principal > section > div.icones > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > a {
     flex: 0 0 50px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+main > article > aside.aside-principal > section > div.icones > span.icones-reacao:hover, main > article > aside.aside-principal > section > div.icones > a:hover {
+    transform: scale(130%);
 }
 
 main > article > aside.aside-principal > section > div.numeros {

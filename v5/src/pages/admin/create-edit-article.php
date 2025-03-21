@@ -120,9 +120,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['picture']);
             unset($arguments['video_file']);
             unset($arguments['id_membro']);
-            echo "<pre>";
-            var_dump($arguments);
-            echo "</pre>";
+            unset($arguments['seo_member']);
+            unset($arguments['likes']);
+            unset($arguments['opinioes']);
             $guardada = $cms->getArticle()->update($argumens, $temp, $destination);
         } else {
             unset($arguments['id']);
@@ -132,6 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['picture']);
             unset($arguments['video_file']);
             unset($arguments['id_membro']);
+            unset($arguments['seo_member']);
+            unset($arguments['likes']);
+            unset($arguments['opinioes']);
             $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
         }
         redirect('index', ['success' => 'Artigo guardado']);  
