@@ -80,7 +80,7 @@ class Member {
     public function login($user, $password) {
         $arguments['user1'] = $user;
         $arguments['user2'] = $user;
-        $sql = "SELECT id, forename, surname, nascimento, genero, email, telefone, password, joined, bio, picture, role, user_nick_name
+        $sql = "SELECT id, forename, surname, nascimento, genero, email, telefone, password, joined, bio, picture, role, seo_name
                 FROM membro
                 WHERE email = :user1
                 OR telefone = :user2;";

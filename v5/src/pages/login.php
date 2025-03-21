@@ -1,4 +1,4 @@
-<?php
+ <?php
 use TiagoDaniel\Validate\Validate;
 
 $user = '';
