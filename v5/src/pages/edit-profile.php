@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $membro['mes'] = $_POST['mes'];
     $membro['ano'] = $_POST['ano'];
     $membro['genero'] = $_POST['genero'];
-    $membro['user_nick_name'] = create_seo_name(mb_strtolower($membro['forename']) . mb_strtolower($membro['surname']));
+    $membro['seo_name'] = create_seo_name(mb_strtolower($membro['forename']) . mb_strtolower($membro['surname']));
 
 
     $erros['forename'] = Validate::isText($membro['forename'], 1, 60) ? '' : 'O nome deve ter entre 1 e 60 caradteres';

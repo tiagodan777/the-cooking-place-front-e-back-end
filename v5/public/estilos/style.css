@@ -151,7 +151,7 @@ main > article > aside.aside-principal > section > div.icones {
 main > article > aside.aside-principal > section > div.icones > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > a {
     flex: 0 0 50px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 main > article > aside.aside-principal > section > div.icones > span.icones-reacao:hover, main > article > aside.aside-principal > section > div.icones > a:hover {

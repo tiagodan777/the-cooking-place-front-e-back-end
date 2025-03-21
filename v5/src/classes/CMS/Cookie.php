@@ -30,6 +30,5 @@ class Cookie {
         setcookie('picture', '', time() - 3600,  '/', '', false, true);
         setcookie('role', '', time() - 3600,  '/', '', false, true);
         setcookie('seo_name', '', time() - 3600, '/', '', false, true);
-
     }
 }

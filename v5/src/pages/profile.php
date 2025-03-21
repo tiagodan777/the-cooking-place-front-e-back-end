@@ -12,8 +12,8 @@ if (!$membro) {
 
 $receitas = $cms->getArticle()->getAll(member:$id);
 
-if (mb_strtolower($parts[2]) != mb_strtolower($receitas[0]['seo_member'])) {
-    redirect(DOC_ROOT . 'article/' . $id . '/' . $receitas[0]['seo_member'], [], 301);
+if (mb_strtolower($parts[2]) != mb_strtolower($membro['seo_name'])) {
+    redirect(DOC_ROOT . 'profile/' . $id . '/' . $membro['seo_name'], [], 301);
 }
 
 $data['receitas'] = $receitas;
