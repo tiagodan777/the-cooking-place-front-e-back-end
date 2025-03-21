@@ -4,7 +4,7 @@
     <section>
         <header>
             <h1>Receitas</h1>
-            <a href="create-edit-article.php">Adicionar nova receita</a>
+            <a href="{{ doc_root }}create-edit-article">Adicionar nova receita</a>
             {% if success %}> <div class="alert-success">{{ success }}</div> {% endif %}
             {% if failure %} <div class="alert-failure">{{ failure }}</div> {% endif %}
         </header>

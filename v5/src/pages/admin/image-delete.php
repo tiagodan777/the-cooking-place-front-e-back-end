@@ -1,8 +1,6 @@
 <?php
-require_once '../../src/bootstrap.php';
 is_admin($cookie->role);
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $path = APP_ROOT . 'public/imagens/comida/';
 
 if (!$id) {

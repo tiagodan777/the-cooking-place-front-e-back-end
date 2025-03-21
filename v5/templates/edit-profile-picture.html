@@ -9,8 +9,8 @@
                 <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.forename }}" id="foto-perfil">
             </section>
             <section class="opcoes" id="opcoes-apagar">
-                <form action="edit-profile-picture.php?id={{ membro.id }}" method="post" enctype="multipart/form-data">
-                    <a href="edit-profile.php?id={{ membro.id }}">Cancelar</a>
+                <form action="{{ doc_doot }}edit-profile-picture.php/{{ membro.id }}" method="post" enctype="multipart/form-data">
+                    <a href="{{ doc_doot }}edit-profile.php/{{ membro.id }}">Cancelar</a>
                     <input type="hidden" name="delete" value="1">
                     <input type="submit" value="Confirmar">
                 </form>
@@ -21,7 +21,7 @@
                 <label for="imagem">Escolhe uma foto para ser a tua foto de perfil</label>
             </section>
             <section class="opcoes" id="opcoes-adicionar">
-                <form action="edit-profile-picture.php?id={{ membro.id }}" method="post" enctype="multipart/form-data">
+                <form action="{{ doc_doot }}edit-profile-picture/{{ membro.id }}" method="post" enctype="multipart/form-data">
                     <div>
                         <input type="file" name="picture" id="picture" accept="image/jpeg, image/png, image/gif">
                     </div>

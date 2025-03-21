@@ -1,5 +1,4 @@
 <?php
-require_once '../../src/bootstrap.php';
 is_admin($cookie->role);
 
 $membro = $cms->getMember()->get(1);

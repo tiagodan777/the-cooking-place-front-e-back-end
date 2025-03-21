@@ -1,8 +1,6 @@
 <?php
 use TiagoDaniel\Validate\Validate;
 
-require_once '../src/bootstrap.php';
-
 require_login($cookie);
 
 $errors = [];

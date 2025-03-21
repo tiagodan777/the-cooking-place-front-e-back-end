@@ -6,14 +6,14 @@
         {% if erros.warning %}
             <div class="alter-failure">{{ erros.warning }}</div>
         {% endif %}
-        <form action="edit-profile.php?id={{ cookie.id }}" method="post">
+        <form action="{{ doc_doot }}edit-profile.php/{{ cookie.id }}" method="post">
             <div id="div-imagem">
                 {% if membro.picture %}
                     <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
-                    <a href="edit-profile-picture.php?id={{ membro.id }}">Mudar Foto de Perfil</a>
+                    <a href="{{ doc_doot }}edit-profile-picture/{{ membro.id }}">Mudar Foto de Perfil</a>
                 {% else %}
                     <img src="{{ doc_root }}imagens/fotos-perfil/blank.png" alt="Foto de perfil genérica">
-                    <a href="edit-profile-picture.php?id={{ membro.id }}">Adicionar foto de perfil</a>
+                    <a href="{{ doc_doot }}edit-profile-picture{{ membro.id }}">Adicionar foto de perfil</a>
                 {% endif %}
             </div>
             <div id="informacoes">
@@ -106,7 +106,7 @@
                 </div>
             </div>            
             <input type="submit" value="Guardar">
-            <a href="profile-delete.php" id="apagar-conta">Apagar a minha conta</a>
+            <a href="{{ doc_doot }}profile-delete" id="apagar-conta">Apagar a minha conta</a>
         </form>
     </section>
 </main>

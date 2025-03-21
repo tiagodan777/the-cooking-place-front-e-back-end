@@ -21,7 +21,7 @@
     {% if erros.warning %}
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
-    <form action="create-edit-article.php?id={{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+    <form action="{{ doc_doot }}create-edit-article.php/{{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
         <section id="imagem-video">
             <div id="div-imagem">
                 {% if not receita.imagem_file %}
@@ -29,12 +29,12 @@
                     <div>
                         <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
                     </div>
-                    <span class="error">{{ erros.imagem_file }}</span>
+                    {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
                 {% else %}
                     <label for="imagem_guardada">Imagem:</label>  
                     <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ autor }}" id="imagem_guardada">
                     <br>
-                    <a href="image-delete.php?id={{ receita.id }}">Apagar imagem</a>
+                    <a href="{{ doc_doot }}image-delete.php/{{ receita.id }}">Apagar imagem</a>
                 {% endif %}
             </div>
             <div id="div-video">
@@ -54,18 +54,18 @@
             <div id="div-titulo">
                 <label for="titulo">Título</label>
                 <input type="text" name="titulo" id="titulo" placeholder="Ex: Sushi" required maxlength="64" value="{{ receita.titulo }}">
-                <span class="error">{{ erros.titulo }}</span>
+                {% if erros.titulo %}<span class="error">{{ erros.titulo }}</span> {% endif %}
             </div>
             <div id="div-descricao">
                 <label for="descricao">Descrição</label>
                 <input type="text" name="descricao" id="descricao" placeholder="Ex: Como fazer sushi de forma rápida e descomplicada" maxlength="256" required value="{{ receita.descricao }}">
-                <span class="error">{{ erros.descricao }}</span>
+                {% if erros.descricao %}<span class="error">{{ erros.descricao }}</span> {% endif %}
             </div>
             <div id="div-tempo-preparo">
                 <label for="tempo">Tempo de preparo</label>
                 <div id="tempo-unidade">
                     <input type="number" name="tempo_preparo" id="tempo_preparo" placeholder="Ex: 45" min="0" value="{{ receita.tempo_preparo }}">
-                    <span class="error">{{ erros.tempo_preparo }}</span>
+                    {% if erros.tempo_preparo %}<span class="error">{{ erros.tempo_preparo }}</span> {% endif %}
                     <select name="unidade_tempo" id="unidade_tempo">
                         <optgroup label="Unidade">
                             {% if receita.unidade_tempo == 'min' %}
@@ -82,7 +82,7 @@
                             <option value="hr" {{ hr_selected }}>Hora</option>
                         </optgroup>
                     </select>
-                    <span class="error">{{ erros.unidade_tempo }}</span>
+                    {% if erros.unidade_tempo %}<span class="error">{{ erros.unidade_tempo }}</span> {% endif %}
                 </div>
             </div>
             <div id="numero-pessoas">
@@ -94,7 +94,7 @@
                         <option value="{{ i }}" {{ selected }}>{{ i }}</option>
                     {% endfor %}
                 </select>
-                <span class="error">{{ erros.numero_pessoas }}</span>
+                {% if erros.numero_pessoas %}<span class="error">{{ erros.numero_pessoas }}</span> {% endif %}
             </div>
             <div id="div-categorias">
                 <label for="categoria_id">Categoria</label>
@@ -104,10 +104,10 @@
                         <option value="{{ categoria.id }}" {{ selected }}>{{ categoria.nome }}</option>
                     {% endfor %}
                 </select>
-                <span class="error">{{ erros.categoria_id }}</span>
+                {% if erros.categoria_id %}<span class="error">{{ erros.categoria_id }}</span> {% endif %}
 
                 <input type="hidden" name="membro_id" value="{{ cookie.id }}">
-                <span class="error">{{ erros.membor_id }}</span>
+                {% if erros.membor_id %}<span class="error">{{ erros.membor_id }}</span> {% endif %}
             </div>
             <div id="div-ingredientes">
                 <div id="labels-ingredientes-quantidade">
@@ -119,9 +119,9 @@
                     {% for i in 1..count %}
                         <div class="inputs-ingredientes-quantidade">
                             <input type="text" name="ingredientes{{ i }}" id="ingredientes{{ i }}" placeholder="Ex: Salmão" minlength="1" maxlength="32" value="{{ ingredientes[i-1] }}">
-                            <span class="error">{{ erros.ingredientes }}</span>
+                            {% if erros.keywords %}<span class="error">{{ erros.ingredientes }}</span> {% endif %}
                             <input type="text" name="quantidades{{ i }}" id="quantidades{{ i }}" placeholder="Ex: 3; 450g; 100ml..." value="{{ quantidades[i-1] }}">
-                            <span class="error">{{ erros.quantidades }}</span>
+                            {% if erros.quantidades %}<span class="error">{{ erros.quantidades }}</span> {% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -135,7 +135,7 @@
                         <div class="textarea">
                             <label for="passo{{ i }}">Passo {{ i }}</label>
                                 <textarea name="passo{{ i }}" id="passo{{ i }}" cols="40" rows="7">{{ passos_preparacao[i-1]|raw }}</textarea>
-                                <span class="error">{{ erros.passos_preparacao }}</span>
+                                {% if erros.passos_preparacao %}<span class="error">{{ erros.passos_preparacao }}</span> {% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -149,13 +149,13 @@
                         <div class="tags">
                             <label for="tag{{ 1 }}">Tag {{ i }}</label>
                             <input type="text" name="tag{{ i }}" id="tag{{ i }}" placeholder="Ex: #sushi" value="{{ keywords[i-1] }}">
-                            <span class="error">{{ erros.keywords }}</span>
+                            {% if erros.keywords %}<span class="error">{{ erros.keywords }}</span> {% endif %}
                         </div>
                     {% endfor %}
                 </div>
                 <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
                 <section id="actions">
-                    <a href="article-delete.html">Apagar</a>
+                    <a href="{{ doc_doot }}article-delete.php/{{ receita.id }}">Apagar</a>
                     <input type="submit" value="Publicar Receita" onclick="adicionaIngredienteEQuantidade(true), adicionaPasso(true), adicionaTag(true)">
                 </section>
             </div>

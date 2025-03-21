@@ -4,7 +4,7 @@
     <section id="topo">
         <section id="imagem">
             <picture>
-                <source media="(max-width: 700px)" srcset="imagens/comida/croppped/{{ receita.imagem }}">
+                <source media="(max-width: 700px)" srcset="{{ doc_doot }}imagens/comida/croppped/{{ receita.imagem }}">
                 <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}">
             </picture>
         </section>
@@ -31,11 +31,11 @@
                     <p>Data: {{ receita.data|date('d F Y') }}</p>
                     <p>Nº pessoas: {{ receita.numero_pessoas }}</p>
                     <br>
-                    <a href="profile.php?id={{ receita.id_membro }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">{{ receita.autor }}</a>
+                    <a href="{{ doc_doot }}profile/{{ receita.id_membro }}/{{ receita.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">{{ receita.autor }}</a>
                     <br>
                     <br>
                     {% if cookie.id == receita.membro_id %}
-                        <a href="create-edit-article.php?id={{ receita.id }}" id="editar">Editar</a>
+                        <a href="{{ doc_doot }}create-edit-article/{{ receita.id }}" id="editar">Editar</a>
                     {% endif %}
                 </div>
             </section>

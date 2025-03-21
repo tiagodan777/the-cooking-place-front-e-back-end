@@ -1,9 +1,6 @@
 <?php
-require_once '../src/bootstrap.php';
-
 require_login($cookie);
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $path = APP_ROOT . '/public/imagens/fotos-perfil/';
 $delete = $_POST['delete'] ?? '';
 /*$temp = $_FILES['picture']['tmp_name'] ?? '';*/

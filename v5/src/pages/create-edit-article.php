@@ -1,13 +1,10 @@
 <?php
 use TiagoDaniel\Validate\Validate;
 
-require_once '../src/bootstrap.php';
-
 require_login($cookie);
 
 $unidades_tempo = ['min', 'hr'];
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $temp = $_FILES['imagem']['tmp_name'] ?? '';
 $erro_com_a_imagem = $_FILES['imagem']['error'] ?? '';
 $destination = '';

@@ -37,7 +37,7 @@ class Article {
         $arguments['membro'] = $member;
         $arguments['membro1'] = $member;
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id,
-                CONCAT(m.forename, ' ', m.surname) AS autor,
+                CONCAT(m.forename, ' ', m.surname) AS autor, r.seo_title,
                 m.picture 
                 FROM receita AS r
                 JOIN membro AS m ON r.membro_id = m.id

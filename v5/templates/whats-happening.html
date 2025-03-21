@@ -12,7 +12,7 @@
                         <li><a href="#"><span class="material-symbols-outlined">thumb_down</span></a><p>20 mil</p></li>
                         <li><a href="#"><span class="material-symbols-outlined">chat</span></a><p>20 mil</p></li>
                         <li><a href="#"><span class="material-symbols-outlined">send</span></a><p>20 mil</p></li>
-                        <li><a href="profile.php?id={{ quik.membro_id }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ quik.picture }}" alt="Foto de Perfil de {{ quik.autor }}"></a></li>
+                        <li><a href="{{ doc_root }}profile{{ quik.membro_id }}/{{ cookie.user_nick_name }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ quik.picture }}" alt="Foto de Perfil de {{ quik.autor }}"></a></li>
                     </ul>
                 </nav>
                 <div id="info">
@@ -20,7 +20,7 @@
                     {% if quik.receita_acoplada_id == 0 %}
                         <p>{{ quik.descricao }}</p>
                     {% else %}
-                        <a href="article.php?id={{ quik.receita_acoplada_id }}">{{ quik.descricao }}</a> 
+                        <a href="{{ doc_root }}article/{{ quik.receita_acoplada_id }}">{{ quik.descricao }}</a> 
                     {% endif %}
                 </div>
             </div>

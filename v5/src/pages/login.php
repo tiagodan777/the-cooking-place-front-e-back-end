@@ -1,6 +1,5 @@
 <?php
 use TiagoDaniel\Validate\Validate;
-require_once '../src/bootstrap.php';
 
 $user = '';
 $errors = [];
@@ -25,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors['message'] = 'Conta suspensa';
         } elseif ($member) {
             $cms->getCookie()->create($member);
-            redirect('index.php');
+            redirect('index');
         } else {
             $errors['message'] = 'Por favor tenta novamente';
         }

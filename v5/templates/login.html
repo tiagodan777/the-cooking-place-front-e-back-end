@@ -13,22 +13,22 @@
         <section id="principal">
             <section id="login">
                 {% if success %} <span class="success">{{ success }}</span> {% endif %}
-                <h1><a href="index.php"><img src="{{ doc_root }}imagens/logos/logo-p.png" alt=""></a></h1>
-                <form action="login.php" method="post">
+                <h1><a href="{{ doc_root }}index"><img src="{{ doc_root }}imagens/logos/logo-p.png" alt=""></a></h1>
+                <form action="{{ doc_root }}login" method="post">
                     <input type="text" name="user" id="user" placeholder="Nº de telemóvel, nome de utilizador, email">
                     <input type="password" name="password" id="password" placeholder="Palavra-passe">
                     {% if erros.password %} <span class="error">{{ erros.password }}</span> {% endif %}
                     <input type="submit" value="Iniciar sessão" id="submit">
                     {% if erros.message %} <span class="error">{{ erros.message }}</span> {% endif %}
                 </form>
-                <a href="password-lost.php">Esqueceste-te da password?</a>
+                <a href="{{ doc_root }}password-lost">Esqueceste-te da password?</a>
             </section>
             <section id="registo">
-                <a href="register.php">Ainda não te registas-te? <span>Cria um conta</span></a>
+                <a href="{{ doc_root }}register">Ainda não te registas-te? <span>Cria um conta</span></a>
             </section>
         </section>
         <aside>
-            <video src="../public/videos-pagina-login/video-1.mov" autoplay muted loop playsinline id="tablet">O neu navegador não suporta vídeos neste formato</video>
+            <video src="{{ doc_root }}videos-pagina-login/video-1.mov" autoplay muted loop playsinline id="tablet">O neu navegador não suporta vídeos neste formato</video>
         </aside>
     </main>
 </body>

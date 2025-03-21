@@ -1,6 +1,4 @@
 <?php
-require_once '../src/bootstrap.php';
-
 require_login($cookie);
 
 $member = $cms->getMember()->get(1);

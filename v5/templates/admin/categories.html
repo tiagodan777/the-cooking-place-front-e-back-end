@@ -6,7 +6,7 @@
             <h1>Categorias</h1>
             {% if success %} <div class="alert-success">{{ success }}</div> {% endif %}
             {% if failure %} <div class="alert-failure">{{ failure }}</div> {% endif %}
-            <a href="category.php">Adicionar nova categoria</a>
+            <a href="{{ doc_root }}admin/category">Adicionar nova categoria</a>
         </header>
         <table>
             <thead>
@@ -20,8 +20,8 @@
                 {% for categoria in categorias %}
                     <tr>
                         <th scope="row" class="titulo-linha">{{ categoria.nome }}</th>
-                        <td><a href="category.php?id={{ categoria.id }}">Editar</a></td>
-                        <td><a href="category-delete.php?id={{ categoria.id }}" class="diferente">Apagar</a></td>
+                        <td><a href="{{ doc_root }}admin/category/{{ categoria.id }}">Editar</a></td>
+                        <td><a href="{{ doc_root }}admin/category-delete{/{ categoria.id }}" class="diferente">Apagar</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

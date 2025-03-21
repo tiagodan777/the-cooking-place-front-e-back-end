@@ -1,6 +1,4 @@
 <?php
-require_once '../src/bootstrap.php';
-
 /*$article = [];
 $article['titulo'] = 'Sushi';
 $article['descricao'] = 'Como fazer sushi de forma fácil';

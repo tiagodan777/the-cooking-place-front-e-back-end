@@ -1,14 +1,11 @@
 <?php
-require_once '../src/bootstrap.php';
-
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id) {
-    include 'error-page.php';
+    include APP_ROOT . '/src/pages/error-page.php';
 }
 
 $receita = $cms->getArticle()->get($id);
 if (!$receita) {
-    include 'error-page.php';
+    include APP_ROOT . '/src/pages/error-page.php';
 }
 
 $membro = $cms->getMember()->get(1);

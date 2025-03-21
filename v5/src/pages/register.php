@@ -2,8 +2,6 @@
 
 use TiagoDaniel\Validate\Validate;
 
-require_once '../src/bootstrap.php';
-
 $membro = [];
 $erros = [];
 
@@ -33,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $invalid = implode($erros);
     if (!$invalid) {
         $membro['nascimento'] = $membro['ano'] . '-' . $membro['mes'] . '-' . $membro['dia'];
+        $membro['user_nick_name'] = strtolower($membro['primeiro_nome']) . strtolower($membro['ultimonome']);
         $result = $cms->getMember()->create($membro);
 
         if ($result === false) {

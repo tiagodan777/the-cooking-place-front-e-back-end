@@ -4,12 +4,12 @@
     <h1>Notificações</h1>
     {% for notificacao in notificacoes %}
         {% if notificacao.mensagem == 'começou a seguir-te' %}
-            {% set link = 'profile.php?id=' ~ notificacao.emissor_id %}
+            {% set link = 'profile/' ~ notificacao.emissor_id ~ cookie.user_nick_name %}
         {% elseif notificacao.mensagem == 'publicou uma receita' or notificacao.mensagem == 'gostou da tua receita' %}
-            {% set link = 'article.php?id=' ~ notificacao.emissor_id %}
+            {% set link = 'article/' ~ notificacao.emissor_id %}
         {% endif %}
         <div>
-            <a href="{{ link }}">
+            <a href="{{ doc_root }}{{ link }}">
                 <section id="perfil">
                     <div>
                         <img src="{{ doc_root }}imagens/fotos-perfil/{{ notificacao.picture ?? 'blank.png' }}" alt="Foto perfil de {{ notificacao.emissor }} ?>">

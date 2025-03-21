@@ -6,7 +6,7 @@
         {% if erros.warning %}
             <div class="alter-failure">{{ erros.warning }}</div>
         {% endif %}
-        <form action="category.php?id={{ categoria.id }}" method="post">
+        <form action="{{ doc_root }}admin/category/{{ categoria.id }}" method="post">
             <div id="div-nome">
                 <label for="nome">Nome:</label>
                 <input type="text" name="nome" id="nome" value="{{ categoria.nome }}">

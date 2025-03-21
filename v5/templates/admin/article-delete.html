@@ -5,14 +5,14 @@
         <h2>Apagar Receita</h2>
         <section id="dados">
             <p>Confirma para apagar a receita: {{ receita.titulo }}</p>
-            <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }}">
+            <img src="{{ doc_root }}admin/imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }}">
         </section>
         <pre>
             {{ dump(receita) }}
         </pre>
         <section id="opcoes">
-            <form action="article-delete.php?id={{ receita.id }}" method="post">
-                <a href="articles.php">Cancelar</a>
+            <form action="{{ doc_root }}admin/article-delete/{{ receita.id }}" method="post">
+                <a href="{{ doc_root }}admin/articles">Cancelar</a>
                 <input type="submit" value="Confirmar">
             </form>
         </section>

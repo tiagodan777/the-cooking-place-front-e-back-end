@@ -8,8 +8,8 @@
             <img src="{{ doc_root}}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} postado por {{ receita.autor }}">
         </section>
         <section id="opcoes">
-            <form action="image-delete.php?id={{ receita.id }}" method="post">
-                <a href="create-edit-article.php?id={{ receita.id }}">Cancelar</a>
+            <form action="{{ doc_doot }}image-delete.php/{{ receita.id }}" method="post">
+                <a href="{{ doc_doot }}create-edit-article.php/{{ receita.id }}">Cancelar</a>
                 <input type="submit" value="Confirmar">
             </form>
         </section>

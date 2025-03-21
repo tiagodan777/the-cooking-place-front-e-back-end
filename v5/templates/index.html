@@ -1,18 +1,18 @@
 {% extends 'layout.html' %}
 {% block content %}
 <main id="index">
-    {% for article in articles %}
+    {% for receita in receitas %}
         <article {% if count == 0 %} id='primeiro-artigo' {% set count = 1 %} {% endif %}>
             <header>
-                <a href="{{ doc_root }}profile.php?id={{ article.membro_id }}">
-                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ article.picture }}" alt="Foto de perfil de {{ article.autor }}">
-                    <span class="nome">{{ article.autor }}</span>
+                <a href="{{ doc_root }}profile/{{ receita.membro_id }}/{{ receita.user_nick_name }}">
+                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">
+                    <span class="nome">{{ receita.autor }}</span>
                 </a>
-                <span class="data">Há {{ article.data|date }}</span>
+                <span class="data">Há {{ receita.data|date('d F Y') }}</span>
                 <br>
             </header>
             <section>
-                <a href="{{ doc_root }}article.php?id={{ article.id }}"><img src="{{ doc_root }}imagens/comida/{{ article.imagem_file }}" alt="Foto de {{ article.titulo }} publicada por {{ article.autor }}"></a>
+                <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}"><img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></a>
             </section>
             <aside class="aside-principal">
                 <section>
@@ -26,11 +26,11 @@
                         <span>100</span>
                         <span>55</span>
                     </div>
-                    <h2>{{ article.titulo }}</h2>
-                    <p>{{ article.descricao }}</p>
+                    <h2>{{ receita.titulo }}</h2>
+                    <p>{{ receita.descricao }}</p>
                 </section>
                 <aside>
-                    <a href="#">Ver os 100 comentários</a>
+                    <a href="{{ doc_doot }}index.php">Ver os 100 comentários</a>
                 </aside>
             </aside>
         </article>

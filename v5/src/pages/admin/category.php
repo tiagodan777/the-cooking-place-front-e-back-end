@@ -1,10 +1,8 @@
 <?php
 use TiagoDaniel\Validate\Validate;
 
-require_once '../../src/bootstrap.php';
 is_admin($cookie->role);
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $categoria = [
     'id' => $id,
     'nome' => '',
