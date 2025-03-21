@@ -17,7 +17,7 @@ class Cookie {
         setcookie('forename', $member['forename'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
         setcookie('picture', $member['picture'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
         setcookie('role', $member['role'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
-        setcookie('user_nick_name', $member['user_nick_name'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
+        setcookie('seo_name', $member['seo_name'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
     }
 
     public function uptade($member) {
@@ -29,5 +29,7 @@ class Cookie {
         setcookie('forename', '', time() - 3600,  '/', '', false, true);
         setcookie('picture', '', time() - 3600,  '/', '', false, true);
         setcookie('role', '', time() - 3600,  '/', '', false, true);
+        setcookie('seo_name', '', time() - 3600, '/', '', false, true);
+
     }
 }

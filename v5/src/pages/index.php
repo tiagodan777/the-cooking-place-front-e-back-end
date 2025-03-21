@@ -1,16 +1,13 @@
 <?php
 $data = [];
 
-$data['receitas'] = $cms->getArticle()->getAll();
-$data['membro'] = $cms->getMember()->get(1);
+$receitas = $cms->getArticle()->getAll();
+
+$data['receitas'] = $receitas;
 $data['count'] = 0;
 
 /*echo "<pre>";
-foreach ($data['articles'] as $article) {
-    //var_dump($article['data']);
-    $article['data'] = '';
-    echo $article['data'];
-}
+var_dump($receitas);
 echo "</pre>";*/
 
 echo $twig->render('index.html', $data);

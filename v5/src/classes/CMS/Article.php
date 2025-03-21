@@ -12,7 +12,9 @@ class Article {
     public function get($id) {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, 
                 r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
-                r.imagem_file, r.video_file, r.categoria_id, r.membro_id, c.nome, m.id AS id_membro, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
+                r.imagem_file, r.video_file, r.categoria_id, r.membro_id, r.seo_title,
+                c.nome,
+                m.id AS id_membro,CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name AS seo_member
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
                 JOIN membro AS m ON r.membro_id = m.id
@@ -36,9 +38,9 @@ class Article {
         $arguments['categoria1'] = $category;
         $arguments['membro'] = $member;
         $arguments['membro1'] = $member;
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id,
-                CONCAT(m.forename, ' ', m.surname) AS autor, r.seo_title,
-                m.picture 
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id, r.seo_title,
+                CONCAT(m.forename, ' ', m.surname) AS autor,
+                m.picture, m.seo_name AS seo_member
                 FROM receita AS r
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE (r.categoria_id = :categoria OR :categoria1 IS null)
@@ -116,8 +118,8 @@ class Article {
                 $imagick->writeImage($destination);
             }
 
-            $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file) VALUES
-                    (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file);";
+            $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file, seo_title) VALUES
+                    (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file, :seo_title);";
 
             $this->db->runSQL($sql, $article);
             return true;
@@ -138,7 +140,7 @@ class Article {
             }
 
             $sql = "UPDATE receita SET titulo = :titulo, descricao = :descricao, tempo_preparo = :tempo_preparo, unidade_tempo = :unidade_tempo, numero_pessoas = :numero_pessoas, ingredientes = :ingredientes,
-                    quantidades = :quantidades, passos_preparacao = :passos_preparacao, keywords = :keywords, categoria_id = :categoria_id, membro_id = :membro_id, imagem_file = :imagem_file
+                    quantidades = :quantidades, passos_preparacao = :passos_preparacao, keywords = :keywords, categoria_id = :categoria_id, membro_id = :membro_id, imagem_file = :imagem_file, seo_title = :seo_title
                     WHERE id = :id;";
 
             $this->db->runSQL($sql, $article);

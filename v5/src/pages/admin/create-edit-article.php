@@ -82,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $receita['keywords'] = $_POST['keywords'];
     $receita['membro_id'] = $_POST['membro_id'];
     $receita['categoria_id'] = $_POST['categoria_id'];
+    $receita['seo_title'] = create_seo_name($receita['titulo']);
 
     $purifier = new HTMLPurifier();
     $purifier->config->set('HTML.Allowed', 'p,br,strong,em,a[href],img[src|alt]');
@@ -122,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<pre>";
             var_dump($arguments);
             echo "</pre>";
-            $guardada = $cms->getArticle()->update($arguments, $temp, $destination);
+            $guardada = $cms->getArticle()->update($argumens, $temp, $destination);
         } else {
             unset($arguments['id']);
             unset($arguments['data']);
@@ -133,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['id_membro']);
             $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
         }
-        redirect('index.php', ['success' => 'Artigo guardado', 'id' => $id]);  
+        redirect('index', ['success' => 'Artigo guardado']);  
     }
     $receita['imagem_file'] = $saved_image ? $receita['imagem_file'] : '';
 }

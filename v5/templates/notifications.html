@@ -4,7 +4,7 @@
     <h1>Notificações</h1>
     {% for notificacao in notificacoes %}
         {% if notificacao.mensagem == 'começou a seguir-te' %}
-            {% set link = 'profile/' ~ notificacao.emissor_id ~ cookie.user_nick_name %}
+            {% set link = 'profile/' ~ notificacao.emissor_id ~ '/' ~ cookie.seo_name %}
         {% elseif notificacao.mensagem == 'publicou uma receita' or notificacao.mensagem == 'gostou da tua receita' %}
             {% set link = 'article/' ~ notificacao.emissor_id %}
         {% endif %}
@@ -28,5 +28,4 @@
     {% endfor %}
 </main>
 {% endblock %}
-
     

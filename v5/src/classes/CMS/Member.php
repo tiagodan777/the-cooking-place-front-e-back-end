@@ -10,7 +10,7 @@ class Member {
     }
 
     public function get($id) {
-        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture, user_nick_name
+        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture, seo_name
                 FROM membro
                 WHERE id = :id;";
         return $this->db->runSQL($sql, [$id])->fetch();
@@ -41,8 +41,8 @@ class Member {
             unset($member['dia']);
             unset($member['mes']);
             unset($member['ano']);
-            $sql = "INSERT INTO membro (forename, surname, nascimento, genero, email, telefone, password, user_nick_name)
-                    VALUES (:primeiro_nome, :ultimo_nome, :nascimento, :genero, :email, :telemovel, :password, :user_nick_name);";
+            $sql = "INSERT INTO membro (forename, surname, nascimento, genero, email, telefone, password, seo_name)
+                    VALUES (:primeiro_nome, :ultimo_nome, :nascimento, :genero, :email, :telemovel, :password, :seo_name);";
             $this->db->runSQL($sql, $member);
             return true;
         } catch (\PDOException $e) {
@@ -62,7 +62,7 @@ class Member {
             unset($member['picture']);
             $sql = "UPDATE membro
                     SET forename = :forename, surname = :surname, telefone = :telefone, email = :email, bio = :bio,
-                                    nascimento = :nascimento, genero = :genero
+                                    nascimento = :nascimento, genero = :genero, seo_name = :seo_name
                     WHERE id = :id;";
             $this->db->runSQL($sql, $member);
             return true;

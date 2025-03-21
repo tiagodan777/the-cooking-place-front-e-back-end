@@ -21,7 +21,7 @@
     {% if erros.warning %}
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
-    <form action="{{ doc_doot }}create-edit-article.php/{{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+    <form action="{{ doc_root }}create-edit-article/{{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
         <section id="imagem-video">
             <div id="div-imagem">
                 {% if not receita.imagem_file %}
@@ -34,7 +34,7 @@
                     <label for="imagem_guardada">Imagem:</label>  
                     <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ autor }}" id="imagem_guardada">
                     <br>
-                    <a href="{{ doc_doot }}image-delete.php/{{ receita.id }}">Apagar imagem</a>
+                    <a href="{{ doc_root }}image-delete/{{ receita.id }}">Apagar imagem</a>
                 {% endif %}
             </div>
             <div id="div-video">
@@ -155,7 +155,7 @@
                 </div>
                 <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
                 <section id="actions">
-                    <a href="{{ doc_doot }}article-delete.php/{{ receita.id }}">Apagar</a>
+                    <a href="{{ doc_root }}article-delete/{{ receita.id }}">Apagar</a>
                     <input type="submit" value="Publicar Receita" onclick="adicionaIngredienteEQuantidade(true), adicionaPasso(true), adicionaTag(true)">
                 </section>
             </div>

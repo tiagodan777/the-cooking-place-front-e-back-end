@@ -4,7 +4,7 @@
     {% for receita in receitas %}
         <article {% if count == 0 %} id='primeiro-artigo' {% set count = 1 %} {% endif %}>
             <header>
-                <a href="{{ doc_root }}profile/{{ receita.membro_id }}/{{ receita.user_nick_name }}">
+                <a href="{{ doc_root }}profile/{{ receita.membro_id }}/{{ receita.seo_member }}">
                     <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">
                     <span class="nome">{{ receita.autor }}</span>
                 </a>

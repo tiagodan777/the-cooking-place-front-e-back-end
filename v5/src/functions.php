@@ -47,6 +47,17 @@ function require_login($cookie) {
     }
 }
 
+function create_seo_name($string) {
+    $text = mb_strtolower($string);
+    $text = trim($text);
+    if (function_exists('transliterator_transliterate')) {
+        $text = transliterator_transliterate('Latin-ASCII', $text);
+    }
+    $text = preg_replace('/ /', '-', $text);
+    $text = preg_replace('[^A-z0-9]', '', $text);
+    return $text;
+}
+
 //set_error_handler('handle_error');
 function handle_error($type, $message, $file, $line) {
     throw new ErrorException($message, 0, $type, $file, $line);

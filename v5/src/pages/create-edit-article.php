@@ -44,7 +44,7 @@ $erros = [
 if ($id) {
     $receita = $cms->getArticle()->get($id);
     if (!$receita) {
-        redirect('profile.php', ['failure' => 'Receita não encontrada']);
+        redirect('profile/' . $id, ['failure' => 'Receita não encontrada']);
     }
 }
 
@@ -82,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $receita['keywords'] = $_POST['keywords'];
     $receita['membro_id'] = $_POST['membro_id'];
     $receita['categoria_id'] = $_POST['categoria_id'];
+    $receita['seo_title'] = create_seo_name($receita['titulo']);
 
     $purifier = new HTMLPurifier();
     $purifier->config->set('HTML.Allowed', 'p,br,strong,em,a[href],img[src|alt]');
@@ -119,9 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['picture']);
             unset($arguments['video_file']);
             unset($arguments['id_membro']);
-            echo "<pre>";
-            var_dump($arguments);
-            echo "</pre>";
+            unset($arguments['seo_member']);
             $guardada = $cms->getArticle()->update($arguments, $temp, $destination);
         } else {
             unset($arguments['id']);
@@ -131,9 +130,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['picture']);
             unset($arguments['video_file']);
             unset($arguments['id_membro']);
+            unset($arguments['seo_member']);
             $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
         }
-        redirect('index.php', ['success' => 'Artigo guardado', 'id' => $id]);  
+        redirect(DOC_ROOT . 'profile/' . $receita['membro_id'] . '/', ['success' => 'Artigo guardado']);  
     }
     $receita['imagem_file'] = $saved_image ? $receita['imagem_file'] : '';
 }

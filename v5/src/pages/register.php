@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $membro['genero'] = $_POST['genero'];
     $membro['password'] = $_POST['password'];
     $confirmacao = $_POST['confirmacao'];
+    $membro['user_nick_name'] = create_seo_name(mb_strtolower($membro['primeiro_nome']) . mb_strtolower($membro['ultimo_nome']));
 
     $erros['primeiro_nome'] = Validate::isText($membro['primeiro_nome'], 1, 60) ? '' : 'O nome deve ter entre 1 e 60 caradteres';
     $erros['ultimo_nome'] = Validate::isText($membro['ultimo_nome'], 1, 60) ? '' : 'O nome deve ter entre 1 e 60 caradteres';
@@ -31,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $invalid = implode($erros);
     if (!$invalid) {
         $membro['nascimento'] = $membro['ano'] . '-' . $membro['mes'] . '-' . $membro['dia'];
-        $membro['user_nick_name'] = strtolower($membro['primeiro_nome']) . strtolower($membro['ultimonome']);
         $result = $cms->getMember()->create($membro);
 
         if ($result === false) {
