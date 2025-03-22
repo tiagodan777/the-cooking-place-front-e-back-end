@@ -231,3 +231,20 @@ footer > a > span.aparece-desktop {
     border-radius: 5px;
     margin: 10px;
 }
+
+dialog {
+    width: 500px;
+    height: 300px;
+    background-color: var(--cor5);
+    margin: 30% 50%;
+    transform: translate(-50%, -50%);
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+div#conteudoDialog {
+    width: 100%;
+    height: 100%;
+}

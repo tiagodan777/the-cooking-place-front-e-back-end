@@ -10,10 +10,10 @@
             <div id="div-imagem">
                 {% if membro.picture %}
                     <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
-                    <a href="{{ doc_doot }}edit-profile-picture/{{ membro.id }}">Mudar Foto de Perfil</a>
+                    <a href="{{ doc_root }}edit-profile-picture/{{ membro.id }}">Mudar Foto de Perfil</a>
                 {% else %}
                     <img src="{{ doc_root }}imagens/fotos-perfil/blank.png" alt="Foto de perfil genérica">
-                    <a href="{{ doc_doot }}edit-profile-picture{{ membro.id }}">Adicionar foto de perfil</a>
+                    <a href="{{ doc_root }}edit-profile-picture/{{ membro.id }}">Adicionar foto de perfil</a>
                 {% endif %}
             </div>
             <div id="informacoes">

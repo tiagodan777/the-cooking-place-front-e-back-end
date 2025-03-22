@@ -8,20 +8,16 @@ $erro_com_a_imagem = $_FILES['picture']['error'] ?? '';
 $destination = '';
 $erros = [];
 
-if (!$id) {
-    redirect('index.php', ['failure' => 'Membro não encontrado']);
-}
-
 $membro = $cms->getMember()->get($id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($delete) {
         $apagar = $cms->getMember()->pictureDelete($id, $path);
         if (!$apagar) {
-            redirect('edit-profile.php', ['message' => 'Não foi possível apagar a foto de perfil']);
+            redirect('edit-profile', ['message' => 'Não foi possível apagar a foto de perfil']);
         } else {
             setcookie('picture', 'blank.jpg', time() + 60 * 60 * 24 * 7, '/', '', false, true);
-            redirect('edit-profile-picture.php', ['message' => 'Foto de perdil apagada']);
+            redirect(DOC_ROOT . 'edit-profile/', ['message' => 'Foto de perfil apagada']);
         }
     } else {
         $temp = $_FILES['picture']['tmp_name'] ?? '';
@@ -38,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $membro['picture'] = $picture;
                 $cms->getMember()->pictureCreate($membro, $temp, $destination);
                 setcookie('picture', $picture, time() + 60 * 60 * 24 * 7, '/', '', false, true);
-                redirect('edit-profile.php', ['message' => 'Foto de perfil alterada']);
+                redirect(DOC_ROOT . 'edit-profile/', ['message' => 'Foto de perfil alterada']);
             }
         }
     }

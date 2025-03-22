@@ -11,6 +11,7 @@ class CMS {
     protected $cookie = null;
     protected $token = null;
     protected $like = null;
+    protected $opinion = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -71,5 +72,12 @@ class CMS {
             $this->like = new Like($this->db);
         }
         return $this->like;
+    }
+
+    public function getOpinion() {
+        if ($this->opinion === null) {
+            $this->opinion = new Opinion($this->db);
+        }
+        return $this->opinion;
     }
 }

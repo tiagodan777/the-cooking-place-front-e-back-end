@@ -2,7 +2,8 @@
 {% block content %}
 <main id="index">
     {% for receita in receitas %}
-        <article {% if count == 0 %} id='primeiro-artigo' {% set count = 1 %} {% endif %}>
+        <article {% if count == 0 %} id='primeiro-artigo' {% endif %}>
+            {% set count = count + 1 %}
             <header>
                 <a href="{{ doc_root }}profile/{{ receita.membro_id }}/{{ receita.seo_member }}">
                     <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">
@@ -22,7 +23,12 @@
                         {% else %}
                             <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                         {% endif %}
-                        <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
+                        <dialog id="c{{ count }}">
+                            <div id="conteudoDialog">
+                                <button id="f{{ count }}">Fechar</button>
+                            </div>
+                        </dialog>
+                        <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
                         <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
                     </div>
                     <div class="numeros">
@@ -42,10 +48,40 @@
                     <p>{{ receita.descricao }}</p>
                 </section>
                 <aside>
-                    <a href="{{ doc_doot }}index.php">Ver os 100 comentários</a>
+                    <a href="{{ doc_doot }}index">Ver os 100 comentários</a>
                 </aside>
             </aside>
         </article>
     {% endfor %}
+    <script>
+        for (let c = 1; c <= 41; c++) {
+            let button = window.document.querySelector(`button#b${c}`)
+            let fechar = window.document.querySelector(`button#f${c}`)
+            let dialog = window.document.querySelector(`dialog#c${c}`)
+            let conteudoDialog = document.getElementById("conteudoDialog");
+
+
+            button.addEventListener('click', minhaFuncaoShow)
+            fechar.addEventListener('click', minhaFuncaoClose)
+            dialog.addEventListener("click", (event) => {
+            if (event.target === dialog) {
+                dialog.close();
+            }
+            })
+            dialog.addEventListener("click", (event) => {
+            if (!conteudoDialog.contains(event.target)) { 
+            dialog.close();
+            }
+        });
+
+            function minhaFuncaoShow() {
+                dialog.showModal()
+            }
+
+            function minhaFuncaoClose() {
+                dialog.close()
+            }
+        }
+    </script>
 </main>
 {% endblock %}

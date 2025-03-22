@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($result == false) {
             $errors['email'] = 'O endereço de email já está a ser usado';
         } else {
-            redirect('profile.php', ['id' => $membro['id'], 'message' => 'Alterações gravadas']);
+            redirect(DOC_ROOT . 'profile/' . $membro['id'] . '/', ['message' => 'Alterações gravadas']);
         }
     }
 
