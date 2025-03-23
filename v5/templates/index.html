@@ -24,9 +24,8 @@
                             <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                         {% endif %}
                         <dialog id="c{{ count }}">
-                            <div id="conteudoDialog">
-                                <button id="f{{ count }}">Fechar</button>
-                            </div>
+                            <iframe src="{{ doc_root }}opinions/{{ receita.id }}/" frameborder="0" id="comentarios{{ count }}"></iframe>
+                            <button id="f{{ count }}">Fechar</button>
                         </dialog>
                         <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
                         <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>

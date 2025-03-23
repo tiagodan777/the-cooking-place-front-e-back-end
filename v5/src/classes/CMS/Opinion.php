@@ -9,12 +9,13 @@ class Opinion {
         $this->db = $db;
     }
 
-    public function getAll($id) {
-        $sql = "SELECT o.id, o.opiniao, o.posted, o.membro_id, 
+    public function getAll($id = null) {
+        $sql = "SELECT o.id, o.opiniao, o.posted, o.membro_id, o.receita_id,
                 CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
                 FROM opiniao AS o
-                JOIN membro AS m ON o.membro_id = m.id;";
-        return $this->db->runSQL($sql, [$id])->fetchAll();
+                JOIN membro AS m ON o.membro_id = m.id
+                WHERE o.receita_id = :id;";
+        return $this->db->runSQL($sql, [$id] )->fetchAll();
     }
 
     public function create($opiniao) {

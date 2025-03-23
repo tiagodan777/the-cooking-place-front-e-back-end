@@ -130,3 +130,10 @@ footer > a > span.aparece-mobile {
 footer > a > span.nao-destaque {
     font-weight: normal;
 }
+
+iframe {
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    z-index: 10;
+}
