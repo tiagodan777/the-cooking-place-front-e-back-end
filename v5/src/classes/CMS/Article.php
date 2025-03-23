@@ -95,7 +95,7 @@ class Article {
         $arguments['show'] = $show;
         $arguments['from'] = $from;
 
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file,
+        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file, r.seo_title,
                 CONCAT(m.forename, ' ', m.surname) AS autor
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id

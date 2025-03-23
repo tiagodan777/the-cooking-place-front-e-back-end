@@ -24,7 +24,7 @@
                             <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                         {% endif %}
                         <dialog id="c{{ count }}">
-                            <iframe src="{{ doc_root }}opinions/{{ receita.id }}/" frameborder="0" id="comentarios{{ count }}"></iframe>
+                            <iframe data-src="{{ doc_root }}opinions/{{ receita.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
                             <button id="f{{ count }}">Fechar</button>
                         </dialog>
                         <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
@@ -53,34 +53,28 @@
         </article>
     {% endfor %}
     <script>
-        for (let c = 1; c <= 41; c++) {
-            let button = window.document.querySelector(`button#b${c}`)
-            let fechar = window.document.querySelector(`button#f${c}`)
-            let dialog = window.document.querySelector(`dialog#c${c}`)
-            let conteudoDialog = document.getElementById("conteudoDialog");
+        window.document.querySelectorAll("button[id^='b']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("b", "")
+                let dialog = window.document.querySelector(`#c${count}`)
+                let iframe = window.document.querySelector(`#comentarios${count}`)
+                let fechar = window.document.querySelector(`#f${count}`)
 
+                if (!iframe.src) {
+                    iframe.src = iframe.getAttribute('data-src')
+                }
 
-            button.addEventListener('click', minhaFuncaoShow)
-            fechar.addEventListener('click', minhaFuncaoClose)
-            dialog.addEventListener("click", (event) => {
-            if (event.target === dialog) {
-                dialog.close();
-            }
-            })
-            dialog.addEventListener("click", (event) => {
-            if (!conteudoDialog.contains(event.target)) { 
-            dialog.close();
-            }
-        });
-
-            function minhaFuncaoShow() {
                 dialog.showModal()
-            }
 
-            function minhaFuncaoClose() {
-                dialog.close()
-            }
-        }
+                fechar.addEventListener('click', function () {
+                    dialog.close()
+                })
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
     </script>
 </main>
 {% endblock %}

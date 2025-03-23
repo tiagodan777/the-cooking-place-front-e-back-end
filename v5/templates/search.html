@@ -11,7 +11,7 @@
 <main id="search">
     {% for receita in receitas %}
         <div>
-            <a href="{{ doc_root }}article/{{ receita.id }}">
+            <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}">
                 <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}">
             </a>
             <footer class="info">

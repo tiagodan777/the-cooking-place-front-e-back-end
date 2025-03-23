@@ -1,0 +1,175 @@
+@charset "UTF-8";
+
+:root {
+    --cor0: #F7D500;
+    --cor1: #ED7D3A;
+    --cor2: #2FBF71;
+    --cor3: #EF2D56;
+    --cor4: #363537;
+    --cor5: #FFFFFF;
+    --cor6: #000000
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+main#opinions {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+main#opinions > h2 {
+    margin-top: 20px;
+
+    align-self: center;
+}
+
+main#opinions > form {
+    padding: 25px;
+    width: 90%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+main#opinions > form > img {
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+main#opinions > form > textarea {
+    width: 70%;
+    height: 100px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 80px 0px 0px 0px;
+    border: none;
+    border-bottom: 1px solid var(--cor4);
+    outline: none;
+    overflow: hidden;
+}
+
+main#opinions > form > textarea:focus {
+    border: none;
+    border-bottom: 1px solid var(--cor4);
+}
+
+main#opinions > form > input[type="submit"] {
+    margin-left: 20px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: var(--cor0);
+    color: var(--cor5); 
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+
+main#opinions > form > input[type="submit"]:hover {
+    background-color: var(--cor1);
+}
+
+main#opinions > div {
+    width: 100%;
+    padding: 10px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+main#opinions > div > section#member {
+    width: 100%;
+    padding: 10px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main#opinions > div > section#member > div#foto-nome {
+    width: 20vw;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+main#opinions > div > section#member a {
+    text-decoration: none;
+    color: var(--cor4);
+}
+
+main#opinions > div > section#member > div#foto-nome > a > img {
+    width: 40px;
+    border-radius: 50%;
+}
+
+main#opinions > div > section#member > p {
+    text-align: right;
+    color: #5d5c60;
+    width: 70vw;
+}
+
+main#opinions > div > section#content {
+    width: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+main#opinions > div > section#content > p {
+    width: 80%;
+    padding-left: 40px;
+}
+
+main#opinions > div > section#content > div {
+    width: 20vw;
+}
+
+main#opinions > div > section#content > div > a.admin-comentario, main#opinions > div > section#content > div > button {
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: var(--cor5);
+    border: none;
+    text-decoration: none;
+}
+
+main#opinions > div > section#content > div > button {
+    padding: 7px 14px;
+}
+
+main#opinions > div > section#content > div > a#editar {
+    background-color: var(--cor1);
+}
+
+main#opinions > div > section#content > div > a#apagar, main#opinions > div > section#content > div > button {
+    background-color: var(--cor3);
+}
+
+main#opinions > div > section#content > div > dialog {
+    width: 300px;
+    height: 300px;
+    margin: auto;
+}
+
+

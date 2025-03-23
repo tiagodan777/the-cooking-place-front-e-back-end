@@ -131,9 +131,19 @@ footer > a > span.nao-destaque {
     font-weight: normal;
 }
 
+dialog {
+    width: 800px;
+    height: 400px;
+    background-color: var(--cor5);
+    margin: 25% 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    z-index: 0;
+}
+
 iframe {
     width: 100%;
     height: 100%;
-    background-color: red;
     z-index: 10;
+    border: none;
 }
