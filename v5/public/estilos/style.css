@@ -148,13 +148,16 @@ main > article > aside.aside-principal > section > div.icones {
     align-items: center;
 }
 
-main > article > aside.aside-principal > section > div.icones > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > a {
+main > article > aside.aside-principal > section > div.icones > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > a, main > article > aside.aside-principal > section > div.icones > button[id^="b"]{
     flex: 0 0 50px;
+    font-size: 2em;
+    background-color: var(--cor5);
+    border: none;
     cursor: pointer;
     transition: 0.2s;
 }
 
-main > article > aside.aside-principal > section > div.icones > span.icones-reacao:hover, main > article > aside.aside-principal > section > div.icones > a:hover {
+main > article > aside.aside-principal > section > div.icones > span.icones-reacao:hover, main > article > aside.aside-principal > section > div.icones > a:hover, main > article > aside.aside-principal > section > div.icones > button[id^="b"]:hover {
     transform: scale(115%);
 }
 

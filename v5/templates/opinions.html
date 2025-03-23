@@ -19,7 +19,7 @@
             {% if not opiniao_editar.opiniao %}
                 <input type="submit" value="Opinar">
             {% else %}
-                <a href="javascript:void(0);" onclick="history.back();">Cancelar</a>
+                <a href="javascript:void(0);" onclick="history.back();" id="cancelar-edicao">Cancelar</a>
                 <input type="submit" value="Editar">
             {% endif %}
         </form>
@@ -41,9 +41,12 @@
                             <button id="apagar{{ count }}" class="admin-comentario">Apagar</button>
                             <dialog id="c{{ count }}">
                                 <form action="{{ doc_root }}opinion-delete/{{ opiniao.id }}/?id_receita={{ opiniao.receita_id }}" method="post">
-                                    <p>Esta opinião vai ser apagada permanentemente. Desejas continuar?</p>
-                                    <a href="javascript:void(0);" onclick="history.back();">Cancelar</a>
-                                    <input type="submit" value="Apagar">
+                                    <h4>Esta opinião vai ser apagada permanentemente.</h4>
+                                    <p>Desejas continuar?</p>
+                                    <div>
+                                        <a href="javascript:void(0);" onclick="history.back();">Cancelar</a>
+                                        <input type="submit" value="Apagar">
+                                    </div>
                                 </form>
                             </dialog>
                         </div>

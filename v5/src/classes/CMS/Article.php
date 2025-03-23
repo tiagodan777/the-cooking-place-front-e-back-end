@@ -49,7 +49,10 @@ class Article {
                 m.picture, m.seo_name AS seo_member,
                 (SELECT COUNT(receita_id)
                 FROM likes
-                WHERE likes.receita_id = r.id) AS likes
+                WHERE likes.receita_id = r.id) AS likes,
+                (SELECT COUNT(receita_id)
+                FROM opiniao
+                WHERE opiniao.receita_id = r.id) AS opinioes
                 FROM receita AS r
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE (r.categoria_id = :categoria OR :categoria1 IS null)
@@ -163,10 +166,26 @@ class Article {
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM receita WHERE id = :id;";
+        try {
+            $this->db->beginTransaction();
 
-        $this->db->runSQL($sql, [$id]);
-        return true;
+            $sql = "DELETE FROM likes WHERE receita_id = :id;";
+            $this->db->runSQL($sql, [$id]);
+
+            $sql = "DELETE FROM opiniao WHERE receita_id = :id;";
+            $this->db->runSQL($sql, [$id]);
+
+            $sql = "DELETE FROM receita WHERE id = :id;";
+            $this->db->runSQL($sql, [$id]);
+
+            $this->db->commit();
+
+            return true;
+        } catch(\PDOException $e) {
+            $this->db->rollBack();
+
+            throw $e;
+        }
     }
 
     public function imageDelete($id, $path) {
