@@ -24,7 +24,7 @@ class Member {
     }
 
     public function getAll() {
-        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture
+        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture, role
                 FROM membro;";
         return $this->db->runSQL($sql)->fetchAll();
     }
