@@ -1,8 +1,6 @@
 <?php
-is_admin($cookie->id);
 
 $membro = $cms->getMember()->getFull($id);
-var_dump($membro);
 
 if ($_SERVER['REQUEST_METHOD']  == 'POST') {
     $email = $membro['email'];
@@ -13,13 +11,12 @@ if ($_SERVER['REQUEST_METHOD']  == 'POST') {
     $mail = new \TiagoDaniel\Email\Email($email_config);
     $mail->sendEmail($email_config['admin_email'], $email, $subject, $body);
 
-    $delete = $cms->getMember()->delete($membro);
+    $delete = $cms->getMember()->delete($membro['id']);
 
     if ($delete) {
-        redirect(DOC_ROOT . 'admin/members/', ['message' => 'Não foi possível apagar a tua conta. Tenta mais tarde']);
-    } else {
-        $cms->getCookie()->delete();
         redirect(DOC_ROOT . 'admin/members/', ['message' => 'Conta apagada com sucesso']);
+    } else {
+        redirect(DOC_ROOT . 'admin/members/', ['message' => 'Não foi possível apagar a tua conta. Tenta mais tarde']);
     }
 }
 

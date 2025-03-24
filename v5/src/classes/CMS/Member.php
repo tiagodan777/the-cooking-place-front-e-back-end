@@ -159,23 +159,51 @@ class Member {
         return true;
     }
 
-    public function delete($member) {
+    public function delete($id) {
+        var_dump($id);
         try {
             $this->db->beginTransaction();
 
             $sql = "DELETE FROM receita 
                     WHERE membro_id = :id;";
-            $this->db->runSQL($sql, [$member['id']]);
+            $this->db->runSQL($sql, [$id]);
+
+            $sql = "DELETE FROM likes 
+                    WHERE membro_id = :id;";
+            $this->db->runSQL($sql, [$id]);
+
+            $arguments['id1'] = $id;
+            $arguments['id2'] = $id;
+            $sql = "DELETE FROM notificacao 
+                    WHERE emissor_id = :id1 
+                    OR recetor_id = :id2;";
+            $this->db->runSQL($sql, $arguments);
+
+            $sql = "DELETE FROM opiniao
+                    WHERE membro_id = :id;";
+            $this->db->runSQL($sql, [$id]);
+
+            $sql = "DELETE FROM quik
+                    WHERE membro_id = :id;";
+            $this->db->runSQL($sql, [$id]);
+
+            $arguments['id1'] = $id;
+            $arguments['id2'] = $id;
+            $sql = "DELETE FROM seguir
+                    WHERE membro_id_1 = :id1
+                    OR membro_id_2 = :id2;";
+            $this->db->runSQL($sql, $arguments);
 
             $sql = "DELETE FROM membro
                     WHERE id = :id;";
-            $this->db->runSQL($sql, [$member['id']]);
+            $this->db->runSQL($sql, [$id]);
 
             $this->db->commit();
+            return true;
         } catch (\PDOException $e) {
             $this->db->rollBack();
 
-            return false;
+            throw $e;
         }
     }
 }
