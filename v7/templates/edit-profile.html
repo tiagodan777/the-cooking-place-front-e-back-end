@@ -1,0 +1,116 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main id="edit-profile">
+    <section>
+        <h1>Editar Perfil</h1>
+        {% if erros.warning %}
+            <div class="alter-failure">{{ erros.warning }}</div>
+        {% endif %}
+        <form action="{{ doc_doot }}edit-profile/{{ cookie.id }}" method="post">
+            <div id="div-imagem">
+                {% if membro.picture %}
+                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
+                    <a href="{{ doc_root }}edit-profile-picture/{{ membro.id }}">Mudar Foto de Perfil</a>
+                {% else %}
+                    <img src="{{ doc_root }}imagens/fotos-perfil/blank.png" alt="Foto de perfil genérica">
+                    <a href="{{ doc_root }}edit-profile-picture/{{ membro.id }}">Adicionar foto de perfil</a>
+                {% endif %}
+            </div>
+            <div id="informacoes">
+                <div>
+                    <label for="nome">Primeiro Nome</label><input type="text" name="primeiro_nome" id="primeiro_nome" placeholder="Primeiro nome" minlength="1" maxlength="60" required autocomplete="name" value="{{ membro.forename }}">
+                    {% if erros.primeiro_nome %}<span class="error">{{ erros.primeiro_nome }}</span>{% endif %}
+                </div>
+
+                <div>
+                    <label for="nome">Último Nome</label><input type="text" name="ultimo_nome" id="ultimo_nome" placeholder="Último nome" minlength="1" maxlength="60" required autocomplete="name" value="{{ membro.surname }}">
+                    {% if erros.ultimo_nome %}<span class="error">{{ erros.ultimo_nome }}</span>{% endif %}
+                </div>
+
+                <div>
+                    <label for="telemovel">Nº de Telemóvel</label><input type="tel" name="telefone" id="telefone" placeholder="Número de telemóvel" required minlength="9" maxlength="9" autocomplete="tel" value="{{ membro.telefone }}">
+                    {% if erros.telemovel %}<span class="error">{{ error.telemovel }}</span>{% endif %}
+                </div>
+                
+                <div>
+                    <label for="email">Email</label><br><input type="email" name="email" id="email" placeholder="Email" required autocomplete="email" value="{{ membro.email }}">
+                    {% if erros.email %}<span class="error">{{ error.email }}</span>{% endif %}
+                </div>
+                
+                <div>
+                    <label for="bio">Bio</label><br>
+                    <textarea name="bio" id="bio" cols="47" rows="7">{{ membro.bio }}</textarea>
+                    {% if error.bio %} <span class="error">{{ membro.bio }}</span>{% endif %}
+                </div>
+
+                <div id="nascimento">
+                    <label for="data-nascimento">Data de nascimento</label><br>
+                    <select name="dia" id="dia">
+                        {% set count = 31 %}
+                        {% for i in 1..count %}
+                            {% if i < 10 %}
+                                {% if dia == i %}
+                                    <option value="0{{i}}" selected>{{ i }}</option>
+                                {% else %}
+                                    <option value="0{{i}}">{{ i }}</option>
+                                {% endif %}
+                            {% else %}
+                                {% if dia == i %}
+                                    <option value="{{i}}" selected>{{ i }}</option>
+                                {% else %}
+                                    <option value="{{i}}">{{ i }}</option>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% if erros.dia %}<span class="error">{{ error.dia }}</span>{% endif %}
+                    <select name="mes" id="mes">
+                        {% set count = 12 %}
+                        {% for i in 1..count %}
+                            {% if i < 10 %}
+                                {% if mes == i %}
+                                    <option value="0{{i}}" selected>{{ meses[i-1] }}</option>
+                                {% else %}
+                                    <option value="0{{i}}">{{ meses[i-1] }}</option>
+                                {% endif %}
+                            {% else %}
+                                {% if mes == i %}
+                                    <option value="{{i}}" selected>{{ meses[i-1] }}</option>
+                                {% else %}
+                                    <option value="{{i}}">{{ meses[i-1] }}</option>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% if erros.mes %}<span class="error">{{ error.mes }}</span>{% endif %}
+                    <select name="ano" id="ano">
+                        {% set count = 2025 %}
+                        {% for i in count..1900 %}
+                            {% if ano == i %}
+                                <option value="{{i}}" selected>{{ i }}</option>
+                            {% else %}
+                                <option value="{{i}}">{{ i }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% if erros.ano %}<span class="error">{{ error.ano }}</span>{% endif %}
+                </div>
+                <div id="genero">
+                    <label for="select_genero">Género</label><br>
+                    <select name="genero" id="select_genero">
+                        <option value="M" {% if membro.genero == 'M' %} selected {% endif %}>Masculino</option>
+                        <option value="F" {% if membro.genero == 'F' %} selected {% endif %}>Feminino</option>
+                        <option value="D" {% if membro.genero == 'D' %} selected {% endif %}>Desconhecido</option>
+                    </select>
+                    {% if erros.genero %}<span class="error">{{ error.genero }}</span>{% endif %}
+                </div>
+            </div>            
+            <input type="submit" value="Guardar">
+            <a href="{{ doc_root }}profile-delete/{{ membro.id }}" id="apagar-conta">Apagar a minha conta</a>
+        </form>
+    </section>
+</main>
+{% endblock %}
+
+
+    

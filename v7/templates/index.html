@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main id="index">
+    {% for receita in receitas %}
+        <article {% if count == 0 %} id='primeiro-artigo' {% endif %}>
+            {% set count = count + 1 %}
+            <header>
+                <a href="{{ doc_root }}profile/{{ receita.membro_id }}/{{ receita.seo_member }}">
+                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">
+                    <span class="nome">{{ receita.autor }}</span>
+                </a>
+                <span class="data">{{ receita.data|date('d F Y') }}</span>
+                <br>
+            </header>
+            <section>
+                <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}"><img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></a>
+            </section>
+            <aside class="aside-principal">
+                <section>
+                    <div class="icones">
+                        {% if cookie.id != 0 %}
+                            <a href="{{ doc_root}}like/{{ receita.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                        {% else %}
+                            <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                        {% endif %}
+                        <dialog id="c{{ count }}">
+                            <iframe data-src="{{ doc_root }}opinions/{{ receita.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                            <button id="f{{ count }}">Fechar</button>
+                        </dialog>
+                        <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
+                        <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
+                    </div>
+                    <div class="numeros">
+                        {% if receita.likes != '' %}
+                            <span>{{ receita.likes }}</span>
+                        {% else %} 
+                            <span></span>
+                        {% endif %}
+                        {% if receita.opinioes != '' %}
+                            <span>{{ receita.opinioes }}</span>
+                        {% else %}
+                            <span>0</span>
+                        {% endif %}
+                        <span>55</span>
+                    </div>
+                    <h2>{{ receita.titulo }}</h2>
+                    <p>{{ receita.descricao }}</p>
+                </section>
+                <aside>
+                    <a href="{{ doc_doot }}index">Ver os 100 comentários</a>
+                </aside>
+            </aside>
+        </article>
+    {% endfor %}
+    <script>
+        window.document.querySelectorAll("button[id^='b']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("b", "")
+                let dialog = window.document.querySelector(`#c${count}`)
+                let iframe = window.document.querySelector(`#comentarios${count}`)
+                let fechar = window.document.querySelector(`#f${count}`)
+
+                if (!iframe.src) {
+                    iframe.src = iframe.getAttribute('data-src')
+                }
+
+                dialog.showModal()
+
+                fechar.addEventListener('click', function () {
+                    dialog.close()
+                })
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
+    </script>
+</main>
+{% endblock %}

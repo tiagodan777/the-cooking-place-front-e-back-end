@@ -1,0 +1,161 @@
+@charset "UTF-8";
+
+:root {
+    --cor0: #F7D500;
+    --cor1: #ED7D3A;
+    --cor2: #2FBF71;
+    --cor3: #EF2D56;
+    --cor4: #363537;
+    --cor5: #FFFFFF;
+    --cor6: #000000
+}
+
+/* {
+    font-size: 1em;
+}*/
+
+main#profile h1 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.5em;
+    transform: translate(0px, -20px);
+}
+
+main#profile {
+    width: 100vw;
+    height: calc(100vh - 100px);
+    margin-top: 60px;
+    padding: 10px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main#profile > header {
+    width: 100vw;
+    padding: 10px;
+    margin-top: -20px;
+
+    flex: 0 0 275px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+main#profile > header > div#foto_e_bio {
+    width: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+main#profile > header > div#foto_e_bio > img {
+    width: 80px;
+    border-radius: 50%;
+    margin-right: 30px;
+    transform: translate(25px, 0px);
+}
+
+main > header > div#foto_e_bio > p {
+    max-width: 250px;
+    font-weight: normal;
+    transform: translate(100px, 0px);
+}
+
+main > header > div#foto_e_bio > a {
+    text-decoration: none;
+    color: var(--cor5);
+    background-color: var(--cor3);
+    border-radius: 5px;
+    padding: 10px 20px;
+    display: block;
+    margin-top: 150px;
+    margin-right: 50px;
+}
+
+main > header > div#foto_e_bio > a#a_seguir {
+    background-color: var(--cor1);
+}
+
+main#profile > header > div#estatisticas_numeros {
+    width: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main#profile > header > div#estatisticas_numeros > span {
+    flex: 0 0 80px;
+    text-align: center;
+}
+
+main#profile > header > div#estatisticas_legenda {
+    width: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main#profile > header > div#estatisticas_legenda > span {
+    flex: 0 0 80px;
+    text-align: center;
+    font-weight: normal;
+}
+
+main#profile > header > p {
+    align-self: flex-end;
+    font-weight: normal;
+    margin-bottom: -10px;
+    padding-right: 10px;
+}
+
+main#profile > header > p > span {
+    font-weight: bold;
+}
+
+main#profile > section {
+    width: 100vw;
+    margin-top: 100px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+main#profile > section > div {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+
+    align-self: center;
+}
+
+main#profile > section > div > a {
+    width: 33.3%;
+    height: 163px;
+    border: 2px solid var(--cor5);
+}
+
+main#profile > section > a:hover {
+    
+}
+
+main#profile > section > div > a > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz a imagem cobrir todo o espaço */
+}
+
+
+
