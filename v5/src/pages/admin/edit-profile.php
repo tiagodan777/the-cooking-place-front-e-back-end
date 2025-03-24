@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $membro['mes'] = $_POST['mes'];
     $membro['ano'] = $_POST['ano'];
     $membro['genero'] = $_POST['genero'];
+    $membro['role'] = $_POST['role'];
     $membro['seo_name'] = create_seo_name(mb_strtolower($membro['forename']) . mb_strtolower($membro['surname']));
 
 
@@ -35,17 +36,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $erros['dia'] = Validate::isNumber($membro['dia'], 1, 31) ? '' : 'Escolhe um dia válido sua parva';
     $erros['mes'] = Validate::isNumber($membro['mes'], 1, 12)? '' : 'Escolhe um mês válido sua parva';
     $erros['ano'] = Validate::isNumber($membro['ano'], 1900, date('Y')) ? '' : 'Escolhe um ano válido sua parva';
-    $erros['genero'] = Validate::isGenero($membro['genero'])? '' : 'Queres mais géneros para quê parvalhona?';
+    $erros['genero'] = Validate::isGenero($membro['genero']) ? '' : 'Queres mais géneros para quê parvalhona?';
+    $erros['role'] = Validate::isRole($membro['role']) ? '' : 'A tentar chatear a tua própria página?';
+
 
     $invalid = implode($errors);
     if (!$invalid) {
         $membro['nascimento'] = $membro['ano'] . '-' . $membro['mes'] . '-' . $membro['dia'];
-        $result = $cms->getMember()->update($membro);
+        $result = $cms->getMember()->update($membro, true);
 
         if ($result == false) {
             $errors['email'] = 'O endereço de email já está a ser usado';
         } else {
-            redirect(DOC_ROOT . 'admin/index', ['message' => 'Alterações gravadas']);
+            redirect(DOC_ROOT . 'admin/index/', ['message' => 'Alterações gravadas']);
         }
     }
 

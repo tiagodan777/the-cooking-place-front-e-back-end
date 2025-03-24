@@ -10,21 +10,34 @@ class Member {
     }
 
     public function get($id) {
-        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture, seo_name
+        $arguments['id1'] = $id;
+        $arguments['id2'] = $id;
+        $arguments['id3'] = $id;
+        $arguments['id4'] = $id;
+
+        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture, seo_name,
+                (SELECT COUNT(membro_id_2) 
+                FROM seguir
+                WHERE membro_id_2 = :id1) AS followers,
+                (SELECT COUNT(membro_id_1)
+                FROM seguir
+                WHERE membro_id_1 = :id2) AS following,
+                (SELECT COUNT(id) FROM receita
+                WHERE membro_id = :id3) AS tot_receitas
                 FROM membro
-                WHERE id = :id;";
-        return $this->db->runSQL($sql, [$id])->fetch();
+                WHERE id = :id4;";
+        return $this->db->runSQL($sql, $arguments)->fetch();
     }
 
     public function getFull($id) {
-        $sql = "SELECT id, forename, surname, joined, bio, picture, email, telefone, nascimento, genero
+        $sql = "SELECT id, forename, surname, joined, bio, picture, email, telefone, nascimento, genero, role
                 FROM membro
                 WHERE id = :id;";
         return $this->db->runSQL($sql, [$id])->fetch();
     }
 
     public function getAll() {
-        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture, role
+        $sql = "SELECT id, CONCAT(forename, ' ', surname) AS nome, joined, bio, picture, email, role
                 FROM membro;";
         return $this->db->runSQL($sql)->fetchAll();
     }
@@ -53,7 +66,7 @@ class Member {
         }
     }
 
-    public function update($member) {
+    public function update($member, $admin = false) {
         try {
             unset($member['dia']);
             unset($member['mes']);
@@ -62,8 +75,11 @@ class Member {
             unset($member['picture']);
             $sql = "UPDATE membro
                     SET forename = :forename, surname = :surname, telefone = :telefone, email = :email, bio = :bio,
-                                    nascimento = :nascimento, genero = :genero, seo_name = :seo_name
-                    WHERE id = :id;";
+                                    nascimento = :nascimento, genero = :genero, seo_name = :seo_name";
+                    if ($admin) {
+                        $sql .= ", role = :role ";
+                    }
+                    $sql .= "WHERE id = :id;";
             $this->db->runSQL($sql, $member);
             return true;
         } catch (\PDOException $e) {

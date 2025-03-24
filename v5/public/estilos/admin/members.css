@@ -11,19 +11,26 @@
     --cor6: #000000
 }
 
-main > section > table > thead > tr > th > a {
-    text-decoration: none;
-    color: var(--cor4);
+main#members > section {
+    width: 100vw;
+    margin-left: 0px;
+    margin-top: 300px;
 }
 
-main > section > table > tbody > tr > td > a.apagar {
+main#members > section > table > thead > tr > th {
+    text-decoration: none;
+    color: var(--cor4);
+    text-align: center;
+}
+
+main#members > section > table > tbody > tr > td > a.apagar {
     background-color: #EF2D56;
 }
 
-main > section > table > tbody > tr > td > a.apagar:hover {
+main#members > section > table > tbody > tr > td > a.apagar:hover {
     background-color: #d8294f;
 }
 
-main > section > table > tbody > tr > td > img {
+main#members > section > table > tbody > tr > td > img {
     width: 10vw;
 }

@@ -11,6 +11,7 @@ if (!$membro) {
 }
 
 $receitas = $cms->getArticle()->getAll(member:$id);
+$seguem_se = $cms->getFollow()->get($cookie->id, $id);
 
 if (mb_strtolower($parts[2]) != mb_strtolower($membro['seo_name'])) {
     redirect(DOC_ROOT . 'profile/' . $id . '/' . $membro['seo_name'], [], 301);
@@ -18,6 +19,7 @@ if (mb_strtolower($parts[2]) != mb_strtolower($membro['seo_name'])) {
 
 $data['receitas'] = $receitas;
 $data['membro'] = $membro;
+$data['seguem_se'] = $seguem_se;
 
 echo $twig->render('profile.html', $data);
 ?>

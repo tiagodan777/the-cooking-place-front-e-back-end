@@ -5,7 +5,7 @@ $id = $cookie->id;
 $input_message = $_POST['message'] ?? '';
 
 if (!$id) {
-    redirect('index.php', ['failure' => 'Membro não encontrado']);
+    redirect('index', ['failure' => 'Membro não encontrado']);
 }
 
 $membro = $cms->getMember()->getFull($id);

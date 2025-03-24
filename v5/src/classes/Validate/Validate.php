@@ -38,6 +38,11 @@ class Validate {
         return in_array($genero, $allowed_types);
     }
 
+    public static function isRole($role) {
+        $allowed_types = ['member', 'imperador_supremo_universo', 'suspended'];
+        return in_array($role, $allowed_types);
+    }
+
     public static function isPassword($password)
     {
         if ( mb_strlen($password) >= 8                     // Length 8 or more chars

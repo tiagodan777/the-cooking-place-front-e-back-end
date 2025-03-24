@@ -1,18 +1,27 @@
 <?php
-function postado_ha_x_horas($string) {
-    $idade = time() - 3600 - strtotime($string);
-    if ($idade < 60) {
-        return date('s', $idade) . ' segundos';
-    } elseif($idade < 3600) {
-        return date('i', $idade) . ' minutos';
-    } elseif ($idade < 86400) {
-        return date('G', $idade) . ' horas';
-    } elseif ($idade < 604800) {
-        return date('j', $idade) . ' dias';
-    } else {
-        return date('j F Y', $idade) . '';
-    }
-}
+/*function postado_ha_x_horas($receitas) {
+    $novas_datas = [];
+
+    foreach ($receitas as $receita) {
+        $idade = time() - 3600 - strtotime($receita['data']); // Correção no cálculo da idade
+
+        if ($idade < 60) {
+            $data_formatda = 'Há ' . $idade . ' segundos';
+        } elseif ($idade < 3600) {
+            $data_formatda = 'Há ' . floor($idade / 60) . ' minutos';
+        } elseif ($idade < 86400) {
+            $data_formatda = 'Há ' . floor($idade / 3600) . ' horas';
+        } elseif ($idade < 604800) {
+            $data_formatda = 'Há ' . floor($idade / 86400) . ' dias';
+        } else {
+            $data_formatda = date('j F Y', strtotime($receita['data'])); // Exibir data original
+        }
+
+        $novas_datas[] = $data_formatda;
+    }  
+
+    return $novas_datas;  
+}*/
 
 function redirect($location, $parameters = [], $response_code = 302) {
     $qs = $parameters ? '?' . http_build_query($parameters) : '';

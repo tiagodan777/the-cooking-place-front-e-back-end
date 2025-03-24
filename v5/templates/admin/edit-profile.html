@@ -104,6 +104,15 @@
                     </select>
                     {% if erros.genero %}<span class="error">{{ error.genero }}</span>{% endif %}
                 </div>
+                <div id="role">
+                    <label for="select_role">Role</label><br>
+                    <select name="role" id="select_role">
+                        <option value="imperador_supremo_do_universo" {% if membro.role == 'imperador_supremo_do_universo' %} selected {% endif %}>Imperador Supremo do Universo</option>
+                        <option value="member" {% if membro.role == 'member' %} selected {% endif %}>Member</option>
+                        <option value="suspended" {% if membro.role == 'suspended' %} selected {% endif %}>Suspended</option>
+                    </select>
+                    {% if erros.role %}<span class="error">{{ error.role }}</span>{% endif %}
+                </div>
             </div>            
             <input type="submit" value="Guardar">
             <a href="{{ doc_root }}admin/profile-delete" id="apagar-conta">Apagar a minha conta</a>

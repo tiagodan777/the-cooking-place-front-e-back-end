@@ -9,7 +9,7 @@
                     <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">
                     <span class="nome">{{ receita.autor }}</span>
                 </a>
-                <span class="data">Há {{ receita.data|date('d F Y') }}</span>
+                <span class="data">{{ receita.data|date('d F Y') }}</span>
                 <br>
             </header>
             <section>

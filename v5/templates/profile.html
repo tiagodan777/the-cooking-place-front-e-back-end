@@ -5,12 +5,19 @@
         <div id="foto_e_bio">
             <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
             <p>{{ membro.bio }}</p>
+            {% if membro.id != cookie.id %}
+                {% if not seguem_se %}
+                    <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="seguir">Seguir</a> 
+                {% else %}
+                    <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="a_seguir">A seguir</a> 
+                {% endif %}
+            {% endif %}
         </div>
         <h1>{{ membro.nome }}</h1>
         <div id="estatisticas_numeros">
-            <span>1M</span>
-            <span>399</span>
-            <span>69</span>
+            <span>{{ membro.followers }}</span>
+            <span>{{ membro.following }}</span>
+            <span>{{ membro.tot_receitas }}</span>
         </div>
         <div id="estatisticas_legenda">
             <span>seguidores</span>

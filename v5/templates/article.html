@@ -20,14 +20,18 @@
                             {% else %}
                                 <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                             {% endif %}
-                            <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/comment-icon.png" alt="Ícone comentário"></span>
+                            <dialog id="c{{ count }}">
+                                <iframe data-src="{{ doc_root }}opinions/{{ receita.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                                <button id="f{{ count }}">Fechar</button>
+                            </dialog>
+                            <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
                             <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
                         </div>
                         <div class="numeros">
                             {% if receita.likes != '' %}
                                 <span>{{ receita.likes }}</span>
                             {% else %} 
-                                <span>0</span>
+                                <span></span>
                             {% endif %}
                             {% if receita.opinioes != '' %}
                                 <span>{{ receita.opinioes }}</span>
@@ -95,5 +99,29 @@
         </article>
     </aside>
 </main>
+<script>
+    window.document.querySelectorAll("button[id^='b']").forEach((button) => {
+        button.addEventListener('click', function () {
+            let count = this.id.replace("b", "")
+            let dialog = window.document.querySelector(`#c${count}`)
+            let iframe = window.document.querySelector(`#comentarios${count}`)
+            let fechar = window.document.querySelector(`#f${count}`)
+
+            if (!iframe.src) {
+                iframe.src = iframe.getAttribute('data-src')
+            }
+
+            dialog.showModal()
+
+            fechar.addEventListener('click', function () {
+                dialog.close()
+            })
+
+            dialog.addEventListener('click', function () {
+                dialog.close()
+            })
+        })
+    })
+</script>
 {% endblock %}
 {% block footer %} {% endblock %}

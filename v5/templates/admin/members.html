@@ -1,9 +1,9 @@
 {% extends 'admin/layout.html' %}
 {% block content %}
-<main id="articles">
+<main id="members">
     <section>
         <header>
-            <h1>Receitas</h1>
+            <h1>Membros</h1>
             <a href="{{ doc_root }}register">Adicionar novo membro</a>
             {% if success %}> <div class="alert-success">{{ success }}</div> {% endif %}
             {% if failure %} <div class="alert-failure">{{ failure }}</div> {% endif %}
@@ -16,6 +16,7 @@
                     <th scope="col">Nascimento</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
+                    <th scope="col">Editar</th>
                     <th scope="col">Apagar</th>
                 </tr>
             </thead>

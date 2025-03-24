@@ -2,6 +2,7 @@
 is_admin($cookie->id);
 
 $membro = $cms->getMember()->getFull($id);
+var_dump($membro);
 
 if ($_SERVER['REQUEST_METHOD']  == 'POST') {
     $email = $membro['email'];

@@ -96,7 +96,7 @@ main#edit-profile > section > form > div#informacoes > div > input {
     border-radius: 3px;
 }
 
-main#edit-profile > section > form > div > div#nascimento > select, main#edit-profile > section > form > div > div#genero > select {
+main#edit-profile > section > form > div > div#nascimento > select, main#edit-profile > section > form > div > div#genero > select, main#edit-profile > section > form > div > div#role > select {
     padding: 10px 45px 10px 0px;
     margin: 10px 0px;
 }

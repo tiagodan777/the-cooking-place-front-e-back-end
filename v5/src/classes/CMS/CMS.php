@@ -12,6 +12,7 @@ class CMS {
     protected $token = null;
     protected $like = null;
     protected $opinion = null;
+    protected $follow = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -79,5 +80,12 @@ class CMS {
             $this->opinion = new Opinion($this->db);
         }
         return $this->opinion;
+    }
+
+    public function getFollow() {
+        if ($this->follow === null) {
+            $this->follow = new Follow($this->db);
+        }
+        return $this->follow;
     }
 }
