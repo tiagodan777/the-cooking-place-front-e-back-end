@@ -12,15 +12,15 @@ class Article {
     public function get($id) {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, 
                 r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
-                r.imagem_file, r.video_file, r.categoria_id, r.membro_id, r.seo_title,
+                r.imagem_file, r.video_longo_file, r.quik_file, r.categoria_id, r.membro_id, r.seo_title,
                 c.nome,
                 m.id AS id_membro,CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name AS seo_member,
-                (SELECT COUNT(receita_id)
+                (SELECT COUNT(conteudo_id)
                 FROM likes
-                WHERE likes.receita_id = r.id) AS likes,
-                (SELECT COUNT(receita_id)
+                WHERE likes.conteudo_id = r.id) AS likes,
+                (SELECT COUNT(conteudo_id)
                 FROM opiniao
-                WHERE opiniao.receita_id = r.id) AS opinioes
+                WHERE opiniao.conteudo_id = r.id) AS opinioes
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
                 JOIN membro AS m ON r.membro_id = m.id
@@ -140,9 +140,10 @@ class Article {
             $sql = "SELECT id AS conteudo_id, membro_id FROM receita
                     WHERE token = :new_token;";
             $arguments = $this->db->runSQL($sql, [$new_token])->fetch();
+            $arguments['tipo'] = 'receita';
 
-            $sql = "INSERT INTO conteudo (conteudo_id, membro_id)
-                VALUES (:conteudo_id, :membro_id);";
+            $sql = "INSERT INTO conteudo (conteudo_id, membro_id, tipo)
+                VALUES (:conteudo_id, :membro_id, :tipo);";
             $this->db->runSQL($sql, $arguments);
 
             $this->db->commit();

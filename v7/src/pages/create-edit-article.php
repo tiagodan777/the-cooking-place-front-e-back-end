@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['opinioes']);
             $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
         }
-        //redirect(DOC_ROOT . 'profile/' . $receita['membro_id'] . '/', ['success' => 'Artigo guardado']);  
+        redirect(DOC_ROOT . 'profile/' . $receita['membro_id'] . '/', ['success' => 'Artigo guardado']);  
     }
     $receita['imagem_file'] = $saved_image ? $receita['imagem_file'] : '';
 }

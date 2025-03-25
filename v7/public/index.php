@@ -12,7 +12,6 @@ if ($parts[0] != 'admin') {
     $page = 'admin/' . ($parts[1] ?? '');
     $id = $parts[2] ?? null;
 }
-$id = filter_var($id, FILTER_VALIDATE_INT);
 
 $php_page = APP_ROOT . '/src/pages/' . $page . '.php';
 if (!file_exists($php_page)) {
