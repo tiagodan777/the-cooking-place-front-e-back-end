@@ -47,12 +47,12 @@ class Article {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id, r.seo_title,
                 CONCAT(m.forename, ' ', m.surname) AS autor,
                 m.picture, m.seo_name AS seo_member,
-                (SELECT COUNT(receita_id)
+                (SELECT COUNT(conteudo_id)
                 FROM likes
-                WHERE likes.receita_id = r.id) AS likes,
-                (SELECT COUNT(receita_id)
+                WHERE likes.conteudo_id = r.id) AS likes,
+                (SELECT COUNT(conteudo_id)
                 FROM opiniao
-                WHERE opiniao.receita_id = r.id) AS opinioes
+                WHERE opiniao.conteudo_id = r.id) AS opinioes
                 FROM receita AS r
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE (r.categoria_id = :categoria OR :categoria1 IS null)
@@ -124,6 +124,7 @@ class Article {
 
     public function create($article, $temp, $destination) {
         try {
+            $this->db->beginTransaction();
             if ($temp) {
                 $imagick = new \Imagick($temp);
                 $imagick->cropThumbnailImage(500, 500);
@@ -134,8 +135,20 @@ class Article {
                     (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file, :seo_title);";
 
             $this->db->runSQL($sql, $article);
+
+            $new_token = $this->db->lastInsertId();
+            $sql = "SELECT id AS conteudo_id, membro_id FROM receita
+                    WHERE token = :new_token;";
+            $arguments = $this->db->runSQL($sql, [$new_token])->fetch();
+
+            $sql = "INSERT INTO conteudo (conteudo_id, membro_id)
+                VALUES (:conteudo_id, :membro_id);";
+            $this->db->runSQL($sql, $arguments);
+
+            $this->db->commit();
             return true;
         } catch (\Exception $e) {
+            $this->db->rollBack();
             if (file_exists($destination)) {
                 unlink($destination);
             }

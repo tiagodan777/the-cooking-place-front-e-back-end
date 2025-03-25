@@ -54,8 +54,6 @@ $categorias = $cms->getCategory()->getAll();
 
 /*$autores = $cms->getMember()->getAll();*/
 
-$membro = $cms->getMember()->get(1);
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $erros['imagem_file'] = ($temp === '' && $erro_com_a_imagem === 1) ? 'Ficheiro demasiado grande' : '';
 
@@ -137,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['opinioes']);
             $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
         }
-        redirect(DOC_ROOT . 'profile/' . $receita['membro_id'] . '/', ['success' => 'Artigo guardado']);  
+        //redirect(DOC_ROOT . 'profile/' . $receita['membro_id'] . '/', ['success' => 'Artigo guardado']);  
     }
     $receita['imagem_file'] = $saved_image ? $receita['imagem_file'] : '';
 }
@@ -147,7 +145,6 @@ $data['erros'] = $erros;
 $data['categorias'] = $categorias;
 /*$data['autores'] = $autores;
 $data['autor'] = $autor;*/
-$data['membro'] = $membro;
 $data['ingredientes'] = explode(',', $receita['ingredientes']);
 $data['quantidades'] = explode(',', $receita['quantidades']);
 $data['count_ingredientes'] = count($data['ingredientes']);
