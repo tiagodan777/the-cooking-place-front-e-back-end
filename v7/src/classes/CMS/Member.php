@@ -131,7 +131,7 @@ class Member {
     public function pictureCreate($member, $temp, $destination) {
         try {   
             $imagick = new \Imagick($temp);
-            $imagick->cropThumbnailImage(100, 100);
+            $imagick->cropThumbnailImage(150, 150);
             $imagick->writeImage($destination);
 
             $sql = "UPDATE membro
