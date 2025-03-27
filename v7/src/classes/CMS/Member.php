@@ -67,23 +67,19 @@ class Member {
     }
 
     public function update($member, $admin = false) {
-        $sql = '';
         try {
             unset($member['dia']);
             unset($member['mes']);
             unset($member['ano']);
             unset($member['joined']);
             unset($member['picture']);
-            if (!$admin) {
-                unset($member['role']);
-            }
-            $sql = "UPDATE membro SET forename = :forename, surname = :surname, telefone = :telefone, email = :email, bio = :bio,
+            $sql = "UPDATE membro
+                    SET forename = :forename, surname = :surname, telefone = :telefone, email = :email, bio = :bio,
                                     nascimento = :nascimento, genero = :genero, seo_name = :seo_name";
                     if ($admin) {
-                        $sql .= ", role = :role";
+                        $sql .= ", role = :role ";
                     }
-                    $sql .= " WHERE id = :id;";
-            var_dump($sql);
+                    $sql .= "WHERE id = :id;";
             $this->db->runSQL($sql, $member);
             return true;
         } catch (\PDOException $e) {
@@ -92,7 +88,6 @@ class Member {
             }
             echo "<pre>";
             var_dump($member);
-            var_dump($sql);
             echo "</pre>";
             throw $e;
         }
@@ -131,7 +126,7 @@ class Member {
     public function pictureCreate($member, $temp, $destination) {
         try {   
             $imagick = new \Imagick($temp);
-            $imagick->cropThumbnailImage(150, 150);
+            $imagick->cropThumbnailImage(100, 100);
             $imagick->writeImage($destination);
 
             $sql = "UPDATE membro

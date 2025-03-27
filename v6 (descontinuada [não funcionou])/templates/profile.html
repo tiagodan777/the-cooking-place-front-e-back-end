@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main id="profile">
+    <header>
+        <div id="foto_e_bio">
+            <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
+            <p>{{ membro.bio }}</p>
+            {% if membro.id != cookie.id %}
+                {% if not seguem_se %}
+                    <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="seguir">Seguir</a> 
+                {% else %}
+                    <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="a_seguir">A seguir</a> 
+                {% endif %}
+            {% endif %}
+        </div>
+        <h1>{{ membro.nome }}</h1>
+        <div id="estatisticas_numeros">
+            <span>{{ membro.followers }}</span>
+            <span>{{ membro.following }}</span>
+            <span>{{ membro.tot_receitas }}</span>
+        </div>
+        <div id="estatisticas_legenda">
+            <span>seguidores</span>
+            <span>a seguir</span>
+            <span>receitas</span>
+        </div>
+        <p id="joined">Membro desde: <span>{{ membro.joined|date('F Y') }}</span></p>
+    </header>
+    <section>
+        <div>
+            {% for receita in receitas %}
+                <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}"><img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></a>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+
+
+    

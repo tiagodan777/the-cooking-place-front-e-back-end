@@ -13,7 +13,7 @@
                 <br>
             </header>
             <section>
-                <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title|e('html_attr') }}"><img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></a>
+                <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}"><img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></a>
             </section>
             <aside class="aside-principal">
                 <section>
@@ -46,6 +46,9 @@
                     <h2>{{ receita.titulo }}</h2>
                     <p>{{ receita.descricao }}</p>
                 </section>
+                <aside>
+                    <a href="{{ doc_doot }}index">Ver os 100 comentários</a>
+                </aside>
             </aside>
         </article>
     {% endfor %}

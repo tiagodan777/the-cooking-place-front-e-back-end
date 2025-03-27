@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($guardado) {
-            redirect(DOC_ROOT . 'admin/categories/', ['success' => 'Categoria guardada']);
+            redirect('categories.php', ['success' => 'Categoria guardada']);
         } 
         else {
             $erros['warning'] = 'O nome "' . $arguments['nome'] . '"  já foi utilizado noutra categoria';

@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+{% block content %}
+<section id="opcoes-search">
+    <section>
+        <div><label for="receitas" onclick="mudaPosicao(0)" id="label-0" style="font-weight: bold;">Receitas</label> <input type="radio" name="opcao" id="receitas" checked></div>
+        <div><label for="quiks" onclick="mudaPosicao(1)" id="label-1">Quiks</label> <input type="radio" name="opcao" id="quiks"></div>
+        <div><label for="utilizadores" onclick="mudaPosicao(2)" id="label-2">Utilizadores</label> <input type="radio" name="opcao" id="utilizadores"></div>
+    </section>
+    <div id="linha-principal"><div id="linha-que-move"></div></div>
+</section>
+<main id="search">
+    {% for receita in receitas %}
+        <div>
+            <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}">
+                <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}">
+            </a>
+            <footer class="info">
+                <h1>{{ receita.titulo }}</h1>
+                <h2>{{ receita.descricao }}</h2>
+                <div class="stats">
+                    <div class="likes">
+                        <span>10 mil</span>
+                        <span class="material-symbols-outlined">favorite</span>
+                    </div>
+                    <div class="views">
+                        <span>250 mil</span>
+                        <span class="material-symbols-outlined">visibility</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    {% endfor %}
+</main>
+<aside id="search-aside">
+    {% if count > show %}
+        <nav class="pagination">
+            <ul>
+                {% for i in 1..total_pages %}
+                    {% set ativo =  i == current_page ? 'ativo' : '' %}
+                    <li><a href="?search={{ term|e('url') }}&show={{ show }}&from= {{ (i - 1) * show }}" class="{{ ativo }}">{{ i }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
+</aside>
+<script>
+    function mudaPosicao(pos) {
+        let posicoes = []
+        if (window.innerWidth <= 900) {
+            posicoes = [0, 30, 69]
+        } else {
+            posicoes = [0, 37, 75]
+        }
+        let linha = window.document.querySelector('div#linha-que-move')
+        for (let c = 0; c <= 2; c++) {
+            let label = window.document.querySelector(`label#label-${c}`)
+            label.style.fontWeight = 'normal';
+        }
+
+        linha.style.marginLeft = `${posicoes[pos]}%`
+        linha.style.transition = '0.3s'
+
+        let label = window.document.querySelector(`label#label-${pos}`)
+        label.style.fontWeight = 'bold'
+        label.style.transition = '0.3s'
+    }
+</script>
+{% endblock %}
+
+
+

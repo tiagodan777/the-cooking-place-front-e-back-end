@@ -4,11 +4,11 @@ require_once APP_ROOT . '/config/config.php';
 require_once APP_ROOT . '/src/functions.php';
 require APP_ROOT . '/vendor/autoload.php';
 
-/* if (DEV !== false) {
+if (DEV !== false) {
     set_exception_handler('handle_exception');
     set_error_handler('handle_error');
     register_shutdown_function('handle_shutdown');
-} */
+}
 
 $cms = new \TiagoDaniel\CMS\CMS($dsn, $username, $password);
 unset($dsn, $username, $password);

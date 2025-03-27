@@ -12,12 +12,9 @@
 }
 
 main#category {
-    width: 100vw;
-    height: 100vh;
-
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
+    /*justify-content: space-evenly;*/
     align-items: center;
 }
 
@@ -25,7 +22,7 @@ main#category > section {
     width: 500px;
     height: 450px;
     color: var(--cor4);
-    margin-top: 400px;
+    margin-top: -150px;
 
     display: flex;
     flex-flow: column nowrap;
