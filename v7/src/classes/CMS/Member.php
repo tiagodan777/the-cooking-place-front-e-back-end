@@ -73,13 +73,16 @@ class Member {
             unset($member['ano']);
             unset($member['joined']);
             unset($member['picture']);
+            if (!$admin) {
+                unset($member['role']);
+            }
             $sql = "UPDATE membro
                     SET forename = :forename, surname = :surname, telefone = :telefone, email = :email, bio = :bio,
                                     nascimento = :nascimento, genero = :genero, seo_name = :seo_name";
                     if ($admin) {
                         $sql .= ", role = :role ";
                     }
-                    $sql .= "WHERE id = :id;";
+                    $sql .= " WHERE id = :id;";
             $this->db->runSQL($sql, $member);
             return true;
         } catch (\PDOException $e) {

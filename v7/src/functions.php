@@ -67,7 +67,7 @@ function create_seo_name($string) {
     return $text;
 }
 
-//set_error_handler('handle_error');
+/*/set_error_handler('handle_error');
 function handle_error($type, $message, $file, $line) {
     throw new ErrorException($message, 0, $type, $file, $line);
 } 
@@ -86,4 +86,4 @@ function handle_shutdown() {
         $e = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
         handle_exception($e);
     }
-}
+}*/

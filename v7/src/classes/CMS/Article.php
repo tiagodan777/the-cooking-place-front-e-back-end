@@ -47,12 +47,12 @@ class Article {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.imagem_file, r.membro_id, r.seo_title,
                 CONCAT(m.forename, ' ', m.surname) AS autor,
                 m.picture, m.seo_name AS seo_member,
-                (SELECT COUNT(receita_id)
+                (SELECT COUNT(conteudo_id)
                 FROM likes
-                WHERE likes.receita_id = r.id) AS likes,
-                (SELECT COUNT(receita_id)
+                WHERE likes.conteudo_id = r.id) AS likes,
+                (SELECT COUNT(conteudo_id)
                 FROM opiniao
-                WHERE opiniao.receita_id = r.id) AS opinioes
+                WHERE opiniao.conteudo_id = r.id) AS opinioes
                 FROM receita AS r
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE (r.categoria_id = :categoria OR :categoria1 IS null)
