@@ -43,12 +43,10 @@
                     <input type="file" name="video" id="video" readonly>
                 </div>
             </div>
-            <div id="inputs-escondidos">
-                <input type="text" name="ingredientes" id="ingredientes" value="{{ receita.ingredientes }}">
-                <input type="text" name="quantidades" id="quantidades" value="{{ receita.quantidades }}">
-                <input type="text" name="passos_preparacao" id="passos_preparacao" value="{{ receita.passos_preparacao }}">
-                <input type="text" name="keywords" id="keywords" value="{{ receita.keywords }}">
-            </div>
+            <input type="text" name="quant_ingredientes" id="ingredientes">
+            <input type="text" name="quant_quantidades" id="quantidades"">
+            <input type="text" name="quant_passos_preparacao" id="passos_preparacao">
+            <input type="text" name="quant_keywords" id="keywords">
         </section>
         <section id="info-text">
             <div id="div-titulo">
@@ -148,7 +146,7 @@
                     {% for i in 1..count %}
                         <div class="tags">
                             <label for="tag{{ 1 }}">Tag {{ i }}</label>
-                            <input type="text" name="tag{{ i }}" id="tag{{ i }}" placeholder="Ex: #sushi" value="{{ keywords[i-1] }}">
+                            <input type="text" name="tag{{ i }}" id="tag{{ i }}" placeholder="Ex: #sushi" value="#{{ keywords[i-1] }}">
                             {% if erros.keywords %}<span class="error">{{ erros.keywords }}</span> {% endif %}
                         </div>
                     {% endfor %}
@@ -156,28 +154,52 @@
                 <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
                 <section id="actions">
                     <a href="{{ doc_root }}article-delete/{{ receita.id }}">Apagar</a>
-                    <input type="submit" value="Publicar Receita" onclick="adicionaIngredienteEQuantidade(true), adicionaPasso(true), adicionaTag(true)">
+                    <input type="submit" value="Publicar Receita">
                 </section>
             </div>
         </section>
     </form>
 </main>
 <script>
-    let idNameIgrediente = 2
-    let idNamePasso = 2
-    let idNameTag = 2
-    function adicionaIngredienteEQuantidade(ultimo = false) {
+    function encontrarMaiorId(prefixo) {
+    let elementos = document.querySelectorAll(`[id^="${prefixo}"]`);
+    let maiorId = 0;
+
+    elementos.forEach(elemento => {
+        // Extrai o número do ID removendo o prefixo
+        let idNumerico = parseInt(elemento.id.replace(prefixo, ''), 10);
+        
+        // Atualiza o maior ID, se necessário
+        if (idNumerico > maiorId) {
+            maiorId = idNumerico;
+        }
+    })
+
+    return maiorId;
+}
+
+    // Verificar os maiores IDs para cada prefixo
+    let maiorIdIngredientes = encontrarMaiorId("ingredientes");
+    let maiorIdQuantidades = encontrarMaiorId("quantidades");
+    let maiorIdPassosPreparo = encontrarMaiorId("passo");
+    let maiorIdKeywords = encontrarMaiorId("tag");
+
+    let idNameIgrediente = maiorIdIngredientes
+    let idNameQuantidade = maiorIdQuantidades
+    let idNamePasso = maiorIdPassosPreparo
+    let idNameTag = maiorIdKeywords
+
+    //alert(idNameIgrediente)
+
+    function adicionaIngredienteEQuantidade() {
         let inputText = window.document.createElement('input')
         let inputNumber = window.document.createElement('input')
         let div = window.document.createElement('div')
         let ingredientes = window.document.querySelector('div.ingredientes-quantidade')
         let divIngredientes = window.document.querySelector('div#div-ingredientes')
-        let inputHiddenIngredientes = window.document.querySelector('input#ingredientes')
-        let inputHiddenQuantidades = window.document.querySelector('input#quantidades')
-        let idNameIgredienteAnterior = idNameIgrediente - 1
-        let inputAnteriorIngredientes = window.document.querySelector(`input#ingredientes${idNameIgredienteAnterior}`)
-        let inputAnteriorQuantidades = window.document.querySelector(`input#quantidades${idNameIgredienteAnterior}`)
         let form = window.document.querySelector('form#form')
+        idNameIgrediente++
+        idNameQuantidade++
 
         inputText.type = 'text'
         inputText.name = `ingredientes${idNameIgrediente}`
@@ -187,22 +209,12 @@
         inputText.maxLength = 32
 
         inputNumber.type = 'text'
-        inputNumber.name = `quantidades${idNameIgrediente}`
-        inputNumber.id = `quantidades${idNameIgrediente}`
+        inputNumber.name = `quantidades${idNameQuantidade}`
+        inputNumber.id = `quantidades${idNameQuantidade}`
         inputNumber.required = false
 
         div.className = 'inputs-ingredientes-quantidade'
 
-        if (!ultimo) {
-            inputHiddenIngredientes.value += `${inputAnteriorIngredientes.value}, `
-            inputHiddenQuantidades.value += `${inputAnteriorQuantidades.value}, `
-        } else {
-            let inputAtualQuantidades = window.document.querySelector(`input#quantidades${idNameIgredienteAnterior}`)
-            let inputAtualIngredientes = window.document.querySelector(`input#ingredientes${idNameIgredienteAnterior}`)
-            inputHiddenIngredientes.value += `${inputAtualIngredientes.value}`
-            inputHiddenQuantidades.value += `${inputAtualQuantidades.value}`
-        }
-        
         /*divIngredientes.style.border = '2px solid red'*/
         //divIngredientes.style.height += '300px'
         //main.style.height = Number(alturaMain)
@@ -212,20 +224,16 @@
         div.appendChild(inputText)
         div.appendChild(inputNumber)
         ingredientes.appendChild(div)
-        idNameIgrediente++
-
     }
     
-    function adicionaPasso(ultimo = false) {
+    function adicionaPasso() {
         let label = window.document.createElement('label')
         let textArea = window.document.createElement('textarea')
         let div = window.document.createElement('div')
         let divTextAreas = window.document.querySelector('div#div-textareas')
-        let inputHiddenPassosPreparacao = window.document.querySelector('input#passos_preparacao')
-        let idNamePassoAnterior = idNamePasso - 1
-        let inputAnteriorPasso = window.document.querySelector(`textarea#passo${idNamePassoAnterior}`)
+        idNamePasso++
 
-        label.setAttribute("for", `passo${idNamePasso}`)
+        label.setAttribute("for", `passo-${idNamePasso}`)
         label.innerHTML = `Passo ${idNamePasso}`
         textArea.name = `passo${idNamePasso}`
         textArea.id = `passo${idNamePasso}`
@@ -234,36 +242,17 @@
 
         div.className = 'textarea'
 
-        if (!ultimo) {
-            if (idNamePasso == 2) {
-                inputHiddenPassosPreparacao.value += `${inputAnteriorPasso.value}`
-            } else {
-                inputHiddenPassosPreparacao.value += `#${inputAnteriorPasso.value}`
-            }
-        } else {
-            let inputAtualPasso = window.document.querySelector(`textarea#passo${idNamePassoAnterior}`)
-            if (idNamePasso == 2) {
-                inputHiddenPassosPreparacao.value += `${inputAtualPasso.value}`
-            } else {
-                inputHiddenPassosPreparacao.value += `#${inputAtualPasso.value}`
-            }
-        }
-
         div.appendChild(label)
         div.appendChild(textArea)
         divTextAreas.appendChild(div)
-
-        idNamePasso++
     }
 
-    function adicionaTag(ultimo = false) {
+    function adicionaTag() {
         let label = window.document.createElement('label')
         let input = window.document.createElement('input')
         let div = window.document.createElement('div')
         let divTags = window.document.querySelector('div#div-tags')
-        let inputHiddenKeywords = window.document.querySelector('input#keywords')
-        let idNameTagAnterior = idNameTag - 1
-        let inputAnteriorTag = window.document.querySelector(`input#tag${idNameTagAnterior}`)
+        idNameTag++
 
         label.setAttribute("for", `tag${idNameTag}`)
         label.innerHTML = `Tag ${idNameTag}`
@@ -272,18 +261,46 @@
 
         div.className = 'tags'
 
-        if (!ultimo) {
-            inputHiddenKeywords.value += `${inputAnteriorTag.value}, `
-        } else {
-            let inputAtualTag = window.document.querySelector(`input#tag${idNameTagAnterior}`)
-            inputHiddenKeywords.value += `${inputAtualTag.value}`
-        }
-
         div.appendChild(label)
         div.appendChild(input)
         divTags.appendChild(div)
-
-        idNameTag++
     }
+
+    document.getElementById("form").addEventListener("submit", function(event) {
+    let form = event.target;
+
+    let ingredientes = document.getElementById('ingredientes');
+    let quantidades = document.getElementById('quantidades');
+    let passos_preparacao = document.getElementById('passos_preparacao');
+    let keywords = document.getElementById('keywords');
+
+    function encontrarMaiorId(prefixo) {
+    let elementos = document.querySelectorAll(`[id^="${prefixo}"]`);
+    let maiorId = 0;
+
+    elementos.forEach(elemento => {
+        // Extrai o número do ID removendo o prefixo
+        let idNumerico = parseInt(elemento.id.replace(prefixo, ''), 10);
+        
+        // Atualiza o maior ID, se necessário
+        if (idNumerico > maiorId) {
+            maiorId = idNumerico;
+        }
+    })
+
+    return maiorId;
+}
+
+    // Verificar os maiores IDs para cada prefixo
+    let maiorIdIngredientes = encontrarMaiorId("ingredientes");
+    let maiorIdQuantidades = encontrarMaiorId("quantidades");
+    let maiorIdPassosPreparo = encontrarMaiorId("passo");
+    let maiorIdKeywords = encontrarMaiorId("tag");
+
+    ingredientes.value = maiorIdIngredientes;
+    quantidades.value = maiorIdQuantidades;
+    passos_preparacao.value = maiorIdPassosPreparo;
+    keywords.value = maiorIdKeywords;
+});
 </script>
 {% endblock %}
