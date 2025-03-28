@@ -6,16 +6,16 @@
         {% if erros.warning %}
             <div class="alter-failure">{{ erros.warning }}</div>
         {% endif %}
-        <form action="{{ doc_root }}admin/category/{{ categoria.id }}" method="post">
+        <form action="{{ doc_root }}admin/category/{{ categoria.id }}" method="post" autocomplete="off">
             <div id="div-nome">
                 <label for="nome">Nome:</label>
                 <input type="text" name="nome" id="nome" value="{{ categoria.nome }}">
-                <span class="error">{{ erros.nome }}</span>
+                {% if erros.nome %}<span class="error">{{ erros.nome }}</span> {% endif %}
             </div>
             <div id="div-descricao">
                 <label for="descricao">Descrição:</label>
                 <textarea name="descricao" id="descricao" cols="30" rows="7">{{ categoria.descricao }}</textarea>
-                <span class="error">{{ erros.descricao }}</span>
+                {% if erros.descricao %} <span class="error">{{ erros.descricao }}</span> {% endif %}
             </div>
             <input type="submit" value="Guardar">
         </form>

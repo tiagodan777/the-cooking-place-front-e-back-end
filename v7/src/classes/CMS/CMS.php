@@ -14,6 +14,7 @@ class CMS {
     protected $opinion = null;
     protected $follow = null;
     protected $content = null;
+    protected $post = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -95,5 +96,12 @@ class CMS {
             $this->content = new Content($this->db);
         }
         return $this->content;
+    }
+
+    public function getPost() {
+        if ($this->post === null) {
+            $this->post = new Post($this->db);
+        }
+        return $this->post;
     }
 }

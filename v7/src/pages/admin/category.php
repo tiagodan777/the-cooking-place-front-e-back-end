@@ -17,7 +17,7 @@ $erros = [
 if ($id) {
     $categoria = $cms->getCategory()->get($id);
     if (!$categoria) {
-        redirect('categories.php', ['falha' => 'Categoria não encontrada']);
+        redirect(DOC_ROOT . 'admin/categories/', ['failure' => 'Categoria não encontrada']);
     }
 }
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($guardado) {
-            redirect('categories.php', ['success' => 'Categoria guardada']);
+            redirect(DOC_ROOT . 'admin/categories/', ['success' => 'Categoria guardada']);
         } 
         else {
             $erros['warning'] = 'O nome "' . $arguments['nome'] . '"  já foi utilizado noutra categoria';

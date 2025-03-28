@@ -136,6 +136,22 @@ main > article > section > a > img {
     width: 100vw;
 }
 
+main > article > section > a.quik {
+    height: 80vh; /* Cada vídeo ocupa 100% da tela */
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start; /* Faz cada vídeo começar do topo */
+    position: relative;
+}
+
+main > article > section > a.quik > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz o vídeo cobrir toda a tela */
+}
+
 main > article > aside.aside-principal {
     /*border: 2px solid red;*/
     width: 100%;

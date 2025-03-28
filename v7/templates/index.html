@@ -15,8 +15,12 @@
             <section>
                 {% if conteudo.tipo_conteudo == 'receita' %}
                     <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"></a>
-                {% else %}
-                    <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video></a>
+                {% elseif conteudo.tipo_conteudo == 'quik'  %}
+                    {% if conteudo.receita_acoplada_id == 0 %}
+                        <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video></a>
+                    {% else %}
+                        <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video></a>
+                    {% endif %}
                 {% endif %}
             </section>
             <aside class="aside-principal">

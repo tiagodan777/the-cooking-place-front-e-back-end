@@ -21,7 +21,7 @@
                     <tr>
                         <th scope="row" class="titulo-linha">{{ categoria.nome }}</th>
                         <td><a href="{{ doc_root }}admin/category/{{ categoria.id }}">Editar</a></td>
-                        <td><a href="{{ doc_root }}admin/category-delete{/{ categoria.id }}" class="diferente">Apagar</a></td>
+                        <td><a href="{{ doc_root }}admin/category-delete/{{ categoria.id }}" class="diferente">Apagar</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

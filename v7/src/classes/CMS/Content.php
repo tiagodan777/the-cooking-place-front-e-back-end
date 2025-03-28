@@ -21,6 +21,8 @@ class Content {
                         r.seo_title,
                         r.membro_id,
                         CONCAT(m.forename, ' ', m.surname) AS autor,
+                        m.picture,
+                        NULL AS receita_acoplada_id,
                         'receita' AS tipo_conteudo,
                         (SELECT COUNT(conteudo_id)
                         FROM likes
@@ -42,6 +44,8 @@ class Content {
                         q.seo_title,
                         q.membro_id,
                         CONCAT(m.forename, ' ', m.surname) AS autor,
+                        m.picture,
+                        q.receita_acoplada_id AS receita_acoplada_id,
                         'quik' AS tipo_conteudo,
                         (SELECT COUNT(conteudo_id)
                         FROM likes

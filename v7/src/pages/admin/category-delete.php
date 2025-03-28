@@ -2,12 +2,12 @@
 is_admin($cookie->role);
 
 if (!$id) {
-    redirect('categories.php', ['failure' => 'Categoria não encontrada']);
+    redirect(DOC_ROOT . 'admin/categories/', ['failure' => 'Categoria não encontrada']);
 }
 
 $categoria = $cms->getCategory()->get($id);
 if (!$categoria) {
-    redirect('categories.php', ['failure' => 'Categoria não encontrada']);
+    redirect(DOC_ROOT . 'admin/categories/', ['failure' => 'Categoria não encontrada']);
 }
 
 $membro = $cms->getMember()->get(1);
@@ -15,9 +15,9 @@ $membro = $cms->getMember()->get(1);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $apagada = $cms->getCategory()->delete($id);
     if ($apagada) {
-        redirect('categories.php', ['success' => 'Categoria apagada']);
+        redirect(DOC_ROOT . 'admin/categories/', ['success' => 'Categoria apagada']);
     } else {
-        redirect('categories.php', ['failure' => 'Existem artigos que pertencem a esta categoria que têm de ser apagados ou colocados noutra categoria']);
+        redirect(DOC_ROOT . 'admin/categories/', ['failure' => 'Existem artigos que pertencem a esta categoria que têm de ser apagados ou colocados noutra categoria']);
     }
 }
 

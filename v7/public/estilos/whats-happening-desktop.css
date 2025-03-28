@@ -59,7 +59,7 @@ main#whats-happening > section#todos-videos > div.video-individual > video {
     object-fit: cover; /* Faz o vídeo cobrir toda a tela */
     user-select: none;
     touch-action: pan-y;
-    transform: scale(0.78);
+    transform: scale(0.9);
     border-radius: 20px;
 }
 
