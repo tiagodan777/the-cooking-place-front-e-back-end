@@ -1,50 +1,54 @@
 {% extends 'layout.html' %}
 {% block content %}
 <main id="index">
-    {% for receita in receitas %}
+    {% for conteudo in conteudos %}
         <article {% if count == 0 %} id='primeiro-artigo' {% endif %}>
             {% set count = count + 1 %}
             <header>
-                <a href="{{ doc_root }}profile/{{ receita.membro_id }}/{{ receita.seo_member }}">
-                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">
-                    <span class="nome">{{ receita.autor }}</span>
+                <a href="{{ doc_root }}profile/{{ conteudo.membro_id }}/{{ conteudo.seo_member }}">
+                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ conteudo.picture }}" alt="Foto de perfil de {{ conteudo.autor }}">
+                    <span class="nome">{{ conteudo.autor }}</span>
                 </a>
-                <span class="data">{{ receita.data|date('d F Y') }}</span>
+                <span class="data">{{ conteudo.data|date('d F Y') }}</span>
                 <br>
             </header>
             <section>
-                <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}"><img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></a>
+                {% if conteudo.tipo_conteudo == 'receita' %}
+                    <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"></a>
+                {% else %}
+                    <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video></a>
+                {% endif %}
             </section>
             <aside class="aside-principal">
                 <section>
                     <div class="icones">
                         {% if cookie.id != 0 %}
-                            <a href="{{ doc_root}}like/{{ receita.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                            <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                         {% else %}
                             <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                         {% endif %}
                         <dialog id="c{{ count }}">
-                            <iframe data-src="{{ doc_root }}opinions/{{ receita.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                            <iframe data-src="{{ doc_root }}opinions/{{ conteudo.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
                             <button id="f{{ count }}">Fechar</button>
                         </dialog>
                         <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
                         <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
                     </div>
                     <div class="numeros">
-                        {% if receita.likes != '' %}
-                            <span>{{ receita.likes }}</span>
+                        {% if conteudo.likes != '' %}
+                            <span>{{ conteudo.likes }}</span>
                         {% else %} 
                             <span></span>
                         {% endif %}
-                        {% if receita.opinioes != '' %}
-                            <span>{{ receita.opinioes }}</span>
+                        {% if conteudo.opinioes != '' %}
+                            <span>{{ conteudo.opinioes }}</span>
                         {% else %}
                             <span>0</span>
                         {% endif %}
                         <span>55</span>
                     </div>
-                    <h2>{{ receita.titulo }}</h2>
-                    <p>{{ receita.descricao }}</p>
+                    <h2>{{ conteudo.titulo }}</h2>
+                    <p>{{ conteudo.descricao }}</p>
                 </section>
                 <aside>
                     <a href="{{ doc_doot }}index">Ver os 100 comentários</a>
@@ -75,6 +79,27 @@
                 })
             })
         })
+
+        document.addEventListener("DOMContentLoaded", () => {
+        let videos = document.querySelectorAll("video");
+
+        // Configura o Observer
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                let video = entry.target;
+
+                if (entry.isIntersecting) {
+                    video.play(); // Toca o vídeo quando entra na tela
+                } else {
+                    video.pause(); // Pausa quando sai da tela
+                    video.currentTime = 0; // Reinicia o vídeo quando sai
+                }
+            });
+        }, { threshold: 0.6 }); // Só ativa quando pelo menos 60% do vídeo está visível
+
+        // Aplica o Observer a cada vídeo
+        videos.forEach(video => observer.observe(video));
+        });
     </script>
 </main>
 {% endblock %}
