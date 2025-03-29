@@ -9,14 +9,24 @@
     <div id="linha-principal"><div id="linha-que-move"></div></div>
 </section>
 <main id="search">
-    {% for receita in receitas %}
+    {% for conteudo in conteudos %}
         <div>
-            <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}">
-                <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}">
-            </a>
+            {% if conteudo.tipo_conteudo == 'receita' %}
+                <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
+            {% elseif conteudo.tipo_conteudo == 'quik'  %}
+                {% if conteudo.receita_acoplada_id == 0 %}
+                    <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+                {% else %}
+                    <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+                {% endif %}
+            {% elseif conteudo.tipo_conteudo == 'publicação' %}  
+                <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
+            {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
+                <a href="{{ doc_root }}video/{{ conteudo.id }}"><video src="{{ doc_root }}videos-longos/{{ conteudo.file }}" muted loop playsinline controls></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+            {% endif %}
             <footer class="info">
-                <h1>{{ receita.titulo }}</h1>
-                <h2>{{ receita.descricao }}</h2>
+                <h1>{{ conteudo.titulo }}</h1>
+                <h2>{{ conteudo.descricao }}</h2>
                 <div class="stats">
                     <div class="likes">
                         <span>10 mil</span>

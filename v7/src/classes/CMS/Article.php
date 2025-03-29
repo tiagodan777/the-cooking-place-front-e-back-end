@@ -50,61 +50,6 @@ class Article {
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
 
-    public function searchCount($term) {
-        $arguments['term1'] = '%' . $term . '%';
-        $arguments['term2'] = '%' . $term . '%';
-        $arguments['term3'] = '%' . $term . '%';
-        $arguments['term4'] = '%' . $term . '%';
-        $arguments['term5'] = '%' . $term . '%';
-        $arguments['term6'] = '%' . $term . '%';
-        $arguments['term7'] = '%' . $term . '%';
-        $arguments['term8'] = '%' . $term . '%';
-        
-        $sql = "SELECT COUNT(*) FROM receita AS r
-                JOIN categoria AS c ON r.categoria_id = c.id
-                JOIN membro AS m ON r.membro_id = m.id
-                WHERE r.titulo LIKE :term1
-                OR r.descricao LIKE :term2
-                OR r.ingredientes LIKE :term3
-                OR r.passos_preparacao LIKE :term4
-                OR r.keywords LIKE :term5
-                OR c.nome LIKE :term6
-                OR m.forename LIKE :term7
-                OR m.surname LIKE :term8;";
-
-        return $this->db->runSQL($sql, $arguments)->fetchColumn();
-    }
-
-    public function search($term, $show, $from) {
-        $arguments['term1'] = '%' . $term . '%';
-        $arguments['term2'] = '%' . $term . '%';
-        $arguments['term3'] = '%' . $term . '%';
-        $arguments['term4'] = '%' . $term . '%';
-        $arguments['term5'] = '%' . $term . '%';
-        $arguments['term6'] = '%' . $term . '%';
-        $arguments['term7'] = '%' . $term . '%';
-        $arguments['term8'] = '%' . $term . '%';
-        $arguments['show'] = $show;
-        $arguments['from'] = $from;
-
-        $sql = "SELECT r.id, r.titulo, r.descricao, r.imagem_file, r.seo_title,
-                CONCAT(m.forename, ' ', m.surname) AS autor
-                FROM receita AS r
-                JOIN categoria AS c ON r.categoria_id = c.id
-                JOIN membro AS m ON r.membro_id = m.id
-                WHERE r.titulo LIKE :term1
-                OR r.descricao LIKE :term2
-                OR r.ingredientes LIKE :term3
-                OR r.passos_preparacao LIKE :term4
-                OR r.keywords LIKE :term5
-                OR c.nome LIKE :term6
-                OR m.forename LIKE :term7
-                OR m.surname LIKE :term8
-                LIMIT :show
-                OFFSET :from;";
-        return $this->db->runSQL($sql, $arguments)->fetchAll();
-    }
-
     public function count() {
         $sql = "SELECT COUNT(*) FROM receita;";
 

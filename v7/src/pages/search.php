@@ -6,14 +6,14 @@ $from = filter_input(INPUT_GET, 'from', FILTER_VALIDATE_INT) ?? 0;
 $count = 0;
 $total_pages = 0;
 $current_page = 0;
-$receitas = [];
+$conteudos = [];
 $arguments = [];
 
 if ($term) {
-    $count = $cms->getArticle()->searchCount($term);
+    $count = $cms->getContent()->searchCount($term);
 
     if ($count > 0) {
-        $receitas = $cms->getArticle()->search($term, $show, $from);
+        $conteudos = $cms->getContent()->search($term);
     } else {
         redirect('error-page', ['message' => 'Não foram encontrados resultados']);
     }
@@ -27,7 +27,7 @@ if ($count > $show) {
 $data['term'] = $term;
 $data['count'] = $count;
 $data['show'] = $show;
-$data['receitas'] = $receitas;
+$data['conteudos'] = $conteudos;
 $data['total_pages'] = $total_pages;
 $data['current_page'] = $current_page;
 
