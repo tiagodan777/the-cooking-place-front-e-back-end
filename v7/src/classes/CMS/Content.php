@@ -16,6 +16,8 @@ class Content {
         $arguments['member3'] = $member;
         $arguments['member4'] = $member;
         $arguments['member5'] = $member;
+        $arguments['member6'] = $member;
+        $arguments['member7'] = $member;
         $sql = "SELECT *
                 FROM (
                     SELECT 
@@ -90,7 +92,32 @@ class Content {
                     WHERE opiniao.conteudo_id = p.id) AS opinioes
                     FROM publicacao_simples AS p
                     JOIN membro AS m ON m.id = p.membro_id
-                    WHERE (p.membro_id = :member4 OR :member5 IS NULL)) AS data
+                    WHERE (p.membro_id = :member4 OR :member5 IS NULL)
+
+                    UNION ALL
+
+                    SELECT
+                    v.id,
+                    v.titulo,
+                    v.descricao,
+                    v.data,
+                    v.video_file AS file,
+                    v.seo_title,
+                    v.membro_id,
+                    CONCAT(m.forename, ' ', m.surname) AS autor,
+                    m.picture,
+                    NULL AS receita_acoplada_id,
+                    'video longo' AS tipo_conteudo,
+                    v.poster AS poster,
+                    (SELECT COUNT(conteudo_id)
+                    FROM likes
+                    WHERE likes.conteudo_id = v.id) AS likes,
+                    (SELECT COUNT(conteudo_id)
+                    FROM opiniao
+                    WHERE opiniao.conteudo_id = v.id) AS opinioes
+                    FROM video_longo AS v
+                    JOIN membro AS m ON m.id = v.membro_id
+                    WHERE (v.membro_id = :member6 OR :member7 IS NULL)) AS data
                 ORDER BY data DESC;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }

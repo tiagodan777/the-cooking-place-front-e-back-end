@@ -3,18 +3,19 @@ namespace TiagoDaniel\CMS;
 
 class CMS {
     protected $db = null;
-    protected $article = null;
-    protected $category = null;
-    protected $member = null;
-    protected $notification = null;
-    protected $quik = null;
-    protected $cookie = null;
-    protected $token = null;
-    protected $like = null;
-    protected $opinion = null;
-    protected $follow = null;
-    protected $content = null;
-    protected $post = null;
+    private $article = null;
+    private $category = null;
+    private $member = null;
+    private $notification = null;
+    private $quik = null;
+    private $cookie = null;
+    private $token = null;
+    private $like = null;
+    private $opinion = null;
+    private $follow = null;
+    private $content = null;
+    private $post = null;
+    private $long_video = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -103,5 +104,12 @@ class CMS {
             $this->post = new Post($this->db);
         }
         return $this->post;
+    }
+
+    public function getLongVideo() {
+        if ($this->long_video === null) {
+            $this->long_video = new LongVideo($this->db);
+        }
+        return $this->long_video;
     }
 }
