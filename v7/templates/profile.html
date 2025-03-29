@@ -28,8 +28,18 @@
     </header>
     <section>
         <div>
-            {% for receita in receitas %}
-                <a href="{{ doc_root }}article/{{ receita.id }}/{{ receita.seo_title }}"><img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}"></a>
+            {% for conteudo in conteudos %}
+                {% if conteudo.tipo_conteudo == 'receita' %}
+                    <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"></a>
+                {% elseif conteudo.tipo_conteudo == 'quik'  %}
+                    {% if conteudo.receita_acoplada_id == 0 %}
+                        <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}"></video></a>
+                    {% else %}
+                        <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}"></video></a>
+                    {% endif %}
+                {% elseif conteudo.tipo_conteudo == 'publicação' %}  
+                    <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"></a>
+                {% endif %}
             {% endfor %}
         </div>
     </section>

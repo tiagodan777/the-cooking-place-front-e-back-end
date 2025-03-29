@@ -21,6 +21,8 @@
                     {% else %}
                         <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video></a>
                     {% endif %}
+                {% elseif conteudo.tipo_conteudo == 'publicação' %}  
+                    <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"></a>
                 {% endif %}
             </section>
             <aside class="aside-principal">

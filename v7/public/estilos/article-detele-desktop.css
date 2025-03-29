@@ -6,6 +6,8 @@ main#article-delete {
 
 main#article-delete > section#apagar {
     height: 900px;
+    margin-top: 200px;
+
 }  
 
 main#article-delete > section#apagar > section#dados > img {

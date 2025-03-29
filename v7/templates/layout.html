@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="{{ doc_root }}estilos/create-edit-post.css">
     <link rel="stylesheet" href="{{ doc_root }}estilos/create-edit-post-desktop.css" media="screen and (min-width: 900px)">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ doc_root }}estilos/post.css">
+    <link rel="stylesheet" href="{{ doc_root }}estilos/post-desktop.css" media="screen and (min-width: 900px)">
 </head>
 <body>
     <header id="cabecalho-principal">
@@ -60,8 +62,8 @@
         </form>
         <div>
             {% if cookie.id == 0 %}
-                <a href="{{ doc_doot }}login">Login / </a>
-                <a href="{{ doc_doot }}register">Register</a>
+                <a href="{{ doc_root }}login">Login / </a>
+                <a href="{{ doc_root }}register">Register</a>
             {% else %}
                 <a href="{{ doc_root }}create-edit-article"><span class="material-symbols-outlined">add_box</span></a>
                 <a href="{{ doc_root }}profile/{{ cookie.id }}/{{ cookie.seo_name }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ cookie.picture }}" alt="Foto de perfil de {{ cookie.forename }}" class="membro-foto-perfil"></a>

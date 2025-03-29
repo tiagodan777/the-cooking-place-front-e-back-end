@@ -47,4 +47,27 @@ class Post {
         $this->db->runSQL($sql, $post);
         return true;
     }
+
+    public function imageDelete($id, $path) {
+        $sql = "SELECT imagem_file FROM publicacao_simples
+                WHERE id = :id;";
+        $file = $this->db->runSQL($sql, [$id])->fetch();
+
+        $path .= $file;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        $sql = "UPDATE publicacao_simples
+                SET imagem_file = ''
+                WHERE id = :id;";
+        $this->db->runSQL($sql, [$id]);
+    }
+
+    public function delete($id) {
+        $sql = "DELETE FROM publicacao_simples
+                WHERE id = :id;";
+        $this->db->runSQL($sql, [$id]);
+        return true;
+    }
 }

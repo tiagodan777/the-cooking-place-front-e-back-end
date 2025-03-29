@@ -8,7 +8,7 @@
             <img src="{{ doc_root }}imagens/comida/{{ post.imagem_file }}" alt="Foto de {{ post.titulo }}">
         </section>
         <section id="opcoes">
-            <form action="{{ doc_root }}article-delete/{{ post.id }}" method="post">
+            <form action="{{ doc_root }}post-delete/{{ post.id }}" method="post">
                 <a href="{{ doc_root }}article/{{ post.id }}">Cancelar</a>
                 <input type="submit" value="Confirmar">
             </form>

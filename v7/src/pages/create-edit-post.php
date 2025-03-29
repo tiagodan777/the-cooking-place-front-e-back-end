@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!$id) {
             unset($post['id']);
             $cms->getPost()->create($post, $temp, $destination);
-            redirect(DOC_ROOT . 'profile/', ['success' => 'Publicado com sucesso']);
+            redirect(DOC_ROOT . 'profile/'  . $cookie->id . $cookie->seo_name, ['success' => 'Publicado com sucesso']);
         } else {
             unset($post['data']);
             unset($post['membro_id']);
