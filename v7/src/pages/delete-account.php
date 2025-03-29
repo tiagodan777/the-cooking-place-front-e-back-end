@@ -3,7 +3,7 @@ require_login($cookie);
 
 $id = $cookie->id;
 if (!$id) {
-    redirect('index.php', ['failure' => 'Membro não encontrado']);
+    redirect(DOC_ROOT . 'index/', ['failure' => 'Membro não encontrado']);
 }
 
 $membro = $cms->getMember()->getFull($id);
@@ -20,10 +20,10 @@ if ($_SERVER['REQUEST_METHOD']  == 'POST') {
     $delete = $cms->getMember()->delete($membro);
 
     if ($delete) {
-        redirect('profile.php', ['message' => 'Não foi possível apagar a tua conta. Tenta mais tarde']);
+        redirect(DOC_ROOT . 'profile/', ['message' => 'Não foi possível apagar a tua conta. Tenta mais tarde']);
     } else {
         $cms->getCookie()->delete();
-        redirect('register.php');
+        redirect(DOC_ROOT . 'register/');
     }
 }
 

@@ -44,7 +44,7 @@ $erros = [
 if ($id) {
     $receita = $cms->getArticle()->get($id);
     if (!$receita) {
-        redirect('profile.php', ['failure' => 'Receita não encontrada']);
+        redirect(DOC_ROOT . 'profile/', ['failure' => 'Receita não encontrada']);
     }
 }
 

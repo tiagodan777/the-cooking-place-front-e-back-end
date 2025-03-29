@@ -52,7 +52,7 @@ function is_admin($role) {
 
 function require_login($cookie) {
     if ($cookie->id == 0) {
-        redirect('login.php', ['failure' => 'Tens de fazer login para ter acesso a essa funcionalidade']);
+        redirect(DOC_ROOT . 'login/', ['failure' => 'Tens de fazer login para ter acesso a essa funcionalidade']);
     }
 }
 

@@ -5,11 +5,11 @@ $errors = [];
 
 $token = $_GET['token'] ?? '';
 if (!$token) {
-    redirect('login.php');
+    redirect(DOC_ROOT . 'login');
 }
 $id = $cms->getToken()->getMemberId($token, 'password_reset');
 if (!$id) {
-    redirect('login.php', ['warning' => 'Link expirado. Tenta novamente']);
+    redirect(DOC_ROOT . 'login/', ['warning' => 'Link expirado. Tenta novamente']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $body = 'A tua password foi reposta a ' . date('d F Y H:i:s') . ' - se não efetuas-te a reposição da password, envia um email para' . $email_config['admin_email'];
         $email = new \TiagoDaniel\Email\Email($email_config);
         $email->sendEmail($email_config['admin_email'], $member['email'], $subject, $body);
-        redirect('login.php', ['success' => 'Password Alterada']);
+        redirect(DOC_ROOT . 'login/', ['success' => 'Password Alterada']);
     }
 }
 

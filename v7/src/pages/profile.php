@@ -1,6 +1,5 @@
 <?php
-require_login($cookie);
-
+ 
 if (!$id) {
     include 'error-page.php';
 }

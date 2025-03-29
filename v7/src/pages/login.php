@@ -8,7 +8,7 @@ $success = $_GET['success'] ?? '';
 $logged_in = $_COOKIE['id'] ?? 0;
 
 if ($logged_in != 0) {
-    redirect('index.php');
+    redirect(DOC_ROOT . 'index');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
