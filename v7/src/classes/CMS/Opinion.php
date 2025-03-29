@@ -10,7 +10,7 @@ class Opinion {
     }
 
     public function get($id) {
-        $sql = "SELECT o.id, o.opiniao, o.posted, o.membro_id, o.receita_id,
+        $sql = "SELECT o.id, o.opiniao, o.data, o.membro_id, o.conteudo_id,
                 CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name
                 FROM opiniao AS o
                 JOIN membro AS m ON o.membro_id = m.id
@@ -19,18 +19,18 @@ class Opinion {
     }
 
     public function getAll($id = null) {
-        $sql = "SELECT o.id, o.opiniao, o.posted, o.membro_id, o.receita_id,
+        $sql = "SELECT o.id, o.opiniao, o.data, o.membro_id, o.conteudo_id,
                 CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name
                 FROM opiniao AS o
                 JOIN membro AS m ON o.membro_id = m.id
-                WHERE o.receita_id = :id
+                WHERE o.conteudo_id = :id
                 ORDER BY o.id DESC;";
         return $this->db->runSQL($sql, [$id] )->fetchAll();
     }
 
     public function create($opiniao) {
-        $sql = "INSERT INTO opiniao (opiniao, receita_id, membro_id)
-                VALUES (:opiniao, :receita_id, :membro_id);";
+        $sql = "INSERT INTO opiniao (opiniao, conteudo_id, membro_id)
+                VALUES (:opiniao, :conteudo_id, :membro_id);";
         $this->db->runSQL($sql, $opiniao);
         return true;
     }
