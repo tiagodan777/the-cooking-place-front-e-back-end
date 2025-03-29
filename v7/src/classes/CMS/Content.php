@@ -30,6 +30,7 @@ class Content {
                         m.picture,
                         NULL AS receita_acoplada_id,
                         'receita' AS tipo_conteudo,
+                        NULL AS poster,
                         (SELECT COUNT(conteudo_id)
                         FROM likes
                         WHERE likes.conteudo_id = r.id) AS likes,
@@ -54,6 +55,7 @@ class Content {
                         m.picture,
                         q.receita_acoplada_id AS receita_acoplada_id,
                         'quik' AS tipo_conteudo,
+                        q.poster AS poster,
                         (SELECT COUNT(conteudo_id)
                         FROM likes
                         WHERE likes.conteudo_id = q.id) AS likes,
@@ -79,6 +81,7 @@ class Content {
                     m.picture,
                     NULL AS receita_acoplada_id,
                     'publicação' AS tipo_conteudo,
+                    NULL as poster,
                     (SELECT COUNT(conteudo_id)
                     FROM likes
                     WHERE likes.conteudo_id = p.id) AS likes,

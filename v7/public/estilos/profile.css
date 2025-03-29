@@ -145,6 +145,23 @@ main#profile > section > div > a {
     width: 33.3%;
     height: 163px;
     border: 2px solid var(--cor5);
+    z-index: 0;
+
+    position: relative;
+}
+
+main#profile > section > div > a > span {
+    width: 100%;
+    z-index: 10;
+    color: var(--cor5);
+    font-weight: lighter;
+    text-transform: capitalize;
+    padding: 10px;
+
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 main#profile > section > div > a > video {
