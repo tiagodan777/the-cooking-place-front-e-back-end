@@ -58,6 +58,23 @@ main#search > div {
     margin-bottom: 7px;
 }
 
+main#search > div {
+    position: relative;
+}
+
+main#search > div > a > span {
+    width: 100%;
+    z-index: 10;
+    color: var(--cor5);
+    font-weight: lighter;
+    text-transform: capitalize;
+    padding: 10px;
+
+    position: absolute;
+    top: 5%;
+    left: 75%;
+}
+
 main#search > div > a > img { 
     width: 45vw;    
 }

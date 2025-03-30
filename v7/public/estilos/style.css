@@ -58,13 +58,14 @@ header#cabecalho-principal > form {
 header#cabecalho-principal > div {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 
     vertical-align: middle;
 }
 
 header#cabecalho-principal > div > a {
+    padding: 5px;
     color: var(--cor1);
     text-decoration: none;
     vertical-align: middle;
@@ -72,6 +73,7 @@ header#cabecalho-principal > div > a {
 }
 
 header#cabecalho-principal > div > span {
+    padding: 10px;
     font-size: 1.7em;
     padding: 2px;
 }
