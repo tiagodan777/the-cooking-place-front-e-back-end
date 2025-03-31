@@ -3,12 +3,12 @@ if (!$id) {
     include APP_ROOT . '/src/pages/error-page.php';
 }
 
-$post = $cms->getLongVideo()->get($id);
-if (!$post) {
+$video = $cms->getLongVideo()->get($id);
+if (!$video) {
     include APP_ROOT . '/src/pages/error-page.php';
 }
 
-$data['post'] = $post;
+$data['video'] = $video;
 
 echo $twig->render('video.html', $data);
 ?>

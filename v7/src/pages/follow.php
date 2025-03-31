@@ -1,6 +1,6 @@
 <?php
 if (!$id || $cookie->id == 0) {
-    redirect('login');
+    redirect(DOC_ROOT . 'login');
 }
 
 $membro = $cms->getMember()->get($id);

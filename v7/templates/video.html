@@ -1,52 +1,50 @@
 {% extends 'layout.html' %}
 {% block content %}
-<main id="article">
+<main id="video">
     <section id="topo">
-        <section id="imagem">
-            <picture>
-                <source media="(max-width: 700px)" srcset="{{ doc_root }}imagens/comida/croppped/{{ post.imagem }}">
-                <img src="{{ doc_root }}imagens/comida/{{ post.imagem_file }}" alt="Foto de {{ post.titulo }} publicada por {{ post.autor }}">
-            </picture>
+        <section id="video-video">
+            <video src="{{ doc_root }}videos-longos/{{ video.video_file }}" loop playsinline controls id="video-video-video"></video>
         </section>
         <section id="info">
             <section>
                 <div>
+                    <div id="dados">
+                        <h1>{{ video.titulo }}</h1>
+                        <p id="descricao-receita">{{ video.descricao }}</p>
+                        <p>Data: {{ video.data|date('d F Y') }}</p>
+                        <a href="{{ doc_root }}profile/{{ video.membro_id }}/{{ video.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ video.picture }}" alt="Foto de perfil de {{ video.autor }}">&nbsp;{{ video.autor }}</a>
+                        {% if cookie.id == video.membro_id %}
+                            <a href="{{ doc_root }}create-edit-post/{{ video.id }}" id="editar">Editar</a>
+                        {% endif %}
+                    </div>
                     <div id="reacoes">
                         <div class="icones">
                             {% if cookie.id != 0 %}
-                                <a href="{{ doc_root}}like/{{ post.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                                <a href="{{ doc_root}}like/{{ video.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                             {% else %}
                                 <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                             {% endif %}
                             <dialog id="c{{ count }}">
-                                <iframe data-src="{{ doc_root }}opinions/{{ post.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                                <iframe data-src="{{ doc_root }}opinions/{{ video.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
                                 <button id="f{{ count }}">Fechar</button>
                             </dialog>
                             <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
                             <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
                         </div>
                         <div class="numeros">
-                            {% if post.likes != '' %}
-                                <span>{{ post.likes }}</span>
+                            {% if video.likes != '' %}
+                                <span>{{ video.likes }}</span>
                             {% else %} 
                                 <span></span>
                             {% endif %}
-                            {% if post.opinioes != '' %}
-                                <span>{{ post.opinioes }}</span>
+                            {% if video.opinioes != '' %}
+                                <span>{{ video.opinioes }}</span>
                             {% else %}
                                 <span>0</span>
                             {% endif %}
                             <span>55</span>
                         </div>
                     </div>
-                </div>
-                <div id="dados">
-                    <p>Data: {{ post.data|date('d F Y') }}</p>
-                    <p id="descricao-receita">Descrição: {{ post.descricao }}</p>
-                    <a href="{{ doc_root }}profile/{{ post.membro_id }}/{{ post.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ post.picture }}" alt="Foto de perfil de {{ post.autor }}">&nbsp;{{ post.autor }}</a>
-                    {% if cookie.id == post.membro_id %}
-                        <a href="{{ doc_root }}create-edit-post/{{ post.id }}" id="editar">Editar</a>
-                    {% endif %}
                 </div>
             </section>
         </section>
@@ -78,6 +76,27 @@
             })
         })
     })
+
+    document.addEventListener("load", () => {
+        let videos = document.querySelector("#video-video-video");
+
+        // Configura o Observer
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                let video = entry.target;
+
+                if (entry.isIntersecting) {
+                    video.play(); // Toca o vídeo quando entra na tela
+                } else {
+                    video.pause(); // Pausa quando sai da tela
+                    video.currentTime = 0; // Reinicia o vídeo quando sai
+                }
+            });
+        }, { threshold: 0.6 }); // Só ativa quando pelo menos 60% do vídeo está visível
+
+        // Aplica o Observer a cada vídeo
+        videos.forEach(video => observer.observe(video));
+        });
 </script>
 {% endblock %}
 {% block footer %} {% endblock %}

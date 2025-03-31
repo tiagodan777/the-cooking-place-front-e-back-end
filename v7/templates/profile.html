@@ -39,7 +39,7 @@
                     {% endif %}
                 {% elseif conteudo.tipo_conteudo == 'publicação' %}  
                     <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
-                {% elseif conteudo.tipo_conteudo == 'video longo' %}
+                {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
                     <a href="{{ doc_root }}video/{{ conteudo.id }}"><video src="{{ doc_root }}videos-longos/{{ conteudo.file }}" poster="{{ doc_root }}videos-longos/posters/{{ conteudo.poster }}"></video><span>{{ conteudo.tipo_conteudo }}</span></a>
                 {% endif %}
             {% endfor %}

@@ -10,7 +10,7 @@ class LongVideo {
     }
 
     public function get($id) {
-        $sql = "SELECT v.id, v.imagem_file, v.data, v.descricao, v.membro_id,
+        $sql = "SELECT v.id, v.titulo, v.descricao, v.data, v.video_file, v.poster, v.membro_id, 
                 CONCAT(m.forename, ' ', m.surname) AS autor, m.picture,
                 (SELECT COUNT(conteudo_id) 
                 FROM likes

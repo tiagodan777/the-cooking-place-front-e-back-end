@@ -19,12 +19,12 @@
                     {% if conteudo.receita_acoplada_id == 0 %}
                         <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video></a>
                     {% else %}
-                        <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted loop playsinline controls></video></a>
+                        <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" loop playsinline controls></video></a>
                     {% endif %}
                 {% elseif conteudo.tipo_conteudo == 'publicação' %}  
                     <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"></a>
                 {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
-                    <a href="{{ doc_root }}video/{{ conteudo.id }}" class="video"><video src="{{ doc_root }}videos-longos/{{ conteudo.file }}"  muted loop playsinline controls></video></a>
+                    <a href="{{ doc_root }}video/{{ conteudo.id }}" class="video"><video src="{{ doc_root }}videos-longos/{{ conteudo.file }}" loop playsinline controls></video></a>
                 {% endif %}
             </section>
             <aside class="aside-principal">
