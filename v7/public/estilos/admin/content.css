@@ -15,29 +15,31 @@ html, body {
     font-size: 0.9em;
 }
 
-main#articles > section {
+main#content > section {
     margin-top: 300px;
 }
 
-main#articles > section > table > thead > tr > th > a {
+main#content > section > table > thead > tr > th > a {
     text-decoration: none;
     color: var(--cor4);
 }
 
-main#articles > section > table > tbody > tr > td {
+main#content > section > table > tbody > tr > td {
     padding: 10px;
+    text-transform: capitalize;
 }
 
-main#articles > section > table > tbody > tr > td > a.apagar {
+main#content > section > table > tbody > tr > td > a.apagar {
     background-color: #EF2D56;
 }
 
-main#articles > section > table > tbody > tr > td > a.apagar:hover {
+main#content > section > table > tbody > tr > td > a.apagar:hover {
     background-color: #d8294f;
 }
 
-main#articles > section > table > tbody > tr > td > img {
-    width: 13vw;
+main#content > section > table > tbody > tr > td > img, main#content > section > table > tbody > tr > td > video {
+    width: 30vw;
+    padding-left: 100px;
     border-radius: none !important;
     border-radius: 0px !important;
 }

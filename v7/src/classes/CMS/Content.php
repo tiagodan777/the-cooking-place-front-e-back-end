@@ -363,4 +363,29 @@ class Content {
                 ORDER BY data DESC;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
+
+    public function count() {
+        $sql = "SELECT *
+                FROM (
+                    SELECT COUNT(*) FROM receita
+                    
+                    UNION ALL
+                    
+                    SELECT COUNT(*) FROM quik
+                    
+                    
+                    SELECT COUNT(*) FROM publicacao_simples
+                    
+                    UNION ALL
+                    
+                    SELECT COUNT(*) FROM video_longo) AS total;";
+        $total = $this->db->runSQL($sql)->fetchAll();
+        $soma = 0;
+        foreach ($total as $parte) {
+            foreach ($parte as $key => $value) {
+                $soma += $value;
+            }
+        }
+        return $soma;
+    }
 }
