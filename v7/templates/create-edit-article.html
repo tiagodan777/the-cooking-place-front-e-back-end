@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% block title %} {% if receita.titulo %} {{ receita.titulo }} {% else %} Criar Receita {% endif %} {% endblock %}
 {% block content %}
 {% if receita.imagem_file != '' %}
     {% set borda = 'none' %}
