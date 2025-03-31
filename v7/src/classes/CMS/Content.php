@@ -373,6 +373,7 @@ class Content {
                     
                     SELECT COUNT(*) FROM quik
                     
+                    UNION ALL
                     
                     SELECT COUNT(*) FROM publicacao_simples
                     
