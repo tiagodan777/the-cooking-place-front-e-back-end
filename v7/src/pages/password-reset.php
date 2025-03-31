@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['message'] = 'Por favor introduz uma password válida';
     } else {
         $cms->getMember()->passwordUpdate($id, $password);
-        $member = $cms->getMember()->get($id);
+        $member = $cms->getMember()->getFull($id);
         /*echo $id;
         echo "<pre>";
         var_dump($member);
