@@ -4,7 +4,7 @@ $emojis = [];
 
 $conteudos = $cms->getContent()->get();
 $num_emojis = $cms->getContent()->count();
-$emojis_cod = array_map(fn() => mt_rand(1, 99), range(1, $num_emojis));
+$emojis_cod = array_map(fn() => mt_rand(1, 98), range(1, $num_emojis));
 
 //$novas_datas = postado_ha_x_horas($receitas);
 
