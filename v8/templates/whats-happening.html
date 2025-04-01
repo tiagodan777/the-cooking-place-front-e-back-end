@@ -1,0 +1,121 @@
+{% extends 'layout.html' %}
+{% block title %} O que está aacontecer? {% endblock %}
+{% block content %}
+<main id="whats-happening">
+    <h1 id="o-que-esta-a-acontecer">O que está a acontecer?</h1>
+    <section id="todos-videos">
+        {% for quik in quiks %}
+            <div class="video-individual">
+                <video src="{{ doc_root }}videos-verticais/{{ quik.file }}" id="video_{{ i }}" muted loop playsinline controls></video>
+                <nav id="navegacao_{{ i }}">
+                    <ul>
+                        <li><a href="#"><img src="{{ doc_root }}imagens/icons/banana-icon.png" alt="Ícone de banana"></a><p>20 mil</p></li>
+                        <li><a href="#"><span class="material-symbols-outlined">thumb_down</span></a><p>20 mil</p></li>
+                        <li><a href="#"><span class="material-symbols-outlined">chat</span></a><p>20 mil</p></li>
+                        <li><a href="#"><span class="material-symbols-outlined">send</span></a><p>20 mil</p></li>
+                        <li><a href="{{ doc_root }}profile{{ quik.membro_id }}/{{ cookie.seo_name }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ quik.picture }}" alt="Foto de Perfil de {{ quik.autor }}"></a></li>
+                    </ul>
+                </nav>
+                <div id="info">
+                    <h1>{{ quik.titulo }}</h1>
+                    {% if quik.receita_acoplada_id == 0 %}
+                        <p>{{ quik.descricao }}</p>
+                    {% else %}
+                        <a href="{{ doc_root }}article/{{ quik.receita_acoplada_id }}">{{ quik.descricao }}</a> 
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+</main>
+<script>
+    function atualizarTamanho() {
+        let largura = window.innerWidth;
+        let altura = window.innerHeight;
+
+        for (let id = 1; id <= 3; id++) {
+            let video = window.document.querySelector(`video#video_${id}`)
+
+            video.style.width = `${largura}px`
+            video.style.height = `${altura}px`
+        }
+    }
+
+    function atualizarPosicao() {
+        let largura = window.innerWidth;
+        let altura = window.innerHeight;
+
+        for (let id = 1; id <= 3; id++) {
+            let nav = window.document.querySelector(`nav#navegacao_${id}`)
+
+            let top = altura - 225
+            let left = largura - 35
+            nav.style.top = `${top}px`
+            nav.style.left = `${left}px`
+        }
+    }
+
+    /*document.addEventListener("wheel", (event) => {
+    event.preventDefault();
+    let videos = document.querySelectorAll(".video-individual");
+    let index = Math.round(window.scrollY / window.innerHeight);
+    
+    if (event.deltaY > 0) {
+        index = index + 1, videos.length - 1;
+    } else {
+        index = index - 1, 0;
+    }
+    
+    videos[index].scrollIntoView({ behavior: "smooth" });
+}, { passive: false });*/
+
+    /*document.addEventListener("DOMContentLoaded", () => {
+    let videos = document.querySelectorAll(".video-individual"); // Pega todos os vídeos
+    let index = 0; // Começamos no primeiro vídeo
+    let isScrolling = false; // Evita múltiplos eventos ao mesmo tempo
+
+    document.addEventListener("wheel", (event) => {
+        if (isScrolling) return; // Se já estamos rolando, ignoramos novos eventos
+        isScrolling = true; // Bloqueia novos eventos enquanto a rolagem ocorre
+
+        if (event.deltaY > 0) { 
+            // Scroll para baixo
+            index = Math.min(index + 1, videos.length - 1);
+        } else {
+            // Scroll para cima
+            index = Math.max(index - 1, 0);
+        }
+
+        // Faz a rolagem suave até o próximo vídeo
+        videos[index].scrollIntoView({ behavior: "smooth" });
+
+        // Espera 800ms para permitir novo scroll
+        setTimeout(() => {
+            isScrolling = false;
+        }, 800);
+
+    }, { passive: false }); // Garante que o event.preventDefault() funcione
+});*/
+
+document.addEventListener("DOMContentLoaded", () => {
+let videos = document.querySelectorAll("video");
+
+// Configura o Observer
+let observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        let video = entry.target;
+
+        if (entry.isIntersecting) {
+            video.play(); // Toca o vídeo quando entra na tela
+        } else {
+            video.pause(); // Pausa quando sai da tela
+            video.currentTime = 0; // Reinicia o vídeo quando sai
+        }
+    });
+}, { threshold: 0.6 }); // Só ativa quando pelo menos 60% do vídeo está visível
+
+// Aplica o Observer a cada vídeo
+videos.forEach(video => observer.observe(video));
+});
+</script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'admin/layout.html' %}
+{% block title %} Membros {% endblock %}
+{% block content %}
+<main id="members">
+    <section>
+        <header>
+            <h1>Membros</h1>
+            <a href="{{ doc_root }}register">Adicionar novo membro</a>
+            {% if success %}> <div class="alert-success">{{ success }}</div> {% endif %}
+            {% if failure %} <div class="alert-failure">{{ failure }}</div> {% endif %}
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Imagem</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Nascimento</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Apagar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for membro in membros %}
+                    <tr>
+                        <td><img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de {{ membro.nome }}"></td>
+                        <td>{{ membro.nome }}</td>
+                        <td>{{ membro.nascimento|date('d F Y') }}</td>
+                        <td>{{ membro.email }}</td>
+                        <td>{{ membro.role }}</td>
+                        <td><a href="{{ doc_root }}admin/edit-profile/{{ membro.id }}" class="editar">Editar</a></td>
+                        <td><a href="{{ doc_root }}admin/profile-delete/{{ membro.id }}" class="apagar">Apagar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+{% endblock %}

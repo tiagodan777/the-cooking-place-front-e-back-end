@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comentários</title>
+    <link rel="stylesheet" href="{{ doc_root }}estilos/opinions.css">
+</head>
+<body>
+    <main id="opinions">
+        <h2>Opiniões</h2>
+        {% if not id_opiniao %} 
+            <form action="{{ doc_root }}opinions/{{ form_id }}/" method="post">
+        {% else %}
+            <form action="{{ doc_root }}opinions/?id_opiniao={{ id_opiniao }}" method="post">
+        {% endif %}
+            <img src="{{ doc_root }}imagens/fotos-perfil/{{ cookie.picture }}" alt="">
+            <textarea name="opinion" id="opinion" placeholder="Adicionar opinião" maxlength="2000">{{ opiniao_editar.opiniao }}</textarea>
+            {% if not opiniao_editar.opiniao %}
+                <input type="submit" value="Opinar">
+            {% else %}
+                <a href="javascript:void(0);" onclick="history.back();" id="cancelar-edicao">Cancelar</a>
+                <input type="submit" value="Editar">
+            {% endif %}
+        </form>
+        {% set count = 1 %}
+        {% for opiniao in opinioes %}
+            <div>
+                <section id="member">
+                    <div id="foto-nome">
+                        <a href="{{ doc_root }}profile/{{ opiniao.membro_id }}/{{ opiniao.seo_name }}" target="_top"><img src="{{ doc_root }}imagens/fotos-perfil/{{ opiniao.picture }}" alt="Foto de perfil de {{ opiniao.autor }}"></a>
+                        <h3><a href="{{ doc_root }}profile/{{ opiniao.membro_id }}/{{ opiniao.seo_name }}" target="_top">{{ opiniao.autor }}</a></h3>
+                    </div>
+                    <p>{{ opiniao.posted|date('d F Y') }}</p>
+                </section>
+                <section id="content">
+                    <p>{{ opiniao.opiniao }}</p>
+                    {% if opiniao.membro_id == cookie.id %}
+                        <div>
+                            <a href="{{ doc_root }}opinions/?id_opiniao={{ opiniao.id }}" id="editar" class="admin-comentario">Editar</a>
+                            <button id="apagar{{ count }}" class="admin-comentario">Apagar</button>
+                            <dialog id="c{{ count }}">
+                                <form action="{{ doc_root }}opinion-delete/{{ opiniao.id }}/?id_receita={{ opiniao.receita_id }}" method="post">
+                                    <h4>Esta opinião vai ser apagada permanentemente.</h4>
+                                    <p>Desejas continuar?</p>
+                                    <div>
+                                        <a href="javascript:void(0);" onclick="history.back();">Cancelar</a>
+                                        <input type="submit" value="Apagar">
+                                    </div>
+                                </form>
+                            </dialog>
+                        </div>
+                    {% endif %}
+                </section>
+            </div>
+            {% set count = count + 1 %}
+        {% endfor %}
+    </main>
+    <script>
+        window.document.querySelectorAll("button[id^='apagar']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("apagar", "")
+                let dialog = window.document.querySelector(`#c${count}`)
+                let fechar = window.document.querySelector(`#f${count}`)
+
+                dialog.showModal()
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
+    </script>
+</body>
+</html>
