@@ -179,11 +179,19 @@ main > article > aside.aside-principal {
 main > article > aside.aside-principal > section > div.icones {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: space-between;
     align-items: center;
 }
 
-main > article > aside.aside-principal > section > div.icones > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > a, main > article > aside.aside-principal > section > div.icones > button[id^="b"]{
-    flex: 0 0 50px;
+main > article > aside.aside-principal > section > div.icones > div {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main > article > aside.aside-principal > section > div.icones > div > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > div > a, main > article > aside.aside-principal > section > div.icones > div > button[id^="b"]{
+    flex: 0 0 40px;
     font-size: 2em;
     background-color: var(--cor5);
     border: none;
@@ -191,7 +199,15 @@ main > article > aside.aside-principal > section > div.icones > span.icones-reac
     transition: 0.2s;
 }
 
-main > article > aside.aside-principal > section > div.icones > span.icones-reacao:hover, main > article > aside.aside-principal > section > div.icones > a:hover, main > article > aside.aside-principal > section > div.icones > button[id^="b"]:hover {
+main > article > aside.aside-principal > section > div.icones > div > a.guardar {
+    color: var(--cor4);
+}
+
+main > article > aside.aside-principal > section > div.icones > div > a.guardar > span {
+    font-size: 1em;
+}
+
+main > article > aside.aside-principal > section > div.icones > div > span.icones-reacao:hover, main > article > aside.aside-principal > section > div.icones > div > a:hover, main > article > aside.aside-principal > section > div.icones > div > button[id^="b"]:hover {
     transform: scale(115%);
 }
 
@@ -204,7 +220,7 @@ main > article > aside.aside-principal > section > div.numeros {
 main > article > aside.aside-principal > section > div.numeros > span {
     font-size: 0.9em;
 
-    flex: 0 0 55px;
+    flex: 0 0 40px;
 }
 
 main > article > aside.aside-principal > section > p {

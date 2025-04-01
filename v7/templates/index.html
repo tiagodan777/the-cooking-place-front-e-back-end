@@ -30,17 +30,22 @@
             <aside class="aside-principal">
                 <section>
                     <div class="icones">
-                        {% if cookie.id != 0 %}
-                            <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt="Like hamburguer"></span></a>
-                        {% else %}
-                            <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
-                        {% endif %}
-                        <dialog id="c{{ count }}">
-                            <iframe data-src="{{ doc_root }}opinions/{{ conteudo.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
-                            <button id="f{{ count }}">Fechar</button>
-                        </dialog>
-                        <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
-                        <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
+                        <div>
+                            {% if cookie.id != 0 %}
+                                <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt="Like hamburguer"></span></a>
+                            {% else %}
+                                <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                            {% endif %}
+                            <dialog id="c{{ count }}">
+                                <iframe data-src="{{ doc_root }}opinions/{{ conteudo.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                                <button id="f{{ count }}">Fechar</button>
+                            </dialog>
+                            <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
+                            <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
+                        </div>
+                        <div>
+                            <a href="{{ doc_root }}save/{{ conteudo.id }}/?file={{ conteudo.file }}&tipo_conteudo={{ conteudo.tipo_conteudo }}" class="guardar"><span class="material-symbols-outlined">bookmark</span></a>
+                        </div>
                     </div>
                     <div class="numeros">
                         {% if conteudo.likes != '' %}
