@@ -63,13 +63,13 @@
             <input type="submit" value="Pesquisar" class="escondido">
         </form>
         <div>
-            {% if cookie.id == 0 %}
+            {% if session.id == 0 %}
                 <a href="{{ doc_root }}login">Login / </a>
                 <a href="{{ doc_root }}register"> Register</a>
             {% else %}
                 <a href="{{ doc_root }}create-edit-article"><span class="material-symbols-outlined">add_box</span></a>
-                <a href="{{ doc_root }}profile/{{ cookie.id }}/{{ cookie.seo_name }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ cookie.picture }}" alt="Foto de perfil de {{ cookie.forename }}" class="membro-foto-perfil"></a>
-                {% if cookie.role == 'imperador_supremo_do_universo' %}
+                <a href="{{ doc_root }}profile/{{ session.id }}/{{ session.seo_name }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ session.picture }}" alt="Foto de perfil de {{ session.forename }}" class="membro-foto-perfil"></a>
+                {% if session.role == 'imperador_supremo_do_universo' %}
                     <a href="{{ doc_root }}admin/index"> / Admin / </a>
                 {% endif %}
                 <a href="{{ doc_root }}logout">Logout</a>
@@ -79,15 +79,7 @@
     <br>
     {% block content %} {% endblock %}
     {% block footer %}
-    <footer>
-        <a href="{{ doc_root }}index"><span class="material-symbols-outlined aparece-desktop">home</span> <span class="descricao-icone">Página Principal</span></a>
-        <a href="{{ doc_root }}notifications"><span class="material-symbols-outlined aparece-desktop">favorite</span> <span class="descricao-icone nao-destaque">Notificações</span></a>
-        <a href="{{ doc_root }}all-messages"><span class="material-symbols-outlined">send</span> <span class="descricao-icone nao-destaque">Mensagens</span></a>
-        <a href="{{ doc_root }}whats-happening"><span class="material-symbols-outlined aparece-desktop">star</span> <span class="descricao-icone nao-destaque">O que está a acontecer?</span></a>
-        <a href="{{ doc_root }}edit-profile/{{ cookie.id }}"><span class="material-symbols-outlined">settings</span> <span class="descricao-icone nao-destaque">Configurações de perfil</span></a>
-        <a href="{{ doc_root }}create-edit-article"><span class="material-symbols-outlined aparece-mobile">add_box</span></a>
-        <a href="{{ doc_root }}search"><span class="material-symbols-outlined aparece-mobile">search</span></a>
-    </footer>
+    
     {% endblock %}
 </body>
 </html>

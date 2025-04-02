@@ -14,7 +14,7 @@
                 <div>
                     <div id="reacoes">
                         <div class="icones">
-                            {% if cookie.id != 0 %}
+                            {% if session.id != 0 %}
                                 <a href="{{ doc_root}}like/{{ post.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                             {% else %}
                                 <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
@@ -45,7 +45,7 @@
                     <p>Data: {{ post.data|date('d F Y') }}</p>
                     <p id="descricao-receita">Descrição: {{ post.descricao }}</p>
                     <a href="{{ doc_root }}profile/{{ post.membro_id }}/{{ post.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ post.picture }}" alt="Foto de perfil de {{ post.autor }}">&nbsp;{{ post.autor }}</a>
-                    {% if cookie.id == post.membro_id %}
+                    {% if session.id == post.membro_id %}
                         <a href="{{ doc_root }}create-edit-post/{{ post.id }}" id="editar">Editar</a>
                     {% endif %}
                 </div>

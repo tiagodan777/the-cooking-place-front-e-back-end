@@ -1,7 +1,7 @@
 <?php
 require_login($session);
 
-$id = $cookie->id;
+$id = $session->id;
 if (!$id) {
     redirect(DOC_ROOT . 'index/', ['failure' => 'Membro não encontrado']);
 }

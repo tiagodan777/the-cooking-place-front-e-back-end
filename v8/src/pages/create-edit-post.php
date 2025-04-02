@@ -9,7 +9,7 @@ $post = [
     'id' => $id,
     'imagem_file' => '',
     'descricao' => '',
-    'membro_id' => $cookie->id,
+    'membro_id' => $session->id,
 ];
 $erros = [
     'warning' => '',
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!$id) {
             unset($post['id']);
             $cms->getPost()->create($post, $temp, $destination);
-            redirect(DOC_ROOT . 'profile/'  . $cookie->id . $cookie->seo_name, ['success' => 'Publicado com sucesso']);
+            redirect(DOC_ROOT . 'profile/'  . $session->id . $session->seo_name, ['success' => 'Publicado com sucesso']);
         } else {
             unset($post['data']);
             unset($post['membro_id']);
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($post['imagem_file']);
 
             $cms->getPost()->update($post);
-            redirect(DOC_ROOT . 'profile/' . $cookie->id . $cookie->seo_name , ['success' => 'Publicação editada com sucesso']);
+            redirect(DOC_ROOT . 'profile/' . $session->id . $session->seo_name , ['success' => 'Publicação editada com sucesso']);
         }
     }
 }

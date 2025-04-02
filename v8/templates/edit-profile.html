@@ -7,7 +7,7 @@
         {% if erros.warning %}
             <div class="alter-failure">{{ erros.warning }}</div>
         {% endif %}
-        <form action="{{ doc_doot }}edit-profile/{{ cookie.id }}" method="post">
+        <form action="{{ doc_doot }}edit-profile/{{ session.id }}" method="post">
             <div id="div-imagem">
                 {% if membro.picture %}
                     <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">

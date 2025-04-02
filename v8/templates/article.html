@@ -16,7 +16,7 @@
                 <div>
                     <div id="reacoes">
                         <div class="icones">
-                            {% if cookie.id != 0 %}
+                            {% if session.id != 0 %}
                                 <a href="{{ doc_root}}like/{{ receita.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                             {% else %}
                                 <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
@@ -51,7 +51,7 @@
                     <a href="{{ doc_root }}profile/{{ receita.membro_id }}/{{ receita.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ receita.picture }}" alt="Foto de perfil de {{ receita.autor }}">{{ receita.autor }}</a>
                     <br>
                     <br>
-                    {% if cookie.id == receita.membro_id %}
+                    {% if session.id == receita.membro_id %}
                         <a href="{{ doc_root }}create-edit-article/{{ receita.id }}" id="editar">Editar</a>
                     {% endif %}
                 </div>

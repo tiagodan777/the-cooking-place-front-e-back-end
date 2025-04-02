@@ -23,6 +23,10 @@ $twig->addGlobal('doc_root', DOC_ROOT);
 $cookie = $cms->getCookie();
 $session = $cms->getSession();
 
+if ($cookie->token) {
+    $session = $session->create($cookie->token);
+}
+
 $twig->addGlobal('cookie', $cookie);
 $twig->addGlobal('session', $session);
 

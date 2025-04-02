@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $opiniao = $purifier->purify($opiniao);
 
         if (!$id_opiniao) {
-            $arguments = [$opiniao, $id, $cookie->id];
+            $arguments = [$opiniao, $id, $session->id];
             $cms->getOpinion()->create($arguments);
             redirect('#');
         } else {

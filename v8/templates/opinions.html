@@ -14,7 +14,7 @@
         {% else %}
             <form action="{{ doc_root }}opinions/?id_opiniao={{ id_opiniao }}" method="post">
         {% endif %}
-            <img src="{{ doc_root }}imagens/fotos-perfil/{{ cookie.picture }}" alt="">
+            <img src="{{ doc_root }}imagens/fotos-perfil/{{ session.picture }}" alt="">
             <textarea name="opinion" id="opinion" placeholder="Adicionar opinião" maxlength="2000">{{ opiniao_editar.opiniao }}</textarea>
             {% if not opiniao_editar.opiniao %}
                 <input type="submit" value="Opinar">
@@ -35,7 +35,7 @@
                 </section>
                 <section id="content">
                     <p>{{ opiniao.opiniao }}</p>
-                    {% if opiniao.membro_id == cookie.id %}
+                    {% if opiniao.membro_id == session.id %}
                         <div>
                             <a href="{{ doc_root }}opinions/?id_opiniao={{ opiniao.id }}" id="editar" class="admin-comentario">Editar</a>
                             <button id="apagar{{ count }}" class="admin-comentario">Apagar</button>

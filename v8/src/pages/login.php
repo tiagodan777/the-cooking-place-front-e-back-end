@@ -23,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($member && $member['role'] == 'suspended') {
             $errors['message'] = 'Conta suspensa';
         } elseif ($member) {
-            $cms->getCookie()->create($member);
-            $cms->getSession()->create($member);
-            redirect('index');
+            $token = $cms->getCookie()->create($member);
+            $cms->getSession()->create($token);
+            redirect(DOC_ROOT . 'index');
         } else {
             $errors['message'] = 'Por favor tenta novamente';
         }

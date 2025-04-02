@@ -105,7 +105,7 @@
                 </select>
                 {% if erros.categoria_id %}<span class="error">{{ erros.categoria_id }}</span> {% endif %}
 
-                <input type="hidden" name="membro_id" value="{{ cookie.id }}">
+                <input type="hidden" name="membro_id" value="{{ session.id }}">
                 {% if erros.membor_id %}<span class="error">{{ erros.membor_id }}</span> {% endif %}
             </div>
             <div id="div-ingredientes">

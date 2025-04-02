@@ -17,29 +17,32 @@ class Session {
         $this->token = $_SESSION['token'] ?? '';
     }
 
-    public function create() {
+    public function create($token) {
+        session_regenerate_id(true);
         $arguments = [];
-        session_regenerate_id();
-        $_COOKIE['token'] ?? '';
-        if ($_COOKIE['token']) {
-            $sql = "SELECT member_id FROM token
-                    WHERE token = :token AND purpose = 'stay_logged_id' AND expires > NOW();";
-            $member_id = $this->db->runSQL($sql, [$_COOKIE['token']])->fetch();
+        $sql = "SELECT member_id FROM token
+                WHERE token = :token AND purpose = 'stay_logged_id' AND expires > NOW()";
+        $member_id = $this->db->runSQL($sql, [$token])->fetch();
 
-            $sql = "SELECT id, forename, picture, role, seo_name
-                    FROM membro
-                    WHERE id = :membro_id;";
-            $arguments = $this->db->runSQL($sql, [$member_id])->fetch();
-        }
-        $_SESSION['id'] = $arguments['arguments'];
+        var_dump($member_id);
+
+        $sql = "SELECT id, forename, picture, role, seo_name
+                FROM membro
+                WHERE id = :member_id;";
+        $arguments = $this->db->runSQL($sql, $member_id)->fetch();
+
+        $_SESSION['id'] = $arguments['id'];
         $_SESSION['forename'] = $arguments['forename'];
         $_SESSION['picture'] = $arguments['picture'];
         $_SESSION['role'] = $arguments['role'];
         $_SESSION['seo_name'] = $arguments['seo_name'];
+        $_SESSION['token'] = $token;
+
+        return $_SESSION;
     }
 
-    public function update($member) {
-        $this->create($member);
+    public function update($token) {
+        $this->create($token);
     }
 
     public function delete() {

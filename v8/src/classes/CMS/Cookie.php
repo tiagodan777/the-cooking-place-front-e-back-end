@@ -8,23 +8,25 @@ class Cookie {
     public function __construct($db)
     {   
         $this->db = $db;
-        $this->token = $_COOKIE['token'] ?? 0;
+        $this->token = $_COOKIE['token'] ?? '';
     }
 
     public function create($member) {
         $arguments['token'] = bin2hex(random_bytes(64));
-        $arguments['expires'] = date('Y m d H:i:s', strtotime('+7 days'));
+        $arguments['expires'] = date('Y-m-d H:i:s', strtotime('+7 days'));
         $arguments['member_id'] = $member['id'];
-        $arguments['purpose'] = 'stay_logged_in';
+        $arguments['purpose'] = 'stay_logged_id';
 
         $sql = "INSERT INTO token (token, expires, member_id, purpose)
                 VALUES (:token, :expires, :member_id, :purpose);";
         $this->db->runSQL($sql, $arguments);
 
         setcookie('token', $arguments['token'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
+
+        return $arguments['token'];
     }
 
-    public function uptade($member) {
+    public function updade($member) {
         $this->create($member);
     }
 
