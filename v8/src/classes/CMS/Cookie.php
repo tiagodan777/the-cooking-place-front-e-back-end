@@ -2,22 +2,26 @@
 namespace TiagoDaniel\CMS;
 
 class Cookie {
-    public $id, $forename, $picture, $role;
+    private $db;
+    public $token;
 
-    public function __construct()
+    public function __construct($db)
     {   
-        $this->id = $_COOKIE['id'] ?? 0;
-        $this->forename = $_COOKIE['forename'] ?? '';
-        $this->picture = $_COOKIE['picture'] ?? '';
-        $this->role = $_COOKIE['role'] ?? 'public';
+        $this->db = $db;
+        $this->token = $_COOKIE['token'] ?? 0;
     }
 
     public function create($member) {
-        setcookie('id', $member['id'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
-        setcookie('forename', $member['forename'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
-        setcookie('picture', $member['picture'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
-        setcookie('role', $member['role'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
-        setcookie('seo_name', $member['seo_name'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
+        $arguments['token'] = bin2hex(random_bytes(64));
+        $arguments['expires'] = date('Y m d H:i:s', strtotime('+7 days'));
+        $arguments['member_id'] = $member['id'];
+        $arguments['purpose'] = 'stay_logged_in';
+
+        $sql = "INSERT INTO token (token, expires, member_id, purpose)
+                VALUES (:token, :expires, :member_id, :purpose);";
+        $this->db->runSQL($sql, $arguments);
+
+        setcookie('token', $arguments['token'], time() + 60 * 60 * 24 * 7, '/', '', false, true);
     }
 
     public function uptade($member) {
@@ -25,10 +29,9 @@ class Cookie {
     }
 
     public function delete() {
-        setcookie('id', '', time() - 3600, '/', '', false, true);
-        setcookie('forename', '', time() - 3600,  '/', '', false, true);
-        setcookie('picture', '', time() - 3600,  '/', '', false, true);
-        setcookie('role', '', time() - 3600,  '/', '', false, true);
-        setcookie('seo_name', '', time() - 3600, '/', '', false, true);
+        $sql = "DELETE FROM token
+                WHERE token = :token;";
+        $this->db->runSQL($sql, [$_COOKIE['token']]);
+        setcookie('token', '', time() - 3600, '/', '', false, true);
     }
 }

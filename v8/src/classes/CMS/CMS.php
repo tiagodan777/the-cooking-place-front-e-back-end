@@ -17,6 +17,7 @@ class CMS {
     private $post = null;
     private $long_video = null;
     private $saved = null;
+    private $session = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -119,5 +120,12 @@ class CMS {
             $this->saved = new Saved($this->db);
         }
         return $this->saved;
+    }
+
+    public function getSession() {
+        if ($this->session === null) {
+            $this->session = new Session($this->db);
+        }
+        return $this->session;
     }
 }

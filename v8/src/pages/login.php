@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors['message'] = 'Conta suspensa';
         } elseif ($member) {
             $cms->getCookie()->create($member);
+            $cms->getSession()->create($member);
             redirect('index');
         } else {
             $errors['message'] = 'Por favor tenta novamente';

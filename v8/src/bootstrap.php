@@ -21,7 +21,10 @@ $twig = new Twig\Environment($loader, $twig_options);
 $twig->addGlobal('doc_root', DOC_ROOT);
 
 $cookie = $cms->getCookie();
+$session = $cms->getSession();
+
 $twig->addGlobal('cookie', $cookie);
+$twig->addGlobal('session', $session);
 
 if (DEV === true) {
     $twig->addExtension(new \Twig\Extension\DebugExtension);
