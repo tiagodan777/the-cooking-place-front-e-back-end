@@ -10,3 +10,5 @@ $data['membro'] = $membro;
 
 echo $twig->render('whats-happening.html', $data);
 ?>
+
+

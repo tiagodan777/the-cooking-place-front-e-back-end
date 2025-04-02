@@ -1,5 +1,5 @@
 <?php
-is_admin($cookie->role);
+is_admin($session->role);
 
 $input_message = $_POST['message'] ?? '';
 

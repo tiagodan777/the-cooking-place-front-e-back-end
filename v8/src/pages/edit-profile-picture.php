@@ -1,5 +1,5 @@
 <?php
-require_login($cookie);
+require_login($session);
 
 $path = APP_ROOT . '/public/imagens/fotos-perfil/';
 $delete = $_POST['delete'] ?? '';
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!$apagar) {
             redirect('edit-profile', ['message' => 'Não foi possível apagar a foto de perfil']);
         } else {
-            setcookie('picture', 'blank.jpg', time() + 60 * 60 * 24 * 7, '/', '', false, true);
+            $_SESSION['picture'] = 'blank.jpg';
             redirect(DOC_ROOT . 'edit-profile/', ['message' => 'Foto de perfil apagada']);
         }
     } else {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $destination = $path . $picture;
                 $membro['picture'] = $picture;
                 $cms->getMember()->pictureCreate($membro, $temp, $destination);
-                setcookie('picture', $picture, time() + 60 * 60 * 24 * 7, '/', '', false, true);
+                $_SESSION['picture'] = $picture;
                 redirect(DOC_ROOT . 'edit-profile/', ['message' => 'Foto de perfil alterada']);
             }
         }

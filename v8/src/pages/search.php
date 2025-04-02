@@ -15,7 +15,7 @@ if ($term) {
     if ($count > 0) {
         $conteudos = $cms->getContent()->search($term);
     } else {
-        redirect('error-page', ['message' => 'Não foram encontrados resultados']);
+        redirect(DOC_ROOT . 'error-page', ['message' => 'Não foram encontrados resultados']);
     }
 }
 
@@ -33,3 +33,4 @@ $data['current_page'] = $current_page;
 
 echo $twig->render('search.html', $data);
 ?>
+

@@ -1,21 +1,17 @@
 <?php
-if (!$id || $cookie->id == 0) {
+require_login($session);
+
+if (!$id || $session->id == 0) {
     redirect(DOC_ROOT . 'login');
 }
 
 $membro = $cms->getMember()->get($id);
 
-echo "<br><br>";
-var_dump($cookie->id);
-echo "<br><br>";
-var_dump($id);
-echo "<br><br>";
-
-$followed = $cms->getFollow()->get($cookie->id, $id);
+$followed = $cms->getFollow()->get($session->id, $id);
 if ($followed) {
-    $cms->getFollow()->delete($cookie->id, $id);
+    $cms->getFollow()->delete($session->id, $id);
 } else {
-    $cms->getFollow()->create($cookie->id, $id);
+    $cms->getFollow()->create($session->id, $id);
 }
 
 redirect(DOC_ROOT . 'profile/' . $id . '/' . $membro['seo_name']);

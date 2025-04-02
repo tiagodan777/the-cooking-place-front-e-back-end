@@ -1,16 +1,18 @@
 <?php
+require_login($session);
+
 $file = $_GET['file'] ?? null;
 $tipo_conteudo = $_GET['tipo_conteudo'] ?? null;
 
-if (!$id || $cookie->id == 0 || $file == null) {
+if (!$id || $session->id == 0 || $file == null) {
     include APP_ROOT . '/src/pages/error-page.php';
 }
 
-$saved = $cms->getSaved()->get([$id, $cookie->id]);
+$saved = $cms->getSaved()->get([$id, $session->id]);
 if ($saved) {
-    $cms->getSaved()->delete([$id, $cookie->id]);
+    $cms->getSaved()->delete([$id, $session->id]);
 } else {
-    $cms->getSaved()->create([$id, $cookie->id, $file, $tipo_conteudo]);
+    $cms->getSaved()->create([$id, $session->id, $file, $tipo_conteudo]);
 }
 
 redirect(DOC_ROOT . 'index');

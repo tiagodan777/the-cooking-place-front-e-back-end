@@ -9,10 +9,10 @@ $conteudos = [];
 $arguments = [];
 
 
-$count = $cms->getSaved()->count($cookie->id);
+$count = $cms->getSaved()->count($session->id);
 
 if ($count > 0) {
-    $conteudos = $cms->getSaved()->getFull($cookie->id);
+    $conteudos = $cms->getSaved()->getFull($session->id);
 }
 
 if ($count > $show) {

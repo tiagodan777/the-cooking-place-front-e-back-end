@@ -1,7 +1,7 @@
 <?php
 use TiagoDaniel\Validate\Validate;
 
-is_admin($cookie->role);
+is_admin($session->role);
 
 $errors = [];
 

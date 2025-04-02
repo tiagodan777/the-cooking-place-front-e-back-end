@@ -24,12 +24,12 @@ class Session {
         if ($_COOKIE['token']) {
             $sql = "SELECT member_id FROM token
                     WHERE token = :token AND purpose = 'stay_logged_id' AND expires > NOW();";
-            $member_id = $this->db->runSQL($sql, [$_COOKIE['token']]);
+            $member_id = $this->db->runSQL($sql, [$_COOKIE['token']])->fetch();
 
-            $sql = "SELECT id, foreanme, picture, role, seo_name
+            $sql = "SELECT id, forename, picture, role, seo_name
                     FROM membro
-                    WHERE membro_id = :membro_id;";
-            $arguments = $this->db->runSQL($sql, [$member_id]);
+                    WHERE id = :membro_id;";
+            $arguments = $this->db->runSQL($sql, [$member_id])->fetch();
         }
         $_SESSION['id'] = $arguments['arguments'];
         $_SESSION['forename'] = $arguments['forename'];

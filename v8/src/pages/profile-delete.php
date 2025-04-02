@@ -1,7 +1,7 @@
 <?php
-require_login($cookie);
+require_login($session);
 
-$id = $cookie->id;
+$id = $session->id;
 $input_message = $_POST['message'] ?? '';
 
 if (!$id) {

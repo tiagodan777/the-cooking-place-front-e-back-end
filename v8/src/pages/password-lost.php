@@ -25,3 +25,4 @@ $data['sent'] = $sent;
 $data['error'] = $error;
 
 echo $twig->render('password-lost.html', $data);
+

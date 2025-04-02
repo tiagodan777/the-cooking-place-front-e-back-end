@@ -1,5 +1,5 @@
 <?php
-require_login($cookie);
+require_login($session);
 
 $id = $cookie->id;
 if (!$id) {
@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD']  == 'POST') {
     if ($delete) {
         redirect(DOC_ROOT . 'profile/', ['message' => 'Não foi possível apagar a tua conta. Tenta mais tarde']);
     } else {
+        $cms->getSession()->delete();
         $cms->getCookie()->delete();
         redirect(DOC_ROOT . 'register/');
     }

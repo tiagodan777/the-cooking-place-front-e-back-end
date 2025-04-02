@@ -32,9 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $invalid = implode($erros);
     if (!$invalid) {
         $membro['nascimento'] = $membro['ano'] . '-' . $membro['mes'] . '-' . $membro['dia'];
-        echo "<pre>";
-        var_dump($membro);
-        echo "</pre>";
         $result = $cms->getMember()->create($membro);
 
         if ($result === false) {

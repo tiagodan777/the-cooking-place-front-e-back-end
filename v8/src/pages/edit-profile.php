@@ -1,11 +1,11 @@
 <?php
 use TiagoDaniel\Validate\Validate;
 
-require_login($cookie);
+require_login($session);
 
 $errors = [];
 
-$membro = $cms->getMember()->getFull($cms->getCookie()->id);
+$membro = $cms->getMember()->getFull($cms->getSession()->id);
 
 $data_nascimento = preg_split('/-/', $membro['nascimento']);
 $dia = $data_nascimento[2];

@@ -1,7 +1,7 @@
 <?php
 use TiagoDaniel\Validate\Validate;
 
-require_login($cookie);
+require_login($session);
 
 $unidades_tempo = ['min', 'hr'];
 

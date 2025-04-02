@@ -1,6 +1,8 @@
 <?php
 use TiagoDaniel\Validate\Validate;
 
+require_login($session);
+
 $temp = $_FILES['imagem']['tmp_name'] ?? null;
 
 $post = [

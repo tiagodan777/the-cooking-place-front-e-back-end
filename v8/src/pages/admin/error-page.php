@@ -1,5 +1,5 @@
 <?php
-is_admin($cookie->role);
+is_admin($session->role);
 
 $membro = $cms->getMember()->get(1);
 

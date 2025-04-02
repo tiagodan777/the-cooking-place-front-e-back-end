@@ -1,5 +1,5 @@
 <?php
-require_login($cookie);
+require_login($session);
 
 $member = $cms->getMember()->get(1);
 

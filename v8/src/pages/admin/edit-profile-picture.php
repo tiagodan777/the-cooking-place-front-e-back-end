@@ -1,5 +1,5 @@
 <?php
-is_admin($cookie->role);
+is_admin($session->role);
 
 $path = APP_ROOT . '/public/imagens/fotos-perfil/';
 $delete = $_POST['delete'] ?? '';

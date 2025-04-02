@@ -5,7 +5,7 @@ $user = '';
 $errors = [];
 $success = $_GET['success'] ?? '';
 
-$logged_in = $_COOKIE['id'] ?? 0;
+$logged_in = $_SESSION['id'] ?? 0;
 
 if ($logged_in != 0) {
     redirect(DOC_ROOT . 'index');
@@ -37,3 +37,4 @@ $data['erros'] = $errors;
 $data['success'] = $success;
 
 echo $twig->render('login.html', $data);
+

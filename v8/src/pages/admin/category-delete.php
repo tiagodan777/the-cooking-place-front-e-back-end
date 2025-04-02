@@ -1,5 +1,5 @@
 <?php 
-is_admin($cookie->role);
+is_admin($session->role);
 
 if (!$id) {
     redirect(DOC_ROOT . 'admin/categories/', ['failure' => 'Categoria não encontrada']);

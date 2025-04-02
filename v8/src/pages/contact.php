@@ -24,11 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$membro = $cms->getMember()->get(1);
-
 $data['from'] = $from;
 $datas['message'] = $message;
 $data['erros'] = $errors;
-$data['membro'] = $membro;
 
 echo $twig->render('contact.html', $data);

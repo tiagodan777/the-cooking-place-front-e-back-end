@@ -1,5 +1,5 @@
 <?php
-require_login($cookie);
+require_login($session);
 
 $path = APP_ROOT . 'public/imagens/comida/';
 
