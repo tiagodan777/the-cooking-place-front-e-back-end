@@ -9,6 +9,14 @@ class Session {
     {   
         session_start();
         $this->db = $db;
+        $token = $_COOKIE['token'] ?? '';
+        if ($token) {
+            /*echo "<pre>";
+            var_dump($_COOKIE);*/
+            $this->create($token);
+            /*var_dump($_SESSION);
+            echo "</pre>";*/
+        }
         $this->id = $_SESSION['id'] ?? 0;
         $this->forename = $_SESSION['forename'] ?? '';
         $this->picture = $_SESSION['picture'] ?? '';
@@ -35,8 +43,6 @@ class Session {
         $_SESSION['role'] = $arguments['role'];
         $_SESSION['seo_name'] = $arguments['seo_name'];
         $_SESSION['token'] = $token;
-
-        return $_SESSION;
     }
 
     public function update($token) {

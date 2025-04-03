@@ -185,6 +185,21 @@ dialog {
     z-index: 0;
 }
 
+dialog.share {
+    width: 500px;
+    height: 350px;
+}
+
+dialog.share > img, dialog.share > video {
+    width: 40%;
+    border-radius: 10px;
+
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 iframe {
     width: 100%;
     height: 100%;
