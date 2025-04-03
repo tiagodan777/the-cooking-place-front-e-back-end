@@ -24,8 +24,6 @@ class Session {
                 WHERE token = :token AND purpose = 'stay_logged_id' AND expires > NOW()";
         $member_id = $this->db->runSQL($sql, [$token])->fetch();
 
-        var_dump($member_id);
-
         $sql = "SELECT id, forename, picture, role, seo_name
                 FROM membro
                 WHERE id = :member_id;";
