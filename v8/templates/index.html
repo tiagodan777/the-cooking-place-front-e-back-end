@@ -32,7 +32,7 @@
                     <div class="icones">
                         <div class="react">
                             {% if session.id != 0 %}
-                                <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt="Like hamburguer"></span></a>
+                                <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
                             {% else %}
                                 <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
                             {% endif %}
@@ -42,15 +42,31 @@
                             <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
 
                             <dialog id="s{{ count }}" class="share">
-                                {% if conteudo.tipo_conteudo == 'receita' %}
-                                    <img data-src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
-                                {% elseif conteudo.tipo_conteudo == 'quik'  %}
-                                    <video data-src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted id="imagem-para-share{{ count }}"></video>
-                                {% elseif conteudo.tipo_conteudo == 'publicação' %}  
-                                    <img data-src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
-                                {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
-                                    <video data-src="{{ doc_root }}videos-longos/{{ conteudo.file }}" muted id="imagem-para-share{{ count }}"></video>
-                                {% endif %}
+                                <div class="imagem">
+                                    {% if conteudo.tipo_conteudo == 'receita' %}
+                                        <img data-src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
+                                        {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/article/' ~  conteudo.id %}
+                                    {% elseif conteudo.tipo_conteudo == 'quik'  %}
+                                        <video data-src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted id="imagem-para-share{{ count }}"></video>
+                                        {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/whats-happening/' ~ conteudo.id %}
+                                    {% elseif conteudo.tipo_conteudo == 'publicação' %}
+                                        <img data-src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
+                                        {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/post/' ~ conteudo.id  %}
+                                    {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
+                                        <video data-src="{{ doc_root }}videos-longos/{{ conteudo.file }}" muted id="imagem-para-share{{ count }}"></video>
+                                        {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/video/' ~ conteudo.id %}
+                                    {% endif %}
+                                </div>
+                                <p class="partilhar-atraves-de">Partilhar através de </p>
+                                <div class="icones-redes-sociais">
+                                    <span class="material-symbols-outlined" onclick="copiar()" class="link" id="copiar-link">link</span>
+                                    <input type="hidden" name="link" value="{{ link }}">
+                                    <span class="material-symbols-outlined">send</span>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/facebook-icon.png" alt="Ícone do Facebook"></a>
+                                    <a href="https://api.whatsapp.com/send?text={{ conteudo.titulo|url_encode }}%20{{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/whatsapp-icon.png" alt=""></a>
+                                    <a href="https://pinterest.com/pin/create/button/?url={{ link|url_encode }}&media={{ ('https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/imagens/comida/' ~ conteudo.file)|url_encode }}&description={{ conteudo.titulo|url_encode }}" target="_blank"><img src="{{ doc_root }}imagens/icons/pinterest-icon.png" alt="Ícone do Pinterest"></a>
+                                    <a href="https://twitter.com/intent/tweet?url={{ link }}&text=Receita-do-The-Cooking-Place" target="_blank"><img src="{{ doc_root }}imagens/icons/x-icon.png" alt="Ícone do X"></a>
+                                </div>
                             </dialog>
                             <button id="f{{ count }}"><span class="material-symbols-outlined">ios_share</span></button>
                         </div>
@@ -117,6 +133,8 @@
             })
         })
 
+        
+
         document.addEventListener("DOMContentLoaded", () => {
         let videos = document.querySelectorAll("video");
 
@@ -137,6 +155,20 @@
         // Aplica o Observer a cada vídeo
         videos.forEach(video => observer.observe(video));
         });
+
+        function copiar() {
+            // Pega o link do campo oculto
+            var link = document.querySelector('input[name="link"]').value;
+
+            // Usa a Clipboard API para copiar o link diretamente para a área de transferência
+            navigator.clipboard.writeText(link).then(function() {
+                // Feedback opcional - Alerta de sucesso
+                alert('Link copiado para a área de transferência!');
+            }).catch(function(err) {
+                // Feedback opcional - Caso ocorra algum erro
+                alert('Erro ao copiar o link: ' + err);
+            });
+        }
     </script>
 </main>
 {% endblock %}

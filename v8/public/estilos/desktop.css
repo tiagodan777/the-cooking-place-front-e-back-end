@@ -186,11 +186,11 @@ dialog {
 }
 
 dialog.share {
-    width: 500px;
+    width: 450px;
     height: 350px;
 }
 
-dialog.share > img, dialog.share > video {
+dialog.share > div.imagem img, dialog.share > div.imagem video {
     width: 40%;
     border-radius: 10px;
 
