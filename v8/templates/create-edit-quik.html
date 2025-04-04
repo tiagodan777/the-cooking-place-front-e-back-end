@@ -15,6 +15,12 @@
 </style>
 <main id="create-edit-quik">
     <h2>Adicionar/Editar Quik</h2>
+    <div id="opcoes-publicacao">
+        <a href="{{ doc_root }}create-edit-article">Receita</a>
+        <a href="{{ doc_root }}create-edit-post">Publicação</a>
+        <a href="{{ doc_root }}create-edit-quik" class="pagina-atual">Quik</a>
+        <a href="{{ doc_root }}create-edit-long-video">Vídeo Longo</a>
+    </div>
     {% if erros.warning %}
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}

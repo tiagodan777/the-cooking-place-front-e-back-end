@@ -33,7 +33,7 @@ main#create-edit-long-video > form {
 }
 
 main#create-edit-long-video > form > section#imagem-video {
-    width: 100%;
+    width: 800px;
     height: 800px;
     /*border: 1px solid rgb(210, 210, 210);*/
 
@@ -122,7 +122,7 @@ main#create-edit-long-video input[type=file]::file-selector-button:hover {
 }
 
 main#create-edit-long-video > form > section#detalhes {
-    width: 100%;
+    width: 800px;
     /*height: 1000px;*/
     /*border: 1px solid rgb(210, 210, 210);*/
 

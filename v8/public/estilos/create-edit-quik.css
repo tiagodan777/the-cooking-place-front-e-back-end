@@ -17,6 +17,7 @@ main#create-edit-quik {
 
 main#create-edit-quik > h2 {
     margin-top: -25px;
+    margin-bottom: 25px;
 }
 
 main#create-edit-quik > form {

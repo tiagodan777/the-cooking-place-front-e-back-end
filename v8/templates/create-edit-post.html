@@ -15,6 +15,12 @@
 </style>
 <main id="create-edit-post">
     <h2>Adicionar/Editar Publicação</h2>
+    <div id="opcoes-publicacao">
+        <a href="{{ doc_root }}create-edit-article">Receita</a>
+        <a href="{{ doc_root }}create-edit-post" class="pagina-atual">Publicação</a>
+        <a href="{{ doc_root }}create-edit-quik">Quik</a>
+        <a href="{{ doc_root }}create-edit-long-video">Vídeo Longo</a>
+    </div>
     {% if erros.warning %}
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
