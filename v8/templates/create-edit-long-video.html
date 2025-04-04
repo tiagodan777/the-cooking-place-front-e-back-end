@@ -1,0 +1,144 @@
+{% extends 'layout.html' %}
+{% block title %} Criar e Editar Vídeo Longo {% endblock %}
+{% block content %}
+{% if post.imagem_file != '' %}
+    {% set borda = 'none' %}
+    {% set text_indent = '-225px' %}
+{% else %}
+    {% set borda = '1px solid rgb(210, 210, 210)' %}
+    {% set text_indent = '0px' %}
+{% endif %}
+<style>
+    main#create-edit-long-video > form > section#video > div#div-video { 
+        border: {{ borda }};
+    }
+</style>
+<main id="create-edit-long-video">
+    <h2>Adicionar/Editar Vídeo Longo</h2>
+    {% if erros.warning %}
+        <div class="alert-danger">{{ erros.warning }}</div>
+    {% endif %}
+    <form action="{{ doc_root }}create-edit-post/{{ post.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+        <section id="imagem-video">
+            <div id="div-video">
+                {% if not post.imagem_file %}
+                    <label for="video">Upload de Vídeo</label>
+                    <div>
+                        <input type="file" name="video" id="video" accept="video/mp4, video/webm, video/ogg, video/quiktime, video/mpeg">
+                    </div>
+                    {% if erros.imagem_file %} <spanc class="error failure">{{ erros.imagem_file }}</span> {% endif %}
+                    {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
+                {% else %}
+                    <label for="video_guardado">Imagem:</label>  
+                    <img src="{{ doc_root }}posts/{{ post.imagem_file }}" alt="Foto publicada por {{ autor }}" id="video_guardado">
+                {% endif %}
+            </div>
+            <div id="div-imagem">
+                {% if not receita.imagem_file %}
+                    <label for="imagem">Upload de Thumbnail</label>
+                    <div>
+                        <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
+                    </div>
+                    {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
+                {% else %}
+                    <label for="imagem_guardada">Imagem:</label>  
+                    <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ autor }}" id="imagem_guardada">
+                    <br>
+                    <a href="{{ doc_root }}image-delete/{{ receita.id }}">Apagar imagem</a>
+                {% endif %}
+            </div>
+        </section>
+        <section id="detalhes">
+            <input type="text" name="titulo" id="titulo" placeholder="Adicionar título">
+            <textarea name="descricao" id="descricao" placeholder="Adicionar descrição" maxlength="2000">{{ opiniao_editar.opiniao }}{{ post.descricao }}</textarea>
+
+            <div id="div-tags">
+                <label for="tag1">Keywords / Tags</label>
+                {% set count = count_keywords %}
+                {% for i in 1..count %}
+                    <div class="tags">
+                        <label for="tag{{ i }}">Tag {{ i }}</label>
+                        <input type="text" name="tag{{ i }}" id="tag{{ i }}" placeholder="Ex: #sushi" value="#{{ keywords[i-1] }}">
+                        {% if erros.keywords %}<span class="error">{{ erros.keywords }}</span> {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
+        </section>
+        <div id="opcoes">
+            <a href="{{ doc_root }}post-delete/{{ post.id }}">Apagar</a>
+            <input type="submit" value="Publicar">
+        </div>
+    </form>
+</main>
+<script>
+    function encontrarMaiorId(prefixo) {
+    let elementos = document.querySelectorAll(`[id^="${prefixo}"]`);
+    let maiorId = 0;
+
+    elementos.forEach(elemento => {
+        // Extrai o número do ID removendo o prefixo
+        let idNumerico = parseInt(elemento.id.replace(prefixo, ''), 10);
+        
+        // Atualiza o maior ID, se necessário
+        if (idNumerico > maiorId) {
+            maiorId = idNumerico;
+        }
+    })
+
+    return maiorId;
+}
+
+    let maiorIdKeywords = encontrarMaiorId("tag");
+    let idNameTag = maiorIdKeywords
+
+    function adicionaTag() {
+        let label = window.document.createElement('label')
+        let input = window.document.createElement('input')
+        let div = window.document.createElement('div')
+        let divTags = window.document.querySelector('div#div-tags')
+        idNameTag++
+
+        label.setAttribute("for", `tag${idNameTag}`)
+        label.innerHTML = `Tag ${idNameTag}`
+        input.name = `tag${idNameTag}`
+        input.id = `tag${idNameTag}`
+
+        div.className = 'tags'
+
+        div.appendChild(label)
+        div.appendChild(input)
+        divTags.appendChild(div)
+    }
+
+    document.getElementById("form").addEventListener("submit", function(event) {
+    let form = event.target;
+
+    let ingredientes = document.getElementById('ingredientes');
+    let quantidades = document.getElementById('quantidades');
+    let passos_preparacao = document.getElementById('passos_preparacao');
+    let keywords = document.getElementById('keywords');
+
+    function encontrarMaiorId(prefixo) {
+    let elementos = document.querySelectorAll(`[id^="${prefixo}"]`);
+    let maiorId = 0;
+
+    elementos.forEach(elemento => {
+        // Extrai o número do ID removendo o prefixo
+        let idNumerico = parseInt(elemento.id.replace(prefixo, ''), 10);
+        
+        // Atualiza o maior ID, se necessário
+        if (idNumerico > maiorId) {
+            maiorId = idNumerico;
+        }
+    })
+
+    return maiorId;
+}
+
+    let maiorIdKeywords = encontrarMaiorId("tag");
+
+    keywords.value = maiorIdKeywords;
+});
+</script>
+{% endblock %}
