@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+{% block title %} {{ membro.nome }} {% endblock %}
+{% block content %}
+<main id="profile">
+    <header>
+        <div id="foto_e_bio">
+            <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
+            <p>{{ membro.bio }}</p>
+            {% if membro.id != session.id %}
+                {% if not seguem_se %}
+                    <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="seguir">Seguir</a> 
+                {% else %}
+                    <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="a_seguir">A seguir</a> 
+                {% endif %}
+            {% endif %}
+        </div>
+        <h1>{{ membro.nome }}</h1>
+        <div id="estatisticas_numeros">
+            <span>{{ membro.followers }}</span>
+            <span>{{ membro.following }}</span>
+            <span>{{ membro.tot_receitas }}</span>
+        </div>
+        <div id="estatisticas_legenda">
+            <span>seguidores</span>
+            <span>a seguir</span>
+            <span>receitas</span>
+        </div>
+        <p id="joined">Membro desde: <span>{{ membro.joined|date('F Y') }}</span></p>
+        <p><a href="{{ doc_root }}saved">Guardados <span class="material-symbols-outlined">bookmark</span></a></p>
+    </header>
+    <section>
+        <div>
+            {% for conteudo in conteudos %}
+                {% if conteudo.tipo_conteudo == 'receita' %}
+                    <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
+                {% elseif conteudo.tipo_conteudo == 'quik'  %}
+                    {% if conteudo.receita_acoplada_id == 0 %}
+                        <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" poster="{{ doc_root }}videos-verticais/posters/{{ conteudo.poster }}"></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+                    {% else %}
+                        <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" poster="{{ doc_root }}videos-verticais/posters/{{ conteudo.poster }}"></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+                    {% endif %}
+                {% elseif conteudo.tipo_conteudo == 'publicação' %}  
+                    <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
+                {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
+                    <a href="{{ doc_root }}video/{{ conteudo.id }}"><video src="{{ doc_root }}videos-longos/{{ conteudo.file }}" poster="{{ doc_root }}videos-longos/posters/{{ conteudo.poster }}"></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+
+
+    
