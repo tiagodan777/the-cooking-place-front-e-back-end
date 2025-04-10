@@ -18,6 +18,7 @@ class CMS {
     private $long_video = null;
     private $saved = null;
     private $session = null;
+    private $my_youtube = null;
 
     public function __construct($dsn, $username, $password)
     {
@@ -127,5 +128,12 @@ class CMS {
             $this->session = new Session($this->db);
         }
         return $this->session;
+    }
+
+    public function getMyYouTube() {
+        if ($this->my_youtube === null) {
+            $this->my_youtube = new MyYouTube($this->db);
+        }
+        return $this->my_youtube;
     }
 }

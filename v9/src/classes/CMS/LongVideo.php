@@ -23,4 +23,8 @@ class LongVideo {
                 WHERE v.id = :id;";
         return $this->db->runSQL($sql, [$id])->fetch();
     }
+
+    public function create() {
+        
+    }
 }

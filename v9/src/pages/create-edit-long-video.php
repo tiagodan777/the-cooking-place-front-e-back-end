@@ -3,55 +3,168 @@ use TiagoDaniel\Validate\Validate;
 
 require_login($session);
 
-$temp = $_FILES['imagem']['tmp_name'] ?? null;
+$keywords = [];
 
-$post = [
+$pathVideos = APP_ROOT . '/public/videos-longos/';
+$pathThumbnails = APP_ROOT . 'public/thumbnails';
+
+$video = [
     'id' => $id,
-    'imagem_file' => '',
+    'titulo' => '',
     'descricao' => '',
+    'video_file' => '',
+    'imagem_file' => '',
+    'keywords' => '',
     'membro_id' => $session->id,
 ];
+
 $erros = [
     'warning' => '',
-    'imagem_file' => '',
+    'titulo' => '',
     'descricao' => '',
+    'video_file' => '',
+    'imagem_file' => '',
+    'keywords' => '',
 ];
-$path = APP_ROOT . '/public/posts/';
 
 if ($id) {
-    $post = $cms->getPost()->get($id);
-    if (!$post) {
-        redirect(DOC_ROOT . 'profile/', ['failure' => 'Publicação não encontrada']);
+    $video_longo = $cms->getLongVideo()->get($id);
+    if (!$video_longo) {
+        redirect(DOC_ROOT . 'profile/', ['failure' => 'Vídeo Longo não encontrada']);
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($temp && $_FILES['imagem']['error'] == 0) {
-        $erros['imagem_file'] = ($temp == '' && $_FILES['imagem']['error'] == 1)? 'Arquivo demasiado grande' : '';
-        $erros['imagem_file'] .= $_FILES['imagem']['size'] <= MAX_SIZE ? '' : 'Arquivo demasiado grande';
-        $erros['imagem_file'] .= in_array(mime_content_type($temp), MEDIA_TYPES) ? '' : 'Tipo de media ão suportada. São aceites arquivos do tipo [jpeg], [png] e [gif]';
-        $ext = strtolower(pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION));
-        $erros['imagem_file'] .= in_array($ext, FILE_EXTENSIONS) ? '' : 'Extensão não suportada. São aceites arquivos .jpeg, .jpg, .png e .gif';
+    $videoTemp = $_FILES['video']['tmp_name'] ?? null;
+    $thumbTemp = $_FILES['imagem']['tmp_name'] ?? null;
 
-        if ($erros['imagem_file'] === '') {
-            $post['imagem_file'] = create_filename($_FILES['imagem']['name'], $path);
-            $destination = $path . $post['imagem_file'];
+    if ($videoTemp && $_FILES['video']['error'] == 0) {
+        $video['video_file'] = create_filename($_FILES['video']['name'], $path);
+        $Videodestination = $path . $video['video_file'];
+
+        if (!move_uploaded_file($videoTemp, $Videodestination)) {
+            die('Erro ao mover o vídeo');
+        }
+    } else {
+        $erros['video_file'] = 'Erro ao carregar o vídeo';
+    }
+
+    if (isset($_FILES['imagem'])) {
+        if ($thumbTemp && $_FILES['imagem']['error'] == 0) {
+            $video['imagem_file'] = create_filename($_FILES['imagem']['name'], $path);
+            $Thumbdestination = $path . $video['imagem_file'];
+
+            if (!move_uploaded_file($thumbTemp, $Thumbdestination)) {
+                die('Erro ao ao mover a thumbnail');
+            }
+        } else {
+            $erros['imagem_file'] = 'Erro ao carregar a thumbnail';
         }
     }
 
-    $post['descricao'] = $_POST['descricao'];
+    $video['titulo'] = $_POST['titulo'];
+    $video['descricao'] = $_POST['descricao'];
 
-    $erros['descricao'] = Validate::isText($post['descricao'], 0 , 2000) ? '' : 'A descrição deve ter entre 0 e 2000 caracteres';
+    $quant_keywords = $_POST['quant_keywords'];
+
+    for ($c = 1; $c <= $quant_keywords; $c++) {
+        $keywords[] = preg_replace('/#/', '', $_POST["tag$c"]);
+    }
+
+    $video['keywords'] = implode('#', $keywords);
+
+    $erros['titulo'] = Validate::isText($video['titulo'], 0 , 256) ? '' : 'A descrição deve ter entre 0 e 2000 caracteres';
+    $erros['descricao'] = Validate::isText($video['descricao'], 0 , 4000) ? '' : 'A descrição deve ter entre 0 e 2000 caracteres';
 
     $invalid = implode($erros);
     if ($invalid) {
         $erros['warning'] = 'Por favor corrige os erros';
     } else {
         if (!$id) {
-            unset($post['id']);
+            /*unset($post['id']);
             $cms->getPost()->create($post, $temp, $destination);
-            redirect(DOC_ROOT . 'profile/'  . $session->id . $session->seo_name, ['success' => 'Publicado com sucesso']);
-        } else {
+            redirect(DOC_ROOT . 'profile/'  . $session->id . $session->seo_name, ['success' => 'Publicado com sucesso']);*/
+
+            $client = new Google\Client();
+            $client->setAuthConfig('../client_secret.json');
+            $client->addScope(Google\Service\YouTube::YOUTUBE_UPLOAD);
+            $client->setAccessType('offline');
+
+            $row = $cms->getMyYouTube()->get();
+            if (!$row) {
+                die('Token do YouTube não encontrado. Faz login como admin');
+            }
+
+            $token = [
+                'access_token' => $row['access_token'],
+                'refresh_token' => $row['refresh_token'],
+                'expires_in' => $row['expires_in'],
+                'created_at' => strtotime($row['created_at']),
+            ];
+
+            $client->setAccessToken($token);
+
+            if ($client->isAccessTokenExpired()) {
+                $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+                $newToken = $client->getAccessToken();
+                $cms->getMyYouTube()->delete();
+                $cms->getMyYouTube()->insert([$newToken['access_token'], $newToken['refresh_token'], $newToken['expires_in']]);
+            }
+
+            $video = [
+                'id' => $id,
+                'titulo' => '',
+                'descricao' => '',
+                'video_file' => '',
+                'imagem_file' => '',
+                'keywords' => '',
+                'membro_id' => $session->id,
+            ];
+
+            $youtube = new Google\Service\YouTube($client);
+
+            $snippet = new Google\Service\YouTube\VideoSnippet();
+            $snippet->setTitle($video['titulo']);
+            $snippet->setDescription($video['descricao']);
+            if (!empty($video['keywords'])) {
+                $snippet->setTags($keywords);
+            }
+            $snippet->setCategoryId('26');
+
+            $status = new Google\Service\YouTube\VideoStatus();
+            $status->privacyStatus = 'unlisted';
+            $status->setSelfDeclaredMadeForKids = false;
+
+            $youtube_video = new Google\Service\YouTube\Video();
+            $youtube_video->setSnippet($snippet);
+            $youtube_video->setStatus($status);
+
+            $client->setDefer(true);
+            $request = $youtube->videos->insert('status,snippet', $youtube_video);
+
+            $media = new Google\Http\MediaFileUpload(
+                $client,
+                $request,
+                mime_content_type($Videodestination),
+                null,
+                true,
+                1024 * 1024
+            );
+
+            $media->setFileSize(filesize($Videodestination));
+
+            $handle = fopen($Videodestination, 'rb');
+            $status = false;
+
+            while (!$status && !feof($handle)) {
+                $chunk = fread($handle, 1024 * 1024);
+                $status = $media->nextChunk($chunk);
+            }
+            fclose($handle);
+            $client->setDefer(false);
+            
+            unlink($videoPath);
+        } /*else {
             unset($post['data']);
             unset($post['membro_id']);
             unset($post['autor']);
@@ -62,11 +175,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $cms->getPost()->update($post);
             redirect(DOC_ROOT . 'profile/' . $session->id . $session->seo_name , ['success' => 'Publicação editada com sucesso']);
-        }
+        }*/
     }
 }
 
-$data['post'] = $post;
-$data['count_keywords'] = 0;
+var_dump($video);
+
+$data['video'] = $video;
+$data['keywords'] = 
+$data['count_keywords'] = 1;
 
 echo $twig->render('create-edit-long-video.html', $data);

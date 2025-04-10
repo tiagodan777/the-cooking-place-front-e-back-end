@@ -25,5 +25,5 @@ $email_config = [
 
 define('MEDIA_TYPES', ['image/jpeg', 'image/png', 'image/gif',]);
 define('FILE_EXTENSIONS', ['jpeg', 'jpg', 'png', 'gif',]);
-define('MAX_SIZE', '5248800');
+define('MAX_SIZE', '12000000');
 define('UPLOADS', dirname(__DIR__, 1) . DIRECTORY_SEPARATOR . ROOT_FOLTER . DIRECTORY_SEPARATOR . 'imagens' . DIRECTORY_SEPARATOR . 'comida' . DIRECTORY_SEPARATOR);

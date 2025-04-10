@@ -24,7 +24,7 @@
     {% if erros.warning %}
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
-    <form action="{{ doc_root }}create-edit-post/{{ post.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+    <form action="{{ doc_root }}create-edit-long-video/{{ post.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
         <section id="imagem-video">
             <div id="div-video">
                 {% if not post.imagem_file %}
@@ -33,7 +33,6 @@
                         <input type="file" name="video" id="video" accept="video/mp4, video/webm, video/ogg, video/quiktime, video/mpeg">
                     </div>
                     {% if erros.imagem_file %} <spanc class="error failure">{{ erros.imagem_file }}</span> {% endif %}
-                    {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
                 {% else %}
                     <label for="video_guardado">Imagem:</label>  
                     <img src="{{ doc_root }}posts/{{ post.imagem_file }}" alt="Foto publicada por {{ autor }}" id="video_guardado">
@@ -45,7 +44,7 @@
                     <div>
                         <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
                     </div>
-                    {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
+                    {% if erros.imagem_fifle %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
                 {% else %}
                     <label for="imagem_guardada">Imagem:</label>  
                     <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ autor }}" id="imagem_guardada">
@@ -63,7 +62,7 @@
                 {% set count = count_keywords %}
                 {% for i in 1..count %}
                     <div class="tags">
-                        <label for="tag{{ i }}">Tag {{ i }}</label>
+                        <label for="tag{{ 1 }}">Tag {{ i }}</label>
                         <input type="text" name="tag{{ i }}" id="tag{{ i }}" placeholder="Ex: #sushi" value="#{{ keywords[i-1] }}">
                         {% if erros.keywords %}<span class="error">{{ erros.keywords }}</span> {% endif %}
                     </div>
@@ -71,8 +70,9 @@
             </div>
             <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
         </section>
+        <input type="text" name="quant_keywords" id="keywords">
         <div id="opcoes">
-            <a href="{{ doc_root }}post-delete/{{ post.id }}">Apagar</a>
+            <a href="{{ doc_root }}long-video-delete/{{ video.id }}">Apagar</a>
             <input type="submit" value="Publicar">
         </div>
     </form>
@@ -120,9 +120,6 @@
     document.getElementById("form").addEventListener("submit", function(event) {
     let form = event.target;
 
-    let ingredientes = document.getElementById('ingredientes');
-    let quantidades = document.getElementById('quantidades');
-    let passos_preparacao = document.getElementById('passos_preparacao');
     let keywords = document.getElementById('keywords');
 
     function encontrarMaiorId(prefixo) {
