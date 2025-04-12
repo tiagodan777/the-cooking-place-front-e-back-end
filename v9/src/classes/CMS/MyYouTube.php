@@ -10,9 +10,9 @@ class MyYouTube {
     }
 
     public function get() {
-        $sql = "SELECT * FROM youtube_tokens";
+        $sql = "SELECT * FROM youtube_tokens;";
 
-        $this->db->runSQL($sql)->fetch();
+        return $this->db->runSQL($sql)->fetch();
     }
 
     public function insert($access_token, $refresh_token, $expires_in) {

@@ -30,7 +30,7 @@ $erros = [
 if ($id) {
     $video_longo = $cms->getLongVideo()->get($id);
     if (!$video_longo) {
-        redirect(DOC_ROOT . 'profile/', ['failure' => 'Vídeo Longo não encontrada']);
+        redirect(DOC_ROOT . 'profile/', ['failure' => 'Vídeo Longo não encontrado']);
     }
 }
 
@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $thumbTemp = $_FILES['imagem']['tmp_name'] ?? null;
 
     if ($videoTemp && $_FILES['video']['error'] == 0) {
-        $video['video_file'] = create_filename($_FILES['video']['name'], $path);
-        $Videodestination = $path . $video['video_file'];
+        $video['video_file'] = create_filename($_FILES['video']['name'], $pathVideos);
+        $Videodestination = $pathVideos . $video['video_file'];
 
         if (!move_uploaded_file($videoTemp, $Videodestination)) {
             die('Erro ao mover o vídeo');
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $erros['video_file'] = 'Erro ao carregar o vídeo';
     }
 
-    if (isset($_FILES['imagem'])) {
+    if ($thumbTemp) {
         if ($thumbTemp && $_FILES['imagem']['error'] == 0) {
             $video['imagem_file'] = create_filename($_FILES['imagem']['name'], $path);
             $Thumbdestination = $path . $video['imagem_file'];
@@ -87,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $client = new Google\Client();
             $client->setAuthConfig('../client_secret.json');
+            $client->setRedirectUri('http://localhost:8888/the-cooking-place-front-e-back-end/v9/public/callback/'); 
             $client->addScope(Google\Service\YouTube::YOUTUBE_UPLOAD);
             $client->setAccessType('offline');
 
@@ -107,19 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($client->isAccessTokenExpired()) {
                 $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
                 $newToken = $client->getAccessToken();
+                echo "<pre>";
+                var_dump($newToken);
                 $cms->getMyYouTube()->delete();
-                $cms->getMyYouTube()->insert([$newToken['access_token'], $newToken['refresh_token'], $newToken['expires_in']]);
+                $cms->getMyYouTube()->insert($newToken['access_token'], $newToken['refresh_token'], $newToken['expires_in']);
             }
-
-            $video = [
-                'id' => $id,
-                'titulo' => '',
-                'descricao' => '',
-                'video_file' => '',
-                'imagem_file' => '',
-                'keywords' => '',
-                'membro_id' => $session->id,
-            ];
 
             $youtube = new Google\Service\YouTube($client);
 
@@ -164,6 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $client->setDefer(false);
             
             unlink($videoPath);
+            redirect(DOC_ROOT);
         } /*else {
             unset($post['data']);
             unset($post['membro_id']);
@@ -179,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-var_dump($video);
+var_dump($erros);
 
 $data['video'] = $video;
 $data['keywords'] = 
