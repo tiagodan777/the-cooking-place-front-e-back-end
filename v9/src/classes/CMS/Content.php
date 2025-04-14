@@ -143,11 +143,11 @@ class Content {
         $arguments['term16'] = '%' . $term . '%';
         $arguments['term17'] = '%' . $term . '%';
 
-        $arguments['term18'] = '%' . $term . '%';
+        /*$arguments['term18'] = '%' . $term . '%';
         $arguments['term19'] = '%' . $term . '%';
         $arguments['term20'] = '%' . $term . '%';
         $arguments['term21'] = '%' . $term . '%';
-        $arguments['term22'] = '%' . $term . '%';
+        $arguments['term22'] = '%' . $term . '%';*/
 
 
         $sql = "SELECT COUNT(*)
@@ -189,7 +189,7 @@ class Content {
                     OR m.forename LIKE :term16
                     OR m.surname LIKE :term17
 
-                    UNION ALL
+                    /*UNION ALL
                     
                     SELECT COUNT(*) FROM video_longo AS v
                     
@@ -199,7 +199,7 @@ class Content {
                     OR v.descricao LIKE :term19
                     OR v.keywords LIKE :term20
                     OR m.forename LIKE :term21
-                    OR m.surname LIKE :term22 ) AS data;";
+                    OR m.surname LIKE :term22 */) AS data;";
 
         return $this->db->runSQL($sql, $arguments)->fetchColumn();
     }
@@ -224,12 +224,12 @@ class Content {
         $arguments['term15'] = '%' . $term . '%';
         $arguments['term16'] = '%' . $term . '%';
         $arguments['term17'] = '%' . $term . '%';
-        $arguments['term18'] = '%' . $term . '%';
+        /*$arguments['term18'] = '%' . $term . '%';*/
 
-        $arguments['term19'] = '%' . $term . '%';
+        /*$arguments['term19'] = '%' . $term . '%';
         $arguments['term20'] = '%' . $term . '%';
         $arguments['term21'] = '%' . $term . '%';
-        $arguments['term22'] = '%' . $term . '%';
+        $arguments['term22'] = '%' . $term . '%';*/
 
         $sql = "SELECT *
                 FROM (
@@ -331,7 +331,7 @@ class Content {
 
 
 
-                    UNION ALL
+                    /*UNION ALL
 
 
 
@@ -359,7 +359,7 @@ class Content {
                     OR v.descricao LIKE :term19
                     OR v.keywords LIKE :term20
                     OR m.forename LIKE :term21
-                    OR m.surname LIKE :term22) AS data
+                    OR m.surname LIKE :term22*/) AS data
                 ORDER BY data DESC;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
