@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block title %} Criar e Editar Vídeo Longo {% endblock %}
 {% block content %}
-{% if post.imagem_file != '' %}
+{% if video.youtube_id != '' %}
     {% set borda = 'none' %}
     {% set text_indent = '-225px' %}
 {% else %}
@@ -24,18 +24,17 @@
     {% if erros.warning %}
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
-    <form action="{{ doc_root }}create-edit-long-video/{{ post.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+    <form action="{{ doc_root }}create-edit-long-video/{{ video.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
         <section id="imagem-video">
             <div id="div-video">
-                {% if not post.imagem_file %}
+                {% if not video.youtube_id %}
                     <label for="video">Upload de Vídeo</label>
                     <div>
-                        <input type="file" name="video" id="video" accept="video/mp4, video/webm, video/ogg, video/quiktime, video/mpeg">
+                        <input type="file" name="video" id="video" accept="video/*">
                     </div>
                     {% if erros.imagem_file %} <spanc class="error failure">{{ erros.imagem_file }}</span> {% endif %}
                 {% else %}
-                    <label for="video_guardado">Imagem:</label>  
-                    <img src="{{ doc_root }}posts/{{ post.imagem_file }}" alt="Foto publicada por {{ autor }}" id="video_guardado">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video.youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>                
                 {% endif %}
             </div>
             <div id="div-imagem">
@@ -54,8 +53,8 @@
             </div>
         </section>
         <section id="detalhes">
-            <input type="text" name="titulo" id="titulo" placeholder="Adicionar título">
-            <textarea name="descricao" id="descricao" placeholder="Adicionar descrição" maxlength="2000">{{ opiniao_editar.opiniao }}{{ post.descricao }}</textarea>
+            <input type="text" name="titulo" id="titulo" placeholder="Adicionar título" value="{{ video.titulo }}">
+            <textarea name="descricao" id="descricao" placeholder="Adicionar descrição" maxlength="2000">{{ opiniao_editar.opiniao }}{{ video.descricao }}</textarea>
 
             <div id="div-tags">
                 <label for="tag1">Keywords / Tags</label>

@@ -4,9 +4,10 @@ use TiagoDaniel\Validate\Validate;
 require_login($session);
 
 $keywords = [];
+$Thumbdestination = '';
 
 $pathVideos = APP_ROOT . '/public/videos-longos/';
-$pathThumbnails = APP_ROOT . 'public/thumbnails';
+$pathThumbnails = APP_ROOT . '/public/thumbnails/';
 
 $video = [
     'id' => $id,
@@ -28,8 +29,8 @@ $erros = [
 ];
 
 if ($id) {
-    $video_longo = $cms->getLongVideo()->get($id);
-    if (!$video_longo) {
+    $video = $cms->getLongVideo()->get($id);
+    if (!$video) {
         redirect(DOC_ROOT . 'profile/', ['failure' => 'Vídeo Longo não encontrado']);
     }
 }
@@ -45,14 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!move_uploaded_file($videoTemp, $Videodestination)) {
             die('Erro ao mover o vídeo');
         }
-    } else {
+    } elseif ($videoTemp != null) {
         $erros['video_file'] = 'Erro ao carregar o vídeo';
     }
 
     if ($thumbTemp) {
         if ($thumbTemp && $_FILES['imagem']['error'] == 0) {
             $video['imagem_file'] = create_filename($_FILES['imagem']['name'], $path);
-            $Thumbdestination = $path . $video['imagem_file'];
+            $Thumbdestination = $pathThumbnails . $video['imagem_file'];
 
             if (!move_uploaded_file($thumbTemp, $Thumbdestination)) {
                 die('Erro ao ao mover a thumbnail');
@@ -72,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $video['keywords'] = implode('#', $keywords);
+    $video['seo_title'] = create_seo_name($video['titulo']);
 
     $erros['titulo'] = Validate::isText($video['titulo'], 0 , 256) ? '' : 'A descrição deve ter entre 0 e 2000 caracteres';
     $erros['descricao'] = Validate::isText($video['descricao'], 0 , 4000) ? '' : 'A descrição deve ter entre 0 e 2000 caracteres';
@@ -80,59 +82,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($invalid) {
         $erros['warning'] = 'Por favor corrige os erros';
     } else {
+        $client = new Google\Client();
+        $client->setAuthConfig('../client_secret.json');
+        $client->setRedirectUri('http://localhost:8888/the-cooking-place-front-e-back-end/v9/public/callback/'); 
+        $client->addScope(Google\Service\YouTube::YOUTUBE_UPLOAD);
+        $client->setAccessType('offline');
+
+        $row = $cms->getMyYouTube()->get();
+        if (!$row) {
+            die('Token do YouTube não encontrado. Faz login como admin');
+        }
+
+        $token = [
+            'access_token' => $row['access_token'],
+            'refresh_token' => $row['refresh_token'],
+            'expires_in' => $row['expires_in'],
+            'created_at' => strtotime($row['created_at']),
+        ];
+
+        $client->setAccessToken($token);
+
+        if ($client->isAccessTokenExpired()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $newToken = $client->getAccessToken();
+            $cms->getMyYouTube()->delete();
+            $cms->getMyYouTube()->insert($newToken['access_token'], $newToken['refresh_token'], $newToken['expires_in']);
+        }
+
+        $youtube = new Google\Service\YouTube($client);
+
+        $snippet = new Google\Service\YouTube\VideoSnippet();
+        $snippet->setTitle($video['titulo']);
+        $snippet->setDescription($video['descricao']);
+        if (!empty($video['keywords'])) {
+            $snippet->setTags($keywords);
+        }
+        $snippet->setCategoryId('26');
+
+        $status = new Google\Service\YouTube\VideoStatus();
+        $status->privacyStatus = 'unlisted';
+        $status->setSelfDeclaredMadeForKids = false;
+        $status->madeForKids = false;
+
+        $youtube_video = new Google\Service\YouTube\Video();
+        $youtube_video->setSnippet($snippet);
+        $youtube_video->setStatus($status);
+
         if (!$id) {
-            /*unset($post['id']);
-            $cms->getPost()->create($post, $temp, $destination);
-            redirect(DOC_ROOT . 'profile/'  . $session->id . $session->seo_name, ['success' => 'Publicado com sucesso']);*/
-
-            $client = new Google\Client();
-            $client->setAuthConfig('../client_secret.json');
-            $client->setRedirectUri('http://localhost:8888/the-cooking-place-front-e-back-end/v9/public/callback/'); 
-            $client->addScope(Google\Service\YouTube::YOUTUBE_UPLOAD);
-            $client->setAccessType('offline');
-
-            $row = $cms->getMyYouTube()->get();
-            if (!$row) {
-                die('Token do YouTube não encontrado. Faz login como admin');
-            }
-
-            $token = [
-                'access_token' => $row['access_token'],
-                'refresh_token' => $row['refresh_token'],
-                'expires_in' => $row['expires_in'],
-                'created_at' => strtotime($row['created_at']),
-            ];
-
-            $client->setAccessToken($token);
-
-            if ($client->isAccessTokenExpired()) {
-                $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-                $newToken = $client->getAccessToken();
-                echo "<pre>";
-                var_dump($newToken);
-                $cms->getMyYouTube()->delete();
-                $cms->getMyYouTube()->insert($newToken['access_token'], $newToken['refresh_token'], $newToken['expires_in']);
-            }
-
-            $youtube = new Google\Service\YouTube($client);
-
-            $snippet = new Google\Service\YouTube\VideoSnippet();
-            $snippet->setTitle($video['titulo']);
-            $snippet->setDescription($video['descricao']);
-            if (!empty($video['keywords'])) {
-                $snippet->setTags($keywords);
-            }
-            $snippet->setCategoryId('26');
-
-            $status = new Google\Service\YouTube\VideoStatus();
-            $status->privacyStatus = 'unlisted';
-            $status->setSelfDeclaredMadeForKids = false;
-
-            $youtube_video = new Google\Service\YouTube\Video();
-            $youtube_video->setSnippet($snippet);
-            $youtube_video->setStatus($status);
-
             $client->setDefer(true);
+
             $request = $youtube->videos->insert('status,snippet', $youtube_video);
 
             $media = new Google\Http\MediaFileUpload(
@@ -156,27 +154,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             fclose($handle);
             $client->setDefer(false);
             
-            unlink($videoPath);
-            redirect(DOC_ROOT);
-        } /*else {
-            unset($post['data']);
-            unset($post['membro_id']);
-            unset($post['autor']);
-            unset($post['picture']);
-            unset($post['likes']);
-            unset($post['opinioes']);
-            unset($post['imagem_file']);
+            unlink($Videodestination);
 
-            $cms->getPost()->update($post);
-            redirect(DOC_ROOT . 'profile/' . $session->id . $session->seo_name , ['success' => 'Publicação editada com sucesso']);
-        }*/
+            if ($Thumbdestination) {
+                $youtube->thumbnails->set($status['id'], [
+                    'data' => file_get_contents($Thumbdestination),
+                    'mimeType' => mime_content_type($Thumbdestination),
+                    'uploadType' => 'media'
+                ]);
+                unlink($Thumbdestination);
+            }
+
+            $cms->getLongVideo()->create($video['titulo'], $video['descricao'], $video['keywords'], $video['seo_title'], $status['id'], $video['membro_id']);
+
+            redirect(DOC_ROOT . 'profile/' . $video['membro_id'] . '/', ['success' => 'Video Publicado']);
+        } else {   
+            $client->setScopes([
+                'https://www.googleapis.com/auth/youtube',
+                'https://www.googleapis.com/auth/youtube.upload',
+                'https://www.googleapis.com/auth/youtube.force-ssl'
+            ]);
+            
+            $videoId = $cms->getLongVideo()->get($id)['youtube_id'];
+            $videoResponse = $youtube->videos->listVideos('snippet,status', ['id' => $videoId]);
+            $items = $videoResponse->getItems();
+
+            if (count($items) === 0) {
+                echo "Vídeo não encontrado!";
+                exit;
+            }
+
+            $youtube_video = $items[0]; // é um Google\Service\YouTube\Video
+
+            // Altera os dados
+            $snippet = new Google\Service\YouTube\VideoSnippet();
+            $snippet = $youtube_video->getSnippet();
+            $snippet->setTitle($video['titulo']);
+            $snippet->setDescription($video['descricao']);
+            $snippet->setTags($video['keywords']);
+
+            $status = $youtube_video->getStatus();
+            $status->setPrivacyStatus("unlisted"); // opcional
+
+            $youtube_video->setSnippet($snippet);
+            $youtube_video->setStatus($status);
+
+            // Atualiza o vídeo
+            $updateResponse = $youtube->videos->update("snippet,status", $youtube_video);
+        }
     }
 }
-
-var_dump($erros);
 
 $data['video'] = $video;
 $data['keywords'] = 
 $data['count_keywords'] = 1;
+
+var_dump($id);
 
 echo $twig->render('create-edit-long-video.html', $data);

@@ -10,7 +10,7 @@ class LongVideo {
     }
 
     public function get($id) {
-        $sql = "SELECT v.id, v.titulo, v.descricao, v.data, v.video_file, v.poster, v.membro_id, 
+        $sql = "SELECT v.id, v.titulo, v.descricao, v.data, v.youtube_id, v.membro_id, v.keywords, seo_title,
                 CONCAT(m.forename, ' ', m.surname) AS autor, m.picture,
                 (SELECT COUNT(conteudo_id) 
                 FROM likes
@@ -24,7 +24,9 @@ class LongVideo {
         return $this->db->runSQL($sql, [$id])->fetch();
     }
 
-    public function create() {
-        
+    public function create($titulo, $descricao, $keywords, $seo_title,  $youtube_id, $membro_id) {
+        $sql = "INSERT INTO video_longo (titulo, descricao, keywords, seo_title, youtube_id, membro_id)
+                VALUES (:titulo, :descricao, :keywords, :seo_title, :youtube_id, :membro_id);";
+        $this->db->runSQL($sql, [$titulo, $descricao, $keywords, $seo_title, $youtube_id, $membro_id]);
     }
 }

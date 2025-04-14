@@ -4,6 +4,8 @@ $client = new Google\Client();
 $client->setAuthConfig('../client_secret.json');
 $client->setRedirectUri('http://localhost:8888/the-cooking-place-front-e-back-end/v9/public/callback/'); 
 $client->addScope(Google\Service\YouTube::YOUTUBE_UPLOAD);
+$client->revokeToken(); // Opcional, força logout no Google
+
 
 if (!isset($_GET['code'])) {
     die('Código de autorização não rebido');
