@@ -35,14 +35,14 @@
                     <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
                 {% elseif conteudo.tipo_conteudo == 'quik'  %}
                     {% if conteudo.receita_acoplada_id == 0 %}
-                        <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" poster="{{ doc_root }}videos-verticais/posters/{{ conteudo.poster }}"></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+                        <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><iframe width="560" height="315" src="https://www.youtube.com/embed/{{ conteudo.file }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe><span>{{ conteudo.tipo_conteudo }}</span></a>
                     {% else %}
-                        <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><video src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" poster="{{ doc_root }}videos-verticais/posters/{{ conteudo.poster }}"></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+                        <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><iframe width="560" height="315" src="https://www.youtube.com/embed/{{ conteudo.file }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe><span>{{ conteudo.tipo_conteudo }}</span></a>
                     {% endif %}
                 {% elseif conteudo.tipo_conteudo == 'publicação' %}  
                     <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
                 {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
-                    <a href="{{ doc_root }}video/{{ conteudo.id }}"><video src="{{ doc_root }}videos-longos/{{ conteudo.file }}" poster="{{ doc_root }}videos-longos/posters/{{ conteudo.poster }}"></video><span>{{ conteudo.tipo_conteudo }}</span></a>
+                    <a href="{{ doc_root }}video/{{ conteudo.id }}"><iframe width="560" height="315" src="https://www.youtube.com/embed/{{ conteudo.file }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe><span>{{ conteudo.tipo_conteudo }}</span></a>
                 {% endif %}
             {% endfor %}
         </div>

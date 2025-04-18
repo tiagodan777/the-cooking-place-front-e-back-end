@@ -12,7 +12,7 @@ $quik = [
     'id' => $id,
     'titulo' => '',
     'descricao' => '',
-    'receita_acoplada_id',
+    'receita_acoplada_id' => '',
     'video_file' => '',
     'keywords' => '',
     'membro_id' => $session->id,
@@ -28,8 +28,8 @@ $erros = [
 
 if ($id) {
     $quik = $cms->getQuik()->get($id);
-    if (!$video) {
-        redirect(DOC_ROOT . 'profile/', ['failure' => 'Vídeo Longo não encontrado']);
+    if (!$quik) {
+        redirect(DOC_ROOT . 'profile/' . $session->id . '/', ['failure' => 'Quik não encontrado']);
     }
 }
 
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $quik['keywords'] = implode('#', $keywords);
-    $quik['seo_title'] = create_seo_name($video['titulo']);
+    $quik['seo_title'] = create_seo_name($quik['titulo']);
 
     $erros['titulo'] = Validate::isText($quik['titulo'], 0 , 256) ? '' : 'A descrição deve ter entre 0 e 2000 caracteres';
     $erros['descricao'] = Validate::isText($quik['descricao'], 0 , 4000) ? '' : 'A descrição deve ter entre 0 e 2000 caracteres';
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             unlink($Videodestination);
 
-            $cms->getQuik()->create($quik['titulo'], $quik['descricao'], $quik['keywords'], $quik['seo_title'], $status['id'], $quik['membro_id']);
+            $cms->getQuik()->create($quik['titulo'], $quik['descricao'], 0, $quik['keywords'], $quik['seo_title'], $status['id'], $quik['membro_id']);
 
             redirect(DOC_ROOT . 'profile/' . $quik['membro_id'] . '/', ['success' => 'Quik Publicado']);
         } else {   
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit;
             }
 
-            $cms->getQuik()->update($quik['titulo'], $quik['descricao'], $quik['keywords'], $quik['seo_title'], $id);
+            $cms->getQuik()->update($quik['titulo'], $quik['descricao'], 0,  $quik['keywords'], $quik['seo_title'], $id);
 
             $youtube_video = $items[0]; // é um Google\Service\YouTube\Video
 

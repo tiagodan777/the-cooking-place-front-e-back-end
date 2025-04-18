@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
-{% block title %} Criar e Editar Vídeo Longo {% endblock %}
+{% block title %} Criar e Editar Quik {% endblock %}
 {% block content %}
-{% if quik.imagem_file != '' %}
+{% if not quik.youtube_id %}
     {% set borda = 'none' %}
     {% set text_indent = '-225px' %}
 {% else %}
@@ -27,7 +27,7 @@
     <form action="{{ doc_root }}create-edit-quik/{{ quik.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
         <section id="video">
             <div id="div-video">
-                {% if not post.imagem_file %}
+                {% if not quik.youtube_id %}
                     <label for="video">Upload de Quik</label>
                     <div>
                         <input type="file" name="video" id="video" accept="video/mp4, video/webm, video/ogg, video/quiktime, video/mpeg">
@@ -35,14 +35,14 @@
                     {% if erros.imagem_file %} <spanc class="error failure">{{ erros.imagem_file }}</span> {% endif %}
                     {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
                 {% else %}
-                    <label for="video_guardado">Imagem:</label>  
-                    <img src="{{ doc_root }}quik/{{ quik.imagem_file }}" alt="Foto publicada por {{ autor }}" id="video_guardado">
+                    <label for="video_guardado">Quik</label>  
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ quik.youtube_id }}" id="video_guardado" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
                 {% endif %}
             </div>
         </section>
         <section id="detalhes">
-            <input type="text" name="titulo" id="titulo" placeholder="Adicionar título">
-            <textarea name="descricao" id="descricao" placeholder="Adicionar descrição" maxlength="2000">{{ opiniao_editar.opiniao }}{{ post.descricao }}</textarea>
+            <input type="text" name="titulo" id="titulo" placeholder="Adicionar título" value="{{ quik.titulo }}">
+            <textarea name="descricao" id="descricao" placeholder="Adicionar descrição" maxlength="2000">{{ opiniao_editar.opiniao }}{{ quik.descricao }}</textarea>
 
             <div id="div-tags">
                 <label for="tag1">Keywords / Tags</label>
@@ -57,8 +57,9 @@
             </div>
             <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
         </section>
+        <input type="text" name="quant_keywords" id="keywords">
         <div id="opcoes">
-            <a href="{{ doc_root }}post-delete/{{ post.id }}">Apagar</a>
+            <a href="{{ doc_root }}quik-delete/{{ quik.id }}">Apagar</a>
             <input type="submit" value="Publicar">
         </div>
     </form>
