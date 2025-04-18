@@ -30,6 +30,7 @@ $erros = [
 
 if ($id) {
     $video = $cms->getLongVideo()->get($id);
+    $video['imagem_file'] = 'https://img.youtube.com/vi/' . $video['youtube_id'] . '/hqdefault.jpg';
     if (!$video) {
         redirect(DOC_ROOT . 'profile/', ['failure' => 'Vídeo Longo não encontrado']);
     }
@@ -184,6 +185,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit;
             }
 
+            $cms->getLongVideo()->update($video['titulo'], $video['descricao'], $video['keywords'], $video['seo_title'], $id);
+
             $youtube_video = $items[0]; // é um Google\Service\YouTube\Video
 
             // Altera os dados
@@ -201,14 +204,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Atualiza o vídeo
             $updateResponse = $youtube->videos->update("snippet,status", $youtube_video);
+
+            if ($Thumbdestination) {
+                $youtube->thumbnails->set($status['id'], [
+                    'data' => file_get_contents($Thumbdestination),
+                    'mimeType' => mime_content_type($Thumbdestination),
+                    'uploadType' => 'media'
+                ]);
+                unlink($Thumbdestination);
+            }
+
+            redirect(DOC_ROOT . 'profile/' . $video['membro_id'] . '/', ['success' => 'Video Atualizado']);
         }
     }
 }
 
 $data['video'] = $video;
-$data['keywords'] = 
-$data['count_keywords'] = 1;
-
-var_dump($id);
+$data['keywords'] = explode('#', $video['keywords']);
+$data['count_keywords'] = count($data['keywords']);
 
 echo $twig->render('create-edit-long-video.html', $data);

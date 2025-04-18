@@ -16,8 +16,8 @@ class Content {
         $arguments['member3'] = $member;
         $arguments['member4'] = $member;
         $arguments['member5'] = $member;
-        /*$arguments['member6'] = $member;
-        $arguments['member7'] = $member;*/
+        $arguments['member6'] = $member;
+        $arguments['member7'] = $member;
         $sql = "SELECT *
                 FROM (
                     SELECT 
@@ -32,7 +32,7 @@ class Content {
                         m.picture,
                         NULL AS receita_acoplada_id,
                         'receita' AS tipo_conteudo,
-                        NULL AS poster,
+                        /*NULL AS poster,*/
                         (SELECT COUNT(conteudo_id)
                         FROM likes
                         WHERE likes.conteudo_id = r.id) AS likes,
@@ -50,14 +50,14 @@ class Content {
                         q.titulo,
                         q.descricao,
                         q.data,
-                        q.file AS file,
+                        q.youtube_id AS file,
                         q.seo_title,
                         q.membro_id,
                         CONCAT(m.forename, ' ', m.surname) AS autor,
                         m.picture,
                         q.receita_acoplada_id AS receita_acoplada_id,
                         'quik' AS tipo_conteudo,
-                        q.poster AS poster,
+                        /*q.poster AS poster,*/
                         (SELECT COUNT(conteudo_id)
                         FROM likes
                         WHERE likes.conteudo_id = q.id) AS likes,
@@ -83,7 +83,7 @@ class Content {
                     m.picture,
                     NULL AS receita_acoplada_id,
                     'publicação' AS tipo_conteudo,
-                    NULL as poster,
+                    /*NULL as poster,*/
                     (SELECT COUNT(conteudo_id)
                     FROM likes
                     WHERE likes.conteudo_id = p.id) AS likes,
@@ -94,21 +94,21 @@ class Content {
                     JOIN membro AS m ON m.id = p.membro_id
                     WHERE (p.membro_id = :member4 OR :member5 IS NULL)
 
-                    /*UNION ALL
+                    UNION ALL
 
                     SELECT
                     v.id,
                     v.titulo,
                     v.descricao,
                     v.data,
-                    v.video_file AS file,
+                    v.youtube_id AS file,
                     v.seo_title,
                     v.membro_id,
                     CONCAT(m.forename, ' ', m.surname) AS autor,
                     m.picture,
                     NULL AS receita_acoplada_id,
                     'vídeo longo' AS tipo_conteudo,
-                    v.poster AS poster,
+                    /*v.poster AS poster,*/
                     (SELECT COUNT(conteudo_id)
                     FROM likes
                     WHERE likes.conteudo_id = v.id) AS likes,
@@ -117,7 +117,7 @@ class Content {
                     WHERE opiniao.conteudo_id = v.id) AS opinioes
                     FROM video_longo AS v
                     JOIN membro AS m ON m.id = v.membro_id
-                    WHERE (v.membro_id = :member6 OR :member7 IS NULL)*/) AS data
+                    WHERE (v.membro_id = :member6 OR :member7 IS NULL)) AS data
                 ORDER BY data DESC;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
@@ -143,11 +143,11 @@ class Content {
         $arguments['term16'] = '%' . $term . '%';
         $arguments['term17'] = '%' . $term . '%';
 
-        /*$arguments['term18'] = '%' . $term . '%';
+        $arguments['term18'] = '%' . $term . '%';
         $arguments['term19'] = '%' . $term . '%';
         $arguments['term20'] = '%' . $term . '%';
         $arguments['term21'] = '%' . $term . '%';
-        $arguments['term22'] = '%' . $term . '%';*/
+        $arguments['term22'] = '%' . $term . '%';
 
 
         $sql = "SELECT COUNT(*)
@@ -189,7 +189,7 @@ class Content {
                     OR m.forename LIKE :term16
                     OR m.surname LIKE :term17
 
-                    /*UNION ALL
+                    UNION ALL
                     
                     SELECT COUNT(*) FROM video_longo AS v
                     
@@ -199,7 +199,7 @@ class Content {
                     OR v.descricao LIKE :term19
                     OR v.keywords LIKE :term20
                     OR m.forename LIKE :term21
-                    OR m.surname LIKE :term22 */) AS data;";
+                    OR m.surname LIKE :term22 ) AS data;";
 
         return $this->db->runSQL($sql, $arguments)->fetchColumn();
     }
@@ -224,12 +224,12 @@ class Content {
         $arguments['term15'] = '%' . $term . '%';
         $arguments['term16'] = '%' . $term . '%';
         $arguments['term17'] = '%' . $term . '%';
-        /*$arguments['term18'] = '%' . $term . '%';*/
+        $arguments['term18'] = '%' . $term . '%';
 
-        /*$arguments['term19'] = '%' . $term . '%';
+        $arguments['term19'] = '%' . $term . '%';
         $arguments['term20'] = '%' . $term . '%';
         $arguments['term21'] = '%' . $term . '%';
-        $arguments['term22'] = '%' . $term . '%';*/
+        $arguments['term22'] = '%' . $term . '%';
 
         $sql = "SELECT *
                 FROM (
@@ -275,7 +275,7 @@ class Content {
                     q.id,
                     q.titulo,
                     q.descricao,
-                    q.file AS file,
+                    q.youtube_id AS file,
                     q.seo_title,
                     q.data,
                     'quik' AS tipo_conteudo,
@@ -331,7 +331,7 @@ class Content {
 
 
 
-                    /*UNION ALL
+                    UNION ALL
 
 
 
@@ -339,7 +339,7 @@ class Content {
                     v.id,
                     v.titulo,
                     v.descricao,
-                    v.video_file AS file,
+                    v.youtube_id AS file,
                     v.seo_title,
                     v.data,
                     'vídeo longo' AS tipo_conteudo,
@@ -359,7 +359,7 @@ class Content {
                     OR v.descricao LIKE :term19
                     OR v.keywords LIKE :term20
                     OR m.forename LIKE :term21
-                    OR m.surname LIKE :term22*/) AS data
+                    OR m.surname LIKE :term22) AS data
                 ORDER BY data DESC;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }

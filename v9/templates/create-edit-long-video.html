@@ -8,8 +8,19 @@
     {% set borda = '1px solid rgb(210, 210, 210)' %}
     {% set text_indent = '0px' %}
 {% endif %}
+{% if video.imagem_file != '' %}
+    {% set borda = 'none' %}
+    {% set text_indent = '-225px' %}
+{% else %}
+    {% set borda = '1px solid rgb(210, 210, 210)' %}
+    {% set text_indent = '0px' %}
+{% endif %}
 <style>
-    main#create-edit-long-video > form > section#video > div#div-video { 
+    main#create-edit-long-video > form > section#imagem-video > div#div-video { 
+        border: {{ borda }};
+    }
+
+    main#create-edit-long-video > form > section#imagem-video > div#div-imagem { 
         border: {{ borda }};
     }
 </style>
@@ -34,11 +45,12 @@
                     </div>
                     {% if erros.imagem_file %} <spanc class="error failure">{{ erros.imagem_file }}</span> {% endif %}
                 {% else %}
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video.youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>                
+                    <label for="imagem_guardada">Vídeo:</label>  
+                    <iframe width="800" height="500" src="https://www.youtube.com/embed/{{ video.youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>                
                 {% endif %}
             </div>
             <div id="div-imagem">
-                {% if not receita.imagem_file %}
+                {% if not video.imagem_file %}
                     <label for="imagem">Upload de Thumbnail</label>
                     <div>
                         <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
@@ -46,9 +58,9 @@
                     {% if erros.imagem_fifle %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
                 {% else %}
                     <label for="imagem_guardada">Imagem:</label>  
-                    <img src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} publicada por {{ autor }}" id="imagem_guardada">
+                    <img src="{{ video.imagem_file }}" alt="Foto de {{ video.titulo }} publicada por {{ autor }}" id="imagem_guardada">
                     <br>
-                    <a href="{{ doc_root }}image-delete/{{ receita.id }}">Apagar imagem</a>
+                    <a href="{{ doc_root }}image-delete/{{ video.id }}">Apagar imagem</a>
                 {% endif %}
             </div>
         </section>

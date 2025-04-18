@@ -9,11 +9,31 @@ class Quik {
         $this->db = $db;
     }
 
-    public function getAll() {
-        $sql = "SELECT q.titulo, q.descricao, q.file, q.receita_acoplada_id, q.membro_id,
-                m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
+    public function get($id) {
+        $sql = "SELECT q.id, q.titulo, q.descricao, q.data, q.receita_acoplada_id, q.youtube_id, v.keywords, v.membro_id,  seo_title,
+                CONCAT(m.forename, ' ', m.surname) AS autor, m.picture,
+                (SELECT COUNT(conteudo_id) 
+                FROM likes
+                WHERE likes.conteudo_id = q.id) AS likes,
+                (SELECT COUNT(conteudo_id)
+                FROM opiniao
+                WHERE opiniao.conteudo_id = q.id) AS opinioes
                 FROM quik AS q
-                JOIN membro AS m ON q.membro_id = m.id;";
-        return $this->db->runSQL($sql)->fetchAll();
+                JOIN membro AS m ON m.id = q.membro_id
+                WHERE q.id = :id;";
+        return $this->db->runSQL($sql, [$id])->fetch();
+    }
+
+    public function create($titulo, $descricao, $receita_acoplada_id, $keywords, $seo_title,  $youtube_id, $membro_id) {
+        $sql = "INSERT INTO video_longo (titulo, descricao, receita_acoplada_id, keywords, seo_title, youtube_id, membro_id)
+                VALUES (:titulo, :descricao, :receita_acoplada_id, :keywords, :seo_title, :youtube_id, :membro_id);";
+        $this->db->runSQL($sql, [$titulo, $descricao, $receita_acoplada_id, $keywords, $seo_title, $youtube_id, $membro_id]);
+    }
+
+    public function update($titulo, $descricao, $receita_acoplada_id, $keywords, $seo_title, $id) {
+        $sql = "UPDATE video_longo
+                SET titulo = :titulo, descricao = :descricao, receita_acoplada_id = :receita_acoplada_id, keywords = :keywords, seo_title = :seo_title
+                WHERE id = :id;";
+        $this->db->runSQL($sql, [$titulo, $descricao, $receita_acoplada_id, $keywords, $seo_title, $id]);
     }
 }

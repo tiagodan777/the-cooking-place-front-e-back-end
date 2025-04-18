@@ -29,4 +29,11 @@ class LongVideo {
                 VALUES (:titulo, :descricao, :keywords, :seo_title, :youtube_id, :membro_id);";
         $this->db->runSQL($sql, [$titulo, $descricao, $keywords, $seo_title, $youtube_id, $membro_id]);
     }
+
+    public function update($titulo, $descricao, $keywords, $seo_title, $id) {
+        $sql = "UPDATE video_longo
+                SET titulo = :titulo, descricao = :descricao, keywords = :keywords, seo_title = :seo_title
+                WHERE id = :id;";
+        $this->db->runSQL($sql, [$titulo, $descricao, $keywords, $seo_title, $id]);
+    }
 }

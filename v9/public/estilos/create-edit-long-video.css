@@ -90,6 +90,9 @@ main#create-edit-long-video > form > section#imagem-video > div#div-video > div 
     align-items: center;
 }
 
+main#create-edit-long-video > form > section#imagem-video > div#div-imagem > img#imagem_guardada {
+    width: 380px;
+}
 
 main#create-edit-long-video input[type=file]::-webkit-file-upload-button {
     color: var(--cor5);

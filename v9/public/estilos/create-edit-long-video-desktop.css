@@ -33,7 +33,7 @@ main#create-edit-long-video > form {
 }
 
 main#create-edit-long-video > form > section#imagem-video {
-    width: 800px;
+    width: 1000px;
     height: 800px;
     /*border: 1px solid rgb(210, 210, 210);*/
 
@@ -56,6 +56,11 @@ main#create-edit-long-video > form > section#imagem-video > div#div-video, main#
     align-items: center
 }
 
+main#create-edit-long-video > form > section#imagem-video > div#div-video > iframe {
+    width: 800px;
+    height: 500px;
+}
+
 main#create-edit-long-video > form > section#imagem-video > div#div-video {
     margin-top: 50px;
 }
@@ -73,6 +78,15 @@ main#create-edit-long-video > form > section#imagem-video > div#div-imagem > div
     flex-flow: column nowrap;
     justify-content: flex-end;
     align-items: center;
+}
+
+main#create-edit-long-video > form > section#imagem-video > div#div-imagem > img#imagem_guardada {
+    width: 480px;
+}
+
+main#create-edit-long-video > form > section#imagem-video > div#div-imagem > a {
+    margin-top: 50px;
+    margin-bottom: 0px;
 }
 
 main#create-edit-long-video > form > section#imagem-video > div#div-video > div {
@@ -123,6 +137,7 @@ main#create-edit-long-video input[type=file]::file-selector-button:hover {
 
 main#create-edit-long-video > form > section#detalhes {
     width: 800px;
+    margin-top: 100px;
     /*height: 1000px;*/
     /*border: 1px solid rgb(210, 210, 210);*/
 
