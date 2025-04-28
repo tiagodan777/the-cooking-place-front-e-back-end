@@ -23,7 +23,7 @@ $email_config = [
     'debug' => (DEV) ? 2 : 0,
 ];
 
-define('MEDIA_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp',]);
+define('MEDIA_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/heic']);
 define('FILE_EXTENSIONS', ['jpeg', 'jpg', 'png', 'gif', 'webp',]);
 define('MAX_SIZE', '12000000');
 define('UPLOADS', dirname(__DIR__, 1) . DIRECTORY_SEPARATOR . ROOT_FOLTER . DIRECTORY_SEPARATOR . 'imagens' . DIRECTORY_SEPARATOR . 'comida' . DIRECTORY_SEPARATOR);
