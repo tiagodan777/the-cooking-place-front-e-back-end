@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+main#article h1#titulo-receita {
+    font-size: 3em;
+    padding: 20px 0px 0px 0px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+main#article header#cabecalho-principal > form {
+    visibility: visible;
+}
+
+main#article header#cabecalho-principal > form > input[type="search"] {
+    font-size: 1.1em;
+    width: 25vw;
+    padding: 12px;
+    border: 1px solid var(--cor0);
+    border-radius: 25px;
+}
+
+main#article header#cabecalho-principal > form > input.escondido {
+    display: none;
+}
+
+
+main#article {
+    margin: auto;
+}
+
+main#article > section#topo {
+    width: 100%;
+    margin-top: 100px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+main#article > section#topo > section#imagem {
+    width: 50%;
+    /*margin-left: 70px;*/
+}
+
+main#article > section#topo > section#imagem > picture > img {
+    width: 100%;
+}
+
+main#article > section#topo > section#info {
+    width: 50%;
+}
+
+main#article > section#topo section#info > section {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+main#article > section#needs {
+    width: 95%;
+    margin-top: 100px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+main#article > section#needs section#ingredientes {
+    /*align-self: flex-start;*/
+    margin-top: -20px;
+    margin-bottom: 20px;
+    width: 30%;
+}
+
+main#article > section#needs section#video {
+    position: relative;
+    width: 75%;
+}
+
+main#article > section#needs section#video > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+/*main > section#topo > section > picture > img {
+    width: 500px;
+}*/
+
+/*footer {
+    width: 100%;
+    position: fixed;
+    top: 94%;
+    background-color: var(--cor5);
+    padding: 10px;
+    border-top: 0.5px solid var(--cor4);
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+footer > a {
+    color: var(--cor4);
+}
+
+footer > a > span.descricao-icone {
+    display: none !important;
+}
+
+footer > a > span.aparece-desktop {
+
+}*/
+

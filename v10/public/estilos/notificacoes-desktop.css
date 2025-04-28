@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+main#notifications h1 {
+    padding-bottom: 20px;
+}
+
+main#notifications {
+    margin-top: 150px;
+}
+
+main#notifications > div {
+    width: 500px;
+}
+
+main#notifications > div > a {
+    width: 400px;
+}
+
+main#notifications > div > section#seguir {
+    width: 150px;
+}

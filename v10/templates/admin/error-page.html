@@ -1,0 +1,12 @@
+{% extends 'admin/layout.html' %}
+{% block title %} Erro {% endblock %}
+{% block content %}
+<main id="error-page">
+    <div id="texto">
+        <h1>Desculpa, não conseguimos encontrar essa página</h1>
+        <p>Podes tentar acessar a <a href="{{ doc_root }}admin/index">página principal</a> ou <a href="{{ doc_root }}admin/contact">contactar-nos</a></p>
+    </div>
+    <img src="{{ doc_root }}imagens/ilustracoes/chef-espantado.jpg" alt="Ilustração de um Chef espantado">
+</main>
+{% endblock %}
+

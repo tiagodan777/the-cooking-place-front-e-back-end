@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block title %} {{ membro.nome }} {% endblock %}
+{% block content %}
+<main id="edit-profile-picture">
+    <section id="apagar">
+        {% if membro.picture != 'blank.jpg' %}
+            <h2>Apagar Foto de perfil</h2>
+            <section class="dados" id="dados-apagar">
+                <p>Confirma para apagar a Foto</p>
+                <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.forename }}" id="foto-perfil">
+            </section>
+            <section class="opcoes" id="opcoes-apagar">
+                <form action="{{ doc_root }}edit-profile-picture/{{ membro.id }}" method="post">
+                    <a href="{{ doc_root }}edit-profile/{{ membro.id }}">Cancelar</a>
+                    <input type="hidden" name="delete" value="1">
+                    <input type="submit" value="Confirmar">
+                </form>
+            </section>
+        {% else %}
+            <h2>Adicionar foto de perfil</h2>
+            <section class="dados" id="dados-adicionar">
+                <label for="imagem">Escolhe uma foto para ser a tua foto de perfil</label>
+            </section>
+            <section class="opcoes" id="opcoes-adicionar">
+                <form action="{{ doc_root }}edit-profile-picture/{{ membro.id }}" method="post" enctype="multipart/form-data">
+                    <div>
+                        <input type="file" name="picture" id="picture" accept="image/jpeg, image/png, image/gif">
+                    </div>
+                    {% if erros.imagem_file %}<span class="error">{{ erros.imagem_file }}</span>{% endif %}
+                    <input type="hidden" name="delete" value="0">
+                    <input type="submit" value="Adiconar Foto de Perfil">
+                </form>
+            </section>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
