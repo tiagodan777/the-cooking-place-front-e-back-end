@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+{% block title %} Post {% endblock %}
+{% block content %}
+<main id="article">
+    <section id="topo">
+        <section id="imagem">
+            <picture>
+                <source media="(max-width: 700px)" srcset="{{ doc_root }}posts/comida/croppped/{{ post.imagem }}">
+                <img src="{{ doc_root }}posts/{{ post.imagem_file }}" alt="Foto de {{ post.titulo }} publicada por {{ post.autor }}">
+            </picture>
+        </section>
+        <section id="info">
+            <section>
+                <div>
+                    <div id="reacoes">
+                        <div class="icones">
+                            {% if session.id != 0 %}
+                                <a href="{{ doc_root}}like/{{ post.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                            {% else %}
+                                <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                            {% endif %}
+                            <dialog id="c{{ count }}">
+                                <iframe data-src="{{ doc_root }}opinions/{{ post.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                                <button id="f{{ count }}">Fechar</button>
+                            </dialog>
+                            <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
+                            <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
+                        </div>
+                        <div class="numeros">
+                            {% if post.likes != '' %}
+                                <span>{{ post.likes }}</span>
+                            {% else %} 
+                                <span></span>
+                            {% endif %}
+                            {% if post.opinioes != '' %}
+                                <span>{{ post.opinioes }}</span>
+                            {% else %}
+                                <span>0</span>
+                            {% endif %}
+                            <span>55</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="dados">
+                    <p>Data: {{ post.data|date('d F Y') }}</p>
+                    <p id="descricao-receita">Descrição: {{ post.descricao }}</p>
+                    <a href="{{ doc_root }}profile/{{ post.membro_id }}/{{ post.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ post.picture }}" alt="Foto de perfil de {{ post.autor }}">&nbsp;{{ post.autor }}</a>
+                    {% if session.id == post.membro_id %}
+                        <a href="{{ doc_root }}create-edit-post/{{ post.id }}" id="editar">Editar</a>
+                    {% endif %}
+                </div>
+            </section>
+        </section>
+    </section>
+    <aside>
+        
+    </aside>
+</main>
+<script>
+    window.document.querySelectorAll("button[id^='b']").forEach((button) => {
+        button.addEventListener('click', function () {
+            let count = this.id.replace("b", "")
+            let dialog = window.document.querySelector(`#c${count}`)
+            let iframe = window.document.querySelector(`#comentarios${count}`)
+            let fechar = window.document.querySelector(`#f${count}`)
+
+            if (!iframe.src) {
+                iframe.src = iframe.getAttribute('data-src')
+            }
+
+            dialog.showModal()
+
+            fechar.addEventListener('click', function () {
+                dialog.close()
+            })
+
+            dialog.addEventListener('click', function () {
+                dialog.close()
+            })
+        })
+    })
+</script>
+{% endblock %}
+{% block footer %} {% endblock %}
