@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+main#create-edit-quik {
+    margin-top: 100px;
+    margin-left: 300px;
+
+    width: calc(100vw - 500px);
+}
+
+main#create-edit-quik > h2 {
+    font-size: 2em;
+    margin-bottom: 25px;
+}
+
+main#create-edit-quik > form {
+    width: 800px;
+    border: none;
+}
+
+main#create-edit-quik > form > section#video {
+    width: 500px;
+    height: 650px;
+    /*border: 1px solid rgb(210, 210, 210);*/
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center
+}
+
+main#create-edit-quik > form > section#video > div#div-video {
+    height: 600px;
+    /*box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.313);*/
+}
+
+main#create-edit-quik > form > section#video > div#div-imagem > img {
+    width: 500px;
+}
+
+main#create-edit-quik > form > section#descricao {
+    /*height: 1100px;*/
+    width: 800px;
+}
+
+main#create-edit-quik > form > input[type="submit"] {
+    margin-top: 200px;
+    margin-right: 20px;
+
+    align-self: flex-end;
+}
+
+main#create-edit-quik > form > a {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    /*margin-bottom: 100px;
+    margin-top: -135px;*/
+}

@@ -1,0 +1,19 @@
+{% extends 'admin/layout.html' %}
+{% block title %} {{ receita.titulo }} {% endblock %}
+{% block content %}
+<main id="image-delete">
+    <section id="apagar">
+        <h2>Apagar Imagem</h2>
+        <section id="dados">
+            <p>Confirma para apagar a imagem:</p>
+            <img src="{{ doc_root}}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ receita.titulo }} postado por {{ receita.autor }}">
+        </section>
+        <section id="opcoes">
+            <form action="{{ doc_root }}admin/image-delete/{{ receita.id }}" method="post">
+                <a href="{{ doc_root }}admin/create-edit-article/{{ receita.id }}">Cancelar</a>
+                <input type="submit" value="Confirmar">
+            </form>
+        </section>
+    </section>
+</main>
+{% endblock %}

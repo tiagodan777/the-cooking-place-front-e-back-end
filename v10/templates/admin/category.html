@@ -1,0 +1,25 @@
+{% extends 'admin/layout.html' %}
+{% block title %} {{ categoria.nome }} {% endblock %}
+{% block content %}
+<main id="category">
+    <section>
+        <h1>Editar Categoria</h1>
+        {% if erros.warning %}
+            <div class="alter-failure">{{ erros.warning }}</div>
+        {% endif %}
+        <form action="{{ doc_root }}admin/category/{{ categoria.id }}" method="post" autocomplete="off">
+            <div id="div-nome">
+                <label for="nome">Nome:</label>
+                <input type="text" name="nome" id="nome" value="{{ categoria.nome }}">
+                {% if erros.nome %}<span class="error">{{ erros.nome }}</span> {% endif %}
+            </div>
+            <div id="div-descricao">
+                <label for="descricao">Descrição:</label>
+                <textarea name="descricao" id="descricao" cols="30" rows="7">{{ categoria.descricao }}</textarea>
+                {% if erros.descricao %} <span class="error">{{ erros.descricao }}</span> {% endif %}
+            </div>
+            <input type="submit" value="Guardar">
+        </form>
+    </section>
+</main>
+{% endblock %}

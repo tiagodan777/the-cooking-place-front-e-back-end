@@ -1,0 +1,103 @@
+{% extends 'layout.html' %}
+{% block title %} {{ video.titulo }} {% endblock %}
+{% block content %}
+<main id="video">
+    <section id="topo">
+        <section id="video-video">
+            <video src="{{ doc_root }}videos-longos/{{ video.video_file }}" loop playsinline controls id="video-video-video"></video>
+        </section>
+        <section id="info">
+            <section>
+                <div>
+                    <div id="dados">
+                        <h1>{{ video.titulo }}</h1>
+                        <p id="descricao-receita">{{ video.descricao }}</p>
+                        <p>Data: {{ video.data|date('d F Y') }}</p>
+                        <a href="{{ doc_root }}profile/{{ video.membro_id }}/{{ video.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ video.picture }}" alt="Foto de perfil de {{ video.autor }}">&nbsp;{{ video.autor }}</a>
+                        {% if session.id == video.membro_id %}
+                            <a href="{{ doc_root }}create-edit-post/{{ video.id }}" id="editar">Editar</a>
+                        {% endif %}
+                    </div>
+                    <div id="reacoes">
+                        <div class="icones">
+                            {% if session.id != 0 %}
+                                <a href="{{ doc_root}}like/{{ video.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                            {% else %}
+                                <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                            {% endif %}
+                            <dialog id="c{{ count }}">
+                                <iframe data-src="{{ doc_root }}opinions/{{ video.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                                <button id="f{{ count }}">Fechar</button>
+                            </dialog>
+                            <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
+                            <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
+                        </div>
+                        <div class="numeros">
+                            {% if video.likes != '' %}
+                                <span>{{ video.likes }}</span>
+                            {% else %} 
+                                <span></span>
+                            {% endif %}
+                            {% if video.opinioes != '' %}
+                                <span>{{ video.opinioes }}</span>
+                            {% else %}
+                                <span>0</span>
+                            {% endif %}
+                            <span>55</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+    <aside>
+        
+    </aside>
+</main>
+<script>
+    window.document.querySelectorAll("button[id^='b']").forEach((button) => {
+        button.addEventListener('click', function () {
+            let count = this.id.replace("b", "")
+            let dialog = window.document.querySelector(`#c${count}`)
+            let iframe = window.document.querySelector(`#comentarios${count}`)
+            let fechar = window.document.querySelector(`#f${count}`)
+
+            if (!iframe.src) {
+                iframe.src = iframe.getAttribute('data-src')
+            }
+
+            dialog.showModal()
+
+            fechar.addEventListener('click', function () {
+                dialog.close()
+            })
+
+            dialog.addEventListener('click', function () {
+                dialog.close()
+            })
+        })
+    })
+
+    document.addEventListener("load", () => {
+        let videos = document.querySelector("#video-video-video");
+
+        // Configura o Observer
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                let video = entry.target;
+
+                if (entry.isIntersecting) {
+                    video.play(); // Toca o vídeo quando entra na tela
+                } else {
+                    video.pause(); // Pausa quando sai da tela
+                    video.currentTime = 0; // Reinicia o vídeo quando sai
+                }
+            });
+        }, { threshold: 0.6 }); // Só ativa quando pelo menos 60% do vídeo está visível
+
+        // Aplica o Observer a cada vídeo
+        videos.forEach(video => observer.observe(video));
+        });
+</script>
+{% endblock %}
+{% block footer %} {% endblock %}

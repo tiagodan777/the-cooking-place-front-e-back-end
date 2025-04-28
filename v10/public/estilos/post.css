@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+html, body {
+    font-weight: 600;
+}
+
+main#post h2#descricao-receita {
+    text-align: right;
+}
+
+main#post  {
+    margin-top: 68px;
+    font-weight: normal;
+}
+
+main#post  > section#topo > section#imagem > picture > img {
+    width: 100vw;
+}
+
+main#post > section#topo section#info {
+    padding: 0px 10px;
+}
+
+main#post > section#topo section#info > section {
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main#post > section#topo section#info > section > div#dados {
+    font-weight: normal;
+    margin: 5px;
+}
+
+main#post > section#topo section#info > section > div > a#user {
+    font-weight: bold;
+    margin: 0px;
+    margin-top: 100px;
+    text-decoration: none;
+    color: var(--cor4);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+main#post > section#topo section#info > section > div > a#user > img {
+    width: 40px;
+}
+
+main#post > section#topo section#info > section > div > a#editar {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--cor5);
+    padding: 10px 20px;
+    background-color: var(--cor1);
+    transform: translate(50px, 50px);
+    border-radius: 10px;
+    margin: 50px 10px;
+
+    align-self: flex-start;
+}
+
+main#post > section#topo section#info > section > div > a#user > img {
+    border-radius: 50%;
+}
+
+main#post > section#topo section#info > section > div > div#reacoes {
+    margin: 20px;
+}
+
+main#post > section#topo section#info > section > div > div#reacoes > div.icones {
+    width: 135px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main#post > section#topo section#info > section > div > div#reacoes > div.icones > a, main#post > section#topo section#info > section > div > div#reacoes > div.icones > button#b, main#post > section#topo section#info > section > div > div#reacoes > div.icones > button#f {
+    font-size: 2em;
+    background-color: var(--cor5);
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+main#post > section#topo section#info > section > div > div#reacoes > div.icones > a:hover, main#post > section#topo section#info > section > div > div#reacoes > div.icones > button#b:hover, main#post > section#topo section#info > section > div > div#reacoes > div.icones > button#f:hover {
+    transform: scale(115%);
+}
+
+main#post > section#topo section#info > section > div > div#reacoes > div.numeros {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+main#post > section#topo section#info > section > div > div#reacoes > div.numeros > span {
+    font-size: 0.9em;
+
+    flex: 0 0 55px;
+}
+
