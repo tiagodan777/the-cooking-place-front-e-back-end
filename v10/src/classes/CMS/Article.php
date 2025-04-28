@@ -56,12 +56,24 @@ class Article {
         return $this->db->runSQL($sql)->fetchColumn();
     }
 
-    public function create($article, $temp, $destination) {
+    public function create($article, $temp, $destination, $destination_cropped_500, $destination_cropped_600, $destination_cropped_700) {
         try {
             if ($temp) {
                 $imagick = new \Imagick($temp);
-                $imagick->cropThumbnailImage(500, 500);
+                $imagick->cropThumbnailImage(800, 800);
                 $imagick->writeImage($destination);
+
+                $imagick_cropped_500 = new \Imagick($temp);
+                $imagick_cropped_500->cropThumbnailImage(500, 500);
+                $imagick_cropped_500->writeImage($destination_cropped_500);
+
+                $imagick_cropped_600 = new \Imagick($temp);
+                $imagick_cropped_600->cropThumbnailImage(600, 600);
+                $imagick_cropped_600->writeImage($destination_cropped_600);
+
+                $imagick_cropped_700 = new \Imagick($temp);
+                $imagick_cropped_700->cropThumbnailImage(700, 700);
+                $imagick_cropped_700->writeImage($destination_cropped_700);
             }
 
             $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file, seo_title) VALUES

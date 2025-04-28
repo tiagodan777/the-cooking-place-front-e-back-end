@@ -72,6 +72,7 @@ main#article > section#needs section#ingredientes {
     /*align-self: flex-start;*/
     margin-top: -20px;
     margin-bottom: 20px;
+    margin-left: -25px;
     width: 30%;
 }
 

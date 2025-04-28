@@ -34,7 +34,7 @@
                 {% if not receita.imagem_file %}
                     <label for="imagem">Upload de imagem</label>
                     <div>
-                        <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif">
+                        <input type="file" name="imagem" id="imagem" accept="image/jpeg, image/png, image/gif, image/webp">
                     </div>
                     {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
                 {% else %}

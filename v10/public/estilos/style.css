@@ -210,7 +210,7 @@ main > article > aside.aside-principal > section > div.icones > div > a.guardar 
     font-size: 1em;
 }
 
-main > article > aside.aside-principal > section > div.icones > div > span.icones-reacao:hover, main > article > aside.aside-principal > section > div.icones > div > a:hover, main > article > aside.aside-principal > section > div.icones > div > button[id^="b"]:hover, main > article > aside.aside-principal > section > div.icones > div > button[id^="f"]:hover {
+main > article > aside.aside-principal > section > div.icones > div > a:hover, main > article > aside.aside-principal > section > div.icones > div > button[id^="b"]:hover, main > article > aside.aside-principal > section > div.icones > div > button[id^="f"]:hover {
     transform: scale(115%);
 }
 

@@ -69,6 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($erros['imagem_file'] === '') {
             $receita['imagem_file'] = create_filename($_FILES['imagem']['name'], UPLOADS);
             $destination = UPLOADS . $receita['imagem_file'];
+            $destination_cropped_500 = UPLOADS_CROPPED_500 . $receita['imagem_file'];
+            $destination_cropped_600 = UPLOADS_CROPPED_600 . $receita['imagem_file'];
+            $destination_cropped_700 = UPLOADS_CROPPED_700 . $receita['imagem_file'];
+
         }
     }
 
@@ -150,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<pre>";
             var_dump($arguments);
             echo "</pre>";
-            $guardada = $cms->getArticle()->update($arguments, $temp, $destination);
+            $guardada = $cms->getArticle()->update($arguments, $temp, $destination, $destination_cropped_500, $destination_cropped_600, $destination_cropped_700);
         } else {
             unset($arguments['id']);
             unset($arguments['data']);
@@ -165,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<pre>";
             var_dump($arguments);
             echo "</pre>";
-            $guardada = $cms->getArticle()->create($arguments, $temp, $destination);
+            $guardada = $cms->getArticle()->create($arguments, $temp, $destination, $destination_cropped_500, $destination_cropped_600, $destination_cropped_700);
         }
         redirect(DOC_ROOT . 'profile/' . $receita['membro_id'] . '/', ['success' => 'Artigo guardado']);  
     }

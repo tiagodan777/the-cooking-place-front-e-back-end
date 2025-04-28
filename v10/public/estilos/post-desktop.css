@@ -1,17 +1,17 @@
 @charset "UTF-8";
 
-main#article h1#titulo-receita {
+main#post h1#titulo-receita {
     font-size: 3em;
     padding: 20px 0px 0px 0px;
     font-weight: bolder;
     text-align: center;
 }
 
-main#article {
+main#post {
     margin: auto;
 }
 
-main#article > section#topo {
+main#post > section#topo {
     width: 100%;
     margin-top: 100px;
 
@@ -21,29 +21,30 @@ main#article > section#topo {
     align-items: flex-start;
 }
 
-main#article > section#topo > section#imagem {
+main#post > section#topo > section#imagem {
     width: 50%;
     /*margin-left: 70px;*/
 }
 
-main#article > section#topo > section#imagem > picture > img {
+main#post > section#topo > section#imagem > picture > img {
     width: 100%;
 }
 
-main#article > section#topo > section#info {
+main#post > section#topo > section#info {
     width: 50%;
 }
 
-main#article > section#topo section#info > section {
+main#post > section#topo section#info > section {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
     align-items: center;
 }
 
-main#article > section#topo section#info > section > div#dados {
+main#post > section#topo section#info > section > div#dados {
+    margin-top: 100px;
     font-weight: normal;
-    height: 400px;
+    height: 300px;
 
     display: flex;
     flex-flow: column nowrap;
@@ -51,11 +52,15 @@ main#article > section#topo section#info > section > div#dados {
     align-items: center;
 }
 
-main#article > section#topo section#info > section > div > p#descricao-receita {
+main#post > section#topo section#info > section > div > p#descricao-receita {
     font-weight: normal;
     margin: 5px;
 
     align-self: flex-start;
+}
+
+main#post > section#topo section#info > section > div > a#user {
+    margin-top: 50px;
 }
 
 

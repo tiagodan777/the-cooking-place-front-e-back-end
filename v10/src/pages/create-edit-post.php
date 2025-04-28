@@ -17,6 +17,10 @@ $erros = [
     'descricao' => '',
 ];
 $path = APP_ROOT . '/public/posts/';
+$path_500 = APP_ROOT . '/public/posts/cropped_500/';
+$path_600 = APP_ROOT . '/public/posts/cropped_600/';
+$path_700 = APP_ROOT . '/public/posts/cropped_700/';
+
 
 if ($id) {
     $post = $cms->getPost()->get($id);
@@ -36,6 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($erros['imagem_file'] === '') {
             $post['imagem_file'] = create_filename($_FILES['imagem']['name'], $path);
             $destination = $path . $post['imagem_file'];
+            $destination_cropped_500 = $path_500 . $post['imagem_file'];
+            $destination_cropped_600 = $path_600 . $post['imagem_file'];
+            $destination_cropped_700 = $path_700 . $post['imagem_file'];
         }
     }
 
@@ -49,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         if (!$id) {
             unset($post['id']);
-            $cms->getPost()->create($post, $temp, $destination);
+            $cms->getPost()->create($post, $temp, $destination, $destination_cropped_500, $destination_cropped_600, $destination_cropped_700);
             redirect(DOC_ROOT . 'profile/'  . $session->id . $session->seo_name, ['success' => 'Publicado com sucesso']);
         } else {
             unset($post['data']);
