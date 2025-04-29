@@ -56,7 +56,3 @@ main#create-edit-post > form > section#descricao {
 main#create-edit-post > form > section#descricao > textarea {
     width: 90%;
 }
-
-footer {
-    display: none;
-}

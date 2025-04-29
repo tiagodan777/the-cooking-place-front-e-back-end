@@ -34,7 +34,7 @@
                             {% if session.id != 0 %}
                                 <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
                             {% else %}
-                                <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
+                            <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
                             {% endif %}
                             <dialog id="c{{ count }}">
                                 <iframe data-src="{{ doc_root }}opinions/{{ conteudo.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>

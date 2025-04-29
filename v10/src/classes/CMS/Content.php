@@ -18,6 +18,7 @@ class Content {
         $arguments['member5'] = $member;
         $arguments['member6'] = $member;
         $arguments['member7'] = $member;
+
         $sql = "SELECT *
                 FROM (
                     SELECT 
@@ -119,6 +120,41 @@ class Content {
                     JOIN membro AS m ON m.id = v.membro_id
                     WHERE (v.membro_id = :member6 OR :member7 IS NULL)) AS data
                 ORDER BY data DESC;";
+        return $this->db->runSQL($sql, $arguments)->fetchAll();
+    }
+
+    public function getTitle($id) {
+        $arguments['id'] = $id;
+        $arguments['id1'] = $id;
+        $arguments['id2'] = $id;
+        $arguments['id3'] = $id;
+        $sql = "SELECT *
+                FROM (
+                    SELECT 
+                        titulo
+                        FROM receita
+                        WHERE id = :id
+                    UNION ALL
+
+                    SELECT 
+                        titulo
+                    FROM quik
+                    WHERE id = :id1
+
+
+                    UNION ALL
+
+                    SELECT
+                    descricao
+                    FROM publicacao_simples 
+                    WHERE id = :id2
+
+                    UNION ALL
+
+                    SELECT
+                    titulo
+                    FROM video_longo
+                    WHERE id = :id3 ) AS data;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
 
