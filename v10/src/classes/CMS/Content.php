@@ -1,6 +1,8 @@
 <?php
 namespace TiagoDaniel\CMS;
 
+use Google\Service\Safebrowsing\FindThreatMatchesRequest;
+
 class Content {
     private $db;
 
@@ -425,4 +427,111 @@ class Content {
         }
         return $soma;
     }
+
+    public function getMoreContents() {
+        $sql = "SELECT * 
+                FROM (
+                    SELECT
+                    r.id,
+                    r.titulo,
+                    r.descricao,
+                    r.imagem_file AS file,
+                    r.seo_title,
+                    r.data,
+                    'receita' AS tipo_conteudo,
+                    CONCAT(m.forename, ' ', m.surname) AS autor,
+
+                    (SELECT COUNT(conteudo_id)
+                    FROM likes
+                    WHERE likes.conteudo_id = r.id) AS likes,
+                    (SELECT COUNT(conteudo_id)
+                    FROM opiniao
+                    WHERE opiniao.conteudo_id = r.id) AS opinioes
+
+                    FROM receita AS r
+
+                    JOIN categoria AS c ON r.categoria_id = c.id
+                    JOIN membro AS m ON r.membro_id = m.id
+                    
+                    
+                UNION ALL
+                
+                
+                 SELECT 
+                    q.id,
+                    q.titulo,
+                    q.descricao,
+                    q.youtube_id AS file,
+                    q.seo_title,
+                    q.data,
+                    'quik' AS tipo_conteudo,
+                    CONCAT(m.forename, ' ', m.surname) AS autor,
+
+                    (SELECT COUNT(conteudo_id)
+                    FROM likes
+                    WHERE likes.conteudo_id = q.id) AS likes,
+                    (SELECT COUNT(conteudo_id)
+                    FROM opiniao
+                    WHERE opiniao.conteudo_id = q.id) AS opinioes
+
+                    FROM quik AS q
+
+                    JOIN membro AS m ON q.membro_id = m.id
+                
+                
+                
+                UNION ALL
+                
+                
+                SELECT
+                    p.id, 
+                    NULL as titulo,
+                    p.descricao,
+                    p.imagem_file AS file,
+                    NULL as seo_title,
+                    p.data,
+                    'publicação' AS tipo_conteudo,
+                    CONCAT(m.forename, ' ', m.surname) AS autor,
+
+                    (SELECT COUNT(conteudo_id)
+                    FROM likes
+                    WHERE likes.conteudo_id = p.id) AS likes,
+                    (SELECT COUNT(conteudo_id)
+                    FROM opiniao
+                    WHERE opiniao.conteudo_id = p.id) AS opinioes
+
+                    FROM publicacao_simples AS p
+
+                    JOIN membro AS m ON m.id = p.membro_id
+                    
+                    
+                UNION ALL
+                
+                
+                SELECT
+                    v.id,
+                    v.titulo,
+                    v.descricao,
+                    v.youtube_id AS file,
+                    v.seo_title,
+                    v.data,
+                    'vídeo longo' AS tipo_conteudo,
+                    CONCAT(m.forename, ' ', m.surname) AS autor,
+
+                    (SELECT COUNT(conteudo_id)
+                    FROM likes
+                    WHERE likes.conteudo_id = v.id) AS likes,
+                    (SELECT COUNT(conteudo_id)
+                    FROM opiniao
+                    WHERE opiniao.conteudo_id = v.id) AS opinioes
+
+                    FROM video_longo AS v
+
+                    JOIN membro AS m ON m.id = v.membro_id) AS data
+            ORDER BY RAND()
+            LIMIT 5;";
+
+        return $this->db->runSQL($sql)->fetchAll();
+    }
+
 }
