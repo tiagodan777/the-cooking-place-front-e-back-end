@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 use TiagoDaniel\Validate\Validate;
 
 require_login($session);
@@ -57,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!$id) {
             unset($post['id']);
             $cms->getPost()->create($post, $temp, $destination, $destination_cropped_500, $destination_cropped_600, $destination_cropped_700);
-            redirect(DOC_ROOT . 'profile/'  . $session->id . $session->seo_name, ['success' => 'Publicado com sucesso']);
+            redirect(DOC_ROOT . 'profile/'  . $session->id, ['success' => 'Publicado com sucesso']);
         } else {
             unset($post['data']);
             unset($post['membro_id']);
@@ -68,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($post['imagem_file']);
 
             $cms->getPost()->update($post);
-            redirect(DOC_ROOT . 'profile/' . $session->id . $session->seo_name , ['success' => 'Publicação editada com sucesso']);
+            redirect(DOC_ROOT . 'profile/' . $session->id, ['success' => 'Publicação editada com sucesso']);
         }
     }
 }

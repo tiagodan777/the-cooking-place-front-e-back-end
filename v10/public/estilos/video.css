@@ -11,8 +11,9 @@ main#video h2#descricao-receita {
 }
 
 main#video  {
-    width: 100vw;
-    height: 100vh;
+    /*width: 100vw;
+    height: 100vh;*/
+    margin-top: 70px;
     font-weight: normal;
 
     display: flex;
@@ -21,31 +22,27 @@ main#video  {
     align-items: center;
 }
 
-main#video  > section#topo {
+/*main#video  > section#topo {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-}
+}*/
 
 main#video  > section#topo > section#video-video {
     width: 100vw;
 }
 
-main#video  > section#topo > section#video-video > video {
-    width: 100%;
-    border-radius: 10px;
+main#video  > section#topo > section#video-video > iframe {
+    width: 100vw;
+    height: 40vh;
 }
 
 main#video > section#topo section#info {
-    padding: 0px 10px;
-}
-
-main#video > section#topo section#info > section {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 }
 
 main#video > section#topo section#info > section > div > div#dados {

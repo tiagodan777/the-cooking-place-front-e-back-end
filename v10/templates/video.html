@@ -4,54 +4,70 @@
 <main id="video">
     <section id="topo">
         <section id="video-video">
-            <video src="{{ doc_root }}videos-longos/{{ video.video_file }}" loop playsinline controls id="video-video-video"></video>
+            <iframe src="https://www.youtube.com/embed/{{ video.youtube_id }}?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
         </section>
         <section id="info">
-            <section>
-                <div>
-                    <div id="dados">
-                        <h1>{{ video.titulo }}</h1>
-                        <p id="descricao-receita">{{ video.descricao }}</p>
-                        <p>Data: {{ video.data|date('d F Y') }}</p>
-                        <a href="{{ doc_root }}profile/{{ video.membro_id }}/{{ video.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ video.picture }}" alt="Foto de perfil de {{ video.autor }}">&nbsp;{{ video.autor }}</a>
-                        {% if session.id == video.membro_id %}
-                            <a href="{{ doc_root }}create-edit-post/{{ video.id }}" id="editar">Editar</a>
-                        {% endif %}
-                    </div>
-                    <div id="reacoes">
-                        <div class="icones">
-                            {% if session.id != 0 %}
-                                <a href="{{ doc_root}}like/{{ video.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
-                            {% else %}
-                                <a href="{{ doc_root }}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/hamburger-icon.png" alt="Like hamburguer"></span></a>
-                            {% endif %}
-                            <dialog id="c{{ count }}">
-                                <iframe data-src="{{ doc_root }}opinions/{{ video.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
-                                <button id="f{{ count }}">Fechar</button>
-                            </dialog>
-                            <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
-                            <span class="icones-reacao"><img src="{{ doc_root }}imagens/icons/share-icon.png" alt="Ícone comentário"></span>
+            <div id="dados">
+                <h1>{{ video.titulo }}</h1>
+                <p id="descricao-receita">{{ video.descricao }}</p>
+                <p>Data: {{ video.data|date('d F Y') }}</p>
+                <a href="{{ doc_root }}profile/{{ video.membro_id }}/{{ video.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ video.picture }}" alt="Foto de perfil de {{ video.autor }}">&nbsp;{{ video.autor }}</a>
+                {% if session.id == video.membro_id %}
+                    <a href="{{ doc_root }}create-edit-post/{{ video.id }}" id="editar">Editar</a>
+                {% endif %}
+            </div>
+            <div id="reacoes">
+                <div class="icones">
+                    {% if session.id != 0 %}
+                        <a href="{{ doc_root}}like/{{ receita.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                    {% else %}
+                    <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                    {% endif %}
+                    <dialog id="c{{ count }}">
+                        <iframe data-src="{{ doc_root }}opinions/{{ receita.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                    </dialog>
+                    <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
+
+                    <dialog id="s{{ count }}" class="share">
+                        <div class="imagem">
+                            <img data-src="{{ doc_root }}imagens/comida/{{ receita.file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}" id="imagem-para-share{{ count }}">
+                            {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v10/public/article/' ~  receita.id %}
                         </div>
-                        <div class="numeros">
-                            {% if video.likes != '' %}
-                                <span>{{ video.likes }}</span>
-                            {% else %} 
-                                <span></span>
-                            {% endif %}
-                            {% if video.opinioes != '' %}
-                                <span>{{ video.opinioes }}</span>
-                            {% else %}
-                                <span>0</span>
-                            {% endif %}
-                            <span>55</span>
+                        <p class="partilhar-atraves-de">Partilhar através de </p>
+                        <div class="icones-redes-sociais">
+                            <span class="material-symbols-outlined" onclick="copiar()" class="link" id="copiar-link">link</span>
+                            <input type="hidden" name="link" value="{{ link }}">
+                            <span class="material-symbols-outlined">send</span>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/facebook-icon.png" alt="Ícone do Facebook"></a>
+                            <a href="https://api.whatsapp.com/send?text={{ receita.titulo|url_encode }}%20{{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/whatsapp-icon.png" alt=""></a>
+                            <a href="https://pinterest.com/pin/create/button/?url={{ link|url_encode }}&media={{ ('https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/imagens/comida/' ~ receita.file)|url_encode }}&description={{ receita.titulo|url_encode }}" target="_blank"><img src="{{ doc_root }}imagens/icons/pinterest-icon.png" alt="Ícone do Pinterest"></a>
+                            <a href="https://twitter.com/intent/tweet?url={{ link }}&text=Receita-do-The-Cooking-Place" target="_blank"><img src="{{ doc_root }}imagens/icons/x-icon.png" alt="Ícone do X"></a>
                         </div>
-                    </div>
+                    </dialog>
+                    <button id="f{{ count }}"><span class="material-symbols-outlined">ios_share</span></button>
+                    <!--<div class="save">
+                        <a href="{{ doc_root }}save/{{ receita.id }}/?file={{ receita.file }}&tipo_conteudo={{ receita.tipo_conteudo }}" class="guardar"><span class="material-symbols-outlined">bookmark</span></a>
+                    </div>-->
                 </div>
-            </section>
+                <div class="numeros">
+                    {% if receita.likes != '' %}
+                        <span>{{ receita.likes }}</span>
+                    {% else %} 
+                        <span></span>
+                    {% endif %}
+                    {% if receita.opinioes != '' %}
+                        <span>{{ receita.opinioes }}</span>
+                    {% else %}
+                        <span>0</span>
+                    {% endif %}
+                    <span>55</span>
+                </div>
+            </div>
         </section>
     </section>
-    <aside>
-        
+    <h2>Mais Conteúdos que vais gostar</h2>
+    <aside id="aside-more-contents">
+        {{ include('more-contents.html') }}
     </aside>
 </main>
 <script>
@@ -78,7 +94,7 @@
         })
     })
 
-    document.addEventListener("load", () => {
+    /*document.addEventListener("load", () => {
         let videos = document.querySelector("#video-video-video");
 
         // Configura o Observer
@@ -97,7 +113,7 @@
 
         // Aplica o Observer a cada vídeo
         videos.forEach(video => observer.observe(video));
-        });
+        });*/
 </script>
 {% endblock %}
 {% block footer %} {% endblock %}

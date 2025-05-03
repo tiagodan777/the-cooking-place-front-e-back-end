@@ -15,7 +15,7 @@ return function($cms, $parts, $id) {
             $keyword = $cms->getQuik()->get($id)[0]['keywords'];
             break;
         case 'video':
-            $keyword = $cms->getLongVideo()->get($id)[0]['keywords'];
+            $keyword = $cms->getLongVideo()->get($id)['keywords'];
             break;
         default:
             $keyword = "Porque é que te estás a armar em parva?";

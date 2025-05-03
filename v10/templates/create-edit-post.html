@@ -38,10 +38,10 @@
                     <img src="{{ doc_root }}posts/{{ post.imagem_file }}" alt="Foto publicada por {{ autor }}" id="imagem_guardada">
                 {% endif %}
             </div>
-            {% if erros.imagem_file %} <spanc class="error failure">{{ erros.imagem_file }}</span> {% endif %}
+            {% if erros.imagem_file %} <span class="error failure">{{ erros.imagem_file }}</span> {% endif %}
         </section>
         <section id="descricao">
-            <textarea name="descricao" id="descricao" placeholder="Adicionar descrição" maxlength="2000">{{ opiniao_editar.opiniao }}{{ post.descricao }}</textarea>
+            <textarea name="descricao" id="descricao" placeholder="Adicionar descrição" maxlength="2000">{{ post.descricao }}</textarea>
         </section>
         <div id="opcoes">
             <a href="{{ doc_root }}post-delete/{{ post.id }}">Apagar</a>

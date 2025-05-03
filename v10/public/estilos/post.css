@@ -105,3 +105,7 @@ main#post > section#topo section#info > section > div > div#reacoes > div.numero
     flex: 0 0 55px;
 }
 
+aside#aside-more-contents {
+    margin-top: 100px;
+}
+

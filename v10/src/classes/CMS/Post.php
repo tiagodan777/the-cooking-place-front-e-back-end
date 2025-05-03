@@ -26,7 +26,17 @@ class Post {
     public function create($post, $temp, $destination, $destination_cropped_500, $destination_cropped_600, $destination_cropped_700) {
         try {
             // Original
-            $imagick = new \Imagick($temp);
+            $converted = sys_get_temp_dir() . '/' . uniqid('img_', true) . '.jpg';
+            $output = [];
+            $return_var = 0;
+            $magick = '/opt/homebrew/bin/magick';
+            exec($magick . ' ' . escapeshellarg($temp) . " " . escapeshellarg($converted), $output, $return_var);
+
+            if (!file_exists($converted)) {
+                throw new \Exception("Falha ao converter imagem HEIC. Saída: " . implode("\n", $output));
+            }
+
+            $imagick = new \Imagick($converted);
             $imagick->setImageCompressionQuality(85);
             $imagick->setImageFormat('jpeg');
             $imagick->cropThumbnailImage(800, 800);
@@ -34,9 +44,21 @@ class Post {
             $imagick->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
             $imagick->stripImage();
             $imagick->writeImage($destination);
+            $imagick->clear();
+            unlink($converted);
 
             // 500
-            $imagick_cropped_500 = new \Imagick($temp);
+            $converted = sys_get_temp_dir() . '/' . uniqid('img_', true) . '.jpg';
+            $output = [];
+            $return_var = 0;
+            $magick = '/opt/homebrew/bin/magick';
+            exec($magick . ' ' . escapeshellarg($temp) . " " . escapeshellarg($converted), $output, $return_var);
+
+            if (!file_exists($converted)) {
+                throw new \Exception("Falha ao converter imagem HEIC. Saída: " . implode("\n", $output));
+            }
+
+            $imagick_cropped_500 = new \Imagick($converted);
             $imagick_cropped_500->setImageCompressionQuality(85);
             $imagick_cropped_500->setImageFormat('jpeg');
             $imagick_cropped_500->cropThumbnailImage(800, 800); ;
@@ -44,9 +66,21 @@ class Post {
             $imagick_cropped_500->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
             $imagick_cropped_500->stripImage();
             $imagick_cropped_500->writeImage($destination_cropped_500);
+            $imagick_cropped_500->clear();
+            unlink($converted);
 
             // 600
-            $imagick_cropped_600 = new \Imagick($temp);
+            $converted = sys_get_temp_dir() . '/' . uniqid('img_', true) . '.jpg';
+            $output = [];
+            $return_var = 0;
+            $magick = '/opt/homebrew/bin/magick';
+            exec($magick . ' ' . escapeshellarg($temp) . " " . escapeshellarg($converted), $output, $return_var);
+
+            if (!file_exists($converted)) {
+                throw new \Exception("Falha ao converter imagem HEIC. Saída: " . implode("\n", $output));
+            }
+
+            $imagick_cropped_600 = new \Imagick($converted);
             $imagick_cropped_600->setImageCompressionQuality(85);
             $imagick_cropped_600->setImageFormat('jpeg');
             $imagick_cropped_600->cropThumbnailImage(800, 800); 
@@ -54,9 +88,21 @@ class Post {
             $imagick_cropped_600->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
             $imagick_cropped_600->stripImage();
             $imagick_cropped_600->writeImage($destination_cropped_600);
+            $imagick_cropped_600->clear();
+            unlink($converted);
 
             // 700
-            $imagick_cropped_700 = new \Imagick($temp);
+            $converted = sys_get_temp_dir() . '/' . uniqid('img_', true) . '.jpg';
+            $output = [];
+            $return_var = 0;
+            $magick = '/opt/homebrew/bin/magick';
+            exec($magick . ' ' . escapeshellarg($temp) . " " . escapeshellarg($converted), $output, $return_var);
+
+            if (!file_exists($converted)) {
+                throw new \Exception("Falha ao converter imagem HEIC. Saída: " . implode("\n", $output));
+            }
+
+            $imagick_cropped_700 = new \Imagick($converted);
             $imagick_cropped_700->setImageCompressionQuality(85);
             $imagick_cropped_700->setImageFormat('jpeg');
             $imagick_cropped_700->cropThumbnailImage(800, 800); 
@@ -64,6 +110,9 @@ class Post {
             $imagick_cropped_700->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
             $imagick_cropped_700->stripImage();
             $imagick_cropped_700->writeImage($destination_cropped_700);
+            $imagick_cropped_700->clear();
+            unlink($converted);
+
         $sql = "INSERT INTO publicacao_simples (imagem_file, descricao, membro_id)
                 VALUES (:imagem_file, :descricao, :membro_id);";
         $this->db->runSQL($sql, $post);

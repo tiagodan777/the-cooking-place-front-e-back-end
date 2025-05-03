@@ -16,13 +16,12 @@ main#post > section#topo {
     margin-top: 100px;
 
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    align-items: flex-start;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 main#post > section#topo > section#imagem {
-    width: 50%;
     /*margin-left: 70px;*/
 }
 

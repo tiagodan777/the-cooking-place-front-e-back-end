@@ -111,7 +111,7 @@ main#article > section#topo section#info > section > div > div#reacoes > div.ico
 main#article > section#topo section#info > section > div > div#reacoes > div.numeros > span {
     font-size: 0.9em;
 
-    flex: 0 0 55px;
+    /*flex: 0 0 55px;*/
 }
 
 main#article > section#needs {
@@ -157,6 +157,7 @@ main#article > section#needs section#video > iframe {
 }
 
 main#article > section#steps {
+    width: 100%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -172,13 +173,14 @@ main#article > section#steps > h2 {
 main#article > section#steps > ul {
     list-style-type: none;
     line-height: 1.75em;
-    width: 700px;
+    width: calc(100% - 25px);
     margin-left: 20px;
     text-align: justify;
 }
 
 main#article > section#steps > ul > li {
     margin-bottom: 30px;
+    width: 100%;
 }
 
 main#article > section#steps > ul > li > span {
@@ -186,6 +188,7 @@ main#article > section#steps > ul > li > span {
     font-weight: 600;
     font-size: 1.2em;
     margin: 5px;
+    width: calc(100% - 25px);
 }
 
 main#article > section#steps > ul > li > span.passo {
@@ -193,17 +196,10 @@ main#article > section#steps > ul > li > span.passo {
     font-weight: normal;
     font-size: 1em;
     text-indent: 20px;
+    width: calc(100% - 25px);
 }
 
-main#article > aside {
-    width: 90vw;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.298);
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 100px;
-}
-
-maimain#articlen > aside > h3 {
+main#article > aside > h3 {
     margin: 10px 0px 20px 0px;
 }
 
