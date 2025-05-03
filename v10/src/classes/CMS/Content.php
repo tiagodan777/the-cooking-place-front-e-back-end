@@ -170,79 +170,79 @@ class Content {
         $arguments['term7'] = '%' . $term . '%';
         $arguments['term8'] = '%' . $term . '%';
 
-        $arguments['term9'] = '%' . $term . '%';
-        $arguments['term10'] = '%' . $term . '%';
-        $arguments['term11'] = '%' . $term . '%';
-        $arguments['term12'] = '%' . $term . '%';
-        $arguments['term13'] = '%' . $term . '%';
+        $sql = "SELECT COUNT(*) FROM receita AS r
 
-        $arguments['term14'] = '%' . $term . '%';
-        $arguments['term15'] = '%' . $term . '%';
-        $arguments['term16'] = '%' . $term . '%';
-        $arguments['term17'] = '%' . $term . '%';
+                JOIN categoria AS c ON r.categoria_id = c.id
+                JOIN membro AS m ON r.membro_id = m.id
 
-        $arguments['term18'] = '%' . $term . '%';
-        $arguments['term19'] = '%' . $term . '%';
-        $arguments['term20'] = '%' . $term . '%';
-        $arguments['term21'] = '%' . $term . '%';
-        $arguments['term22'] = '%' . $term . '%';
+                WHERE r.titulo LIKE :term1
+                OR r.descricao LIKE :term2
+                OR r.ingredientes LIKE :term3
+                OR r.passos_preparacao LIKE :term4
+                OR r.keywords LIKE :term5
+                OR c.nome LIKE :term6
+                OR m.forename LIKE :term7
+                OR m.surname LIKE :term8";
 
+        $receitas_count = $this->db->runSQL($sql, $arguments)->fetchColumn();
 
-        $sql = "SELECT COUNT(*)
-                FROM (
-                    SELECT COUNT(*) FROM receita AS r
+        unset($arguments);
+        $arguments['term1'] = '%' . $term . '%';
+        $arguments['term2'] = '%' . $term . '%';
+        $arguments['term3'] = '%' . $term . '%';
+        $arguments['term4'] = '%' . $term . '%';
+        $arguments['term5'] = '%' . $term . '%';
+        
+        $sql = "SELECT COUNT(*) FROM quik AS q
+                JOIN membro AS m ON q.membro_id = m.id
 
-                    JOIN categoria AS c ON r.categoria_id = c.id
-                    JOIN membro AS m ON r.membro_id = m.id
+                WHERE q.titulo LIKE :term1
+                OR q.descricao LIKE :term2
+                OR q.keywords LIKE :term3
+                OR m.forename LIKE :term4
+                OR m.surname LIKE :term5";
+        $quik_count = $this->db->runSQL($sql, $arguments)->fetchColumn();
 
-                    WHERE r.titulo LIKE :term1
-                    OR r.descricao LIKE :term2
-                    OR r.ingredientes LIKE :term3
-                    OR r.passos_preparacao LIKE :term4
-                    OR r.keywords LIKE :term5
-                    OR c.nome LIKE :term6
-                    OR m.forename LIKE :term7
-                    OR m.surname LIKE :term8
-                    
-                    UNION ALL
-                    
-                    SELECT COUNT(*) FROM quik AS q
-                    
-                    JOIN membro AS m ON q.membro_id = m.id
+        unset($arguments);
+        $arguments['term1'] = '%' . $term . '%';
+        $arguments['term2'] = '%' . $term . '%';
+        $arguments['term3'] = '%' . $term . '%';
+        $arguments['term4'] = '%' . $term . '%';
 
-                    WHERE q.titulo LIKE :term9
-                    OR q.descricao LIKE :term10
-                    OR q.keywords LIKE :term11
-                    OR m.forename LIKE :term12
-                    OR m.surname LIKE :term13
+        $sql = "SELECT COUNT(*) FROM publicacao_simples AS p
 
-                    UNION ALL
-                    
-                    SELECT COUNT(*) FROM publicacao_simples AS p
-                    
-                    JOIN membro AS m ON p.membro_id = m.id
+                JOIN membro AS m ON p.membro_id = m.id
 
-                    OR p.descricao LIKE :term14
-                    OR p.keywords LIKE :term15
-                    OR m.forename LIKE :term16
-                    OR m.surname LIKE :term17
+                WHERE p.descricao LIKE :term1
+                OR p.keywords LIKE :term2
+                OR m.forename LIKE :term3
+                OR m.surname LIKE :term4";
+        $publicacao_simples_count = $this->db->runSQL($sql, $arguments)->fetchColumn();
 
-                    UNION ALL
-                    
-                    SELECT COUNT(*) FROM video_longo AS v
-                    
-                    JOIN membro AS m ON v.membro_id = m.id
+        unset($arguments);
+        $arguments['term1'] = '%' . $term . '%';
+        $arguments['term2'] = '%' . $term . '%';
+        $arguments['term3'] = '%' . $term . '%';
+        $arguments['term4'] = '%' . $term . '%';
+        $arguments['term5'] = '%' . $term . '%';
+            
+        $sql = "SELECT COUNT(*) FROM video_longo AS v
+            
+                JOIN membro AS m ON v.membro_id = m.id
 
-                    WHERE v.titulo LIKE :term18
-                    OR v.descricao LIKE :term19
-                    OR v.keywords LIKE :term20
-                    OR m.forename LIKE :term21
-                    OR m.surname LIKE :term22 ) AS data;";
+                WHERE v.titulo LIKE :term1
+                OR v.descricao LIKE :term2
+                OR v.keywords LIKE :term3
+                OR m.forename LIKE :term4
+                OR m.surname LIKE :term5;";
+        $video_longo_count = $this->db->runsql($sql, $arguments)->fetchColumn();
 
-        return $this->db->runSQL($sql, $arguments)->fetchColumn();
+        $count = $receitas_count + $quik_count + $publicacao_simples_count + $video_longo_count;
+
+        return $count;
     }
 
-    public function search($term) {
+    public function search($term, $show = 5, $from = 0) {
         $arguments['term1'] = '%' . $term . '%';
         $arguments['term2'] = '%' . $term . '%';
         $arguments['term3'] = '%' . $term . '%';
@@ -268,6 +268,9 @@ class Content {
         $arguments['term20'] = '%' . $term . '%';
         $arguments['term21'] = '%' . $term . '%';
         $arguments['term22'] = '%' . $term . '%';
+
+        $arguments['show'] = $show;
+        $arguments['from'] = $from;
 
         $sql = "SELECT *
                 FROM (
@@ -398,7 +401,9 @@ class Content {
                     OR v.keywords LIKE :term20
                     OR m.forename LIKE :term21
                     OR m.surname LIKE :term22) AS data
-                ORDER BY data DESC;";
+                ORDER BY data DESC
+                LIMIT :show
+                OFFSET :from;";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
 
