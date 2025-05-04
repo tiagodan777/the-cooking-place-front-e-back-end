@@ -11,7 +11,7 @@ class Content {
         $this->db = $db; 
     }
 
-    public function get($member = null) {
+    public function get($member = null, $from = 0) {
         $arguments['member'] = $member;
         $arguments['member1'] = $member;
         $arguments['member2'] = $member;
@@ -20,6 +20,7 @@ class Content {
         $arguments['member5'] = $member;
         $arguments['member6'] = $member;
         $arguments['member7'] = $member;
+        $arguments['from'] = $from;
 
         $sql = "SELECT *
                 FROM (
@@ -121,7 +122,9 @@ class Content {
                     FROM video_longo AS v
                     JOIN membro AS m ON m.id = v.membro_id
                     WHERE (v.membro_id = :member6 OR :member7 IS NULL)) AS data
-                ORDER BY data DESC;";
+                ORDER BY data DESC
+                LIMIT 10
+                OFFSET :from";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
 

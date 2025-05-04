@@ -163,6 +163,33 @@ main#index > article > aside.aside-principal > aside > a {
     margin-bottom: 15px;
 }
 
+main#index > aside#aside-pagination {
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+main#index > aside#aside-pagination > nav > ul {
+    list-style-type: none;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+main#index > aside#aside-pagination > nav > ul > li > a {
+    background-color: var(--cor0);
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0px 10px;
+    color: var(--cor5);
+    text-decoration: none;
+}
+
+main#index > aside#aside-pagination > nav > ul > li > a.ativo {
+    background-color: var(--cor2);
+}
+
 footer {
     width: 100%;
     position: fixed;

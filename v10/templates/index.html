@@ -2,7 +2,7 @@
 {% block content %}
 <main id="index">
     {% for conteudo in conteudos %}
-        <article {% if count == 0 %} id='primeiro-artigo' {% endif %}>
+        <article {% if count == 1 %} id='primeiro-artigo' {% endif %}>
             {% set count = count + 1 %}
             <header>
                 <a href="{{ doc_root }}profile/{{ conteudo.membro_id }}/{{ conteudo.seo_member }}">
@@ -125,6 +125,18 @@
                 </aside>
             </aside>
         </article>
+        {% if (count % 11 == 0) %}
+        <aside id="aside-pagination">
+            <nav class="pagination">
+                <ul>
+                    {% for i in 1..total_pages %}
+                        {% set ativo = loop.index == current_page ? 'ativo': '' %}
+                        <li><a href="index/?from={{ (loop.index - 1) * 10 }}" class="{{ ativo }}">{{ i }}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+    {% endif %}
     {% endfor %}
     <script>
         window.document.querySelectorAll("button[id^='b']").forEach((button) => {
@@ -201,4 +213,16 @@
         }
     </script>
 </main>
+<!--<aside id="search-aside">
+    {% if count > show %}
+        <nav class="pagination">
+            <ul>
+                {% for i in 1..total_pages %}
+                    {% set ativo =  i == current_page ? 'ativo' : '' %}
+                    <li><a href="?search={{ term|e('url') }}&show={{ show }}&from= {{ (i - 1) * show }}" class="{{ ativo }}">{{ i }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
+</aside>-->
 {% endblock %}

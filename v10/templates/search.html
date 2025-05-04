@@ -47,8 +47,8 @@
         <nav class="pagination">
             <ul>
                 {% for i in 1..total_pages %}
-                    {% set ativo =  i == current_page ? 'ativo' : '' %}
-                    <li><a href="?search={{ term|e('url') }}&show={{ show }}&from= {{ (i - 1) * show }}" class="{{ ativo }}">{{ i }}</a></li>
+                    {% set ativo =  loop.index == current_page ? 'ativo' : '' %}
+                    <li><a href="?search={{ term|e('url') }}&show={{ show }}&from={{ (loop.index - 1) * show }}" class="{{ ativo }}">{{ i }}</a></li>
                 {% endfor %}
             </ul>
         </nav>

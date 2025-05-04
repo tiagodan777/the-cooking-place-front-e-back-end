@@ -80,12 +80,15 @@ main#search > div > a > img {
 }
 
 aside#search-aside {
-    position: absolute;
-    top: 85%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
+    width: 100%;
+    position: fixed;
+    top: 88%;
+    padding: 10px;
     
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
 }
 
 aside#search-aside > nav > ul {
@@ -95,10 +98,6 @@ aside#search-aside > nav > ul {
     flex-flow: row nowrap;
     justify-content: space-evenly;
     align-items: center;
-}
-
-aside#search-aside > nav > ul > li {
-    
 }
 
 aside#search-aside > nav > ul > li > a {
