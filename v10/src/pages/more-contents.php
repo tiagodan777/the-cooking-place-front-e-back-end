@@ -26,7 +26,7 @@ return function($cms, $parts, $id) {
         $conteudosKeywords = $cms->getContent()->search($keyword);
     }
 
-    foreach ($conteudosKeywords as $key => $item) {
+    foreach ($conteudosKeywords[1] as $key => $item) {
         if ($item['id'] == $id) {
             unset($conteudosKeywords[$key]);
             break;

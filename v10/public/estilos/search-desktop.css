@@ -19,10 +19,14 @@ main#search {
     margin-left: 250px;
 }
 
-main#search > div > a > img { 
-    width: 350px;    
+main#search > section {
+    width: 65vw;
 }
 
-main#search footer.info {
+main#search > section > div > a > img { 
+    width: 300px;    
+}
+
+main#search > section footer.info {
     top: 78%;
 }

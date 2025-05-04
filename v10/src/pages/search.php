@@ -1,6 +1,6 @@
 <?php
 $term = filter_input(INPUT_GET, 'search');
-$show = filter_input(INPUT_GET, 'show', FILTER_VALIDATE_INT) ?? 5;
+$show = filter_input(INPUT_GET, 'show', FILTER_VALIDATE_INT) ?? 10;
 $from = filter_input(INPUT_GET, 'from', FILTER_VALIDATE_INT) ?? 0;
 
 $count = 0;
@@ -19,20 +19,16 @@ if ($term) {
     }
 }
 
-/*var_dump($count);*/
-
 if ($count > $show) {
     $total_pages = ceil($count / $show);
     $current_page = ceil($from / $show) + 1;
 }
 
-/*var_dump($count);
-var_dump($conteudos);*/
-
 $data['term'] = $term;
 $data['count'] = $count;
 $data['show'] = $show;
-$data['conteudos'] = $conteudos;
+$data['conteudos'] = $conteudos[0];
+$data['membros'] = $conteudos[1];
 $data['total_pages'] = $total_pages;
 $data['current_page'] = $current_page;
 

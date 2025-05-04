@@ -2,6 +2,7 @@
 namespace TiagoDaniel\CMS;
 
 use Google\Service\Safebrowsing\FindThreatMatchesRequest;
+use HTML5TreeConstructer;
 
 class Content {
     private $db;
@@ -407,7 +408,40 @@ class Content {
                 ORDER BY data DESC
                 LIMIT :show
                 OFFSET :from;";
-        return $this->db->runSQL($sql, $arguments)->fetchAll();
+        $conteudos = $this->db->runSQL($sql, $arguments)->fetchAll();
+
+        array_splice($arguments, 15);
+
+        $sql = "SELECT DISTINCT m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture
+                FROM membro AS m
+
+                LEFT JOIN receita AS r ON m.id = r.membro_id
+                LEFT JOIN publicacao_simples AS p ON m.id = p.membro_id
+                LEFT JOIN quik AS q ON m.id = q.membro_id
+                LEFT JOIN video_longo AS v ON m.id = v.membro_id
+
+                WHERE
+                r.titulo LIKE :term1
+                OR r.descricao LIKE :term2
+                OR r.ingredientes LIKE :term3
+                OR r.passos_preparacao LIKE :term4
+                OR r.keywords LIKE :term5
+                OR m.forename LIKE :term6 
+                OR m.surname LIKE :term7
+
+                OR q.titulo LIKE :term8
+                OR q.descricao LIKE :term9
+                OR q.keywords LIKE :term10
+
+                OR p.descricao LIKE :term11
+                OR p.keywords LIKE :term12
+
+                OR v.titulo LIKE :term13
+                OR v.descricao LIKE :term14 
+                OR v.keywords LIKE :term15;";
+        $membros = $this->db->runSQL($sql, $arguments)->fetchAll();
+
+        return [$conteudos, $membros];
     }
 
     public function count() {

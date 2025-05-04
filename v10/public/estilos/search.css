@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 header#cabecalho-principal {
     z-index: 10;
 }
@@ -45,8 +46,10 @@ section#opcoes-search > div#linha-principal > div#linha-que-move {
 }
 
 main#search {
-
     height: calc(100vh - 223px);
+}
+
+main#search > section {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
@@ -82,7 +85,7 @@ main#search > div > a > img {
 aside#search-aside {
     width: 100%;
     position: fixed;
-    top: 88%;
+    top: 85%;
     padding: 10px;
     
     display: flex;
