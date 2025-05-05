@@ -95,6 +95,25 @@ main#opinions > form > input[type="submit"]:hover {
     background-color: var(--cor1);
 }
 
+main#opinions > p {
+    margin: auto;
+    text-align: center;
+    margin-top: 25px;
+}
+
+main#opinions > p > a {
+    text-align: center;
+    margin: auto;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--cor4);
+    transition: 0.3s;
+}
+
+main#opinions > p > a:hover {
+    color: var(--cor0);
+}
+
 main#opinions > div {
     width: 100%;
     padding: 10px;
@@ -216,3 +235,6 @@ main#opinions > div > section#content > div > dialog > form > div > input {
     background-color: var(--cor3);
 }
 
+a {
+    cursor: pointer;
+}

@@ -10,7 +10,7 @@ class Opinion {
     }
 
     public function get($id) {
-        $sql = "SELECT o.id, o.opiniao, o.data, o.membro_id, o.conteudo_id,
+        $sql = "SELECT o.id, o.opiniao, o.data, o.membro_id, o.conteudo_id, o.data,
                 CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name
                 FROM opiniao AS o
                 JOIN membro AS m ON o.membro_id = m.id
@@ -19,7 +19,7 @@ class Opinion {
     }
 
     public function getAll($id = null) {
-        $sql = "SELECT o.id, o.opiniao, o.data, o.membro_id, o.conteudo_id,
+        $sql = "SELECT o.id, o.opiniao, o.data, o.membro_id, o.conteudo_id, o.data,
                 CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name
                 FROM opiniao AS o
                 JOIN membro AS m ON o.membro_id = m.id

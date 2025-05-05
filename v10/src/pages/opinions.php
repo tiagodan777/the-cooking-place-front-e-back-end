@@ -8,6 +8,8 @@ if ($id_opiniao == '') {
 $form_id = $id;
 $opinioes = $cms->getOpinion()->getAll($id);
 
+$autor_conteudo_id = $cms->getContent()->getMemberIdByContentId($form_id);
+
 $opiniao_editar = [];
 
 if ($id_opiniao) {
@@ -40,5 +42,6 @@ $data['opinioes'] = $opinioes;
 $data['form_id'] = $form_id;
 $data['opiniao_editar'] = $opiniao_editar;
 $data['id_opiniao'] = $id_opiniao;
+$data['autor_conteudo_id'] = $autor_conteudo_id;
 
 echo $twig->render('opinions.html', $data);

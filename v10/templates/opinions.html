@@ -9,20 +9,24 @@
 <body>
     <main id="opinions">
         <h2>Opiniões</h2>
-        {% if not id_opiniao %} 
-            <form action="{{ doc_root }}opinions/{{ form_id }}/" method="post">
-        {% else %}
-            <form action="{{ doc_root }}opinions/?id_opiniao={{ id_opiniao }}" method="post">
-        {% endif %}
-            <img src="{{ doc_root }}imagens/fotos-perfil/{{ session.picture }}" alt="">
-            <textarea name="opinion" id="opinion" placeholder="Adicionar opinião" maxlength="2000">{{ opiniao_editar.opiniao }}</textarea>
-            {% if not opiniao_editar.opiniao %}
-                <input type="submit" value="Opinar">
+        {% if session.id != 0 %}
+            {% if not id_opiniao %} 
+                <form action="{{ doc_root }}opinions/{{ form_id }}/" method="post">
             {% else %}
-                <a href="javascript:void(0);" onclick="history.back();" id="cancelar-edicao">Cancelar</a>
-                <input type="submit" value="Editar">
+                <form action="{{ doc_root }}opinions/?id_opiniao={{ id_opiniao }}" method="post">
             {% endif %}
-        </form>
+                <img src="{{ doc_root }}imagens/fotos-perfil/{{ session.picture }}" alt="">
+                <textarea name="opinion" id="opinion" placeholder="Adicionar opinião" maxlength="2000">{{ opiniao_editar.opiniao }}</textarea>
+                {% if not opiniao_editar.opiniao %}
+                    <input type="submit" value="Opinar">
+                {% else %}
+                    <a href="javascript:void(0);" onclick="history.back();" id="cancelar-edicao">Cancelar</a>
+                    <input type="submit" value="Editar">
+                {% endif %}
+            </form>
+        {% else %}
+            <p>Para opinar tens de fazer <a href="{{ doc_root }}login" target="_top">Login</a></p>
+        {% endif %}
         {% set count = 1 %}
         {% for opiniao in opinioes %}
             <div>
@@ -31,13 +35,13 @@
                         <a href="{{ doc_root }}profile/{{ opiniao.membro_id }}/{{ opiniao.seo_name }}" target="_top"><img src="{{ doc_root }}imagens/fotos-perfil/{{ opiniao.picture }}" alt="Foto de perfil de {{ opiniao.autor }}"></a>
                         <h3><a href="{{ doc_root }}profile/{{ opiniao.membro_id }}/{{ opiniao.seo_name }}" target="_top">{{ opiniao.autor }}</a></h3>
                     </div>
-                    <p>{{ opiniao.posted|date('d F Y') }}</p>
+                    <p>{{ opiniao.data|date('d F Y') }}</p>
                 </section>
                 <section id="content">
                     <p>{{ opiniao.opiniao }}</p>
-                    {% if opiniao.membro_id == session.id %}
+                    {% if (opiniao.membro_id == session.id) or (autor_conteudo_id == session.id) %}
                         <div>
-                            <a href="{{ doc_root }}opinions/?id_opiniao={{ opiniao.id }}" id="editar" class="admin-comentario">Editar</a>
+                            {% if opiniao.membro_id == session.id %} <a href="{{ doc_root }}opinions/?id_opiniao={{ opiniao.id }}" id="editar" class="admin-comentario">Editar</a> {% endif %}
                             <button id="apagar{{ count }}" class="admin-comentario">Apagar</button>
                             <dialog id="c{{ count }}">
                                 <form action="{{ doc_root }}opinion-delete/{{ opiniao.id }}/?id_receita={{ opiniao.receita_id }}" method="post">

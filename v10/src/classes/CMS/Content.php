@@ -576,4 +576,24 @@ class Content {
         return $this->db->runSQL($sql)->fetchAll();
     }
 
+    public function getMemberIdByContentId($id) {
+        $arguments['id1'] = $id;
+        $arguments['id2'] = $id;
+        $arguments['id3'] = $id;
+        $arguments['id4'] = $id;
+
+        $sql = "SELECT m.id 
+                FROM membro AS m
+                
+                LEFT JOIN receita AS r ON r.membro_id = m.id
+                LEFT JOIN publicacao_simples AS p ON p.membro_id = m.id
+                LEFT JOIN quik AS q ON q.membro_id = m.id
+                LEFT JOIN video_longo AS v ON v.membro_id = m.id
+                
+                WHERE r.id = :id1
+                OR p.id = :id2
+                OR q.id = :id3
+                OR v.id = :id4;";
+        return $this->db->runSQL($sql, $arguments)->fetchColumn();
+    }
 }
