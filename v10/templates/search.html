@@ -1,22 +1,24 @@
 {% extends 'layout.html' %}
 {% block title %} {{ term }} {% endblock %}
 {% block content %}
-<section id="opcoes-search">
+<!--<section id="opcoes-search">
     <section>
         <div><label for="receitas" onclick="mudaPosicao(0)" id="label-0" style="font-weight: bold;">Receitas</label> <input type="radio" name="opcao" id="receitas" checked></div>
         <div><label for="quiks" onclick="mudaPosicao(1)" id="label-1">Quiks</label> <input type="radio" name="opcao" id="quiks"></div>
         <div><label for="utilizadores" onclick="mudaPosicao(2)" id="label-2">Utilizadores</label> <input type="radio" name="opcao" id="utilizadores"></div>
     </section>
     <div id="linha-principal"><div id="linha-que-move"></div></div>
-</section>
+</section>-->
 <main id="search">
     <section>
         <section id="membros">
             {% for membro in membros %}
                 <div class="membro">
                     <a href="{{ doc_root }}profile/{{ membro.id }}">
-                        <img src="{{ doc_root }}/imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.autor }}">
-                        <h1>{{ membro.autor }}</h1>
+                        <div>
+                            <img src="{{ doc_root }}/imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.autor }}">
+                            <h2>{{ membro.autor }}</h2>
+                        </div>
                     </a>
                 </div>
             {% endfor %}
