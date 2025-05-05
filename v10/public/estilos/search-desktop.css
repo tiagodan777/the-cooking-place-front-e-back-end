@@ -23,10 +23,10 @@ main#search > section {
     width: 65vw;
 }
 
-main#search > section > div > a > img { 
+main#search > section > section#conteudos > div > a > img { 
     width: 300px;    
 }
 
-main#search > section footer.info {
+main#search > section > section#conteudos > div > footer.info {
     top: 78%;
 }
