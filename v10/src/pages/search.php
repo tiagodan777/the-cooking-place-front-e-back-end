@@ -27,8 +27,10 @@ if ($count > $show) {
 $data['term'] = $term;
 $data['count'] = $count;
 $data['show'] = $show;
-$data['conteudos'] = $conteudos[0];
-$data['membros'] = $conteudos[1];
+if ($term) {
+    $data['conteudos'] = $conteudos[0];
+    $data['membros'] = $conteudos[1];
+}
 $data['total_pages'] = $total_pages;
 $data['current_page'] = $current_page;
 
