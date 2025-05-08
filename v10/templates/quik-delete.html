@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block title %} {{ quik.titulo }} {% endblock %}
+{% block content %}
+<main id="article-delete">
+    <section id="apagar">
+        <h2>Apagar Quik</h2>
+        <section id="dados">
+            <p>Confirma para apagar o Quik: {{ quik.titulo }}</p>
+            <iframe id="video-{{ video.id }}" class="youtube-video" src="https://www.youtube.com/embed/{{ quik.youtube_id }}" frameborder="0" allowfullscreen style="height: 315px;"></iframe>
+        </section>
+        <section id="opcoes">
+            <form action="{{ doc_root }}quik-delete/{{ quik.id }}" method="post">
+                <a href="{{ doc_root }}create-edit-long-video/{{ quik.id }}">Cancelar</a>
+                <input type="submit" value="Confirmar">
+            </form>
+        </section>
+    </section>
+</main>
+{% endblock %}
+

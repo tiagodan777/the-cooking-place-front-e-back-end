@@ -36,4 +36,10 @@ class Quik {
                 WHERE id = :id;";
         $this->db->runSQL($sql, [$titulo, $descricao, $receita_acoplada_id, $keywords, $seo_title, $id]);
     }
+
+    public function delete($id) {
+        $sql = "DELETE FROM quik
+                WHERE id = :id;";
+        $this->db->runSQL($sql, [$id]);
+    }
 }

@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block title %} Criar e Editar Quik {% endblock %}
 {% block content %}
-{% if not quik.youtube_id %}
+{% if quik.youtube_id %}
     {% set borda = 'none' %}
     {% set text_indent = '-225px' %}
 {% else %}
@@ -9,7 +9,7 @@
     {% set text_indent = '0px' %}
 {% endif %}
 <style>
-    main#create-edit-long-video > form > section#video > div#div-video { 
+    main#create-edit-quik > form#form > section#video > div#div-video { 
         border: {{ borda }};
     }
 </style>
@@ -30,7 +30,7 @@
                 {% if not quik.youtube_id %}
                     <label for="video">Upload de Quik</label>
                     <div>
-                        <input type="file" name="video" id="video" accept="video/mp4, video/webm, video/ogg, video/quiktime, video/mpeg">
+                        <input type="file" name="video" id="video" accept="video/*">
                     </div>
                     {% if erros.imagem_file %} <spanc class="error failure">{{ erros.imagem_file }}</span> {% endif %}
                     {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
