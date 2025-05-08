@@ -36,4 +36,11 @@ class LongVideo {
                 WHERE id = :id;";
         $this->db->runSQL($sql, [$titulo, $descricao, $keywords, $seo_title, $id]);
     }
+
+    public function delete($id) {
+        $sql = "DELETE FROM video_longo
+                WHERE id = :id;";
+        $this->db->runSQL($sql, [$id]);
+        return true;
+    }
 }

@@ -12,8 +12,6 @@ if (!$receita) {
     redirect(DOC_ROOT . 'profile/' . $session->id . '/', ['failure' => 'Receita não encontrada']);
 }
 
-$membro = $cms->getMember()->get(1);
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cms->getArticle()->imageDelete($id, $path);
     $cms->getArticle()->delete($id);
@@ -21,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $data['receita'] = $receita;
-$data['membro'] = $membro;
 
 echo $twig->render('article-delete.html', $data);
 ?>

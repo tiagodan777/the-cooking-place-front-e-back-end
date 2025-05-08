@@ -13,7 +13,7 @@
                 <p>Data: {{ video.data|date('d F Y') }}</p>
                 <a href="{{ doc_root }}profile/{{ video.membro_id }}/{{ video.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ video.picture }}" alt="Foto de perfil de {{ video.autor }}">&nbsp;{{ video.autor }}</a>
                 {% if session.id == video.membro_id %}
-                    <a href="{{ doc_root }}create-edit-post/{{ video.id }}" id="editar">Editar</a>
+                    <a href="{{ doc_root }}create-edit-long-video/{{ video.id }}" id="editar">Editar</a>
                 {% endif %}
             </div>
             <div id="reacoes">
