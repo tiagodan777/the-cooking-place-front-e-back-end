@@ -180,5 +180,34 @@ main#profile > section > div > a > img {
     object-fit: cover; /* Faz a imagem cobrir todo o espaço */
 }
 
+main#profile > section > div > div.video-wrapper-profile {
+    width: 33.3%;
+    height: 163px;
+    border: 2px solid var(--cor5);
+    z-index: 0;
+
+    position: relative;
+}
+
+
+
+
+/*div.video-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 96vh;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: var(--cor5);
+}*/
+
+main#profile > section > div > div.video-wrapper-profile > iframe {
+    width: 100%;
+    /*height: 100%;*/
+    background-color: var(--cor5);
+    object-fit: cover;
+    /*display: block;*/
+}
+
 
 

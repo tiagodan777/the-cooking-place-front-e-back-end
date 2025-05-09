@@ -358,11 +358,22 @@ dialog.share::backdrop {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
-iframe {
+div.video-wrapper {
+    position: relative;
     width: 100vw;
+    height: 96vh;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: var(--cor5);
+}
+
+div.video-wrapper > iframe {
+    width: 100%;
     height: 100%;
     background-color: var(--cor5);
     border: none;
+    object-fit: cover;
+    display: block;
 }
 
 main[id^="create-edit-"] > div#opcoes-publicacao {
@@ -450,4 +461,12 @@ footer.info > div.stats > div {
 
 footer.info > div.stats > div > span {
     color: var(--cor5);
+}
+
+div.ytp-title {
+    visibility: hidden;
+}
+
+.ytp-title-link, .yt-uix-sessionlink, .ytp-shorts-title-channel-logo {
+    visibility: hidden;
 }

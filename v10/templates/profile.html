@@ -35,7 +35,7 @@
                     <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
                 {% elseif conteudo.tipo_conteudo == 'quik'  %}
                     {% if conteudo.receita_acoplada_id == 0 %}
-                        <div style="position: relative; display: inline-block;">
+                        <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
                             <iframe id="video-{{ conteudo.id }}" class="youtube-video"
                               src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1"
                               frameborder="0" allowfullscreen
@@ -47,7 +47,7 @@
                             <span>{{ conteudo.tipo_conteudo }}</span>
                         </div>
                     {% else %}
-                    <div style="position: relative; display: inline-block;">
+                    <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
                         <iframe id="video-{{ conteudo.id }}" class="youtube-video"
                           src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1"
                           frameborder="0" allowfullscreen
@@ -62,7 +62,7 @@
                 {% elseif conteudo.tipo_conteudo == 'publicação' %}  
                     <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
                 {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
-                    <div style="position: relative; display: inline-block;">
+                    <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
                         <iframe id="video-{{ conteudo.id }}" class="youtube-video"
                           src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1"
                           frameborder="0" allowfullscreen

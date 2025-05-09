@@ -213,6 +213,25 @@ dialog.share > div.imagem img, dialog.share > div.imagem video {
     transform: translate(-50%, -50%);
 }
 
+div.video-wrapper {
+    position: relative;
+    width: 500px;
+    height: 700px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: var(--cor5);
+}
+
+div.video-wrapper > iframe {
+    width: 100%;
+    height: 100%;
+    background-color: var(--cor5);
+    border: none;
+    object-fit: cover;
+    display: block;
+}
+
+
 iframe {
     width: 100%;
     height: 100%;
