@@ -6,7 +6,7 @@ if (!$id) {
 
 $membro = $cms->getMember()->get($id);
 if (!$membro) {
-    include 'error-page.php';
+    include DOC_ROOT . 'error-page.php';
 }
 
 $conteudos = $cms->getContent()->get(member:$id, limit:50000);

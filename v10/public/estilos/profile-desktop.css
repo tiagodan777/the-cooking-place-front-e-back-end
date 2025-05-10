@@ -74,7 +74,7 @@ main#profile > section {
     width: 70vw;
     margin-top: 0px;
     margin-left: 150px;
-    border: 2px solid red;
+    /*border: 2px solid red;*/
 
     display: flex;
     flex-flow: row nowrap;
