@@ -1,12 +1,48 @@
 @charset "UTF-8";
 
 div.more-contents {
+    position: relative;
+    width: 49.5%;
+    height: 50%;
+}
+
+div.more-contents > a {
     width: 50%;
+}
+
+div.more-contents > a > img {
+    width: 100%;
     height: 100%;
 }
 
-div.more-contents > a > img, div.more-contents > a > iframe {
-    width: 98%;
-    height: 100%;
+div.more-contents > div.video-wrapper-profile {
+    width: 100%;
+    height: 150%;
+    border: 2px solid var(--cor5);
+    z-index: 0;
+
+    position: relative;
+}
+
+div.more-contents > div.video-wrapper-profile > iframe {
+    width: 100%;
+    height: 33.3vh;
+    background-color: var(--cor5);
+    object-fit: cover;
+    display: block;
+}
+
+span.tipo-conteudo {
+    width: 35%;
+    z-index: 10;
+    color: var(--cor5);
+    font-weight: normal;
+    text-transform: capitalize;
+    padding: 10px;
+
+    position: absolute;
+    top: 10%;
+    left: 75%;
+    transform: translate(-50%, -50%);
 }
 

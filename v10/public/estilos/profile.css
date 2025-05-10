@@ -17,7 +17,7 @@
 main#profile h1 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.5em;
-    transform: translate(0px, -20px);
+    transform: translate(25px, 0px);
 }
 
 main#profile {
@@ -35,7 +35,7 @@ main#profile {
 main#profile > header {
     width: 100vw;
     padding: 10px;
-    margin-top: -20px;
+    margin-top: 35px;
 
     flex: 0 0 275px;
 
@@ -62,9 +62,9 @@ main#profile > header > div#foto_e_bio > img {
 }
 
 main > header > div#foto_e_bio > p {
-    max-width: 250px;
+    max-width: 230px;
     font-weight: normal;
-    transform: translate(100px, 0px);
+    transform: translate(35px, 0px);
 }
 
 main > header > div#foto_e_bio > a {
@@ -124,7 +124,7 @@ main#profile > header > p > span {
 
 main#profile > section {
     width: 100vw;
-    margin-top: 100px;
+    margin-top: 50px;
 
     display: flex;
     flex-flow: column nowrap;
@@ -164,16 +164,6 @@ main#profile > section > div > a > span {
     transform: translate(-50%, -50%);
 }
 
-main#profile > section > div > a > video {
-    width: 100%;
-    height: 100%;
-    border: 2px solid var(--cor5);
-}
-
-main#profile > section > a:hover {
-    
-}
-
 main#profile > section > div > a > img {
     width: 100%;
     height: 100%;
@@ -189,24 +179,26 @@ main#profile > section > div > div.video-wrapper-profile {
     position: relative;
 }
 
-
-
-
-/*div.video-wrapper {
-    position: relative;
-    width: 100vw;
-    height: 96vh;
-    overflow: hidden;
-    cursor: pointer;
-    background-color: var(--cor5);
-}*/
-
 main#profile > section > div > div.video-wrapper-profile > iframe {
     width: 100%;
-    /*height: 100%;*/
+    height: 100%;
     background-color: var(--cor5);
     object-fit: cover;
     /*display: block;*/
+}
+
+main#profile > section > div > div.video-wrapper-profile > span {
+    width: 100%;
+    z-index: 10;
+    color: var(--cor5);
+    font-weight: lighter;
+    text-transform: capitalize;
+    padding: 10px;
+
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 

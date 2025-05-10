@@ -12,7 +12,7 @@ class Content {
         $this->db = $db; 
     }
 
-    public function get($member = null, $from = 0) {
+    public function get($member = null, $from = 0, $limit = 10) {
         $arguments['member'] = $member;
         $arguments['member1'] = $member;
         $arguments['member2'] = $member;
@@ -22,6 +22,7 @@ class Content {
         $arguments['member6'] = $member;
         $arguments['member7'] = $member;
         $arguments['from'] = $from;
+        $arguments['limit'] = $limit;
 
         $sql = "SELECT *
                 FROM (
@@ -124,7 +125,7 @@ class Content {
                     JOIN membro AS m ON m.id = v.membro_id
                     WHERE (v.membro_id = :member6 OR :member7 IS NULL)) AS data
                 ORDER BY data DESC
-                LIMIT 10
+                LIMIT :limit
                 OFFSET :from";
         return $this->db->runSQL($sql, $arguments)->fetchAll();
     }
@@ -571,7 +572,7 @@ class Content {
 
                     JOIN membro AS m ON m.id = v.membro_id) AS data
             ORDER BY RAND()
-            LIMIT 5;";
+            LIMIT 15;";
 
         return $this->db->runSQL($sql)->fetchAll();
     }

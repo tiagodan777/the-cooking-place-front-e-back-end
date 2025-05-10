@@ -1,32 +1,46 @@
-<!--<pre>
-    {% for conteudo in conteudos %}
-        {{ dump(conteudo) }}
-    {% endfor %}
-</pre>-->
 {% for conteudo in conteudos %}
     <div class="more-contents">
         {% if conteudo.tipo_conteudo == 'receita' %}
             <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"></a>
+            <span class="tipo-conteudo">{{ conteudo.tipo_conteudo }}</span>
         {% elseif conteudo.tipo_conteudo == 'quik'  %}
             {% if conteudo.receita_acoplada_id == 0 %}
-                <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"><iframe id="video-{{ conteudo.id }}" class="youtube-video" data-video-id="{{ conteudo.file }}" src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe></a>
+                <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
+                    <iframe id="video-{{ conteudo.id }}" class="youtube-video" data-video-id="{{ conteudo.file }}" src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1"
+                    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
+                    
+                    <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                                z-index: 10; background: transparent;"></a>
+                    <span class="tipo-conteudo">{{ conteudo.tipo_conteudo }}</span>
+                </div>
             {% else %}
-                <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"><iframe id="video-{{ conteudo.id }}" class="youtube-video" data-video-id="{{ conteudo.file }}" src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe></a>
+                <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
+                    <iframe id="video-{{ conteudo.id }}" class="youtube-video" data-video-id="{{ conteudo.file }}" src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1"
+                    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
+                    
+                    <a href="{{ doc_root }}article/{{ conteudo.receita_acoplada_id }}/{{ conteudo.seo_title }}" class="quik"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                                z-index: 10; background: transparent;"></a>
+                    <span class="tipo-conteudo">{{ conteudo.tipo_conteudo }}</span>
+                </div>
             {% endif %}
         {% elseif conteudo.tipo_conteudo == 'publicação' %}  
             <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"></a>
+            <span class="tipo-conteudo">{{ conteudo.tipo_conteudo }}</span>
         {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
             <!--<a href="{{ doc_root }}video/{{ conteudo.id }}" class="video"><iframe id="video-{{ conteudo.id }}" class="youtube-video" data-video-id="{{ conteudo.file }}" src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe></a>-->
-            <div style="position: relative; display: inline-block;">
-                <iframe id="video-{{ conteudo.id }}" class="youtube-video"
-                  src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1"
-                  frameborder="0" allowfullscreen
-                  style="width: 560px; height: 315px;"></iframe>
-              
-                <a href="{{ doc_root }}video/{{ conteudo.id }}"
-                   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-                          z-index: 10; background: transparent;"></a>
-            </div>
+            <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
+                    <iframe id="video-{{ conteudo.id }}" class="youtube-video" data-video-id="{{ conteudo.file }}" src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1"
+                    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
+                    
+                    <a href="{{ doc_root }}video/{{ conteudo.id }}"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                                z-index: 10; background: transparent;"></a>
+                    <span class="tipo-conteudo">{{ conteudo.tipo_conteudo }}</span>
+                </div>
+        {% else %}
+            {{ dump(conteudo) }}
         {% endif %}
         <footer class="info">
             <h1>{{ conteudo.titulo }}</h1>

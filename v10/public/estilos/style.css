@@ -361,7 +361,7 @@ dialog.share::backdrop {
 div.video-wrapper {
     position: relative;
     width: 100vw;
-    height: 96vh;
+    height: 75vh;
     overflow: hidden;
     cursor: pointer;
     background-color: var(--cor5);
@@ -374,6 +374,10 @@ div.video-wrapper > iframe {
     border: none;
     object-fit: cover;
     display: block;
+}
+
+div.video-wrapper > iframe video {
+    transform: scale(150%);
 }
 
 main[id^="create-edit-"] > div#opcoes-publicacao {
@@ -413,13 +417,12 @@ aside#aside-more-contents {
 }
 
 footer.info {
-    width: 100%;
+    /*width: 100%;*/
     height: 100px;
     padding: 5px;
     margin: 0px;
     position: absolute;
-    top: -100px;
-    margin-top: -25px;
+    top: 200px;
     background-color: transparent;
     border: none;
 

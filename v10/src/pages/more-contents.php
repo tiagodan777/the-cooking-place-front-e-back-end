@@ -1,4 +1,9 @@
 <?php
+
+use BcMath\Number;
+
+use function PHPSTORM_META\type;
+
 return function($cms, $parts, $id) {
     $conteudosKeywords = [];
     $conteudosAlietorios = [];
@@ -26,8 +31,8 @@ return function($cms, $parts, $id) {
         $conteudosKeywords = $cms->getContent()->search($keyword);
     }
 
-    foreach ($conteudosKeywords[1] as $key => $item) {
-        if ($item['id'] == $id) {
+    foreach ($conteudosKeywords[0] as $key => $item) {
+        if ($item['id'] == $id || is_numeric($item['id'])) {
             unset($conteudosKeywords[$key]);
             break;
         }

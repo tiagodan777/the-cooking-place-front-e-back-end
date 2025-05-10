@@ -9,7 +9,7 @@ if (!$membro) {
     include 'error-page.php';
 }
 
-$conteudos = $cms->getContent()->get(member:$id);
+$conteudos = $cms->getContent()->get(member:$id, limit:50000);
 $seguem_se = $cms->getFollow()->get($session->id, $id);
 
 if (mb_strtolower($parts[2]) != mb_strtolower($membro['seo_name'])) {
