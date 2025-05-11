@@ -20,7 +20,6 @@
 header#cabecalho-principal > h1, header#cabecalho-principal > form, header#cabecalho-principal > div    {
     display: none;
 }*/
-
 main#whats-happening > h1#o-que-esta-a-acontecer {
     display: block;
     position: absolute;
@@ -40,13 +39,16 @@ main#whats-happening {
 }
 
 main#whats-happening > section#todos-videos {
+    width: 100vw;
     height: 100vh; /* Garante que o contêiner ocupa a tela inteira */
     overflow-y: auto; /* Habilita a rolagem vertical */
     scroll-snap-type: y mandatory; /* Faz os vídeos travarem na tela */
 }
 
 main#whats-happening > section#todos-videos > div.video-individual {
-    height: 96vh; /* Cada vídeo ocupa 100% da tela */
+    margin-top: 80px;
+    width: 100vw;
+    height: 80vh; /* Cada vídeo ocupa 100% da tela */
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -55,10 +57,10 @@ main#whats-happening > section#todos-videos > div.video-individual {
     position: relative;
 }
 
-main#whats-happening > section#todos-videos > div.video-individual > video {
-    width: 100%;
+main#whats-happening > section#todos-videos > div.video-individual > iframe {
+    width: 177.78vw;
     height: 100%;
-    object-fit: cover; /* Faz o vídeo cobrir toda a tela */
+    object-fit: xo; /* Faz o vídeo cobrir toda a tela */
     /*user-select: none;
     touch-action: pan-y;*/
 }
@@ -66,6 +68,8 @@ main#whats-happening > section#todos-videos > div.video-individual > video {
 main#whats-happening > section#todos-videos > div.video-individual > nav {
     display: block;
     position: absolute;
+    top: 60%;
+    left: 90%;
     transform: translate(-50%, -50%);
     color: var(--cor5);
 }
@@ -93,6 +97,7 @@ main#whats-happening > section#todos-videos > div.video-individual > nav > ul > 
 
 main#whats-happening > section#todos-videos > div.video-individual > nav > ul > li > a > img {
     border-radius: 50%;
+    width: 40px;
 }
 
 main#whats-happening > section#todos-videos > div.video-individual > video::-webkit-media-controls {
@@ -136,3 +141,7 @@ main#whats-happening > section#todos-videos > div.video-individual > div#info  >
 footer > a {
     color: var(--cor5);
 }*/
+
+video {
+    width: 100vw;
+}

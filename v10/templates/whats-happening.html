@@ -1,12 +1,21 @@
 {% extends 'layout.html' %}
-{% block title %} O que está aacontecer? {% endblock %}
+{% block title %} O que está a acontecer? {% endblock %}
 {% block content %}
 <main id="whats-happening">
     <h1 id="o-que-esta-a-acontecer">O que está a acontecer?</h1>
     <section id="todos-videos">
         {% for quik in quiks %}
             <div class="video-individual">
-                <video src="{{ doc_root }}videos-verticais/{{ quik.file }}" id="video_{{ i }}" muted loop playsinline controls></video>
+                {% if quik.receita_acoplada_id == 0 %}
+                    <iframe id="video-{{ quik.id }}" class="youtube-video" src="https://www.youtube.com/embed/{{ quik.youtube_id }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+                    
+                    <a href="{{ doc_root }}whats-happening/{{ quik.id }}/{{ quik.seo_title }}"></a>
+                {% else %}
+                    <iframe id="video-{{ quik.id }}" class="youtube-video" src="https://www.youtube.com/embed/{{ quik.youtube_id }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+                    
+                    <a href="{{ doc_root }}whats-happening/{{ quik.id }}/{{ quik.seo_title }}""></a>
+                </div>
+                {% endif %}
                 <nav id="navegacao_{{ i }}">
                     <ul>
                         <li><a href="#"><img src="{{ doc_root }}imagens/icons/banana-icon.png" alt="Ícone de banana"></a><p>20 mil</p></li>
@@ -55,67 +64,55 @@
         }
     }
 
-    /*document.addEventListener("wheel", (event) => {
-    event.preventDefault();
-    let videos = document.querySelectorAll(".video-individual");
-    let index = Math.round(window.scrollY / window.innerHeight);
+    let tag = window.document.createElement('script')
+        tag.src = "https://www.youtube.com/iframe_api"
+        window.document.head.appendChild(tag)
     
-    if (event.deltaY > 0) {
-        index = index + 1, videos.length - 1;
-    } else {
-        index = index - 1, 0;
-    }
+        const players = {}; // Certifique-se de declarar isso fora da função
+
+        function onYouTubeIframeAPIReady() {
+            document.querySelectorAll('.youtube-video').forEach(iframe => {
+                const id = iframe.id;
+                const videoId = iframe.dataset.videoId;
+
+                players[id] = new YT.Player(id, {
+                    videoId: videoId,
+                    playerVars: {
+                        modestbranding: 1,
+                        rel: 0,
+                        autoplay: 0,
+                        loop: 0 // Aqui estamos usando loop via JS, então não precisa
+                    },
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': function (e) {
+                            if (e.data === YT.PlayerState.ENDED) {
+                                players[id].seekTo(0);
+                                players[id].playVideo();
+                            }
+                        }
+                    }
+                });
+            });
+        }
     
-    videos[index].scrollIntoView({ behavior: "smooth" });
-}, { passive: false });*/
-
-    /*document.addEventListener("DOMContentLoaded", () => {
-    let videos = document.querySelectorAll(".video-individual"); // Pega todos os vídeos
-    let index = 0; // Começamos no primeiro vídeo
-    let isScrolling = false; // Evita múltiplos eventos ao mesmo tempo
-
-    document.addEventListener("wheel", (event) => {
-        if (isScrolling) return; // Se já estamos rolando, ignoramos novos eventos
-        isScrolling = true; // Bloqueia novos eventos enquanto a rolagem ocorre
-
-        if (event.deltaY > 0) { 
-            // Scroll para baixo
-            index = Math.min(index + 1, videos.length - 1);
-        } else {
-            // Scroll para cima
-            index = Math.max(index - 1, 0);
+        function onPlayerReady(event) {
+            const player = event.target
+            const iframe = player.getIframe()
+    
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        player.seekTo(0, true)
+                        player.playVideo()
+                    } else {
+                        player.pauseVideo()
+                    }
+                })
+            }, {
+                threshold: 0.5
+            })
+            observer.observe(iframe)
         }
-
-        // Faz a rolagem suave até o próximo vídeo
-        videos[index].scrollIntoView({ behavior: "smooth" });
-
-        // Espera 800ms para permitir novo scroll
-        setTimeout(() => {
-            isScrolling = false;
-        }, 800);
-
-    }, { passive: false }); // Garante que o event.preventDefault() funcione
-});*/
-
-document.addEventListener("DOMContentLoaded", () => {
-let videos = document.querySelectorAll("video");
-
-// Configura o Observer
-let observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        let video = entry.target;
-
-        if (entry.isIntersecting) {
-            video.play(); // Toca o vídeo quando entra na tela
-        } else {
-            video.pause(); // Pausa quando sai da tela
-            video.currentTime = 0; // Reinicia o vídeo quando sai
-        }
-    });
-}, { threshold: 0.6 }); // Só ativa quando pelo menos 60% do vídeo está visível
-
-// Aplica o Observer a cada vídeo
-videos.forEach(video => observer.observe(video));
-});
 </script>
 {% endblock %}

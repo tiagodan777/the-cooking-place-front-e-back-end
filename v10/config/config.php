@@ -14,12 +14,12 @@ $password = 'Tiago1234';
 $dsn = "$type:host=$server;dbname=$db;port=$port;charset=$charset";
 
 $email_config = [
-    'server' => '',
-    'port' => '',
-    'username' => '',
+    'server' => 'smtp.sendgrid.net',
+    'port' => '587',
+    'username' => 'apikey',
     'password' => '',
-    'security' => '',
-    'admin_email' => '',
+    'security' => 'tls',
+    'admin_email' => 'tiagoamdaniel488@gmail.com',
     'debug' => (DEV) ? 2 : 0,
 ];
 
