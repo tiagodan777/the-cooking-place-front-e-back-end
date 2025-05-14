@@ -52,6 +52,12 @@ class Quik {
         $this->db->runSQL($sql, [$titulo, $descricao, $receita_acoplada_id, $keywords, $seo_title, $id]);
     }
 
+    public function count() {
+        $sql = "SELECT COUNT(*) FROM quik;";
+
+        return $this->db->runSQL($sql)->fetchColumn();
+    }
+
     public function delete($id) {
         $sql = "DELETE FROM quik
                 WHERE id = :id;";

@@ -14,16 +14,84 @@
                     <iframe id="video-{{ quik.id }}" class="youtube-video" src="https://www.youtube.com/embed/{{ quik.youtube_id }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
                     
                     <a href="{{ doc_root }}whats-happening/{{ quik.id }}/{{ quik.seo_title }}""></a>
-                </div>
                 {% endif %}
                 <nav id="navegacao_{{ i }}">
-                    <ul>
+                    <!--<ul>
                         <li><a href="#"><img src="{{ doc_root }}imagens/icons/banana-icon.png" alt="Ícone de banana"></a><p>20 mil</p></li>
                         <li><a href="#"><span class="material-symbols-outlined">thumb_down</span></a><p>20 mil</p></li>
                         <li><a href="#"><span class="material-symbols-outlined">chat</span></a><p>20 mil</p></li>
                         <li><a href="#"><span class="material-symbols-outlined">send</span></a><p>20 mil</p></li>
                         <li><a href="{{ doc_root }}profile{{ quik.membro_id }}/{{ quik.seo_name }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ quik.picture }}" alt="Foto de Perfil de {{ quik.autor }}"></a></li>
                     </ul>
+                    <div class="numeros">
+                        {% if quik.likes != '' %}
+                            <span>{{ conteudo.likes }}</span>
+                        {% else %} 
+                            <span></span>
+                        {% endif %}
+                        {% if conteudo.opinioes != '' %}
+                            <span>{{ conteudo.opinioes }}</span>
+                        {% else %}
+                            <span>0</span>
+                        {% endif %}
+                        <span>55</span>
+                    </div>-->
+                    <div>
+                        {% if session.id != 0 %}
+                            <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
+                        {% else %}
+                            <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
+                        {% endif %}
+                        {% if quik.likes != '' %}
+                            <span>{{ quik.likes }}</span>
+                        {% else %}
+                            <span>0</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <dialog id="c{{ count }}">
+                            <iframe data-src="{{ doc_root }}opinions/{{ quik.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                        </dialog>
+                        <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
+                        {% if quik.opinioes != '' %}
+                            <span>{{ quik.opinioes }}</span>
+                        {% else %}
+                            <span>0</span>
+                        {% endif %}
+                    </div>
+
+                    <dialog id="s{{ count }}" class="share">
+                        <div class="imagem">
+                            {% if conteudo.tipo_conteudo == 'receita' %}
+                                <img data-src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
+                                {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/article/' ~  conteudo.id %}
+                            {% elseif conteudo.tipo_conteudo == 'quik'  %}
+                                <video data-src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted id="imagem-para-share{{ count }}"></video>
+                                {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/whats-happening/' ~ conteudo.id %}
+                            {% elseif conteudo.tipo_conteudo == 'publicação' %}
+                                <img data-src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
+                                {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/post/' ~ conteudo.id  %}
+                            {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
+                                <video data-src="{{ doc_root }}videos-longos/{{ conteudo.file }}" muted id="imagem-para-share{{ count }}"></video>
+                                {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/video/' ~ conteudo.id %}
+                            {% endif %}
+                        </div>
+                        <p class="partilhar-atraves-de">Partilhar através de </p>
+                        <div class="icones-redes-sociais">
+                            <span class="material-symbols-outlined" onclick="copiar()" class="link" id="copiar-link">link</span>
+                            <input type="hidden" name="link" value="{{ link }}">
+                            <span class="material-symbols-outlined">send</span>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/facebook-icon.png" alt="Ícone do Facebook"></a>
+                            <a href="https://api.whatsapp.com/send?text={{ conteudo.titulo|url_encode }}%20{{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/whatsapp-icon.png" alt=""></a>
+                            <a href="https://pinterest.com/pin/create/button/?url={{ link|url_encode }}&media={{ ('https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/imagens/comida/' ~ conteudo.file)|url_encode }}&description={{ conteudo.titulo|url_encode }}" target="_blank"><img src="{{ doc_root }}imagens/icons/pinterest-icon.png" alt="Ícone do Pinterest"></a>
+                            <a href="https://twitter.com/intent/tweet?url={{ link }}&text=Receita-do-The-Cooking-Place" target="_blank"><img src="{{ doc_root }}imagens/icons/x-icon.png" alt="Ícone do X"></a>
+                        </div>
+                    </dialog>
+                    <button id="f{{ count }}"><span class="material-symbols-outlined">ios_share</span></button>
+                    <div class="save">
+                        <a href="{{ doc_root }}save/{{ conteudo.id }}/?file={{ conteudo.file }}&tipo_conteudo={{ conteudo.tipo_conteudo }}" class="guardar"><span class="material-symbols-outlined">bookmark</span></a>
+                    </div>
+                    <a href="{{ doc_root }}profile/{{ quik.membro_id }}/{{ quik.seo_member }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ quik.picture }}" alt="Foto de perfil de {{ quik.autor }}"></a>
                 </nav>
                 <div id="info">
                     <h1>{{ quik.titulo }}</h1>
@@ -114,5 +182,42 @@
             })
             observer.observe(iframe)
         }
+
+
+        window.document.querySelectorAll("button[id^='b']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("b", "")
+                let dialog = window.document.querySelector(`#c${count}`)
+                let iframe = window.document.querySelector(`#comentarios${count}`)
+
+                if (!iframe.src) {
+                    iframe.src = iframe.getAttribute('data-src')
+                }
+
+                dialog.showModal()
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
+
+        window.document.querySelectorAll("button[id^='f']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("f", "")
+                let dialog = window.document.querySelector(`#s${count}`)
+                let media = window.document.querySelector(`#imagem-para-share${count}`)
+
+                if (!media.src) {
+                    media.src = media.getAttribute('data-src')
+                }
+
+                dialog.showModal()
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
 </script>
 {% endblock %}
