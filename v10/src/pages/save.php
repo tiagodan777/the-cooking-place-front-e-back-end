@@ -1,7 +1,8 @@
 <?php
 require_login($session);
 
-$file = $_GET['file'] ?? null;
+try {
+    $file = $_GET['file'] ?? null;
 $tipo_conteudo = $_GET['tipo_conteudo'] ?? null;
 
 if (!$id || $session->id == 0 || $file == null) {
@@ -15,4 +16,7 @@ if ($saved) {
     $cms->getSaved()->create([$id, $session->id, $file, $tipo_conteudo]);
 }
 
-redirect(DOC_ROOT . 'index');
+redirect(DOC_ROOT);
+} catch (Exception $e) {
+    var_dump($e);
+}

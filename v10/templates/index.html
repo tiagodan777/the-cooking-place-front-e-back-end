@@ -74,13 +74,13 @@
                                         <img data-src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
                                         {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/article/' ~  conteudo.id %}
                                     {% elseif conteudo.tipo_conteudo == 'quik'  %}
-                                        <video data-src="{{ doc_root }}videos-verticais/{{ conteudo.file }}" muted id="imagem-para-share{{ count }}"></video>
+                                        <iframe id="imagem-para-share{{ count }}" class="youtube-video" data-src="https://www.youtube.com/embed/{{ quik.youtube_id }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
                                         {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/whats-happening/' ~ conteudo.id %}
                                     {% elseif conteudo.tipo_conteudo == 'publicação' %}
                                         <img data-src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
                                         {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/post/' ~ conteudo.id  %}
                                     {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
-                                        <video data-src="{{ doc_root }}videos-longos/{{ conteudo.file }}" muted id="imagem-para-share{{ count }}"></video>
+                                        <iframe id="imagem-para-share{{ count }}" class="youtube-video" data-src="https://www.youtube.com/embed/{{ quik.youtube_id }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
                                         {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/video/' ~ conteudo.id %}
                                     {% endif %}
                                 </div>

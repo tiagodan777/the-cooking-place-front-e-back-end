@@ -22,13 +22,15 @@ header#cabecalho-principal > h1#o-que-esta-a-acontecer {
 
 main#whats-happening {
     height: 100vh;
+
+    z-index: 0;
 }
 
 
 main#whats-happening > section#todos-videos {
     width: 50vw;
     height: 90vh; /* Garante que o contêiner ocupa a tela inteira */
-    margin-top: 100px;
+    margin-top: 150px;
     overflow-y: auto; /* Habilita a rolagem vertical */
     scroll-snap-type: y mandatory; /* Faz os vídeos travarem na tela */
     border-radius: 20px;
@@ -38,11 +40,15 @@ main#whats-happening > section#todos-videos {
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
+
+    z-index: 0;
 }
 
 main#whats-happening > section#todos-videos > div.video-individual {
-    width: 95%;
-    height: 100%; /* Cada vídeo ocupa 100% da tela */
+    width: 100%;
+    height: 90%; /* Cada vídeo ocupa 100% da tela */
+    margin-top: 20px;
+    margin-bottom: 20px;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -51,21 +57,28 @@ main#whats-happening > section#todos-videos > div.video-individual {
     /*border: 2px solid green;*/
     border-radius: 20px;
     /*position: relative;*/
+    aspect-ratio: 9/16;
+    background-color: transparent;
+    position: relative;
+    z-index: 0
 }
 
-main#whats-happening > section#todos-videos > div.video-individual > video {
-    /*width: 100%;
-    height: 100%;*/
+main#whats-happening > section#todos-videos > div.video-individual > iframe {
+    width: 100%;
+    height: 100%;
     object-fit: cover; /* Faz o vídeo cobrir toda a tela */
     user-select: none;
     touch-action: pan-y;
-    transform: scale(0.78);
-    border-radius: 20px;
+    /*transform: scale(0.78);*/
+    border-radius: 20px;;
 }
 
 main#whats-happening > section#todos-videos > div.video-individual > nav {
-    position: sticky;
-    transform: translate(-100%, -20%);
+    position: absolute;
+    top: 80%;
+    left: 93%;
+    
+    z-index: 100;
 }
 
 main#whats-happening > section#todos-videos > div.video-individual > nav > ul > li {
@@ -78,8 +91,8 @@ main#whats-happening > section#todos-videos > div.video-individual > nav > ul > 
 
 main#whats-happening > section#todos-videos > div.video-individual > div#info {
     position: absolute;
-    top: 68%;
-    left: 12%;
+    top: 88%;
+    left: 7%;
 }
 
 main#whats-happening > section#todos-videos > div.video-individual > div#info  > h1 {

@@ -123,6 +123,7 @@ main#whats-happening > section#todos-videos > div.video-individual > div#info {
     position: absolute;
     top: 83%;
     left: 5%;
+    z-index: 10;
 }
 
 main#whats-happening > section#todos-videos > div.video-individual > div#info  > h1 {
@@ -163,6 +164,7 @@ footer > a {
 nav[id^="navegacao_"] span.material-symbols-outlined {
     background-color: transparent;
     font-size: 2em;
+    cursor: pointer;
 }
 
 button {
