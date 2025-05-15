@@ -33,7 +33,7 @@ class Follow {
         $sql = "SELECT m.id, CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name FROM seguir AS s
                 JOIN membro AS m ON m.id = s.membro_id_1
                 WHERE s.membro_id_2 = :id;";
-        return $this->db->runSQL($sql, [$id]);
+        return $this->db->runSQL($sql, [$id])->fetchAll();
     }
 
     public function delete($membro_id_1, $membro_id_2) {

@@ -19,10 +19,10 @@
                     </div>
                     <div id="seguir">
                         {% if membro.id != session.id %}
-                            {% if not seguem_se %}
-                                <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="seguir">Seguir</a> 
+                            {% if not seguem_se[loop.index0] %}
+                                <a href="{{ doc_root }}follow/{{ follower.id }}/{{ follower.seo_name }}" id="seguir" target="_top">Seguir</a> 
                             {% else %}
-                                <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="a_seguir">A seguir</a> 
+                                <a href="{{ doc_root }}follow/{{ follower.id }}/{{ follower.seo_name }}" id="a_seguir" target="_top">A seguir</a> 
                             {% endif %}
                         {% endif %}
                     </div>
