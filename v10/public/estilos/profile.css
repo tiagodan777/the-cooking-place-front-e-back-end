@@ -91,6 +91,14 @@ main#profile > header > div#estatisticas_numeros {
     align-items: center;
 }
 
+div#estatisticas_numeros > button {
+    width: 80px;
+    color: var(--cor4);
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 main#profile > header > div#estatisticas_numeros > span {
     flex: 0 0 80px;
     text-align: center;
@@ -199,6 +207,10 @@ main#profile > section > div > div.video-wrapper-profile > span {
     top: 90%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+dialog.iframes-profile {
+    width: 70vw;
 }
 
 

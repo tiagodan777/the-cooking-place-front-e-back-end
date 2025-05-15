@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguidores</title>
+    <link rel="stylesheet" href="{{ doc_root }}estilos/followers.css">
+</head>
+<body>
+    <main id="followers">
+        <h2>Seguidores</h2>
+        {% set count = 1 %}
+        {% for follower in followers %}
+            <div>
+                <section id="member">
+                    <div id="foto-nome">
+                        <a href="{{ doc_root }}profile/{{ follower.membro_id }}/{{ follower.seo_name }}" target="_top"><img src="{{ doc_root }}imagens/fotos-perfil/{{ follower.picture }}" alt="Foto de perfil de {{ follower.autor }}"></a>
+                        <h3><a href="{{ doc_root }}profile/{{ follower.id }}/{{ follower.seo_name }}" target="_top">{{ follower.autor }}</a></h3>
+                    </div>
+                    <div id="seguir">
+                        {% if membro.id != session.id %}
+                            {% if not seguem_se %}
+                                <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="seguir">Seguir</a> 
+                            {% else %}
+                                <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="a_seguir">A seguir</a> 
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+            {% set count = count + 1 %}
+        {% endfor %}
+    </main>
+    <script>
+        window.document.querySelectorAll("button[id^='apagar']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("apagar", "")
+                let dialog = window.document.querySelector(`#c${count}`)
+                let fechar = window.document.querySelector(`#f${count}`)
+
+                dialog.showModal()
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
+    </script>
+</body>
+</html>
