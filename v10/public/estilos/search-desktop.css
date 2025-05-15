@@ -39,6 +39,11 @@ main#search > section > section#conteudos > div > a > img {
     width: 300px;    
 }
 
+main#search > section > section#conteudos > div > div.video-wrapper-search > iframe {
+    width: 300px;
+    height: 300px;
+}
+
 main#search > section > section#conteudos > div > footer.info {
     top: 78%;
 }

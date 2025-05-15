@@ -8,6 +8,8 @@ if (!$receita) {
     include APP_ROOT . '/src/pages/error-page.php';
 }
 
+$cms->getContent()->createView($id, $session->id);
+
 $ingredientes = explode(',', $receita['ingredientes']);
 $quantidades = explode(',', $receita['quantidades']);
 $passos_preparacao = explode('#', $receita['passos_preparacao']);

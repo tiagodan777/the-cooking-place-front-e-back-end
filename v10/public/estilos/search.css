@@ -89,11 +89,13 @@ main#search > section > section#conteudos {
     flex-flow: row wrap;
     justify-content: space-evenly;
     align-content: space-evenly;
+
+    padding-bottom: 150px;
 }
 
 main#search > section > section#conteudos > div {
     position: relative;
-    margin-bottom: 7px;
+    margin-bottom: 0px;
 }
 
 main#search > section > section#conteudos > div {
@@ -115,6 +117,37 @@ main#search > section > section#conteudos > div > a > span {
 
 main#search > section > section#conteudos div > a > img { 
     width: 45vw;    
+}
+
+main#search > section > section#conteudos > div > div.video-wrapper-search {
+    width: 100%;
+    height: 163px;
+    border: 2px solid var(--cor5);
+    z-index: 0;
+
+    position: relative;
+}
+
+main#search > section > section#conteudos > div > div.video-wrapper-search > iframe {
+    width: 45vw;
+    height: 45vw;
+    background-color: var(--cor5);
+    object-fit: cover;
+    /*display: block;*/
+}
+
+main#search > section > section#conteudos > div > div.video-wrapper-search > span {
+    width: 100%;
+    z-index: 10;
+    color: var(--cor5);
+    font-weight: lighter;
+    text-transform: capitalize;
+    padding: 10px;
+
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 aside#search-aside {
@@ -152,9 +185,10 @@ aside#search-aside > nav > ul > li > a.ativo {
 }
 
 main#search > section > section#membros {
-    width: 100%;
+    width: 90%;
     /*height: 250px;*/
     margin-top: 100px;
+    margin-left: 35px;
     margin-bottom: 35px;
 
     display: flex;
@@ -211,12 +245,28 @@ main#search > section > section#conteudos > div > footer.info {
     align-items: flex-start;
 }
 
+main#search > section > section#conteudos > div > footer.info > div.tipo_conteudo {
+    width: 100%;
+    height: 50px;
+    position: relative;
+}
+
+main#search > section > section#conteudos > div > footer.info > div.tipo_conteudo > span {
+    color: var(--cor5);
+    position: absolute;
+    top: -220%;
+    left: 63%;
+    text-transform: capitalize;
+    font-weight: lighter;
+}
+
 main#search > section > section#conteudos > div > footer.info > h1 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: var(--cor5);
     font-weight: bold;
     font-size: 1.4em;
-    margin-bottom: -35px;
+    margin-bottom: -25px;
+    margin-top: -10px;
 }
 
 main#search > section > section#conteudos > div > footer.info > h2 {

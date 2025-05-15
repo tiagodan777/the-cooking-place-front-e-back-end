@@ -294,7 +294,10 @@ class Content {
                     WHERE likes.conteudo_id = r.id) AS likes,
                     (SELECT COUNT(conteudo_id)
                     FROM opiniao
-                    WHERE opiniao.conteudo_id = r.id) AS opinioes
+                    WHERE opiniao.conteudo_id = r.id) AS opinioes,
+                    (SELECT COUNT(id) FROM views
+                    WHERE views.conteudo_id = r.id) AS views
+
 
                     FROM receita AS r
 
@@ -332,7 +335,9 @@ class Content {
                     WHERE likes.conteudo_id = q.id) AS likes,
                     (SELECT COUNT(conteudo_id)
                     FROM opiniao
-                    WHERE opiniao.conteudo_id = q.id) AS opinioes
+                    WHERE opiniao.conteudo_id = q.id) AS opinioes,
+                    (SELECT COUNT(id) FROM views
+                    WHERE views.conteudo_id = q.id) AS views
 
                     FROM quik AS q
 
@@ -365,7 +370,9 @@ class Content {
                     WHERE likes.conteudo_id = p.id) AS likes,
                     (SELECT COUNT(conteudo_id)
                     FROM opiniao
-                    WHERE opiniao.conteudo_id = p.id) AS opinioes
+                    WHERE opiniao.conteudo_id = p.id) AS opinioes,
+                    (SELECT COUNT(id) FROM views
+                    WHERE views.conteudo_id = p.id) AS views
 
                     FROM publicacao_simples AS p
                     JOIN membro AS m ON m.id = p.membro_id
@@ -396,7 +403,9 @@ class Content {
                     WHERE likes.conteudo_id = v.id) AS likes,
                     (SELECT COUNT(conteudo_id)
                     FROM opiniao
-                    WHERE opiniao.conteudo_id = v.id) AS opinioes
+                    WHERE opiniao.conteudo_id = v.id) AS opinioes,
+                    (SELECT COUNT(id) FROM views
+                    WHERE views.conteudo_id = v.id) AS views
 
                     FROM video_longo AS v
                     JOIN membro AS m ON m.id = v.membro_id
@@ -596,5 +605,14 @@ class Content {
                 OR q.id = :id3
                 OR v.id = :id4;";
         return $this->db->runSQL($sql, $arguments)->fetchColumn();
+    }
+
+    public function createView($id, $session) {
+        $arguments['session'] = $session;
+        $arguments['id'] = $id;
+
+        $sql = "INSERT INTO views (membro_id, conteudo_id)
+                VALUES (:session, :id);";
+        $this->db->runSQL($sql, $arguments);
     }
 }
