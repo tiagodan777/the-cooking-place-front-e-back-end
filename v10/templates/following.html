@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguidores</title>
+    <title>A Seguir</title>
     <link rel="stylesheet" href="{{ doc_root }}estilos/followers.css">
 </head>
 <body>
     <main id="followers">
-        <h2>Seguidores</h2>
+        <h2>A Seguir</h2>
         {% set count = 1 %}
-        {% for follower in followers %}
+        {% for following in followings %}
             <div>
                 <section id="member">
                     <div id="foto-nome">
-                        <a href="{{ doc_root }}profile/{{ follower.membro_id }}/{{ follower.seo_name }}" target="_top"><img src="{{ doc_root }}imagens/fotos-perfil/{{ follower.picture }}" alt="Foto de perfil de {{ follower.autor }}"></a>
-                        <h3><a href="{{ doc_root }}profile/{{ follower.id }}/{{ follower.seo_name }}" target="_top">{{ follower.autor }}</a></h3>
+                        <a href="{{ doc_root }}profile/{{ following.membro_id }}/{{ following.seo_name }}" target="_top"><img src="{{ doc_root }}imagens/fotos-perfil/{{ following.picture }}" alt="Foto de perfil de {{ following.autor }}"></a>
+                        <h3><a href="{{ doc_root }}profile/{{ following.id }}/{{ following.seo_name }}" target="_top">{{ following.autor }}</a></h3>
                     </div>
                     <div id="seguir">
-                        {% if follower.id != session.id %}
+                        {% if following.id != session.id %}
                             {% if not seguem_se[loop.index0] %}
-                                <a href="{{ doc_root }}follow/{{ follower.id }}/{{ follower.seo_name }}" id="seguir" target="_top">Seguir</a> 
+                                <a href="{{ doc_root }}follow/{{ following.id }}/{{ following.seo_name }}" id="seguir" target="_top">Seguir</a> 
                             {% else %}
-                                <a href="{{ doc_root }}follow/{{ follower.id }}/{{ follower.seo_name }}" id="a_seguir" target="_top">A seguir</a> 
+                                <a href="{{ doc_root }}follow/{{ following.id }}/{{ following.seo_name }}" id="a_seguir" target="_top">A seguir</a> 
                             {% endif %}
                         {% endif %}
                     </div>

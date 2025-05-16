@@ -105,6 +105,10 @@ a {
     cursor: pointer;
 }
 
+main#followers > div > section#member > div#seguir {
+    width: 200px;
+}
+
 main#followers > div > section#member > div#seguir > a {
     text-decoration: none;
     color: var(--cor5);
@@ -114,5 +118,6 @@ main#followers > div > section#member > div#seguir > a {
 }
 
 main#followers > div > section#member > div#seguir > a#a_seguir {
+    padding: 10px 14px;
     background-color: var(--cor1);
 }

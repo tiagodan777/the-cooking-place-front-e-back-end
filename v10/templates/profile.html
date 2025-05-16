@@ -17,19 +17,16 @@
         <h1>{{ membro.nome }}</h1>
         <div id="estatisticas_numeros">
             <dialog id="dialog-followers{{ count }}" class="iframes-profile">
-                <iframe data-src="{{ doc_root }}followers/{{ membro.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                <iframe data-src="{{ doc_root }}followers/{{ membro.id }}" frameborder="0" id="iframe-followers"></iframe>
             </dialog>
             <button id="button-followers{{ count }}">{{ membro.followers }}</button>
 
-            <dialog id="c{{ count }}" class="iframes-profile">
-                <iframe data-src="{{ doc_root }}opinions/{{ conteudo.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+            <dialog id="dialog-following{{ count }}" class="iframes-profile">
+                <iframe data-src="{{ doc_root }}following/{{ membro.id }}" frameborder="0" id="iframe-following"></iframe>
             </dialog>
-            <button id="f{{ count }}">{{ membro.following }}</button>
+            <button id="button-following{{ count }}">{{ membro.following }}</button>
 
-            <dialog id="c{{ count }}" class="iframes-profile">
-                <iframe data-src="{{ doc_root }}opinions/{{ conteudo.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
-            </dialog>
-            <button id="f{{ count }}">{{ membro.tot_receitas }}</button>
+            <span>{{ membro.tot_receitas }}</span>
 
         </div>
         <div id="estatisticas_legenda">
@@ -92,7 +89,25 @@
             button.addEventListener('click', function () {
                 let count = this.id.replace("button-followers", "")
                 let dialog = window.document.querySelector(`#dialog-followers${count}`)
-                let iframe = window.document.querySelector(`#comentarios${count}`)
+                let iframe = window.document.querySelector(`#iframe-followers${count}`)
+
+                if (!iframe.src) {
+                    iframe.src = iframe.getAttribute('data-src')
+                }
+
+                dialog.showModal()
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
+
+        window.document.querySelectorAll("button[id^='button-following']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("button-following", "")
+                let dialog = window.document.querySelector(`#dialog-following${count}`)
+                let iframe = window.document.querySelector(`#iframe-following${count}`)
 
                 if (!iframe.src) {
                     iframe.src = iframe.getAttribute('data-src')

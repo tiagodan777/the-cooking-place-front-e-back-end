@@ -15,6 +15,8 @@ var_dump($seguem_se);
 
 // var_dump($followers);*/
 
+var_dump($id);
+
 $data['followers'] = $followers;
 $data['seguem_se'] = $seguem_se;
 
