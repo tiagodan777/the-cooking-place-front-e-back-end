@@ -6,14 +6,11 @@ html, body {
     height: 100vh;
 }
 
-main#video h2#descricao-receita {
-    text-align: right;
-}
-
 main#video  {
     /*width: 100vw;
     height: 100vh;*/
-    margin-top: 70px;
+    margin-top: 82px;
+    padding: 0px;
     font-weight: normal;
 
     display: flex;
@@ -22,20 +19,23 @@ main#video  {
     align-items: center;
 }
 
-/*main#video  > section#topo {
+main#video  > section#topo {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-}*/
+}
 
 main#video  > section#topo > section#video-video {
     width: 100vw;
+    height: 60vw;
 }
 
 main#video  > section#topo > section#video-video > iframe {
-    width: 100vw;
-    height: 40vh;
+    width: 100%;
+    height: 100%;
 }
 
 main#video > section#topo section#info {
@@ -45,27 +45,42 @@ main#video > section#topo section#info {
     align-items: flex-start;
 }
 
-main#video > section#topo section#info > section > div > div#dados {
+main#video > section#topo section#info > div#dados {
     font-weight: normal;
     margin: 5px;
 
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-evenly;
-    align-items: flex-end;
+    align-items: flex-start;
 }
 
-main#video > section#topo section#info > section > div > div#dados > h1 {
+main#video > section#topo section#info > div#dados > h1 {
     font-size: 2em;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 10px 0px;
 }
 
-main#video > section#topo section#info > section > div > div#dados > p#descricao-receita {
+main#video > section#topo section#info > div#dados > p#descricao-receita {
+    width: 90vw;
+    line-height: 1.3em;
     padding-left: 10px;
+    text-indent: 10px;
     font-size: 0.95em;
     margin: 20px 0px;
+    text-align: justify;
 }
 
-main#video > section#topo section#info > section > div > div#dados > a#user {
+main#video > section#topo section#info > div#dados > p#data-publicacao {
+    align-self: flex-end;
+}
+
+main#video > section#topo section#info > div#dados > p#data-publicacao > span {
+    font-weight: bold;
+}
+
+main#video > section#topo section#info > div#dados > a#user {
     font-weight: bold;
     margin-top: 20px;
     text-decoration: none;
@@ -77,12 +92,12 @@ main#video > section#topo section#info > section > div > div#dados > a#user {
     align-items: center;
 }
 
-main#video > section#topo section#info > section > div > div#dados > a#user img {
+main#video > section#topo section#info > div#dados > a#user img {
     width: 40px;
     border-radius: 50%;
 }
 
-main#video > section#topo section#info > section > div > div#dados a#editar {
+main#video > section#topo section#info > div#dados a#editar {
     font-weight: bold;
     text-decoration: none;
     color: var(--cor5);
@@ -94,12 +109,12 @@ main#video > section#topo section#info > section > div > div#dados a#editar {
     align-self: flex-end;
 }
 
-main#video > section#topo section#info > section > div > div#reacoes {
+main#video > section#topo section#info > div#reacoes {
     width: 150px;
     transform: translate(40px, -60px);
 }
 
-main#video > section#topo section#info > section > div > div#reacoes > div.icones {
+main#video > section#topo section#info > div#reacoes > div.icones {
     width: 150px;
     display: flex;
     flex-flow: row nowrap;
@@ -107,11 +122,20 @@ main#video > section#topo section#info > section > div > div#reacoes > div.icone
     align-items: center;
 }
 
-main#video > section#topo section#info > section > div > div#reacoes > div.icones > span.icones-reacao {
+main#video > section#topo section#info > div#reacoes > div.icones > span.icones-reacao {
+    cursor: pointer;
     flex: 0 0 50px;
 }
 
-main#video > section#topo section#info > section > div > div#reacoes > div.numeros {
+main#video > section#topo section#info > div#reacoes > div.icones > button#f > span.material-symbols-outlined {
+    cursor: pointer;
+}
+
+main#video > section#topo section#info > div#reacoes > div.icones > button#b > span.material-symbols-outlined {
+    cursor: pointer;
+}
+
+main#video > section#topo section#info > div#reacoes > div.numeros {
     width: 150px;
     display: flex;
     flex-flow: row nowrap;
@@ -119,7 +143,11 @@ main#video > section#topo section#info > section > div > div#reacoes > div.numer
     align-items: center;
 }
 
-main#video > section#topo section#info > section > div > div#reacoes > div.numeros > span {
+main#video > section#topo section#info > div#reacoes > div.numeros > span {
     font-size: 0.9em;
+}
+
+span.span-aparece {
+    color: var(--cor4);
 }
 
