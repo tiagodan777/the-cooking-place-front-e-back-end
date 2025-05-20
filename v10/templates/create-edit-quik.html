@@ -24,7 +24,7 @@
     {% if erros.warning %}
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
-    <form action="{{ doc_root }}create-edit-quik/{{ quik.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+    <form action="{{ doc_root }}create-edit-quik/{{ quik.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data" onsubmit="sendNotification()">
         <section id="video">
             <div id="div-video">
                 {% if not quik.youtube_id %}

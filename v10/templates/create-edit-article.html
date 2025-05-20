@@ -28,7 +28,8 @@
     {% if erros.warning %}
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
-    <form action="{{ doc_root }}create-edit-article/{{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
+    <form action="{{ doc_root }}create-edit-article/{{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data" onsubmit="sendNotification();">
+        <input type="hidden" name="autor_id" id="autor_id" value="{{ receita.membro_id }}">
         <section id="imagem-video">
             <div id="div-imagem">
                 {% if not receita.imagem_file %}
@@ -309,5 +310,21 @@
     passos_preparacao.value = maiorIdPassosPreparo;
     keywords.value = maiorIdKeywords;
 });
+
+    let ws = new WebSocket("ws://localhost:8080")
+
+    function sendNotification() {
+        let autor_id = window.document.querySelector('input#autor_id').value
+
+        let data = {
+            type: "envio_receita",
+            autor_id: autor_id,
+            mensagem: `${autor_id} publicou uma nova receita`
+        }
+
+        ws.send(JSON.stringify(data))
+
+        window.alert("Notificações mandadas!")
+    }
 </script>
 {% endblock %}

@@ -58,47 +58,93 @@ class Article {
 
     public function create($article, $temp, $destination, $destination_cropped_500, $destination_cropped_600, $destination_cropped_700) {
         try {
-            if ($temp) {
-                // Original
-                $imagick = new \Imagick($temp);
-                $imagick->setImageCompressionQuality(85);
-                $imagick->setImageFormat('jpeg');
-                $imagick->cropThumbnailImage(800, 800); 
-                $imagick->setImageResolution(72, 72);
-                $imagick->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
-                $imagick->stripImage();
-                $imagick->writeImage($destination);
+            // Original
+            $converted = sys_get_temp_dir() . '/' . uniqid('img_', true) . '.jpg';
+            $output = [];
+            $return_var = 0;
+            $magick = '/opt/homebrew/bin/magick';
+            exec($magick . ' ' . escapeshellarg($temp) . " " . escapeshellarg($converted), $output, $return_var);
 
-                // 500
-                $imagick_cropped_500 = new \Imagick($temp);
-                $imagick_cropped_500->setImageCompressionQuality(85);
-                $imagick_cropped_500->setImageFormat('jpeg');
-                $imagick_cropped_500->cropThumbnailImage(800, 800); 
-                $imagick_cropped_500->setImageResolution(72, 72);
-                $imagick_cropped_500->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
-                $imagick_cropped_500->stripImage();
-                $imagick_cropped_500->writeImage($destination_cropped_500);
-
-                // 600
-                $imagick_cropped_600 = new \Imagick($temp);
-                $imagick_cropped_600->setImageCompressionQuality(85);
-                $imagick_cropped_600->setImageFormat('jpeg');
-                $imagick_cropped_600->cropThumbnailImage(800, 800); 
-                $imagick_cropped_600->setImageResolution(72, 72);
-                $imagick_cropped_600->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
-                $imagick_cropped_600->stripImage();
-                $imagick_cropped_600->writeImage($destination_cropped_600);
-
-                // 700
-                $imagick_cropped_700 = new \Imagick($temp);
-                $imagick_cropped_700->setImageCompressionQuality(85);
-                $imagick_cropped_700->setImageFormat('jpeg');
-                $imagick_cropped_700->cropThumbnailImage(800, 800); 
-                $imagick_cropped_700->setImageResolution(72, 72);
-                $imagick_cropped_700->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
-                $imagick_cropped_700->stripImage();
-                $imagick_cropped_700->writeImage($destination_cropped_700);
+            if (!file_exists($converted)) {
+                throw new \Exception("Falha ao converter imagem HEIC. Saída: " . implode("\n", $output));
             }
+
+            $imagick = new \Imagick($converted);
+            $imagick->setImageCompressionQuality(85);
+            $imagick->setImageFormat('jpeg');
+            $imagick->cropThumbnailImage(800, 800);
+            $imagick->setImageResolution(72, 72);
+            $imagick->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
+            $imagick->stripImage();
+            $imagick->writeImage($destination);
+            $imagick->clear();
+            unlink($converted);
+
+            // 500
+            $converted = sys_get_temp_dir() . '/' . uniqid('img_', true) . '.jpg';
+            $output = [];
+            $return_var = 0;
+            $magick = '/opt/homebrew/bin/magick';
+            exec($magick . ' ' . escapeshellarg($temp) . " " . escapeshellarg($converted), $output, $return_var);
+
+            if (!file_exists($converted)) {
+                throw new \Exception("Falha ao converter imagem HEIC. Saída: " . implode("\n", $output));
+            }
+
+            $imagick_cropped_500 = new \Imagick($converted);
+            $imagick_cropped_500->setImageCompressionQuality(85);
+            $imagick_cropped_500->setImageFormat('jpeg');
+            $imagick_cropped_500->cropThumbnailImage(800, 800); ;
+            $imagick_cropped_500->setImageResolution(72, 72);
+            $imagick_cropped_500->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
+            $imagick_cropped_500->stripImage();
+            $imagick_cropped_500->writeImage($destination_cropped_500);
+            $imagick_cropped_500->clear();
+            unlink($converted);
+
+            // 600
+            $converted = sys_get_temp_dir() . '/' . uniqid('img_', true) . '.jpg';
+            $output = [];
+            $return_var = 0;
+            $magick = '/opt/homebrew/bin/magick';
+            exec($magick . ' ' . escapeshellarg($temp) . " " . escapeshellarg($converted), $output, $return_var);
+
+            if (!file_exists($converted)) {
+                throw new \Exception("Falha ao converter imagem HEIC. Saída: " . implode("\n", $output));
+            }
+
+            $imagick_cropped_600 = new \Imagick($converted);
+            $imagick_cropped_600->setImageCompressionQuality(85);
+            $imagick_cropped_600->setImageFormat('jpeg');
+            $imagick_cropped_600->cropThumbnailImage(800, 800); 
+            $imagick_cropped_600->setImageResolution(72, 72);
+            $imagick_cropped_600->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
+            $imagick_cropped_600->stripImage();
+            $imagick_cropped_600->writeImage($destination_cropped_600);
+            $imagick_cropped_600->clear();
+            unlink($converted);
+
+            // 700
+            $converted = sys_get_temp_dir() . '/' . uniqid('img_', true) . '.jpg';
+            $output = [];
+            $return_var = 0;
+            $magick = '/opt/homebrew/bin/magick';
+            exec($magick . ' ' . escapeshellarg($temp) . " " . escapeshellarg($converted), $output, $return_var);
+
+            if (!file_exists($converted)) {
+                throw new \Exception("Falha ao converter imagem HEIC. Saída: " . implode("\n", $output));
+            }
+
+            $imagick_cropped_700 = new \Imagick($converted);
+            $imagick_cropped_700->setImageCompressionQuality(85);
+            $imagick_cropped_700->setImageFormat('jpeg');
+            $imagick_cropped_700->cropThumbnailImage(800, 800); 
+            $imagick_cropped_700->setImageResolution(72, 72);
+            $imagick_cropped_700->resampleImage(72, 72, \Imagick::FILTER_LANCZOS, 1);
+            $imagick_cropped_700->stripImage();
+            $imagick_cropped_700->writeImage($destination_cropped_700);
+            $imagick_cropped_700->clear();
+            unlink($converted);
 
             $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file, seo_title) VALUES
                     (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file, :seo_title);";

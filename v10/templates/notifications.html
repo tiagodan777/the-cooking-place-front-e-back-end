@@ -17,7 +17,7 @@
                     </div>
                 </section>
                 <section id="informacao">
-                    <p><span class="perfil">{{ notificacao.emissor }}</span> {{ notificacao.mensagem }}</p>
+                    <p id="notificacao"><span class="perfil">{{ notificacao.emissor }}</span> {{ notificacao.mensagem }}</p>
                 </section>
             </a>
             <section id="seguir">
@@ -28,6 +28,42 @@
         </div>
     {% endfor %}
 </main>
+<script>
+    let conn  = new WebSocket("ws://localhost:8080")
+
+    conn.onopen = function() {
+        console.log('WebSocket Connected!')
+    }
+
+    conn.onmessage = function (event) {
+        let data = JSON.parse(event.data)
+
+        if (data.type === 'notification') {
+            updateNotifications(data.notifications)
+        }
+    }
+
+    function updateNotifications(notifications) {
+         let notificationList = window.document.querySelector('p#notificacao')
+
+         notificationList.innerHTML = ''
+
+         if (notifications.lenght === 0) {
+            notificationList.innerHTML = "Não há novas notificações"
+            return
+         } 
+
+         notifications.forEach(function(notification) {
+             let p = window.document.createElement('p')
+
+             p.innerHTML = `${notification.mensagem}`
+
+             if (notification.status === 0) {
+                p.style.fontWeight = 'bold'
+             }
+         })
+    }
+</script>
 {% endblock %}
 
     
