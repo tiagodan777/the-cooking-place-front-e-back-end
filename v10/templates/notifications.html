@@ -3,32 +3,26 @@
 {% block content %}
 <main id="notifications">
     <h1>Notificações</h1>
-    {% for notificacao in notificacoes %}
-        {% if notificacao.mensagem == 'começou a seguir-te' %}
-            {% set link = 'profile/' ~ notificacao.emissor_id ~ '/' ~ session.seo_name %}
-        {% elseif notificacao.mensagem == 'publicou uma receita' or notificacao.mensagem == 'gostou da tua receita' %}
-            {% set link = 'article/' ~ notificacao.emissor_id %}
-        {% endif %}
-        <div>
-            <a href="{{ doc_root }}{{ link }}">
-                <section id="perfil">
-                    <div>
-                        <img src="{{ doc_root }}imagens/fotos-perfil/{{ notificacao.picture ?? 'blank.png' }}" alt="Foto perfil de {{ notificacao.emissor }} ?>">
-                    </div>
-                </section>
-                <section id="informacao">
-                    <p id="notificacao"><span class="perfil">{{ notificacao.emissor }}</span> {{ notificacao.mensagem }}</p>
-                </section>
-            </a>
-            <section id="seguir">
-                {% if notificacao.mensagem == 'começou a seguir-te' %}
-                    <a href="profile.php?id={{ notificacao.emissor_id }}">Seguir</a>
-                {% endif %}
+    <div id="main">
+        <a href="{{ doc_root }}{{ link }}">
+            <section id="perfil">
+                <div>
+                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ notificacao.picture ?? 'blank.png' }}" alt="Foto perfil de {{ notificacao.emissor }} ?>">
+                </div>
             </section>
-        </div>
-    {% endfor %}
+            <section id="informacao">
+                <p><span class="perfil">{{ notificacao.emissor }}</span> {{ notificacao.mensagem }}</p>
+            </section>
+        </a>
+        <section id="seguir">
+            {% if notificacao.mensagem == 'começou a seguir-te' %}
+                <a href="profile.php?id={{ notificacao.emissor_id }}">Seguir</a>
+            {% endif %}
+        </section>
+    </div>
 </main>
 <script>
+    const doc_root = "/the-cooking-place-front-e-back-end/v10/public/"
     let conn  = new WebSocket("ws://localhost:8080")
 
     conn.onopen = function() {
@@ -39,29 +33,74 @@
         let data = JSON.parse(event.data)
 
         if (data.type === 'notification') {
+            alert('AI GUIDA MACACA')
             updateNotifications(data.notifications)
         }
     }
 
     function updateNotifications(notifications) {
-         let notificationList = window.document.querySelector('p#notificacao')
+        alert(notifications)
+        /*let notificationList = window.document.querySelector('p#notificacao')
 
-         notificationList.innerHTML = ''
+        notificationList.innerHTML = ''
 
-         if (notifications.lenght === 0) {
-            notificationList.innerHTML = "Não há novas notificações"
-            return
-         } 
+        if (notifications.lenght === 0) {
+        notificationList.innerHTML = "Não há novas notificações"
+        return
+        } */
 
-         notifications.forEach(function(notification) {
-             let p = window.document.createElement('p')
+        notifications.forEach(function(notification) {
+            /*let p = window.document.createElement('p')
 
-             p.innerHTML = `${notification.mensagem}`
+            p.innerHTML = `${notification.mensagem}`
 
-             if (notification.status === 0) {
-                p.style.fontWeight = 'bold'
-             }
-         })
+            if (notification.status === 0) {
+            p.style.fontWeight = 'bold'
+            }
+
+            notificationList.appendChild(p)*/
+
+            /*let main = window.document.querySelector('div#main')
+
+            let img = window.document.createElement('img')
+            img.src = "{{ doc_root }}imagens/fotos-perfil/{{ notificacao.picture ?? 'blank.png' }}"
+            img.alt = "Foto perfil de {{ notificacao.emissor }} ?>"
+
+            let div = window.document.createElement('div')
+
+            let section = window.document.createElement('section')
+            section.id = 'perfil'
+
+            let span = window.document.createElement('span')
+            span.className = 'perfil'
+            span.innerHTML = `${notification.autor_id} ${notification.tipo}`
+
+            let p = window.document.createElement('p')
+            p.id = 'notificacao'
+
+            let section_informacao = window.document.createElement('section')
+            section_informacao.id = 'informacao'
+
+            let section_seguir = window.document.createElement('section')
+            section_seguir.id = 'seguir'
+
+            let a = window.document.createElement('a')
+            a.href = '{{ doc_root }}link'
+
+
+
+            div.appendChild(img)
+            section.appendChild(div)
+            a.appendChild(section)
+
+            p.appendChild(span)
+            section_informacao.appendChild(p)
+            a.appendChild(section_informacao)
+
+            main.appendChild(a)*/
+            alert(notification)
+
+        })
     }
 </script>
 {% endblock %}

@@ -29,7 +29,7 @@
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
     <form action="{{ doc_root }}create-edit-article/{{ receita.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data" onsubmit="sendNotification();">
-        <input type="hidden" name="autor_id" id="autor_id" value="{{ receita.membro_id }}">
+        <input type="hidden" name="autor_id" id="autor_id" value="{{ session.id }}">
         <section id="imagem-video">
             <div id="div-imagem">
                 {% if not receita.imagem_file %}
@@ -319,7 +319,6 @@
         let data = {
             type: "envio_receita",
             autor_id: autor_id,
-            mensagem: `${autor_id} publicou uma nova receita`
         }
 
         ws.send(JSON.stringify(data))

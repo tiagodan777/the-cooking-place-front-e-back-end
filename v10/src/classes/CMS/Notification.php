@@ -58,11 +58,10 @@ class Notification implements MessageComponentInterface {
 
             $arguments['type'] = $data['type'];
             $arguments['autor_id'] = $data['autor_id'];
-            $arguments['mensagem'] = $data['mensagem'];
             $arguments['status'] = 0;
 
-            $sql = "INSERT INTO notificacao (tipo, emissor_id, mensagem, status)
-                    VALUES (:type, :autor_id, :mensagem, :status);";
+            $sql = "INSERT INTO notificacao (tipo, emissor_id, status)
+                    VALUES (:type, :autor_id, :status);";
             $statement = $this->pdo->prepare($sql);
             $statement->execute($arguments);
             
