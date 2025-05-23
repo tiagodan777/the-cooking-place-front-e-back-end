@@ -4,22 +4,9 @@
 <main id="notifications">
     <h1>Notificações</h1>
     <div id="main">
-        <a href="{{ doc_root }}{{ link }}">
-            <section id="perfil">
-                <div>
-                    <img src="{{ doc_root }}imagens/fotos-perfil/{{ notificacao.picture ?? 'blank.png' }}" alt="Foto perfil de {{ notificacao.emissor }} ?>">
-                </div>
-            </section>
-            <section id="informacao">
-                <p><span class="perfil">{{ notificacao.emissor }}</span> {{ notificacao.mensagem }}</p>
-            </section>
-        </a>
-        <section id="seguir">
-            {% if notificacao.mensagem == 'começou a seguir-te' %}
-                <a href="profile.php?id={{ notificacao.emissor_id }}">Seguir</a>
-            {% endif %}
-        </section>
+
     </div>
+    <span id="user_id" hidden>{{ session.id }}</span>
 </main>
 <script>
     const doc_root = "/the-cooking-place-front-e-back-end/v10/public/"
@@ -33,38 +20,27 @@
         let data = JSON.parse(event.data)
 
         if (data.type === 'notification') {
-            alert('AI GUIDA MACACA')
-            updateNotifications(data.notifications)
+            fetch(`${doc_root}notifications-session.php`)
+            .then(response => response.json())
+            .then(sessionData => {
+                const sessionUserId = parseInt(sessionData.user_id)
+                updateNotifications(data.notifications, sessionUserId)
+            })
         }
     }
 
-    function updateNotifications(notifications) {
-        alert(notifications)
-        /*let notificationList = window.document.querySelector('p#notificacao')
-
-        notificationList.innerHTML = ''
-
-        if (notifications.lenght === 0) {
-        notificationList.innerHTML = "Não há novas notificações"
-        return
-        } */
+    function updateNotifications(notifications, sessionUserId) {
+        let main = window.document.querySelector('div#main')
 
         notifications.forEach(function(notification) {
-            /*let p = window.document.createElement('p')
-
-            p.innerHTML = `${notification.mensagem}`
-
-            if (notification.status === 0) {
-            p.style.fontWeight = 'bold'
+            if (sessionUserId !== parseInt(notification.autor_id)) {
+                if (document.querySelector(`[data-id="${notification.id}"]`)) {
+                return
             }
 
-            notificationList.appendChild(p)*/
-
-            /*let main = window.document.querySelector('div#main')
-
             let img = window.document.createElement('img')
-            img.src = "{{ doc_root }}imagens/fotos-perfil/{{ notificacao.picture ?? 'blank.png' }}"
-            img.alt = "Foto perfil de {{ notificacao.emissor }} ?>"
+            img.src = `${doc_root}imagens/fotos-perfil/` + (notification.picture ? notification.picture : 'blank.png')
+            img.alt = `Foto perfil de ${notification.user} ?>`
 
             let div = window.document.createElement('div')
 
@@ -72,8 +48,18 @@
             section.id = 'perfil'
 
             let span = window.document.createElement('span')
+            span.style.fontWeight = 'normal'
             span.className = 'perfil'
-            span.innerHTML = `${notification.autor_id} ${notification.tipo}`
+            span.innerHTML = `${notification.user} `
+            if (notification.tipo === 'envio_receita') {
+                span.innerHTML += 'publicou uma <strong>Receita</strong>'
+            } else if (notification.tipo === 'envio_post') {
+                span.innerHTML += 'fez uma <strong>Publicação</strong>'
+            } else if (notification.tipo === 'envio_quik') {
+                span.innerHTML += 'publicou um <strong>Quik</strong>'
+            } else if (notification.tipo === 'envio_video') {
+                span.innerHTML += 'publicou um <strong>Vídeo Longo</strong>'
+            }
 
             let p = window.document.createElement('p')
             p.id = 'notificacao'
@@ -87,7 +73,9 @@
             let a = window.document.createElement('a')
             a.href = '{{ doc_root }}link'
 
-
+            let notificacao = window.document.createElement('div')
+            notificacao.className = 'notificacao'
+            notificacao.dataset.id = notification.id
 
             div.appendChild(img)
             section.appendChild(div)
@@ -97,9 +85,18 @@
             section_informacao.appendChild(p)
             a.appendChild(section_informacao)
 
-            main.appendChild(a)*/
-            alert(notification)
+            if (notification.tipo === 'seguir') {
+                let a = window.document.createElement('a')
+                a.href = `${doc_root}profile/${notification.emissor_id}`
 
+                section_seguir.appendChild(a)
+            }
+
+            notificacao.appendChild(a)
+            notificacao.appendChild(section_seguir)
+            main.insertBefore(notificacao, main.firstChild)
+            console.log(notification)
+            }
         })
     }
 </script>

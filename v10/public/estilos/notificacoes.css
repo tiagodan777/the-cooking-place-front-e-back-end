@@ -9,53 +9,63 @@ main#notifications h1 {
 main#notifications {
     margin-top: 150px;
     font-size: 0.9em;
+}
 
+main#notifications > div#main {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
 }
 
-main#notifications > div {
+main#notifications > div#main > div.notificacao {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
+
+    cursor: pointer;
 }
 
-main#notifications > div:hover {
+main#notifications > div#main > div.notificacao:hover {
     background-color: rgb(245, 245, 245);
     cursor: pointer;
 }
 
-main#notifications > div > a {
+main#notifications > div#main > div.notificacao > a {
     color: var(--cor4);
     width: 100vw;
     font-weight: normal;
     padding: 20px;
     text-decoration: none;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-evenly;
-    align-items: center;
-}
 
-main#notifications > div > a > section#perfil > div {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
 }
 
-main#notifications > div > a > section#perfil > div > img {
+main#notifications > div#main > div.notificacao a > section#perfil > div {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main#notifications > div#main > div.notificacao > a > section#perfil > div > img {
+    width: 60px;
     border-radius: 50%;
 }
 
-main#notifications > div > a > section#informacao > p > span.perfil {
+main#notifications > div#main > div.notificacao > a > section#informacao > p > span.perfil {
     font-weight: bold;
 }
 
-main#notifications > div > section#seguir > a {
+main#notifications > div#main > div.notificacao > section#seguir {
+    width: 100%;
+}
+
+main#notifications > div#main > div.notificacao > section#seguir > a {
     font-weight: bold;
     text-decoration: none;
     color: var(--cor5);
@@ -64,6 +74,6 @@ main#notifications > div > section#seguir > a {
     border-radius: 8px;
 }
 
-main#notifications > div > section#seguir > a:hover {
+main#notifications > div#main > div.notificacao > section#seguir > a:hover {
     background-color: #c76730;
 }

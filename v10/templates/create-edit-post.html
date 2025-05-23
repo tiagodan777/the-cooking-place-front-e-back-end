@@ -25,6 +25,7 @@
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
     <form action="{{ doc_root }}create-edit-post/{{ post.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data" onsubmit="sendNotification()">
+        <input type="hidden" name="autor_id" id="autor_id" value="{{ session.id }}">
         <section id="imagem">
             <div id="div-imagem">
                 {% if not post.imagem_file %}
@@ -49,4 +50,18 @@
         </div>
     </form>
 </main>
+<script>
+    let ws = new WebSocket("ws://localhost:8080")
+
+    function sendNotification() {
+        let autor_id = window.document.querySelector('input#autor_id').value
+
+        let data = {
+            type: "envio_post",
+            autor_id: autor_id,
+        }
+
+        ws.send(JSON.stringify(data))
+    }
+</script>
 {% endblock %}

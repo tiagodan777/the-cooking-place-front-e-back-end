@@ -49,24 +49,18 @@ class Notification implements MessageComponentInterface {
     {
         $data = json_decode($msg, true);
 
-        /*echo "<pre>";
-        var_dump($data);
-        echo "</pre>";*/
+        $arguments = [];
 
-        if ($data['type'] = "envio_receita") {
-            $arguments = [];
+        $arguments['type'] = $data['type'];
+        $arguments['autor_id'] = $data['autor_id'];
+        $arguments['status'] = 0;
 
-            $arguments['type'] = $data['type'];
-            $arguments['autor_id'] = $data['autor_id'];
-            $arguments['status'] = 0;
-
-            $sql = "INSERT INTO notificacao (tipo, emissor_id, status)
-                    VALUES (:type, :autor_id, :status);";
-            $statement = $this->pdo->prepare($sql);
-            $statement->execute($arguments);
-            
-            $this->broadcastNotifications();
-        }
+        $sql = "INSERT INTO notificacao (tipo, emissor_id, status)
+                VALUES (:type, :autor_id, :status);";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($arguments);
+        
+        $this->broadcastNotifications();
     }
 
     public function onClose(ConnectionInterface $conn)
@@ -82,7 +76,12 @@ class Notification implements MessageComponentInterface {
     }
 
     private function sendNotification($conn) {
-        $sql = "SELECT * FROM notificacao ORDER BY id DESC;";
+        $sql = "SELECT 
+                n.id, n.tipo, n.emissor_id AS autor_id, n.data, n.status,
+                CONCAT(m.forename, ' ', m.surname) AS user, m.picture
+                FROM notificacao AS n
+                JOIN membro AS m ON m.id = n.emissor_id
+                ORDER BY n.id DESC;";
 
         $notifications = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 

@@ -36,6 +36,7 @@
         <div class="alert-danger">{{ erros.warning }}</div>
     {% endif %}
     <form action="{{ doc_root }}create-edit-long-video/{{ video.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data" onsubmit="sendNotification()">
+        <input type="hidden" name="autor_id" id="autor_id" value="{{ session.id }}">
         <section id="imagem-video">
             <div id="div-video">
                 {% if not video.youtube_id %}
@@ -154,5 +155,18 @@
 
     keywords.value = maiorIdKeywords;
 });
+
+    let ws = new WebSocket("ws://localhost:8080")
+
+    function sendNotification() {
+        let autor_id = window.document.querySelector('input#autor_id').value
+
+        let data = {
+            type: "envio_video",
+            autor_id: autor_id,
+        }
+
+        ws.send(JSON.stringify(data))
+    }
 </script>
 {% endblock %}

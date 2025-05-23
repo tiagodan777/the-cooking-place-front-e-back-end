@@ -8,14 +8,18 @@ main#notifications {
     margin-top: 150px;
 }
 
-main#notifications > div {
+main#notifications > div#main > div.notificacao {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
     width: 500px;
 }
 
-main#notifications > div > a {
+main#notifications > div#main > div.notificacao > a {
     width: 400px;
 }
 
-main#notifications > div > section#seguir {
-    width: 150px;
+main#notifications > div#main > div.notificacao > section#seguir {
+    width: 100px;
 }
