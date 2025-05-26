@@ -2,15 +2,16 @@
 {% block title %} {{ membro.nome }} {% endblock %}
 {% block content %}
 <main id="profile">
+    <input type="hidden" name="autor_id" id="autor_id" value="{{ session.id }}">
     <header>
         <div id="foto_e_bio">
             <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
             <p>{{ membro.bio }}</p>
             {% if membro.id != session.id %}
                 {% if not seguem_se %}
-                    <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="seguir">Seguir</a> 
+                    <button onclick="seguir(0)" id="seguir">Seguir</button>
                 {% else %}
-                    <a href="{{ doc_root }}follow/{{ membro.id }}/{{ membro.seo_name }}" id="a_seguir">A seguir</a> 
+                    <button onclick="seguir(1)">A seguir</button>
                 {% endif %}
             {% endif %}
         </div>
@@ -103,23 +104,52 @@
             })
         })
 
-        window.document.querySelectorAll("button[id^='button-following']").forEach((button) => {
-            button.addEventListener('click', function () {
-                let count = this.id.replace("button-following", "")
-                let dialog = window.document.querySelector(`#dialog-following${count}`)
-                let iframe = window.document.querySelector(`#iframe-following${count}`)
+    window.document.querySelectorAll("button[id^='button-following']").forEach((button) => {
+        button.addEventListener('click', function () {
+            let count = this.id.replace("button-following", "")
+            let dialog = window.document.querySelector(`#dialog-following${count}`)
+            let iframe = window.document.querySelector(`#iframe-following${count}`)
 
-                if (!iframe.src) {
-                    iframe.src = iframe.getAttribute('data-src')
-                }
+            if (!iframe.src) {
+                iframe.src = iframe.getAttribute('data-src')
+            }
 
-                dialog.showModal()
+            dialog.showModal()
 
-                dialog.addEventListener('click', function () {
-                    dialog.close()
-                })
+            dialog.addEventListener('click', function () {
+                dialog.close()
             })
         })
+    })
+
+    let ws = new WebSocket("ws://localhost:8080")
+
+    function seguir(seguir) {
+        const pathParts = window.location.pathname.split('/')
+
+        let userId = window.document.querySelector('input#autor_id').value
+        let profileId = pathParts[5]
+
+        if (seguir == 0) {
+            let data = {
+                type: "seguir",
+                userId: userId,
+                profileId: profileId
+            }
+
+            ws.send(JSON.stringify(data))
+        } else if (seguir == 1) {
+            let data = {
+                type: "NaoSeguir",
+                userId: userId,
+                profileId: profileId
+            }
+
+            ws.send(JSON.stringify(data))
+        } else {
+            alert("SUA GANDA GORDA")
+        }
+    }
 </script>
 {% endblock %}
 

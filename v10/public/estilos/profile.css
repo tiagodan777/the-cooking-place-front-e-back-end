@@ -67,7 +67,7 @@ main > header > div#foto_e_bio > p {
     transform: translate(35px, 0px);
 }
 
-main > header > div#foto_e_bio > a {
+main > header > div#foto_e_bio > button {
     text-decoration: none;
     color: var(--cor5);
     background-color: var(--cor3);
@@ -76,9 +76,11 @@ main > header > div#foto_e_bio > a {
     display: block;
     margin-top: 150px;
     margin-right: 50px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-main > header > div#foto_e_bio > a#a_seguir {
+main > header > div#foto_e_bio > button#a_seguir {
     background-color: var(--cor1);
 }
 

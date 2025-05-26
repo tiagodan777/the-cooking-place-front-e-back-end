@@ -23,6 +23,8 @@
     return $novas_datas;  
 }*/
 
+use Google\Service\Networkconnectivity\Resource\ProjectsLocationsNetworkconnectivityGlobalHubsRouteTablesRoutes;
+
 function redirect($location, $parameters = [], $response_code = 302) {
     $qs = $parameters ? '?' . http_build_query($parameters) : '';
     $location = $location . $qs;
@@ -66,6 +68,28 @@ function create_seo_name($string) {
     $text = preg_replace('[^A-z0-9]', '', $text);
     return $text;
 }
+
+$userConnections = [];
+
+function map_user_to_connection($user_id, $conn) {
+    global $userConnections;
+    $userConnections[$user_id] = $conn;
+}
+
+function get_connection_by_user_id($user_id) {
+    global $userConnections;
+    return $userConnections[$user_id] ?? null;
+}
+
+function remove_connection($conn) {
+    global $userConnections;
+    foreach ($userConnections as $userId => $c) {
+        if ($c == $conn) {
+            unset($userConnections[$userId]);
+            break;
+        }
+    }
+} 
 
 /*/set_error_handler('handle_error');
 function handle_error($type, $message, $file, $line) {
