@@ -1,6 +1,6 @@
 <?php
 define('DEV', true);
-define("DOC_ROOT", '/the-cooking-place-front-e-back-end/v10/public/');
+define("DOC_ROOT", '/the-cooking-place-front-e-back-end/v11/public/');
 define("ROOT_FOLTER", 'public');
 define('DOMAIN', 'http://localhost:8888'); 
 

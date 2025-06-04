@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 <main id="index">
+    <input type="hidden" id="cookieUser" name="user_token" value="{{ cookie.token }}">
     {% for conteudo in conteudos %}
         <article {% if count == 1 %} id='primeiro-artigo' {% endif %}>
             {% set count = count + 1 %}
@@ -59,9 +60,9 @@
                     <div class="icones">
                         <div class="react">
                             {% if session.id != 0 %}
-                                <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
+                                <span id="icone-reacao-{{ conteudo.id }}" class="icones-reacao" onclick="event.preventDefault()"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt="Ícone de Like"></span>
                             {% else %}
-                            <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
+                                <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
                             {% endif %}
                             <dialog id="c{{ count }}">
                                 <iframe data-src="{{ doc_root }}opinions/{{ conteudo.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
@@ -136,6 +137,8 @@
     {% endif %}
     {% endfor %}
     <script>
+        const cookieUser = window.document.querySelector('input#cookieUser')
+
         window.document.querySelectorAll("button[id^='b']").forEach((button) => {
             button.addEventListener('click', function () {
                 let count = this.id.replace("b", "")
@@ -261,6 +264,21 @@
             })
             observer.observe(iframe)
         }
+
+        let ws = new WebSocket("ws://localhost:8080")
+
+        window.document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
+            span.addEventListener('click', function () {
+                let contentId = this.id.replace("icone-reacao-", "")
+                let data = {
+                    type : "like",
+                    contentId : contentId,
+                    cookieUser : cookieUser.value
+                }
+
+                ws.send(JSON.stringify(data))
+            })
+        })  
     </script>
 </main>
 <!--<aside id="search-aside">
