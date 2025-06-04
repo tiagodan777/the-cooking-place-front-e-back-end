@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block title %} Post {% endblock %}
+{% block content %}
+<main id="post">
+    <section id="topo">
+        <section id="imagem">
+            <picture>
+                <source media="(max-width: 500px)" srcset="{{ doc_root }}posts/cropped_500/{{ post.imagem_file }}">
+                <source media="(max-width: 600px)" srcset="{{ doc_root }}posts/cropped_600/{{ post.imagem_file }}">
+                <source media="(max-width: 700px)" srcset="{{ doc_root }}posts/cropped_700/{{ post.imagem_file }}">
+                <img src="{{ doc_root }}posts/{{ post.imagem_file }}" alt="Foto de {{ post.titulo }} publicada por {{ post.autor }}">
+            </picture>
+        </section>
+        <section id="info">
+            <section>
+                <div>
+                    <div id="reacoes">
+                        <div class="icones">
+                            {% if session.id != 0 %}
+                                <a href="{{ doc_root}}like/{{ post.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                            {% else %}
+                            <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                            {% endif %}
+                            <dialog id="c{{ count }}">
+                                <iframe data-src="{{ doc_root }}opinions/{{ post.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                            </dialog>
+                            <button id="b{{ count }}"><span class="material-symbols-outlined">comment</span></button>
+
+                            <dialog id="s{{ count }}" class="share">
+                                <div class="imagem">
+                                    <img data-src="{{ doc_root }}imagens/comida/{{ post.file }}" alt="Foto de {{ post.titulo }} publicada por {{ post.autor }}" id="imagem-para-share{{ count }}">
+                                    {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v10/public/article/' ~  post.id %}
+                                </div>
+                                <p class="partilhar-atraves-de">Partilhar através de </p>
+                                <div class="icones-redes-sociais">
+                                    <span class="material-symbols-outlined" onclick="copiar()" class="link" id="copiar-link">link</span>
+                                    <input type="hidden" name="link" value="{{ link }}">
+                                    <span class="material-symbols-outlined">send</span>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/facebook-icon.png" alt="Ícone do Facebook"></a>
+                                    <a href="https://api.whatsapp.com/send?text={{ post.titulo|url_encode }}%20{{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/whatsapp-icon.png" alt=""></a>
+                                    <a href="https://pinterest.com/pin/create/button/?url={{ link|url_encode }}&media={{ ('https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/imagens/comida/' ~ post.file)|url_encode }}&description={{ post.titulo|url_encode }}" target="_blank"><img src="{{ doc_root }}imagens/icons/pinterest-icon.png" alt="Ícone do Pinterest"></a>
+                                    <a href="https://twitter.com/intent/tweet?url={{ link }}&text=Receita-do-The-Cooking-Place" target="_blank"><img src="{{ doc_root }}imagens/icons/x-icon.png" alt="Ícone do X"></a>
+                                </div>
+                            </dialog>
+                            <button id="f{{ count }}"><span class="material-symbols-outlined">ios_share</span></button>
+                            <!--<div class="save">
+                                <a href="{{ doc_root }}save/{{ receita.id }}/?file={{ receita.file }}&tipo_conteudo={{ receita.tipo_conteudo }}" class="guardar"><span class="material-symbols-outlined">bookmark</span></a>
+                            </div>-->
+                        </div>
+                        <div class="numeros">
+                            {% if post.likes != '' %}
+                                <span>{{ post.likes }}</span>
+                            {% else %} 
+                                <span></span>
+                            {% endif %}
+                            {% if post.opinioes != '' %}
+                                <span>{{ post.opinioes }}</span>
+                            {% else %}
+                                <span>0</span>
+                            {% endif %}
+                            <span>55</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="dados">
+                    <p id="descricao-receita">Descrição: {{ post.descricao }}</p>
+                    <a href="{{ doc_root }}profile/{{ post.membro_id }}/{{ post.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ post.picture }}" alt="Foto de perfil de {{ post.autor }}">&nbsp;{{ post.autor }}</a>
+                    {% if session.id == post.membro_id %}
+                        <a href="{{ doc_root }}create-edit-post/{{ post.id }}" id="editar">Editar</a>
+                    {% endif %}
+                    <p>Data: {{ post.data|date('d F Y') }}</p>
+
+                </div>
+            </section>
+        </section>
+    </section>
+    <aside id="aside-more-contents">
+        {{ include('more-contents.html') }}
+    </aside>
+</main>
+<script>
+    window.document.querySelectorAll("button[id^='b']").forEach((button) => {
+        button.addEventListener('click', function () {
+            let count = this.id.replace("b", "")
+            let dialog = window.document.querySelector(`#c${count}`)
+            let iframe = window.document.querySelector(`#comentarios${count}`)
+            let fechar = window.document.querySelector(`#f${count}`)
+
+            if (!iframe.src) {
+                iframe.src = iframe.getAttribute('data-src')
+            }
+
+            dialog.showModal()
+
+            fechar.addEventListener('click', function () {
+                dialog.close()
+            })
+
+            dialog.addEventListener('click', function () {
+                dialog.close()
+            })
+        })
+    })
+</script>
+{% endblock %}
+{% block footer %} {% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'layout.html' %}
+{% block title %} {{ video.titulo }} {% endblock %}
+{% block content %}
+<main id="video">
+    <section id="topo">
+        <section id="video-video">
+            <iframe src="https://www.youtube.com/embed/{{ video.youtube_id }}?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
+        </section>
+        <section id="info">
+            <div id="dados">
+                <h1>{{ video.titulo }}</h1>
+                <a href="{{ doc_root }}profile/{{ video.membro_id }}/{{ video.seo_member }}" id="user"> <img src="{{ doc_root }}imagens/fotos-perfil/{{ video.picture }}" alt="Foto de perfil de {{ video.autor }}">&nbsp;{{ video.autor }}</a>
+                <h2>Descrição</h2>
+                <p id="descricao-receita">{{ video.descricao }}</p>
+                <p id="data-publicacao"><span>Data:</span> {{ video.data|date('d F Y') }}</p>
+                {% if session.id == video.membro_id %}
+                    <a href="{{ doc_root }}create-edit-long-video/{{ video.id }}" id="editar">Editar</a>
+                {% endif %}
+            </div>
+            <div id="reacoes">
+                <div class="icones">
+                    {% if session.id != 0 %}
+                        <a href="{{ doc_root}}like/{{ video.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                    {% else %}
+                    <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                    {% endif %}
+                    <dialog id="c{{ count }}">
+                        <iframe data-src="{{ doc_root }}opinions/{{ video.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
+                    </dialog>
+                    <button id="b{{ count }}"><span class="material-symbols-outlined span-aparece">comment</span></button>
+
+                    <dialog id="s{{ count }}" class="share">
+                        <div class="imagem">
+                            <iframe id="imagem-para-share{{ count }}" class="youtube-video" data-src="https://www.youtube.com/embed/{{ quik.youtube_id }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+                            {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/video/' ~ video.id %}
+                        </div>
+                        <p class="partilhar-atraves-de">Partilhar através de </p>
+                        <div class="icones-redes-sociais">
+                            <span class="material-symbols-outlined" onclick="copiar()" class="link" id="copiar-link">link</span>
+                            <input type="hidden" name="link" value="{{ link }}">
+                            <span class="material-symbols-outlined">send</span>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/facebook-icon.png" alt="Ícone do Facebook"></a>
+                            <a href="https://api.whatsapp.com/send?text={{ video.titulo|url_encode }}%20{{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/whatsapp-icon.png" alt=""></a>
+                            <a href="https://pinterest.com/pin/create/button/?url={{ link|url_encode }}&media={{ ('https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/imagens/comida/' ~ video.file)|url_encode }}&description={{ video.titulo|url_encode }}" target="_blank"><img src="{{ doc_root }}imagens/icons/pinterest-icon.png" alt="Ícone do Pinterest"></a>
+                            <a href="https://twitter.com/intent/tweet?url={{ link }}&text=Receita-do-The-Cooking-Place" target="_blank"><img src="{{ doc_root }}imagens/icons/x-icon.png" alt="Ícone do X"></a>
+                        </div>
+                    </dialog>
+                    <button id="f{{ count }}"><span class="material-symbols-outlined span-aparece">ios_share</span></button>
+                    <!--<div class="save">
+                        <a href="{{ doc_root }}save/{{ receita.id }}/?file={{ receita.file }}&tipo_conteudo={{ receita.tipo_conteudo }}" class="guardar"><span class="material-symbols-outlined">bookmark</span></a>
+                    </div>-->
+                </div>
+                <div class="numeros">
+                    {% if video.likes != '' %}
+                        <span>{{ video.likes }}</span>
+                    {% else %} 
+                        <span></span>
+                    {% endif %}
+                    {% if video.opinioes != '' %}
+                        <span>{{ video.opinioes }}</span>
+                    {% else %}
+                        <span>0</span>
+                    {% endif %}
+                    <span>55</span>
+                </div>
+            </div>
+        </section>
+    </section>
+    <h2>Mais Conteúdos que vais gostar</h2>
+    <aside id="aside-more-contents">
+        {{ include('more-contents.html') }}
+    </aside>
+</main>
+<script>
+    window.document.querySelectorAll("button[id^='b']").forEach((button) => {
+        button.addEventListener('click', function () {
+            let count = this.id.replace("b", "")
+            let dialog = window.document.querySelector(`#c${count}`)
+            let iframe = window.document.querySelector(`#comentarios${count}`)
+            let fechar = window.document.querySelector(`#f${count}`)
+
+            if (!iframe.src) {
+                iframe.src = iframe.getAttribute('data-src')
+            }
+
+            dialog.showModal()
+
+            fechar.addEventListener('click', function () {
+                dialog.close()
+            })
+
+            dialog.addEventListener('click', function () {
+                dialog.close()
+            })
+        })
+    })
+
+    window.document.querySelectorAll("button[id^='f']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("f", "")
+                let dialog = window.document.querySelector(`#s${count}`)
+                let media = window.document.querySelector(`#imagem-para-share${count}`)
+
+                if (!media.src) {
+                    media.src = media.getAttribute('data-src')
+                }
+
+                dialog.showModal()
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
+
+    /*document.addEventListener("load", () => {
+        let videos = document.querySelector("#video-video-video");
+
+        // Configura o Observer
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                let video = entry.target;
+
+                if (entry.isIntersecting) {
+                    video.play(); // Toca o vídeo quando entra na tela
+                } else {
+                    video.pause(); // Pausa quando sai da tela
+                    video.currentTime = 0; // Reinicia o vídeo quando sai
+                }
+            });
+        }, { threshold: 0.6 }); // Só ativa quando pelo menos 60% do vídeo está visível
+
+        // Aplica o Observer a cada vídeo
+        videos.forEach(video => observer.observe(video));
+        });*/
+</script>
+{% endblock %}
+{% block footer %} {% endblock %}

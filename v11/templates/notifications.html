@@ -1,0 +1,105 @@
+{% extends 'layout.html' %}
+{% block title %} Notificações {% endblock %}
+{% block content %}
+<main id="notifications">
+    <h1>Notificações</h1>
+    <div id="main">
+
+    </div>
+    <span id="user_id" hidden>{{ session.id }}</span>
+</main>
+<script>
+    const doc_root = "/the-cooking-place-front-e-back-end/v10/public/"
+    let conn  = new WebSocket("ws://localhost:8080")
+
+    conn.onopen = function() {
+        console.log('WebSocket Connected!')
+    }
+
+    conn.onmessage = function (event) {
+        let data = JSON.parse(event.data)
+
+        if (data.type === 'notification') {
+            fetch(`${doc_root}notifications-session.php`)
+            .then(response => response.json())
+            .then(sessionData => {
+                const sessionUserId = parseInt(sessionData.user_id)
+                updateNotifications(data.notifications, sessionUserId)
+            })
+        }
+    }
+
+    function updateNotifications(notifications, sessionUserId) {
+        let main = window.document.querySelector('div#main')
+
+        notifications.forEach(function(notification) {
+            if (sessionUserId !== parseInt(notification.autor_id)) {
+                if (document.querySelector(`[data-id="${notification.id}"]`)) {
+                return
+            }
+
+            let img = window.document.createElement('img')
+            img.src = `${doc_root}imagens/fotos-perfil/` + (notification.picture ? notification.picture : 'blank.png')
+            img.alt = `Foto perfil de ${notification.user} ?>`
+
+            let div = window.document.createElement('div')
+
+            let section = window.document.createElement('section')
+            section.id = 'perfil'
+
+            let span = window.document.createElement('span')
+            span.style.fontWeight = 'normal'
+            span.className = 'perfil'
+            span.innerHTML = `${notification.user} `
+            if (notification.tipo === 'envio_receita') {
+                span.innerHTML += 'publicou uma <strong>Receita</strong>'
+            } else if (notification.tipo === 'envio_post') {
+                span.innerHTML += 'fez uma <strong>Publicação</strong>'
+            } else if (notification.tipo === 'envio_quik') {
+                span.innerHTML += 'publicou um <strong>Quik</strong>'
+            } else if (notification.tipo === 'envio_video') {
+                span.innerHTML += 'publicou um <strong>Vídeo Longo</strong>'
+            }
+
+            let p = window.document.createElement('p')
+            p.id = 'notificacao'
+
+            let section_informacao = window.document.createElement('section')
+            section_informacao.id = 'informacao'
+
+            let section_seguir = window.document.createElement('section')
+            section_seguir.id = 'seguir'
+
+            let a = window.document.createElement('a')
+            a.href = '{{ doc_root }}link'
+
+            let notificacao = window.document.createElement('div')
+            notificacao.className = 'notificacao'
+            notificacao.dataset.id = notification.id
+
+            div.appendChild(img)
+            section.appendChild(div)
+            a.appendChild(section)
+
+            p.appendChild(span)
+            section_informacao.appendChild(p)
+            a.appendChild(section_informacao)
+
+            if (notification.tipo === 'seguir') {
+                let a = window.document.createElement('a')
+                a.href = `${doc_root}profile/${notification.emissor_id}`
+
+                section_seguir.appendChild(a)
+            }
+
+            notificacao.appendChild(a)
+            notificacao.appendChild(section_seguir)
+            main.insertBefore(notificacao, main.firstChild)
+            console.log(notification)
+            }
+        })
+    }
+</script>
+{% endblock %}
+
+    

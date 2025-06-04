@@ -1,0 +1,158 @@
+{% extends 'layout.html' %}
+{% block title %} {{ membro.nome }} {% endblock %}
+{% block content %}
+<main id="profile">
+    <input type="hidden" name="autor_id" id="autor_id" value="{{ session.id }}">
+    <header>
+        <div id="foto_e_bio">
+            <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
+            <p>{{ membro.bio }}</p>
+            {% if membro.id != session.id %}
+                {% if not seguem_se %}
+                    <button onclick="seguir(0)" id="seguir">Seguir</button>
+                {% else %}
+                    <button onclick="seguir(1)">A seguir</button>
+                {% endif %}
+            {% endif %}
+        </div>
+        <h1>{{ membro.nome }}</h1>
+        <div id="estatisticas_numeros">
+            <dialog id="dialog-followers{{ count }}" class="iframes-profile">
+                <iframe data-src="{{ doc_root }}followers/{{ membro.id }}" frameborder="0" id="iframe-followers"></iframe>
+            </dialog>
+            <button id="button-followers{{ count }}">{{ membro.followers }}</button>
+
+            <dialog id="dialog-following{{ count }}" class="iframes-profile">
+                <iframe data-src="{{ doc_root }}following/{{ membro.id }}" frameborder="0" id="iframe-following"></iframe>
+            </dialog>
+            <button id="button-following{{ count }}">{{ membro.following }}</button>
+
+            <span>{{ membro.tot_receitas }}</span>
+
+        </div>
+        <div id="estatisticas_legenda">
+            <span>seguidores</span>
+            <span>a seguir</span>
+            <span>receitas</span>
+        </div>
+        <p id="joined">Membro desde: <span>{{ membro.joined|date('F Y') }}</span></p>
+        <p><a href="{{ doc_root }}saved">Guardados <span class="material-symbols-outlined">bookmark</span></a></p>
+    </header>
+    <section>
+        <div>
+            {% for conteudo in conteudos %}
+                {% if conteudo.tipo_conteudo == 'receita' %}
+                    <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
+                {% elseif conteudo.tipo_conteudo == 'quik'  %}
+                    {% if conteudo.receita_acoplada_id == 0 %}
+                        <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
+                            <iframe id="video-{{ conteudo.id }}" class="youtube-video"
+                              src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0"
+                              frameborder="0" allowfullscreen></iframe>
+                          
+                            <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}"
+                               style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                                      z-index: 10; background: transparent;"></a>
+                            <span>{{ conteudo.tipo_conteudo }}</span>
+                        </div>
+                    {% else %}
+                    <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
+                        <iframe id="video-{{ conteudo.id }}" class="youtube-video"
+                          src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0"
+                          frameborder="0" allowfullscreen></iframe>
+                      
+                        <a href="{{ doc_root }}whats-happening/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="quik"
+                           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                                  z-index: 10; background: transparent;"></a>
+                        <span>{{ conteudo.tipo_conteudo }}</span>
+                    </div>
+                    {% endif %}
+                {% elseif conteudo.tipo_conteudo == 'publicação' %}  
+                    <a href="{{ doc_root }}post/{{ conteudo.id }}"><img src="{{ doc_root }}posts/{{ conteudo.file }}" alt="Foto publicada por {{ conteudo.autor }}"><span>{{ conteudo.tipo_conteudo }}</span></a>
+                {% elseif conteudo.tipo_conteudo == 'vídeo longo' %}
+                    <div style="position: relative; display: inline-block;" class="video-wrapper-profile">
+                        <iframe id="video-{{ conteudo.id }}" class="youtube-video"
+                          src="https://www.youtube.com/embed/{{ conteudo.file }}?enablejsapi=1&mute=1&modestbranding=1&rel=0&showinfo=0"
+                          frameborder="0" allowfullscreen></iframe>
+                      
+                        <a href="{{ doc_root }}video/{{ conteudo.id }}"
+                           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                                  z-index: 10; background: transparent;"></a>
+                        <span>{{ conteudo.tipo_conteudo }}</span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+</main>
+<script>
+    window.document.querySelectorAll("button[id^='button-followers']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("button-followers", "")
+                let dialog = window.document.querySelector(`#dialog-followers${count}`)
+                let iframe = window.document.querySelector(`#iframe-followers${count}`)
+
+                if (!iframe.src) {
+                    iframe.src = iframe.getAttribute('data-src')
+                }
+
+                dialog.showModal()
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
+
+    window.document.querySelectorAll("button[id^='button-following']").forEach((button) => {
+        button.addEventListener('click', function () {
+            let count = this.id.replace("button-following", "")
+            let dialog = window.document.querySelector(`#dialog-following${count}`)
+            let iframe = window.document.querySelector(`#iframe-following${count}`)
+
+            if (!iframe.src) {
+                iframe.src = iframe.getAttribute('data-src')
+            }
+
+            dialog.showModal()
+
+            dialog.addEventListener('click', function () {
+                dialog.close()
+            })
+        })
+    })
+
+    let ws = new WebSocket("ws://localhost:8080")
+
+    function seguir(seguir) {
+        const pathParts = window.location.pathname.split('/')
+
+        let userId = window.document.querySelector('input#autor_id').value
+        let profileId = pathParts[5]
+
+        if (seguir == 0) {
+            let data = {
+                type: "seguir",
+                userId: userId,
+                profileId: profileId
+            }
+
+            ws.send(JSON.stringify(data))
+        } else if (seguir == 1) {
+            let data = {
+                type: "NaoSeguir",
+                userId: userId,
+                profileId: profileId
+            }
+
+            ws.send(JSON.stringify(data))
+        } else {
+            alert("SUA GANDA GORDA")
+        }
+    }
+</script>
+{% endblock %}
+
+
+
+    

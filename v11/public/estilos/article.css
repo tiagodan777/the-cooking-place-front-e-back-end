@@ -1,0 +1,223 @@
+@charset "UTF-8";
+
+html, body {
+    font-weight: normal;
+}
+
+main#article h1#titulo-receita {
+    padding: 20px 0px 0px 0px;
+    font-weight: bolder;
+}
+
+main#article h2#descricao-receita {
+    text-align: left;
+}
+
+main#article  {
+    margin-top: 68px;
+    font-weight: normal;
+}
+
+main#article  > section#topo > section#imagem > picture > img {
+    width: 100vw;
+}
+
+main#article > section#topo section#info {
+    padding: 0px 10px;
+}
+
+main#article > section#topo section#info > h2 {
+    font-size: 1.4em;
+    font-weight: lighter;
+}
+
+main#article > section#topo section#info > section {
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main#article > section#topo section#info > section > div > p {
+    font-weight: normal;
+    margin: 5px;
+}
+
+main#article > section#topo section#info > section > div > a#user {
+    font-weight: bold;
+    margin: 0px;
+    text-decoration: none;
+    color: var(--cor4);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+main#article > section#topo section#info > section > div > a#user > img {
+    width: 45px;
+}
+
+main#article > section#topo section#info > section > div > a#editar {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--cor5);
+    padding: 10px 20px;
+    background-color: var(--cor1);
+    transform: translate(50px, 50px);
+    border-radius: 10px;
+    margin: 10px;
+}
+
+main#article > section#topo section#info > section > div > a#user > img {
+    border-radius: 50%;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes {
+    margin: 20px;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.icones {
+    width: 135px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.icones > a:hover, main#article > section#topo section#info > section > div > div#reacoes > div.icones > button#b, main#article > section#topo section#info > section > div > div#reacoes > div.icones > button#f {
+    font-size: 2em;
+    background-color: var(--cor5);
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.numeros {
+    width: 135px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.icones > a:hover, main#article > section#topo section#info > section > div > div#reacoes > div.icones > button#b:hover, main#article > section#topo section#info > section > div > div#reacoes > div.icones > button#f:hover {
+    transform: scale(115%);
+}
+
+main#article > section#topo section#info > section > div > div#reacoes > div.numeros > span {
+    font-size: 0.9em;
+
+    /*flex: 0 0 55px;*/
+}
+
+main#article > section#needs {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+main#article > section#needs section#ingredientes {
+    /*align-self: flex-start;*/
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+
+main#article > section#needs section#ingredientes > h2 {
+    margin: 10px;
+}
+
+main#article > section#needs section#ingredientes > ul {
+    list-style-type: none;
+    list-style: none;
+}
+
+main#article > section#needs section#ingredientes > ul > li {
+    padding: 10px;
+}
+
+main#article > section#needs section#ingredientes > ul > li > input, main > section#ingredientes > ul > li > label {
+    padding: 20px;
+}
+
+main#article > section#needs section#video {
+    position: relative;
+    width: 100vw;
+}
+
+main#article > section#needs section#video > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+}
+
+main#article > section#steps {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    align-self: flex-start;
+}
+
+main#article > section#steps > h2 {
+    margin: 10px;
+}
+
+main#article > section#steps > ul {
+    list-style-type: none;
+    line-height: 1.75em;
+    width: calc(100% - 25px);
+    margin-left: 20px;
+    text-align: justify;
+}
+
+main#article > section#steps > ul > li {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+main#article > section#steps > ul > li > span {
+    display: block;
+    font-weight: 600;
+    font-size: 1.2em;
+    margin: 5px;
+    width: calc(100% - 25px);
+}
+
+main#article > section#steps > ul > li > span.passo {
+    display: block;
+    font-weight: normal;
+    font-size: 1em;
+    text-indent: 20px;
+    width: calc(100% - 25px);
+}
+
+main#article > aside > h3 {
+    margin: 10px 0px 20px 0px;
+}
+
+main#article > aside > article {
+    border: 0.5px solid #cecece;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px;
+}
+
+main#article > aside > article > h4 {
+    margin: 10px 0px;
+}
+
+main > article > aside.aside-principal > section > div.icones > div > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > div > a, main > article > aside.aside-principal > section > div.icones > div > button[id^="b"], main > article > aside.aside-principal > section > div.icones > div > button[id^="f"] {
+    font-size: 2em;
+    background-color: var(--cor5);
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}

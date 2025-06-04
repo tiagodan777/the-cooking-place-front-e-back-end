@@ -1,0 +1,151 @@
+{% extends 'layout.html' %}
+{% block title %} Criar e Editar Quik {% endblock %}
+{% block content %}
+{% if quik.youtube_id %}
+    {% set borda = 'none' %}
+    {% set text_indent = '-225px' %}
+{% else %}
+    {% set borda = '1px solid rgb(210, 210, 210)' %}
+    {% set text_indent = '0px' %}
+{% endif %}
+<style>
+    main#create-edit-quik > form#form > section#video > div#div-video { 
+        border: {{ borda }};
+    }
+</style>
+<main id="create-edit-quik">
+    <h2>Adicionar/Editar Quik</h2>
+    <div id="opcoes-publicacao">
+        <a href="{{ doc_root }}create-edit-article">Receita</a>
+        <a href="{{ doc_root }}create-edit-post">Publicação</a>
+        <a href="{{ doc_root }}create-edit-quik" class="pagina-atual">Quik</a>
+        <a href="{{ doc_root }}create-edit-long-video">Vídeo Longo</a>
+    </div>
+    {% if erros.warning %}
+        <div class="alert-danger">{{ erros.warning }}</div>
+    {% endif %}
+    <form action="{{ doc_root }}create-edit-quik/{{ quik.id }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data" onsubmit="sendNotification()">
+        <input type="hidden" name="autor_id" id="autor_id" value="{{ session.id }}">
+        <section id="video">
+            <div id="div-video">
+                {% if not quik.youtube_id %}
+                    <label for="video">Upload de Quik</label>
+                    <div>
+                        <input type="file" name="video" id="video" accept="video/*">
+                    </div>
+                    {% if erros.imagem_file %} <spanc class="error failure">{{ erros.imagem_file }}</span> {% endif %}
+                    {% if erros.keywords %}<span class="error">{{ erros.imagem_file }}</span> {% endif %}
+                {% else %}
+                    <label for="video_guardado">Quik</label>  
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ quik.youtube_id }}" id="video_guardado" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
+                {% endif %}
+            </div>
+        </section>
+        <section id="detalhes">
+            <input type="text" name="titulo" id="titulo" placeholder="Adicionar título" value="{{ quik.titulo }}">
+            <textarea name="descricao" id="descricao" placeholder="Adicionar descrição" maxlength="2000">{{ opiniao_editar.opiniao }}{{ quik.descricao }}</textarea>
+
+            <div id="div-tags">
+                <label for="tag1">Keywords / Tags</label>
+                {% set count = count_keywords %}
+                {% for i in 1..count %}
+                    <div class="tags">
+                        <label for="tag{{ i }}">Tag {{ i }}</label>
+                        <input type="text" name="tag{{ i }}" id="tag{{ i }}" placeholder="Ex: #sushi" value="#{{ keywords[i-1] }}">
+                        {% if erros.keywords %}<span class="error">{{ erros.keywords }}</span> {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <input type="button" value="Adicionar Tag" onclick="adicionaTag()">
+        </section>
+        <input type="text" name="quant_keywords" id="keywords">
+        <div id="opcoes">
+            <a href="{{ doc_root }}quik-delete/{{ quik.id }}">Apagar</a>
+            <input type="submit" value="Publicar">
+        </div>
+    </form>
+</main>
+<script>
+    function encontrarMaiorId(prefixo) {
+    let elementos = document.querySelectorAll(`[id^="${prefixo}"]`);
+    let maiorId = 0;
+
+    elementos.forEach(elemento => {
+        // Extrai o número do ID removendo o prefixo
+        let idNumerico = parseInt(elemento.id.replace(prefixo, ''), 10);
+        
+        // Atualiza o maior ID, se necessário
+        if (idNumerico > maiorId) {
+            maiorId = idNumerico;
+        }
+    })
+
+    return maiorId;
+}
+
+    let maiorIdKeywords = encontrarMaiorId("tag");
+    let idNameTag = maiorIdKeywords
+
+    function adicionaTag() {
+        let label = window.document.createElement('label')
+        let input = window.document.createElement('input')
+        let div = window.document.createElement('div')
+        let divTags = window.document.querySelector('div#div-tags')
+        idNameTag++
+
+        label.setAttribute("for", `tag${idNameTag}`)
+        label.innerHTML = `Tag ${idNameTag}`
+        input.name = `tag${idNameTag}`
+        input.id = `tag${idNameTag}`
+
+        div.className = 'tags'
+
+        div.appendChild(label)
+        div.appendChild(input)
+        divTags.appendChild(div)
+    }
+
+    document.getElementById("form").addEventListener("submit", function(event) {
+    let form = event.target;
+
+    let ingredientes = document.getElementById('ingredientes');
+    let quantidades = document.getElementById('quantidades');
+    let passos_preparacao = document.getElementById('passos_preparacao');
+    let keywords = document.getElementById('keywords');
+
+    function encontrarMaiorId(prefixo) {
+    let elementos = document.querySelectorAll(`[id^="${prefixo}"]`);
+    let maiorId = 0;
+
+    elementos.forEach(elemento => {
+        // Extrai o número do ID removendo o prefixo
+        let idNumerico = parseInt(elemento.id.replace(prefixo, ''), 10);
+        
+        // Atualiza o maior ID, se necessário
+        if (idNumerico > maiorId) {
+            maiorId = idNumerico;
+        }
+    })
+
+    return maiorId;
+}
+
+    let maiorIdKeywords = encontrarMaiorId("tag");
+
+    keywords.value = maiorIdKeywords;
+});
+
+    let ws = new WebSocket("ws://localhost:8080")
+
+    function sendNotification() {
+        let autor_id = window.document.querySelector('input#autor_id').value
+
+        let data = {
+            type: "envio_quik",
+            autor_id: autor_id,
+        }
+
+        ws.send(JSON.stringify(data))
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+div.more-contents, div.more-contents > div.video-wrapper-profile > iframe {
+    width: 297.5px;
+    height: 297.5px;
+    margin-bottom: 4px;
+}
