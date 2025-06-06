@@ -13,7 +13,7 @@ class Session {
         if ($token) {
             /*echo "<pre>";
             var_dump($_COOKIE);*/
-            $this->create($token);
+            $this->create($token, 'stay_logged_id');
             /*var_dump($_SESSION);
             echo "</pre>";*/
         }
@@ -25,12 +25,17 @@ class Session {
         $this->token = $_SESSION['token'] ?? '';
     }
 
-    public function create($token) {
+    public function create($token, $purpose = 'stay_logged_id') {
         session_regenerate_id(true);
         $arguments = [];
         $sql = "SELECT member_id FROM token
-                WHERE token = :token AND purpose = 'stay_logged_id' AND expires > NOW()";
-        $member_id = $this->db->runSQL($sql, [$token])->fetch();
+                WHERE token = :token AND purpose = :purpose AND expires > NOW()";
+        $member_id = $this->db->runSQL($sql, ['token' => $token, 'purpose' => $purpose])->fetch();
+
+        if (!$member_id) {
+            // Token inválido → não atualiza a sessão
+            return;
+        }
 
         $sql = "SELECT id, forename, picture, role, seo_name
                 FROM membro

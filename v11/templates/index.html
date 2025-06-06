@@ -2,6 +2,7 @@
 {% block content %}
 <main id="index">
     <input type="hidden" id="cookieUser" name="user_token" value="{{ cookie.token }}">
+    <input type="hidden" id="sessionToken" value="{{ tokenLogin }}">
     {% for conteudo in conteudos %}
         <article {% if count == 1 %} id='primeiro-artigo' {% endif %}>
             {% set count = count + 1 %}
@@ -267,13 +268,24 @@
 
         let ws = new WebSocket("ws://localhost:8080")
 
+        ws.onopen = function() {
+            let sessionToken = window.document.getElementById('sessionToken')?.value || ''
+
+            console.log("Sending auth with token:", sessionToken);
+
+            let authData = {
+                type: "auth",
+                token: sessionToken
+            }
+            ws.send(JSON.stringify(authData))
+        }
+
         window.document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
             span.addEventListener('click', function () {
                 let contentId = this.id.replace("icone-reacao-", "")
                 let data = {
                     type : "like",
                     contentId : contentId,
-                    cookieUser : cookieUser.value
                 }
 
                 ws.send(JSON.stringify(data))

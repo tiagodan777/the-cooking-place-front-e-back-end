@@ -6,7 +6,7 @@ class CMS {
     private $article = null;
     private $category = null;
     private $member = null;
-    private $notification = null;
+    // private $notification = null;
     private $quik = null;
     private $cookie = null;
     private $token = null;
@@ -19,6 +19,7 @@ class CMS {
     private $saved = null;
     private $session = null;
     private $my_youtube = null;
+    private $database;
 
     public function __construct($dsn, $username, $password)
     {
@@ -46,12 +47,12 @@ class CMS {
         return $this->member;
     }
 
-    public function getNotification() {
+    /*public function getNotification() {
         if ($this->notification === null) {
             $this->notification = new Notification($this->db);
         }
         return $this->notification;
-    }
+    }*/
 
     public function getQuik() {
         if ($this->quik === null) {
@@ -135,5 +136,9 @@ class CMS {
             $this->my_youtube = new MyYouTube($this->db);
         }
         return $this->my_youtube;
+    }
+
+    public function getDatabase() {
+        return $this->db;
     }
 }

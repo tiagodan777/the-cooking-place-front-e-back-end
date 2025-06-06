@@ -1,15 +1,21 @@
 <?php
 require_once 'vendor/autoload.php';
+require_once 'src/bootstrap.php';
 
 use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 use TiagoDaniel\CMS\WebSocket;
 
+$pdo = $cms->getDatabase();
+$session = $cms->getSession();
+
+var_dump($session);
+
 $server = IoServer::factory(
     new HttpServer(
         new WsServer(
-            new WebSocket()
+            new WebSocket($session, $pdo)
         )
     ),
     8080

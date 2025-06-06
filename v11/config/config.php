@@ -11,7 +11,11 @@ $port = '8889';
 $charset = 'utf8mb4';
 $username = 'reisupremo';
 $password = 'Tiago1234';
-$dsn = "$type:host=$server;dbname=$db;port=$port;charset=$charset";
+if (DEV) {
+    $dsn = "$type:unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock;dbname=$db;port=$port;charset=$charset";
+} else {
+    $dsn = "$type:host=$server;dbname=$db;port=$port;charset=$charset";
+}
 
 $email_config = [
     'server' => 'smtp.sendgrid.net',

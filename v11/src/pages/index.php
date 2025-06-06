@@ -2,6 +2,7 @@
 $data = [];
 $emojis = [];
 $from = filter_input(INPUT_GET, 'from', FILTER_VALIDATE_INT) ?? 0;
+$tokenLogin = $_GET['loginToken'] ?? $session->token;
 
 $conteudos = $cms->getContent()->get(from: $from);
 $num_emojis = $cms->getContent()->count();
@@ -19,6 +20,7 @@ $data['count'] = 1;
 $data['count_contents'] = $count_contents;
 $data['total_pages'] = $total_pages;
 $data['current_page'] = $current_page;
+$data['tokenLogin'] = $tokenLogin;
 //$data['novas_datas'] = $novas_datas;
 
 echo $twig->render('index.html', $data);

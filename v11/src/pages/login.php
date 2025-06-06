@@ -25,7 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } elseif ($member) {
             $token = $cms->getCookie()->create($member);
             $cms->getSession()->create($token);
-            redirect(DOC_ROOT . 'index');
+
+            $tokenLogin = $cms->getToken()->create($member['id'], 'login');
+            $cms->getSession()->create($tokenLogin, 'login');
+
+            redirect(DOC_ROOT . 'index/?loginToken=' . $tokenLogin);
         } else {
             $errors['message'] = 'Por favor tenta novamente';
         }

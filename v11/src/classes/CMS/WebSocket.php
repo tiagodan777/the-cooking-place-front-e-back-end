@@ -12,11 +12,13 @@ use TiagoDaniel\CMS\Like;
 class WebSocket implements MessageComponentInterface {
     protected $clients;
     private $pdo;
+    private $globalSession;
+    private $connSessions = [];
 
-
-    public function __construct() {
+    public function __construct($session, $pdo) {
         $this->clients = new \SplObjectStorage;
-        $this->pdo = new \PDO("mysql:unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock;host=localhost;dbname=the-cooking-place", "root", "root");
+        $this->pdo = $pdo;
+        $this->globalSession = $session;
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -30,37 +32,20 @@ class WebSocket implements MessageComponentInterface {
         unset($data['type']);
 
         switch ($action) {
-            case 'like':
-                $sql = "SELECT member_id FROM token
-                        WHERE token = :cookieUser;";
-                $statement = $this->pdo->prepare($sql);
-                $statement->execute(['cookieUser' => $data['cookieUser']]);
-                $memberId = $statement->fetch();
-
-                $sql = "SELECT COUNT(conteudo_id)
-                        FROM likes
-                        WHERE conteudo_id = :conteudo_id
-                        AND membro_id = :membro_id;";
-                $statement = $this->pdo->prepare($sql);
-                $statement->execute(['conteudo_id' => $data['contentId'], 'membro_id' => $memberId['member_id']]);
-                $liked = $statement->fetchColumn();
-
-                if ($liked) {
-                    $sql = "DELETE FROM likes
-                            WHERE conteudo_id = :conteudo_id
-                            AND membro_id = :membro_id;";
-                    $statement = $this->pdo->prepare($sql);
-                    $statement->execute(['conteudo_id' => $data['contentId'], 'membro_id' => $memberId['member_id']]);
-                } else {
-                    $sql = "INSERT INTO likes (conteudo_id, membro_id)
-                            VALUES (:contentId, :memberId);";
-                    $statement = $this->pdo->prepare($sql);
-                    $statement->execute(['contentId' => $data['contentId'], 'memberId' => $memberId['member_id']]);
+            case 'auth':
+                $tokenValue = $data['token'] ?? '';
+                if ($tokenValue) {
+                    $session = $this->createSessionFromToken($tokenValue);
+                    $this->connSessions[$from->resourceId] = $session;
+                    echo "Authenticated connection {$from->resourceId} as user ID {$session->id}\n";
                 }
-
-                (new Like($pdo)->handle())
+                break;
+            case 'like':
+                $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
+                (new Like($this->pdo, $from, $session)->handle($data));
 
                 $this->broadcastNotifications();
+                break;
         }
     }
 
@@ -78,5 +63,35 @@ class WebSocket implements MessageComponentInterface {
         foreach ($this->clients as $clients) {
             // Já escrevo
         }
+    }
+
+    private function createSessionFromToken($tokenValue) {
+        $tokenClass = new Token($this->pdo);
+        $memberId = $tokenClass->getMemberId($tokenValue, 'login');
+
+        if (!$memberId) {
+            // Token inválido
+            return clone $this->globalSession;
+        }
+
+        // Agora buscar os dados do membro:
+        $sql = "SELECT id, forename, picture, role, seo_name
+                FROM membro
+                WHERE id = :member_id;";
+        $arguments = ['member_id' => $memberId];
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($arguments);
+        $memberData = $stmt->fetch();
+
+        // Monta uma nova "Session" com estes dados
+        $session = clone $this->globalSession;
+        $session->id = $memberData['id'];
+        $session->forename = $memberData['forename'];
+        $session->picture = $memberData['picture'];
+        $session->role = $memberData['role'];
+        $session->seo_name = $memberData['seo_name'];
+        $session->token = $tokenValue;
+
+        return $session;
     }
 }

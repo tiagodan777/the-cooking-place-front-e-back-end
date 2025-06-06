@@ -3,35 +3,51 @@ namespace TiagoDaniel\CMS;
 
 class Like {
     private $pdo;
-    private $conn;
+    private $from;
     private $data;
+    private $session;
 
-    public function __construct($pdo, $conn, $data) {
+    public function __construct($pdo, $from, $session) {
         $this->pdo = $pdo;
-        $this->conn = $conn;
-        $this->data = $data;
-
+        $this->from = $from;
+        $this->session = $session;
     }
 
-    public function get($like) {
+    public function get($data) {
         $sql = "SELECT COUNT(conteudo_id)
                 FROM likes
                 WHERE conteudo_id = :conteudo_id
                 AND membro_id = :membro_id;";
-        return $this->pdo->runSQL($sql, $like)->fetchColumn();
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['conteudo_id' => $data['contentId'], 'membro_id' => $this->session->id]);
+        return $statement->fetchColumn();
     }
 
-    public function create($like) {
+    public function create($data) {
+        var_dump($this->session);
         $sql = "INSERT INTO likes (conteudo_id, membro_id)
-                VALUES (:conteudo_id, :membro_id);";
-        $this->db->runSQL($sql, $like);
-        return true;
+                VALUES (:contentId, :memberId);";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['contentId' => $data['contentId'], 'memberId' => $this->session->id]);
     }
 
-    public function delete($like) {
+    public function delete($data) {
         $sql = "DELETE FROM likes
                 WHERE conteudo_id = :conteudo_id
                 AND membro_id = :membro_id;";
-        $this->db->runSQL($sql, $like);
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['conteudo_id' => $data['contentId'], 'membro_id' => $this->session->id]);
+    }
+
+    public function handle($data) {
+        $this->data = $data;
+        unset($this->data['type']);
+
+        $liked = $this->get($data);
+        if ($liked) {
+            $this->delete($data);
+        } else {
+            $this->create($data);
+        }
     }
 }
