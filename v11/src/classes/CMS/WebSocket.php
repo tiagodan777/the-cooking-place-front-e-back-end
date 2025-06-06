@@ -30,19 +30,32 @@ class WebSocket implements MessageComponentInterface {
 
         switch ($action) {
             case 'like':
-                echo "<pre>";
                 $sql = "SELECT member_id FROM token
                         WHERE token = :cookieUser;";
                 $statement = $this->pdo->prepare($sql);
                 $statement->execute(['cookieUser' => $data['cookieUser']]);
                 $memberId = $statement->fetch();
-                var_dump($memberId);
-                echo "</pre>";
 
-                $sql = "INSERT INTO likes (conteudo_id, membro_id)
-                        VALUES (:contentId, :memberId);";
+                $sql = "SELECT COUNT(conteudo_id)
+                        FROM likes
+                        WHERE conteudo_id = :conteudo_id
+                        AND membro_id = :membro_id;";
                 $statement = $this->pdo->prepare($sql);
-                $statement->execute(['contentId' => $data['contentId'], 'memberId' => $memberId['member_id']]);
+                $statement->execute(['conteudo_id' => $data['contentId'], 'membro_id' => $memberId['member_id']]);
+                $liked = $statement->fetchColumn();
+
+                if ($liked) {
+                    $sql = "DELETE FROM likes
+                            WHERE conteudo_id = :conteudo_id
+                            AND membro_id = :membro_id;";
+                    $statement = $this->pdo->prepare($sql);
+                    $statement->execute(['conteudo_id' => $data['contentId'], 'membro_id' => $memberId['member_id']]);
+                } else {
+                    $sql = "INSERT INTO likes (conteudo_id, membro_id)
+                            VALUES (:contentId, :memberId);";
+                    $statement = $this->pdo->prepare($sql);
+                    $statement->execute(['contentId' => $data['contentId'], 'memberId' => $memberId['member_id']]);
+                }
 
                 $this->broadcastNotifications();
         }
