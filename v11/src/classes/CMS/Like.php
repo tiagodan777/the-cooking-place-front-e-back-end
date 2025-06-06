@@ -2,10 +2,15 @@
 namespace TiagoDaniel\CMS;
 
 class Like {
-    private $db;
+    private $pdo;
+    private $conn;
+    private $data;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct($pdo, $conn, $data) {
+        $this->pdo = $pdo;
+        $this->conn = $conn;
+        $this->data = $data;
+
     }
 
     public function get($like) {
@@ -13,7 +18,7 @@ class Like {
                 FROM likes
                 WHERE conteudo_id = :conteudo_id
                 AND membro_id = :membro_id;";
-        return $this->db->runSQL($sql, $like)->fetchColumn();
+        return $this->pdo->runSQL($sql, $like)->fetchColumn();
     }
 
     public function create($like) {

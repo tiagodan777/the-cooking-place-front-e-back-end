@@ -7,6 +7,7 @@ use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use TiagoDaniel\CMS\Like;
 
 class WebSocket implements MessageComponentInterface {
     protected $clients;
@@ -56,6 +57,8 @@ class WebSocket implements MessageComponentInterface {
                     $statement = $this->pdo->prepare($sql);
                     $statement->execute(['contentId' => $data['contentId'], 'memberId' => $memberId['member_id']]);
                 }
+
+                (new Like($pdo)->handle())
 
                 $this->broadcastNotifications();
         }
