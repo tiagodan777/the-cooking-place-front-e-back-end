@@ -280,6 +280,22 @@
             ws.send(JSON.stringify(authData))
         }
 
+        ws.onmessage = function(event) {
+            let data = JSON.parse(event.data)
+            /*if (data.type === 'like') {
+                updateNumberOfLikes(data.contentId)
+                // console.log(data)
+            } else {
+                console.log('Oi tola')
+            }*/
+           alert('OK')
+        }
+
+        function updateNumberOfLikes(contentId) {
+            let likes = window.document.querySelector(`span#icone-reacao-${contentId}`).value
+            console.log('Ok')
+        }
+
         window.document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
             span.addEventListener('click', function () {
                 let contentId = this.id.replace("icone-reacao-", "")

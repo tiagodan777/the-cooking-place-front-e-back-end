@@ -2,7 +2,11 @@
 $data = [];
 $emojis = [];
 $from = filter_input(INPUT_GET, 'from', FILTER_VALIDATE_INT) ?? 0;
-$tokenLogin = $_GET['loginToken'] ?? $session->token;
+$tokenLogin = $_GET['loginToken'] ?? '';
+
+if ($session->id != 0 && empty($tokenLogin)) {
+    $tokenLogin = $cms->getToken()->create($session->id, 'login');
+}
 
 $conteudos = $cms->getContent()->get(from: $from);
 $num_emojis = $cms->getContent()->count();

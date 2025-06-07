@@ -42,9 +42,9 @@ class WebSocket implements MessageComponentInterface {
                 break;
             case 'like':
                 $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
-                (new Like($this->pdo, $from, $session)->handle($data));
+                (new Like($this->pdo, $session)->handle($data));
 
-                $this->broadcastNotifications();
+                $this->broadcastNotifications($data, $session);
                 break;
         }
     }
@@ -59,11 +59,17 @@ class WebSocket implements MessageComponentInterface {
         $conn->close();
     }
 
-    private function broadcastNotifications() {
-        foreach ($this->clients as $clients) {
-            // Já escrevo
+    private function broadcastNotifications($data, $session) {
+        var_dump($session);
+        foreach ($this->clients as $client) {
+            $likes = new Like($this->pdo, $session)->count($data);
+            $client->send($likes);
         }
     }
+
+    /*private function sendNotifications(ConnectionInterface $conn) {
+        $statement = $this->pdo->query("SELECT * FROM ")
+    }*/
 
     private function createSessionFromToken($tokenValue) {
         $tokenClass = new Token($this->pdo);
@@ -95,3 +101,4 @@ class WebSocket implements MessageComponentInterface {
         return $session;
     }
 }
+

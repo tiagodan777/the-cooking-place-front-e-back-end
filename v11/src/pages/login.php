@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $cms->getSession()->create($token);
 
             $tokenLogin = $cms->getToken()->create($member['id'], 'login');
-            $cms->getSession()->create($tokenLogin, 'login');
+            // $cms->getSession()->create($tokenLogin, 'login');
 
             redirect(DOC_ROOT . 'index/?loginToken=' . $tokenLogin);
         } else {

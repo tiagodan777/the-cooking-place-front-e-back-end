@@ -10,8 +10,6 @@ use TiagoDaniel\CMS\WebSocket;
 $pdo = $cms->getDatabase();
 $session = $cms->getSession();
 
-var_dump($session);
-
 $server = IoServer::factory(
     new HttpServer(
         new WsServer(

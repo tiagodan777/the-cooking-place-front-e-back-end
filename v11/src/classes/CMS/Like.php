@@ -3,13 +3,13 @@ namespace TiagoDaniel\CMS;
 
 class Like {
     private $pdo;
-    private $from;
+    // private $from;
     private $data;
     private $session;
 
-    public function __construct($pdo, $from, $session) {
+    public function __construct($pdo, $session) {
         $this->pdo = $pdo;
-        $this->from = $from;
+        // $this->from = $from;
         $this->session = $session;
     }
 
@@ -24,7 +24,6 @@ class Like {
     }
 
     public function create($data) {
-        var_dump($this->session);
         $sql = "INSERT INTO likes (conteudo_id, membro_id)
                 VALUES (:contentId, :memberId);";
         $statement = $this->pdo->prepare($sql);
@@ -37,6 +36,15 @@ class Like {
                 AND membro_id = :membro_id;";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(['conteudo_id' => $data['contentId'], 'membro_id' => $this->session->id]);
+    }
+
+    public function count($data) {
+        $sql = "SELECT COUNT(conteudo_id)
+                FROM likes
+                WHERE conteudo_id = :conteudo_id;";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['conteudo_id' => $data['contentId']]);
+        return $statement->fetchColumn();
     }
 
     public function handle($data) {
