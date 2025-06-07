@@ -105,7 +105,7 @@
                     </div>
                     <div class="numeros">
                         {% if conteudo.likes != '' %}
-                            <span>{{ conteudo.likes }}</span>
+                            <span id="icone-reacao-num-{{ conteudo.id }}">{{ conteudo.likes }}</span>
                         {% else %} 
                             <span></span>
                         {% endif %}
@@ -282,25 +282,26 @@
 
         ws.onmessage = function(event) {
             let data = JSON.parse(event.data)
-            /*if (data.type === 'like') {
-                updateNumberOfLikes(data.contentId)
-                // console.log(data)
+            if (data.type === 'like') {
+                updateNumberOfLikes(data)
             } else {
                 console.log('Oi tola')
-            }*/
-           alert('OK')
+            }
+           // console.log(`Ganda parva: ${data}`)
         }
 
-        function updateNumberOfLikes(contentId) {
-            let likes = window.document.querySelector(`span#icone-reacao-${contentId}`).value
-            console.log('Ok')
+        function updateNumberOfLikes(data) {
+            let likes = window.document.querySelector(`span#icone-reacao-num-${data.contentId}`)
+            // alert(likes)
+            // console.log(likes.textContent)
+            likes.textContent = data.likes
         }
 
         window.document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
             span.addEventListener('click', function () {
                 let contentId = this.id.replace("icone-reacao-", "")
                 let data = {
-                    type : "like",
+                    type : 'like',
                     contentId : contentId,
                 }
 

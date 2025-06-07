@@ -60,10 +60,9 @@ class WebSocket implements MessageComponentInterface {
     }
 
     private function broadcastNotifications($data, $session) {
-        var_dump($session);
         foreach ($this->clients as $client) {
             $likes = new Like($this->pdo, $session)->count($data);
-            $client->send($likes);
+            $client->send(json_encode($likes));
         }
     }
 

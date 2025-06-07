@@ -44,7 +44,8 @@ class Like {
                 WHERE conteudo_id = :conteudo_id;";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(['conteudo_id' => $data['contentId']]);
-        return $statement->fetchColumn();
+        $likes = $statement->fetchColumn();
+        return ['type' => 'like', 'likes' => $likes, 'contentId' => $data['contentId']];
     }
 
     public function handle($data) {
