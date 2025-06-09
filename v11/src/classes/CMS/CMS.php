@@ -19,7 +19,6 @@ class CMS {
     private $saved = null;
     private $session = null;
     private $my_youtube = null;
-    private $database;
 
     public function __construct($dsn, $username, $password)
     {
@@ -119,7 +118,7 @@ class CMS {
 
     public function getSaved() {
         if ($this->saved === null) {
-            $this->saved = new Saved($this->db);
+            $this->saved = new Saved($this->db, $this->getSession());
         }
         return $this->saved;
     }

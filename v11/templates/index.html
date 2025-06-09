@@ -15,6 +15,7 @@
                 <br>
             </header>
             <section>
+                {% set file = '' %}
                 {% if conteudo.tipo_conteudo == 'receita' %}
                     <a href="{{ doc_root }}article/{{ conteudo.id }}/{{ conteudo.seo_title }}" class="receita"><img src="{{ doc_root }}imagens/comida/{{ conteudo.file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}"></a>
                 {% elseif conteudo.tipo_conteudo == 'quik'  %}
@@ -55,6 +56,7 @@
                         <span>{{ conteudo.tipo_conteudo }}</span>
                     </div>
                 {% endif %}
+                {% set file = conteudo.file %}
             </section>
             <aside class="aside-principal">
                 <section>
@@ -99,8 +101,8 @@
                             </dialog>
                             <button id="f{{ count }}"><span class="material-symbols-outlined">ios_share</span></button>
                         </div>
-                        <div class="save">
-                            <a href="{{ doc_root }}save/{{ conteudo.id }}/?file={{ conteudo.file }}&tipo_conteudo={{ conteudo.tipo_conteudo }}" class="guardar"><span class="material-symbols-outlined">bookmark</span></a>
+                        <div class="save" id="icone-salvar-{{ conteudo.id }}" file="{{ file }}" tipo_conteudo="{{ conteudo.tipo_conteudo }}">
+                            <span class="material-symbols-outlined"id="icone-de-guardado-{{ conteudo.id }}">bookmark</span>
                         </div>
                     </div>
                     <div class="numeros">
@@ -308,6 +310,42 @@
                 ws.send(JSON.stringify(data))
             })
         })  
+
+        window.document.querySelectorAll("div[id^='icone-salvar-']").forEach((span) => {
+            span.addEventListener('click', function () {
+                let contentId = this.id.replace("icone-salvar-", "")
+                let file = this.getAttribute('file')
+                let tipo_conteudo = this.getAttribute('tipo_conteudo')
+                let data = {
+                    type : 'save',
+                    contentId : contentId,
+                    file: file,
+                    tipo_conteudo : tipo_conteudo
+                }
+
+                console.log(data)
+
+                ws.send(JSON.stringify(data))
+            })
+        })
+
+        window.document.querySelectorAll("span[id^='icone-de-guardado-']").forEach((span) => {
+            span.setAttribute('data-saved', 'false');
+
+            span.addEventListener('click', function () {
+                let isSaved = this.getAttribute('data-saved') === 'true';
+
+                if (isSaved) {
+                    this.style.fontVariationSettings = "'FILL' 0";
+                    this.style.color = 'black';
+                    this.setAttribute('data-saved', 'false');
+                } else {
+                    this.style.fontVariationSettings = "'FILL' 1";
+                    this.style.color = '#F7D500';
+                    this.setAttribute('data-saved', 'true');
+                }
+            });
+        });
     </script>
 </main>
 <!--<aside id="search-aside">

@@ -479,3 +479,8 @@ div.ytp-title {
 .ytp-title-link, .yt-uix-sessionlink, .ytp-shorts-title-channel-logo {
     visibility: hidden;
 }
+
+div.save {
+    cursor: pointer;
+    font-weight: bold;
+}

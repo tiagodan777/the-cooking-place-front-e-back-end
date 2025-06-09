@@ -46,6 +46,10 @@ class WebSocket implements MessageComponentInterface {
 
                 $this->broadcastNotifications($data, $session);
                 break;
+            case 'save':
+                $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
+                (new Saved($this->pdo, $session)->handle($data));
+                break;
         }
     }
 
