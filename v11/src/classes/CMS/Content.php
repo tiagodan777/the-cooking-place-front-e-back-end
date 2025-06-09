@@ -44,7 +44,10 @@ class Content {
                         WHERE likes.conteudo_id = r.id) AS likes,
                         (SELECT COUNT(conteudo_id)
                         FROM opiniao
-                        WHERE opiniao.conteudo_id = r.id) AS opinioes
+                        WHERE opiniao.conteudo_id = r.id) AS opinioes,
+                        (SELECT COUNT(*)
+                        FROM guardado
+                        WHERE guardado.conteudo_id = r.id) AS guardado
                         FROM receita AS r
                         JOIN membro AS m ON m.id = r.membro_id
                         WHERE (r.membro_id = :member OR :member1 IS NULL)
@@ -69,7 +72,11 @@ class Content {
                         WHERE likes.conteudo_id = q.id) AS likes,
                         (SELECT COUNT(conteudo_id)
                         FROM opiniao
-                        WHERE opiniao.conteudo_id = q.id) AS opinioes
+                        WHERE opiniao.conteudo_id = q.id) AS opinioes,
+                        (SELECT COUNT(*)
+                        FROM guardado
+                        WHERE guardado.conteudo_id = q.id) AS guardado
+                        
                     FROM quik AS q
                     JOIN membro AS m ON m.id = q.membro_id
                     WHERE (q.membro_id = :member2 OR :member3 IS NULL)
@@ -95,7 +102,10 @@ class Content {
                     WHERE likes.conteudo_id = p.id) AS likes,
                     (SELECT COUNT(conteudo_id)
                     FROM opiniao
-                    WHERE opiniao.conteudo_id = p.id) AS opinioes
+                    WHERE opiniao.conteudo_id = p.id) AS opinioes,
+                    (SELECT COUNT(*)
+                    FROM guardado
+                    WHERE guardado.conteudo_id = p.id) AS guardado
                     FROM publicacao_simples AS p
                     JOIN membro AS m ON m.id = p.membro_id
                     WHERE (p.membro_id = :member4 OR :member5 IS NULL)
@@ -120,7 +130,10 @@ class Content {
                     WHERE likes.conteudo_id = v.id) AS likes,
                     (SELECT COUNT(conteudo_id)
                     FROM opiniao
-                    WHERE opiniao.conteudo_id = v.id) AS opinioes
+                    WHERE opiniao.conteudo_id = v.id) AS opinioes,
+                    (SELECT COUNT(*)
+                    FROM guardado
+                    WHERE guardado.conteudo_id = v.id) AS guardado
                     FROM video_longo AS v
                     JOIN membro AS m ON m.id = v.membro_id
                     WHERE (v.membro_id = :member6 OR :member7 IS NULL)) AS data

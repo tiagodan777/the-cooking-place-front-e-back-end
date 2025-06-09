@@ -102,7 +102,12 @@
                             <button id="f{{ count }}"><span class="material-symbols-outlined">ios_share</span></button>
                         </div>
                         <div class="save" id="icone-salvar-{{ conteudo.id }}" file="{{ file }}" tipo_conteudo="{{ conteudo.tipo_conteudo }}">
-                            <span class="material-symbols-outlined"id="icone-de-guardado-{{ conteudo.id }}">bookmark</span>
+                            {% if conteudo.guardado == 0 %}
+                                {% set class = 'nao-guardado' %}
+                            {% else %}
+                                {% set class = 'guardado' %}
+                            {% endif %}
+                            <span class="material-symbols-outlined" id="icone-de-guardado-{{ conteudo.id }}" saved="{{ class }}">bookmark</span>
                         </div>
                     </div>
                     <div class="numeros">
@@ -329,23 +334,23 @@
             })
         })
 
-        window.document.querySelectorAll("span[id^='icone-de-guardado-']").forEach((span) => {
-            span.setAttribute('data-saved', 'false');
+    window.document.querySelectorAll("span[id^='icone-de-guardado-']").forEach((span) => {
+    // Inicializa o estado visual no load da página
+    updateSavedStyle(span);
 
-            span.addEventListener('click', function () {
-                let isSaved = this.getAttribute('data-saved') === 'true';
-
-                if (isSaved) {
-                    this.style.fontVariationSettings = "'FILL' 0";
-                    this.style.color = 'black';
-                    this.setAttribute('data-saved', 'false');
-                } else {
-                    this.style.fontVariationSettings = "'FILL' 1";
-                    this.style.color = '#F7D500';
-                    this.setAttribute('data-saved', 'true');
-                }
-            });
+    // Toggle no clique
+    span.addEventListener('click', function () {
+        this.setAttribute('saved', this.getAttribute('saved') === 'nao-guardado' ? 'guardado' : 'nao-guardado');
+        updateSavedStyle(this);
         });
+    });
+
+    // Função utilitária para não repetir código
+    function updateSavedStyle(span) {
+        let isSaved = span.getAttribute('saved');
+        span.style.fontVariationSettings = isSaved === 'guardado' ? "'FILL' 1" : "'FILL' 0";
+        span.style.color = isSaved === 'guardado' ? '#ED7D3A' : '#363537';
+    }
     </script>
 </main>
 <!--<aside id="search-aside">

@@ -484,3 +484,15 @@ div.save {
     cursor: pointer;
     font-weight: bold;
 }
+
+.guardado {
+    font-variation-settings: FILL 1;
+    /*background-color: var(--cor1);*/
+    color: var(--cor1);
+}
+
+.nao-guardado {
+    font-variation-settings: FILL 0;
+    /*background-color: var(--cor4);*/
+    color: var(--cor4);
+}

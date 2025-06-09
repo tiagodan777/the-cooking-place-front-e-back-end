@@ -74,12 +74,12 @@ class CMS {
         return $this->token;
     }
 
-    public function getLike() {
+    /*public function getLike() {
         if ($this->like === null) {
             $this->like = new Like($this->db);
         }
         return $this->like;
-    }
+    }*/
 
     public function getOpinion() {
         if ($this->opinion === null) {
@@ -116,9 +116,9 @@ class CMS {
         return $this->long_video;
     }
 
-    public function getSaved() {
+    public function getSaved($pdo, $session) {
         if ($this->saved === null) {
-            $this->saved = new Saved($this->db, $this->getSession());
+            $this->saved = new Saved($pdo, $session);
         }
         return $this->saved;
     }

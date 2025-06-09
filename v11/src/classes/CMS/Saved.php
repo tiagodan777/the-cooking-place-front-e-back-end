@@ -45,17 +45,16 @@ class Saved {
                 WHERE membro_id = :membro_id;";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(['membro_id' => $this->session->id]);
-        $saved = $statement->fetchColumn();
-        return ['type' => 'saved', 'likes' => $saved];
+        return $statement->fetchColumn();
     }
 
     public function getFull() {
-        $sql = "SELECT conteudo_id, file, tipo_conteudo
+        $sql = "SELECT conteudo_id AS id, file, tipo_conteudo
                 FROM guardado
-                WHERE membro_id = :membro;";
+                WHERE membro_id = :membro_id;";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(['membro_id' => $this->session->id]);
-        return $statement->fetch();
+        return $statement->fetchAll();
     }
 
     public function handle($data) {
