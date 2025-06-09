@@ -6,7 +6,7 @@
         <h2>Apagar Publicação</h2>
         <section id="dados">
             <p>Confirma para apagar a Publicação: {{ post.titulo }}</p>
-            <img src="{{ doc_root }}imagens/comida/{{ post.imagem_file }}" alt="Foto de {{ post.titulo }}">
+            <img src="{{ doc_root }}posts/{{ post.imagem_file }}" alt="Foto de {{ post.titulo }}">
         </section>
         <section id="opcoes">
             <form action="{{ doc_root }}post-delete/{{ post.id }}" method="post">

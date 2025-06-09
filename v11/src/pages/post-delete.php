@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     redirect(DOC_ROOT . 'profile/' . $session->id . '/', ['success' => 'Receita apagada com sucesso']);
 }
 
+/*echo "<pre>";
+var_dump($post);*/
+
 $data['post'] = $post;
 
 echo $twig->render('post-delete.html', $data);
