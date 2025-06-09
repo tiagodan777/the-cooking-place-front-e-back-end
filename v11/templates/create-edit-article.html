@@ -46,10 +46,16 @@
                 {% endif %}
             </div>
             <div id="div-video">
-                <label for="video">Upload de video</label>
-                <div>
-                    <input type="file" name="video" id="video" readonly>
-                </div>
+                {% if not video.youtube_id %}
+                    <label for="video">Upload de Vídeo</label>
+                    <div>
+                        <input type="file" name="video" id="video" accept="video/*">
+                    </div>
+                    {% if erros.youtube_id %} <spanc class="error failure">{{ erros.youtube_id }}</span> {% endif %}
+                {% else %}
+                    <label for="imagem_guardada">Vídeo:</label>  
+                    <iframe width="800" height="500" src="https://www.youtube.com/embed/{{ video.youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>                
+                {% endif %}
             </div>
             <input type="text" name="quant_ingredientes" id="ingredientes">
             <input type="text" name="quant_quantidades" id="quantidades"">

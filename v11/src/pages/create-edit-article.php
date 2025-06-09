@@ -25,6 +25,7 @@ $receita = [
     'passos_preparacao' => '',
     'keywords' => '',
     'imagem_file' => '',
+    'video_longo_file' => '',
     'categoria_id' => 0,
     'membro_id' => 0,
 ];
@@ -40,6 +41,7 @@ $erros = [
     'passos_preparacao' => '',
     'keywords' => '',
     'imagem_file' => '',
+    'video_longo_file' => '',
     'categoria_id' => '',
     'membro_id' => '',
 ];
