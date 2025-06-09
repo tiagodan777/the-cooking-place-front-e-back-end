@@ -192,3 +192,9 @@ main#whats-happening dialog iframe {
     width: 100%;
     height: 100%;
 }
+
+button {
+    background-color: transparent;
+    color: var(--cor5);
+    border: none;
+}

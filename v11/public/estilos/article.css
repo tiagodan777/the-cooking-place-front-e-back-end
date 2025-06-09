@@ -221,3 +221,9 @@ main > article > aside.aside-principal > section > div.icones > div > span.icone
     cursor: pointer;
     transition: 0.2s;
 }
+
+button {
+    background-color: transparent;
+    color: var(--cor4);
+    border: none;
+}

@@ -2,6 +2,8 @@
 {% block title %} Post {% endblock %}
 {% block content %}
 <main id="post">
+    <input type="hidden" id="cookieUser" name="user_token" value="{{ cookie.token }}">
+    <input type="hidden" id="sessionToken" value="{{ tokenLogin }}">
     <section id="topo">
         <section id="imagem">
             <picture>
@@ -17,9 +19,9 @@
                     <div id="reacoes">
                         <div class="icones">
                             {% if session.id != 0 %}
-                                <a href="{{ doc_root}}like/{{ post.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                                <span id="icone-reacao-{{ post.id }}" class="icones-reacao" onclick="event.preventDefault()"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt="Ícone de Like"></span>
                             {% else %}
-                            <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                                <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
                             {% endif %}
                             <dialog id="c{{ count }}">
                                 <iframe data-src="{{ doc_root }}opinions/{{ post.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
@@ -49,17 +51,18 @@
                         </div>
                         <div class="numeros">
                             {% if post.likes != '' %}
-                                <span>{{ post.likes }}</span>
+                                <span id="icone-reacao-num-{{ post.id }}">{{ post.likes }}</span>
                             {% else %} 
                                 <span></span>
                             {% endif %}
-                            {% if post.opinioes != '' %}
-                                <span>{{ post.opinioes }}</span>
+                            {% if conteudo.opinioes != '' %}
+                                <span>{{ conteudo.opinioes }}</span>
                             {% else %}
                                 <span>0</span>
                             {% endif %}
-                            <span>55</span>
+                        <span>55</span>
                         </div>
+                    </div>
                     </div>
                 </div>
                 <div id="dados">
@@ -102,5 +105,6 @@
         })
     })
 </script>
+<script src="{{ doc_root }}js/websocket.js"></script>
 {% endblock %}
 {% block footer %} {% endblock %}

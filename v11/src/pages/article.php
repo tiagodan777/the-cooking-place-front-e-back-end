@@ -1,4 +1,9 @@
 <?php
+$tokenLogin = $_GET['loginToken'] ?? '';
+
+if ($session->id != 0 && empty($tokenLogin)) {
+    $tokenLogin = $cms->getToken()->create($session->id, 'login');
+}
 if (!$id) {
     include APP_ROOT . '/src/pages/error-page.php';
 }
@@ -29,6 +34,7 @@ $data['quantidades'] = $quantidades;
 $data['passos_preparacao'] = $passos_preparacao;
 $data['emoji_cod'] = $emoji_cod;
 $data['conteudos'] = is_array($conteudos) ? $conteudos : [$conteudos];
+$data['tokenLogin'] = $tokenLogin;
 
 echo $twig->render('article.html', $data);
 ?>

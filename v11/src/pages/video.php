@@ -1,4 +1,9 @@
 <?php
+$tokenLogin = $_GET['loginToken'] ?? '';
+
+if ($session->id != 0 && empty($tokenLogin)) {
+    $tokenLogin = $cms->getToken()->create($session->id, 'login');
+}
 if (!$id) {
     include APP_ROOT . '/src/pages/error-page.php';
 }
@@ -18,6 +23,7 @@ $conteudos = $getMoreContents($cms, $parts, $id);
 $data['video'] = $video;
 $data['emoji_cod'] = $emoji_cod;
 $data['conteudos'] = $conteudos;
+$data['tokenLogin'] = $tokenLogin;
 
 echo $twig->render('video.html', $data);
 ?>

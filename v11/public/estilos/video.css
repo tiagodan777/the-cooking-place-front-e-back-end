@@ -151,3 +151,8 @@ span.span-aparece {
     color: var(--cor4);
 }
 
+button {
+    background-color: transparent;
+    color: var(--cor4);
+    border: none;
+}

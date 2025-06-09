@@ -2,6 +2,8 @@
 {% block title %} {{ video.titulo }} {% endblock %}
 {% block content %}
 <main id="video">
+    <input type="hidden" id="cookieUser" name="user_token" value="{{ cookie.token }}">
+    <input type="hidden" id="sessionToken" value="{{ tokenLogin }}">
     <section id="topo">
         <section id="video-video">
             <iframe src="https://www.youtube.com/embed/{{ video.youtube_id }}?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
@@ -20,9 +22,9 @@
             <div id="reacoes">
                 <div class="icones">
                     {% if session.id != 0 %}
-                        <a href="{{ doc_root}}like/{{ video.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                        <span id="icone-reacao-{{ video.id }}" class="icones-reacao" onclick="event.preventDefault()"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt="Ícone de Like"></span>
                     {% else %}
-                    <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt=""></span></a>
+                        <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
                     {% endif %}
                     <dialog id="c{{ count }}">
                         <iframe data-src="{{ doc_root }}opinions/{{ video.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
@@ -51,17 +53,17 @@
                     </div>-->
                 </div>
                 <div class="numeros">
-                    {% if video.likes != '' %}
-                        <span>{{ video.likes }}</span>
-                    {% else %} 
-                        <span></span>
-                    {% endif %}
-                    {% if video.opinioes != '' %}
-                        <span>{{ video.opinioes }}</span>
-                    {% else %}
-                        <span>0</span>
-                    {% endif %}
-                    <span>55</span>
+                {% if video.likes != '' %}
+                    <span id="icone-reacao-num-{{ video.id }}">{{ video.likes }}</span>
+                {% else %} 
+                    <span></span>
+                {% endif %}
+                {% if conteudo.opinioes != '' %}
+                    <span>{{ conteudo.opinioes }}</span>
+                {% else %}
+                    <span>0</span>
+                {% endif %}
+                <span>55</span>
                 </div>
             </div>
         </section>
@@ -134,5 +136,6 @@
         videos.forEach(video => observer.observe(video));
         });*/
 </script>
+<script src="{{ doc_root }}js/websocket.js"></script>
 {% endblock %}
 {% block footer %} {% endblock %}

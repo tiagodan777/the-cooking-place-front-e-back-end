@@ -109,3 +109,8 @@ aside#aside-more-contents {
     margin-top: 100px;
 }
 
+button {
+    background-color: transparent;
+    color: var(--cor4);
+    border: none;
+}
