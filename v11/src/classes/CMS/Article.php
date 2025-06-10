@@ -146,8 +146,8 @@ class Article {
             $imagick_cropped_700->clear();
             unlink($converted);
 
-            $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file, seo_title) VALUES
-                    (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file, :seo_title);";
+            $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file, video_longo_file, seo_title) VALUES
+                    (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file, :video_longo_file, :seo_title);";
 
             $this->db->runSQL($sql, $article);
             return true;
@@ -218,4 +218,20 @@ class Article {
         $this->db->runSQL($sql, [$id]);
         return true;
     }
+
+    public function addYouTubeId($data) {
+        $sql = "UPDATE receita
+                SET video_longo_file = :youtube_id
+                WHERE id = :id;";
+        $this->db->runSQL($sql, $data);
+    }
+
+    public function getLastInsertedIdBySeoTitleAndMember($seo_title, $membro_id) {
+    $sql = "SELECT id FROM receita 
+            WHERE seo_title = :seo_title 
+              AND membro_id = :membro_id
+            ORDER BY data DESC
+            LIMIT 1";
+    return $this->db->runSQL($sql, ['seo_title' => $seo_title,'membro_id' => $membro_id])->fetch();
+}
 }

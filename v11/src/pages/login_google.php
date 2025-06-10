@@ -2,7 +2,7 @@
 
 $client = new Google\Client();
 $client->setAuthConfig('../client_secret.json');
-$client->setRedirectUri('http://localhost:8888/the-cooking-place-front-e-back-end/v10/public/callback/'); 
+$client->setRedirectUri('http://localhost:8888/the-cooking-place-front-e-back-end/v11/public/callback/'); 
 $client->addScope(Google\Service\YouTube::YOUTUBE_UPLOAD);
 $client->setAccessType('offline');
 $client->setPrompt('consent'); // para garantir que o refresh_token seja enviado
@@ -15,7 +15,7 @@ $client->setScopes([
     'https://www.googleapis.com/auth/youtube.force-ssl'
 ]);
 
-$client->setRedirectUri('http://localhost:8888/the-cooking-place-front-e-back-end/v10/public/callback/');
+$client->setRedirectUri('http://localhost:8888/the-cooking-place-front-e-back-end/v11/public/callback/');
 $authUrl = $client->createAuthUrl();
 header('Location: ' . filter_var($authUrl, FILTER_SANITIZE_URL));
 exit;
