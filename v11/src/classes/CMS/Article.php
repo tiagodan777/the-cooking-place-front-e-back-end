@@ -12,7 +12,7 @@ class Article {
     public function get($id) {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, 
                 r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
-                r.imagem_file, r.video_longo_file, r.quik_file, r.categoria_id, r.membro_id, r.seo_title,
+                r.imagem_file, r.youtube_id, r.quik_file, r.categoria_id, r.membro_id, r.seo_title,
                 c.nome,
                 m.id AS id_membro,CONCAT(m.forename, ' ', m.surname) AS autor, m.picture, m.seo_name AS seo_member,
                 (SELECT COUNT(conteudo_id)
@@ -146,8 +146,8 @@ class Article {
             $imagick_cropped_700->clear();
             unlink($converted);
 
-            $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file, video_longo_file, seo_title) VALUES
-                    (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file, :video_longo_file, :seo_title);";
+            $sql = "INSERT INTO receita (titulo, descricao, tempo_preparo, unidade_tempo, numero_pessoas, ingredientes, quantidades, passos_preparacao, keywords, categoria_id, membro_id, imagem_file, seo_title) VALUES
+                    (:titulo, :descricao, :tempo_preparo, :unidade_tempo, :numero_pessoas, :ingredientes, :quantidades, :passos_preparacao, :keywords, :categoria_id, :membro_id, :imagem_file, :seo_title);";
 
             $this->db->runSQL($sql, $article);
             return true;
@@ -221,7 +221,7 @@ class Article {
 
     public function addYouTubeId($data) {
         $sql = "UPDATE receita
-                SET video_longo_file = :youtube_id
+                SET youtube_id = :youtube_id
                 WHERE id = :id;";
         $this->db->runSQL($sql, $data);
     }

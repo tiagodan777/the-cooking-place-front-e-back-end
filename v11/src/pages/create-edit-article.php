@@ -26,7 +26,7 @@ $receita = [
     'passos_preparacao' => '',
     'keywords' => '',
     'imagem_file' => '',
-    'video_longo_file' => '',
+    'youtube_id' => '',
     'categoria_id' => 0,
     'membro_id' => 0,
 ];
@@ -42,7 +42,7 @@ $erros = [
     'passos_preparacao' => '',
     'keywords' => '',
     'imagem_file' => '',
-    'video_longo_file' => '',
+    'youtube_id' => '',
     'categoria_id' => '',
     'membro_id' => '',
 ];
@@ -147,12 +147,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['nome']);
             unset($arguments['autor']);
             unset($arguments['picture']);
-            unset($arguments['video_file']);
             unset($arguments['id_membro']);
             unset($arguments['seo_member']);
             unset($arguments['likes']);
             unset($arguments['opinioes']);
-            unset($arguments['video_longo_file']);
+            unset($arguments['youtube_id']);
             unset($arguments['quik_file']);
             echo "<pre>";
             var_dump($arguments);
@@ -164,11 +163,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($arguments['nome']);
             unset($arguments['autor']);
             unset($arguments['picture']);
-            unset($arguments['video_file']);
             unset($arguments['id_membro']);
             unset($arguments['seo_member']);
             unset($arguments['likes']);
             unset($arguments['opinioes']);
+            unset($arguments['youtube_id']);
             echo "<pre>";
             var_dump($arguments);
             echo "</pre>";
@@ -179,14 +178,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $thumbTemp = $_FILES['imagem']['tmp_name'] ?? null;
 
             if ($videoTemp && $_FILES['video']['error'] == 0) {
-                $receita['video_longo_file'] = create_filename($_FILES['video']['name'], $pathVideos);
-                $Videodestination = $pathVideos . $receita['video_longo_file'];
+                $receita['youtube_id'] = create_filename($_FILES['video']['name'], $pathVideos);
+                $Videodestination = $pathVideos . $receita['youtube_id'];
 
                 if (!move_uploaded_file($videoTemp, $Videodestination)) {
                     die('Erro ao mover o vídeo');
                 }
             } elseif ($videoTemp != null) {
-                $erros['video_longo_file'] = 'Erro ao carregar o vídeo';
+                $erros['youtube_id'] = 'Erro ao carregar o vídeo';
             }
             $invalid = implode($erros);
             if ($invalid) {
