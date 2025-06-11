@@ -194,7 +194,7 @@ main > article > aside.aside-principal > section > div.icones > div.react {
     width: 135px;
 }
 
-main > article > aside.aside-principal > section > div.icones > div > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > div > a, main > article > aside.aside-principal > section > div.icones > div > button[id^="b"], main > article > aside.aside-principal > section > div.icones > div > button[id^="f"] {
+main > article > aside.aside-principal > section > div.icones > div.react > span.icones-reacao, main > article > aside.aside-principal > section > div.icones > div > a, main > article > aside.aside-principal > section > div.icones > div > button[id^="b"], main > article > aside.aside-principal > section > div.icones > div > button[id^="f"] {
     font-size: 2em;
     background-color: var(--cor5);
     color: var(--cor4);
@@ -212,6 +212,10 @@ main > article > aside.aside-principal > section > div.icones > div > a.guardar 
 }
 
 main > article > aside.aside-principal > section > div.icones > div > a:hover, main > article > aside.aside-principal > section > div.icones > div > button[id^="b"]:hover, main > article > aside.aside-principal > section > div.icones > div > button[id^="f"]:hover {
+    transform: scale(115%);
+}
+
+main > article > aside.aside-principal > section > div.icones > div.react > span.icones-reacao:hover {
     transform: scale(115%);
 }
 
