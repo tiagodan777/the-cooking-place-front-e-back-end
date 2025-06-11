@@ -145,12 +145,10 @@ main#article > section#needs section#ingredientes > ul > li > input, main > sect
 }
 
 main#article > section#needs section#video {
-    main#article > section#needs section#video {
     position: relative;
     width: 75%;
     padding-top: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-}
+    /*height: 0;*/
 }
 
 main#article > section#needs section#video > iframe {
