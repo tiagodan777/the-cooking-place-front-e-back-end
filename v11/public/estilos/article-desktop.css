@@ -76,7 +76,7 @@ main#article > section#needs section#ingredientes {
     width: 30%;
 }
 
-main#article > section#needs section#video {
+/*main#article > section#needs section#video {
     position: relative;
     width: 75%;
 }
@@ -86,7 +86,7 @@ main#article > section#needs section#video > iframe {
     top: 0;
     left: 0;
     width: 100%;
-}
+}*/
 
 
 /*main > section#topo > section > picture > img {

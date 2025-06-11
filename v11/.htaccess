@@ -1,3 +1,9 @@
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f 
+
+# Bloquear hq2.jpg para evitar 404 no console
+RewriteCond %{REQUEST_URI} hq2\.jpg$ [NC]
+RewriteRule .* - [F,L]
+
+# Redirecionar tudo o que não for ficheiro físico para o index.php
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . public/index.php
