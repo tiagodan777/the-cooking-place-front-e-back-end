@@ -3,3 +3,12 @@
 main#article  {
     width: 1200px;
 }
+
+main#article > section#needs section#video {
+    margin: 25px 0px 500px 0px;
+}
+
+main#article > section#needs section#video > iframe {
+    width: 45vw;
+    height: 25.3125vw;
+}
