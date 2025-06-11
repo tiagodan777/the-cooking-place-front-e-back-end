@@ -496,3 +496,11 @@ div.save {
     /*background-color: var(--cor4);*/
     color: var(--cor4);
 }
+
+.eu-gostei {
+    color: var(--cor0);
+}
+
+.nao-gostei {
+    color: var(--cor4);
+}

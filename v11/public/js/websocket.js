@@ -76,3 +76,36 @@ function updateSavedStyle(span) {
     span.style.fontVariationSettings = isSaved === 'guardado' ? "'FILL' 1" : "'FILL' 0";
     span.style.color = isSaved === 'guardado' ? '#ED7D3A' : '#363537';
 }
+
+// Quando a página carrega
+document.addEventListener("DOMContentLoaded", function() {
+
+    // 1️⃣ No load: percorre todos os spans e garante que a cor está certa
+    window.document.querySelectorAll("span[id^='icone-reacao-num-']").forEach((numSpan) => {
+        if (numSpan.classList.contains('eu-gostei')) {
+            numSpan.style.color = '#F7D500'; // cor de "gostei"
+        } else {
+            numSpan.style.color = '#363537'; // cor de "não gostei"
+        }
+    });
+
+    // 2️⃣ No clique no like, alterna a classe e a cor
+    window.document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
+        span.addEventListener('click', function () {
+            let contentId = this.id.replace("icone-reacao-", "");
+            let numSpan = window.document.querySelector(`#icone-reacao-num-${contentId}`);
+            if (!numSpan) return;
+
+            // Alternar entre classes e cores
+            if (numSpan.classList.contains('eu-gostei')) {
+                numSpan.classList.remove('eu-gostei');
+                numSpan.classList.add('nao-gostei');
+                numSpan.style.color = '#363537';
+            } else {
+                numSpan.classList.remove('nao-gostei');
+                numSpan.classList.add('eu-gostei');
+                numSpan.style.color = '#F7D500';
+            }
+        });
+    });
+});

@@ -8,9 +8,12 @@ if ($session->id != 0 && empty($tokenLogin)) {
     $tokenLogin = $cms->getToken()->create($session->id, 'login');
 }
 
-$conteudos = $cms->getContent()->get(from: $from);
+$conteudos = $cms->getContent()->get(from: $from, session: $session->id);
 $num_emojis = $cms->getContent()->count();
 $emojis_cod = array_map(fn() => mt_rand(1, 98), range(1, $num_emojis));
+
+/*echo "<pre>";
+var_dump($conteudos);*/
 
 //$novas_datas = postado_ha_x_horas($receitas);
 

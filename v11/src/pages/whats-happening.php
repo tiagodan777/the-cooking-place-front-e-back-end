@@ -1,5 +1,10 @@
 <?php
+if ($id) {
+    $primeiro_quik = $cms->getQuik()->get($id);
+}
+
 $quiks = $cms->getQuik()->getAll();
+array_unshift($quiks, $primeiro_quik);
 $i = 1;
 
 $num_emojis = $cms->getQuik()->count();

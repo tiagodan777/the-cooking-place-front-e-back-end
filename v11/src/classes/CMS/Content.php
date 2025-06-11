@@ -12,7 +12,7 @@ class Content {
         $this->db = $db; 
     }
 
-    public function get($member = null, $from = 0, $limit = 10) {
+    public function get($member = null, $from = 0, $limit = 10, $session = null) {
         $arguments['member'] = $member;
         $arguments['member1'] = $member;
         $arguments['member2'] = $member;
@@ -21,6 +21,14 @@ class Content {
         $arguments['member5'] = $member;
         $arguments['member6'] = $member;
         $arguments['member7'] = $member;
+        $arguments['session1'] = $session;
+        $arguments['session2'] = $session;
+        $arguments['session3'] = $session;
+        $arguments['session4'] = $session;
+        $arguments['session5'] = $session;
+        $arguments['session6'] = $session;
+        $arguments['session7'] = $session;
+        $arguments['session8'] = $session;
         $arguments['from'] = $from;
         $arguments['limit'] = $limit;
 
@@ -43,11 +51,14 @@ class Content {
                         FROM likes
                         WHERE likes.conteudo_id = r.id) AS likes,
                         (SELECT COUNT(conteudo_id)
+                        FROM likes
+                        WHERE likes.conteudo_id = r.id AND likes.membro_id = :session5) AS i_like,
+                        (SELECT COUNT(conteudo_id)
                         FROM opiniao
                         WHERE opiniao.conteudo_id = r.id) AS opinioes,
                         (SELECT COUNT(*)
                         FROM guardado
-                        WHERE guardado.conteudo_id = r.id) AS guardado
+                        WHERE guardado.conteudo_id = r.id AND guardado.membro_id = :session1) AS guardado
                         FROM receita AS r
                         JOIN membro AS m ON m.id = r.membro_id
                         WHERE (r.membro_id = :member OR :member1 IS NULL)
@@ -71,11 +82,14 @@ class Content {
                         FROM likes
                         WHERE likes.conteudo_id = q.id) AS likes,
                         (SELECT COUNT(conteudo_id)
+                        FROM likes
+                        WHERE likes.conteudo_id = q.id AND likes.membro_id = :session6) AS i_like,
+                        (SELECT COUNT(conteudo_id)
                         FROM opiniao
                         WHERE opiniao.conteudo_id = q.id) AS opinioes,
                         (SELECT COUNT(*)
                         FROM guardado
-                        WHERE guardado.conteudo_id = q.id) AS guardado
+                        WHERE guardado.conteudo_id = q.id AND guardado.membro_id = :session2) AS guardado
                         
                     FROM quik AS q
                     JOIN membro AS m ON m.id = q.membro_id
@@ -101,11 +115,14 @@ class Content {
                     FROM likes
                     WHERE likes.conteudo_id = p.id) AS likes,
                     (SELECT COUNT(conteudo_id)
+                    FROM likes
+                    WHERE likes.conteudo_id = p.id AND likes.membro_id = :session7) AS i_like,
+                    (SELECT COUNT(conteudo_id)
                     FROM opiniao
                     WHERE opiniao.conteudo_id = p.id) AS opinioes,
                     (SELECT COUNT(*)
                     FROM guardado
-                    WHERE guardado.conteudo_id = p.id) AS guardado
+                    WHERE guardado.conteudo_id = p.id AND guardado.membro_id = :session3) AS guardado
                     FROM publicacao_simples AS p
                     JOIN membro AS m ON m.id = p.membro_id
                     WHERE (p.membro_id = :member4 OR :member5 IS NULL)
@@ -129,11 +146,14 @@ class Content {
                     FROM likes
                     WHERE likes.conteudo_id = v.id) AS likes,
                     (SELECT COUNT(conteudo_id)
+                    FROM likes
+                    WHERE likes.conteudo_id = v.id AND likes.membro_id = :session8) AS i_like,
+                    (SELECT COUNT(conteudo_id)
                     FROM opiniao
                     WHERE opiniao.conteudo_id = v.id) AS opinioes,
                     (SELECT COUNT(*)
                     FROM guardado
-                    WHERE guardado.conteudo_id = v.id) AS guardado
+                    WHERE guardado.conteudo_id = v.id AND guardado.membro_id = :session4) AS guardado
                     FROM video_longo AS v
                     JOIN membro AS m ON m.id = v.membro_id
                     WHERE (v.membro_id = :member6 OR :member7 IS NULL)) AS data

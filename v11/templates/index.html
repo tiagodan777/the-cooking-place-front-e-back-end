@@ -63,7 +63,7 @@
                     <div class="icones">
                         <div class="react">
                             {% if session.id != 0 %}
-                                <span id="icone-reacao-{{ conteudo.id }}" class="icones-reacao" onclick="event.preventDefault()"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt="Ícone de Like"></span>
+                                <span id="icone-reacao-{{ conteudo.id }}" class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt="Ícone de Like"></span>
                             {% else %}
                                 <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
                             {% endif %}
@@ -111,10 +111,15 @@
                         </div>
                     </div>
                     <div class="numeros">
+                        {% if conteudo.i_like %}
+                            {% set class = 'eu-gostei' %}
+                        {% else %}
+                            {% set class = 'nao-gostei' %}
+                        {% endif %}
                         {% if conteudo.likes != '' %}
-                            <span id="icone-reacao-num-{{ conteudo.id }}">{{ conteudo.likes }}</span>
+                            <span id="icone-reacao-num-{{ conteudo.id }}" class="{{ class }}">{{ conteudo.likes }}</span>
                         {% else %} 
-                            <span></span>
+                            <span>0</span>
                         {% endif %}
                         {% if conteudo.opinioes != '' %}
                             <span>{{ conteudo.opinioes }}</span>
