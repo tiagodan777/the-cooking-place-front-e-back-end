@@ -8,7 +8,7 @@ if (!$id) {
     include APP_ROOT . '/src/pages/error-page.php';
 }
 
-$receita = $cms->getArticle()->get($id);
+$receita = $cms->getArticle()->get($id, $session->id);
 if (!$receita) {
     include APP_ROOT . '/src/pages/error-page.php';
 }

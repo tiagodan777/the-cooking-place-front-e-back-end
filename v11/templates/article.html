@@ -21,10 +21,10 @@
                     <div id="reacoes">
                         <div class="icones">
                             {% if session.id != 0 %}
-                            <span id="icone-reacao-{{ article.id }}" class="icones-reacao" onclick="event.preventDefault()"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt="Ícone de Like"></span>
-                        {% else %}
-                            <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
-                        {% endif %}
+                                <span id="icone-reacao-{{ receita.id }}" class="icones-reacao" onclick="event.preventDefault()"><img src="{{ doc_root }}imagens/emojis/emoji{{ emoji_cod }}.png" alt="Ícone de Like"></span>
+                            {% else %}
+                                <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
+                            {% endif %}
                             <dialog id="c{{ count }}">
                                 <iframe data-src="{{ doc_root }}opinions/{{ receita.id }}" frameborder="0" id="comentarios{{ count }}"></iframe>
                             </dialog>
@@ -32,8 +32,8 @@
 
                             <dialog id="s{{ count }}" class="share">
                                 <div class="imagem">
-                                    <img data-src="{{ doc_root }}imagens/comida/{{ receita.file }}" alt="Foto de {{ receita.titulo }} publicada por {{ receita.autor }}" id="imagem-para-share{{ count }}">
-                                    {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v11/public/article/' ~  receita.id %}
+                                    <img data-src="{{ doc_root }}imagens/comida/{{ receita.imagem_file }}" alt="Foto de {{ conteudo.titulo }} publicada por {{ conteudo.autor }}" id="imagem-para-share{{ count }}">
+                                    {% set link = 'https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/article/' ~  conteudo.id %}
                                 </div>
                                 <p class="partilhar-atraves-de">Partilhar através de </p>
                                 <div class="icones-redes-sociais">
@@ -41,8 +41,8 @@
                                     <input type="hidden" name="link" value="{{ link }}">
                                     <span class="material-symbols-outlined">send</span>
                                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/facebook-icon.png" alt="Ícone do Facebook"></a>
-                                    <a href="https://api.whatsapp.com/send?text={{ receita.titulo|url_encode }}%20{{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/whatsapp-icon.png" alt=""></a>
-                                    <a href="https://pinterest.com/pin/create/button/?url={{ link|url_encode }}&media={{ ('https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/imagens/comida/' ~ receita.file)|url_encode }}&description={{ receita.titulo|url_encode }}" target="_blank"><img src="{{ doc_root }}imagens/icons/pinterest-icon.png" alt="Ícone do Pinterest"></a>
+                                    <a href="https://api.whatsapp.com/send?text={{ conteudo.titulo|url_encode }}%20{{ link }}" target="_blank"><img src="{{ doc_root }}imagens/icons/whatsapp-icon.png" alt=""></a>
+                                    <a href="https://pinterest.com/pin/create/button/?url={{ link|url_encode }}&media={{ ('https://d58a-2001-8a0-55bd-9900-78ac-7e71-a9de-eeaf.ngrok-free.app/the-cooking-place-front-e-back-end/v8/public/imagens/comida/' ~ conteudo.file)|url_encode }}&description={{ conteudo.titulo|url_encode }}" target="_blank"><img src="{{ doc_root }}imagens/icons/pinterest-icon.png" alt="Ícone do Pinterest"></a>
                                     <a href="https://twitter.com/intent/tweet?url={{ link }}&text=Receita-do-The-Cooking-Place" target="_blank"><img src="{{ doc_root }}imagens/icons/x-icon.png" alt="Ícone do X"></a>
                                 </div>
                             </dialog>
@@ -51,18 +51,23 @@
                                 <a href="{{ doc_root }}save/{{ receita.id }}/?file={{ receita.file }}&tipo_conteudo={{ receita.tipo_conteudo }}" class="guardar"><span class="material-symbols-outlined">bookmark</span></a>
                             </div>-->
                         </div>
-                        <div class="numeros">
-                        {% if article.likes != '' %}
-                            <span id="icone-reacao-num-{{ article.id }}">{{ article.likes }}</span>
-                        {% else %} 
-                            <span>0</span>
-                        {% endif %}
-                        {% if article.opinioes != '' %}
-                            <span>{{ conteudo.opinioes }}</span>
-                        {% else %}
-                            <span>0</span>
-                        {% endif %}
-                        <span>55</span>
+                            <div class="numeros">
+                                {% if receita.i_like %}
+                                    {% set class = 'eu-gostei' %}
+                                {% else %}
+                                    {% set class = 'nao-gostei' %}
+                                {% endif %}
+                                {% if receita.likes != '' %}
+                                    <span id="icone-reacao-num-{{ receita.id }}" class="{{ class }}">{{ receita.likes }}</span>
+                                {% else %} 
+                                    <span>0</span>
+                                {% endif %}
+                                {% if receita.opinioes != '' %}
+                                    <span>{{ receita.opinioes }}</span>
+                                {% else %}
+                                    <span>0</span>
+                                {% endif %}
+                                <span>55</span>
                         </div>
                     </div>
                 </div>
@@ -132,6 +137,24 @@
             })
         })
     })
+
+    window.document.querySelectorAll("button[id^='f']").forEach((button) => {
+            button.addEventListener('click', function () {
+                let count = this.id.replace("f", "")
+                let dialog = window.document.querySelector(`#s${count}`)
+                let media = window.document.querySelector(`#imagem-para-share${count}`)
+
+                if (!media.src) {
+                    media.src = media.getAttribute('data-src')
+                }
+
+                dialog.showModal()
+
+                dialog.addEventListener('click', function () {
+                    dialog.close()
+                })
+            })
+        })
 </script>
 <script src="{{ doc_root }}js/websocket.js"></script>
 {% endblock %}

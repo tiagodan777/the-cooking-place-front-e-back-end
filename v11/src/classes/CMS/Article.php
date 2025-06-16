@@ -9,7 +9,7 @@ class Article {
         $this->db = $db;
     }
 
-    public function get($id) {
+    public function get($id, $session = null) {
         $sql = "SELECT r.id, r.titulo, r.descricao, r.data, r.tempo_preparo, r.unidade_tempo, 
                 r.numero_pessoas, r.ingredientes, r.quantidades, r.passos_preparacao, r.keywords, 
                 r.imagem_file, r.youtube_id, r.quik_file, r.categoria_id, r.membro_id, r.seo_title,
@@ -19,13 +19,16 @@ class Article {
                 FROM likes
                 WHERE likes.conteudo_id = r.id) AS likes,
                 (SELECT COUNT(conteudo_id)
+                FROM likes
+                WHERE likes.conteudo_id = r.id AND likes.membro_id = :session) AS i_like,
+                (SELECT COUNT(conteudo_id)
                 FROM opiniao
                 WHERE opiniao.conteudo_id = r.id) AS opinioes
                 FROM receita AS r
                 JOIN categoria AS c ON r.categoria_id = c.id
                 JOIN membro AS m ON r.membro_id = m.id
                 WHERE r.id = :id;";
-        return $this->db->runSQL($sql, [$id])->fetch();
+        return $this->db->runSQL($sql, ['id' => $id, 'session' => $session])->fetch();
     }
 
     public function getAll($category = null, $member = null) {
