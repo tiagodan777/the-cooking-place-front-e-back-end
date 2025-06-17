@@ -64,8 +64,13 @@
                         </div>
                     </dialog>
                     <button id="f{{ count }}"><span class="material-symbols-outlined">ios_share</span></button>
-                    <div class="save">
-                        <a href="{{ doc_root }}save/{{ quik.id }}/?file={{ quik.youtube_id}}&tipo_conteudo=quik" class="guardar"><span class="material-symbols-outlined">bookmark</span></a>
+                    <div class="save" id="icone-salvar-{{ quik.id }}" file="{{ quik.youtube_id }}" tipo_conteudo="quik">
+                        {% if quik.guardado == 0 %}
+                            {% set class = 'nao-guardado' %}
+                        {% else %}
+                            {% set class = 'guardado' %}
+                        {% endif %}
+                        <span class="material-symbols-outlined" id="icone-de-guardado-{{ quik.id }}" saved="{{ class }}">bookmark</span>
                     </div>
                     <a href="{{ doc_root }}profile/{{ quik.membro_id }}/{{ quik.seo_member }}"><img src="{{ doc_root }}imagens/fotos-perfil/{{ quik.picture }}" alt="Foto de perfil de {{ quik.autor }}"></a>
                 </nav>
