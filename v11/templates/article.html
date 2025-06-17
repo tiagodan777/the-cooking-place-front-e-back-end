@@ -97,9 +97,12 @@
                 {% endfor %}
             </ul>
         </section>
-        <section id="video">
-            <iframe src="https://www.youtube.com/embed/{{ receita.youtube_id }}?enablejsapi=1&mute=1&modestbranding=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </section>
+        {% if receita.youtube_id %}
+            <section id="video">
+                
+                    <iframe src="https://www.youtube.com/embed/{{ receita.youtube_id }}?enablejsapi=1&mute=1&modestbranding=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </section>
+        {% endif %}
     </section>
     <section id="steps">
         <h2>Passos de Preparação</h2>

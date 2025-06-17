@@ -165,6 +165,20 @@ nav[id^="navegacao_"] span.material-symbols-outlined {
     background-color: transparent;
     font-size: 2em;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+nav[id^="navegacao_"] span.material-symbols-outlined:hover {
+    transform: scale(115%);
+}
+
+nav[id^="navegacao_"] span.icones-reacao img {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+nav[id^="navegacao_"] span.icones-reacao img:hover {
+    transform: scale(115%);
 }
 
 button {

@@ -2,6 +2,8 @@
 {% block title %} O que está a acontecer? {% endblock %}
 {% block content %}
 <main id="whats-happening">
+    <input type="hidden" id="cookieUser" name="user_token" value="{{ cookie.token }}">
+    <input type="hidden" id="sessionToken" value="{{ tokenLogin }}">
     <h1 id="o-que-esta-a-acontecer">O que está a acontecer?</h1>
     <section id="todos-videos">
         {% for quik in quiks %}
@@ -18,13 +20,18 @@
                 <nav id="navegacao_{{ i }}">
                     <div>
                         {% if session.id != 0 %}
-                            <a href="{{ doc_root}}like/{{ conteudo.id }}"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
+                            <span id="icone-reacao-{{ quik.id }}" class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt="Ícone de Like"></span>
                         {% else %}
                             <a href="{{ doc_root}}login"><span class="icones-reacao"><img src="{{ doc_root }}imagens/emojis/emoji{{ emojis_cod[count] }}.png" alt=""></span></a>
                         {% endif %}
-                        {% if quik.likes != '' %}
-                            <span>{{ quik.likes }}</span>
+                        {% if quik.i_like %}
+                            {% set class = 'eu-gostei' %}
                         {% else %}
+                            {% set class = 'nao-gostei' %}
+                        {% endif %}
+                        {% if quik.likes != '' %}
+                            <span id="icone-reacao-num-{{ quik.id }}" class="{{ class }}">{{ quik.likes }}</span>
+                        {% else %} 
                             <span>0</span>
                         {% endif %}
                     </div>
@@ -189,4 +196,5 @@
             })
         })
 </script>
+<script src="{{ doc_root }}js/websocket.js"></script>
 {% endblock %}
