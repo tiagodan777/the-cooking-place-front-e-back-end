@@ -16,8 +16,8 @@ ws.onmessage = function(event) {
     let data = JSON.parse(event.data)
     if (data.type === 'like') {
         updateNumberOfLikes(data)
-    } else {
-        console.log('Oi tola')
+    } else if (data.type === 'follow') {
+        console.log('A funcionar')
     }
     // console.log(`Ganda parva: ${data}`)
 }
@@ -58,6 +58,18 @@ window.document.querySelectorAll("div[id^='icone-salvar-']").forEach((span) => {
         ws.send(JSON.stringify(data))
     })
 })
+
+window.document.querySelectorAll("button[id^='seguir-']").forEach((button) => {
+    button.addEventListener('click', function () {
+        let profileId = this.id.replace("seguir-", "")
+        let data = {
+            type: "follow",
+            profileId: profileId
+        }
+
+        ws.send(JSON.stringify(data))
+    })
+}) 
 
 window.document.querySelectorAll("span[id^='icone-de-guardado-']").forEach((span) => {
     // Inicializa o estado visual no load da página

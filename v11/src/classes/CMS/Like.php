@@ -3,13 +3,11 @@ namespace TiagoDaniel\CMS;
 
 class Like {
     private $pdo;
-    // private $from;
     private $data;
     private $session;
 
     public function __construct($pdo, $session) {
         $this->pdo = $pdo;
-        // $this->from = $from;
         $this->session = $session;
     }
 

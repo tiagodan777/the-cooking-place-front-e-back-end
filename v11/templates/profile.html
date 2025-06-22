@@ -3,15 +3,17 @@
 {% block content %}
 <main id="profile">
     <input type="hidden" name="autor_id" id="autor_id" value="{{ session.id }}">
+    <input type="hidden" id="cookieUser" name="user_token" value="{{ cookie.token }}">
+    <input type="hidden" id="sessionToken" value="{{ tokenLogin }}">
     <header>
         <div id="foto_e_bio">
             <img src="{{ doc_root }}imagens/fotos-perfil/{{ membro.picture }}" alt="Foto de perfil de {{ membro.nome }}">
             <p>{{ membro.bio }}</p>
             {% if membro.id != session.id %}
                 {% if not seguem_se %}
-                    <button onclick="seguir(0)" id="seguir">Seguir</button>
+                    <button id="seguir-{{ membro.id }}">Seguir</button>
                 {% else %}
-                    <button onclick="seguir(1)">A seguir</button>
+                    <button id="seguir-{{ membro.id }}">A seguir</button>
                 {% endif %}
             {% endif %}
         </div>
@@ -122,7 +124,7 @@
         })
     })
 
-    let ws = new WebSocket("ws://localhost:8080")
+    /*let ws = new WebSocket("ws://localhost:8080")
 
     function seguir(seguir) {
         const pathParts = window.location.pathname.split('/')
@@ -132,7 +134,7 @@
 
         if (seguir == 0) {
             let data = {
-                type: "seguir",
+                type: "follow",
                 userId: userId,
                 profileId: profileId
             }
@@ -140,7 +142,7 @@
             ws.send(JSON.stringify(data))
         } else if (seguir == 1) {
             let data = {
-                type: "NaoSeguir",
+                type: "unfollow",
                 userId: userId,
                 profileId: profileId
             }
@@ -149,8 +151,9 @@
         } else {
             alert("SUA GANDA GORDA")
         }
-    }
+    }*/
 </script>
+<script src="{{ doc_root }}js/websocket.js"></script>
 {% endblock %}
 
 

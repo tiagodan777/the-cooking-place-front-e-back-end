@@ -50,6 +50,13 @@ class WebSocket implements MessageComponentInterface {
                 $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
                 (new Saved($this->pdo, $session)->handle($data));
                 break;
+            case 'follow':
+                $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
+                echo "<pre>";
+                var_dump($this->pdo);
+                echo "\n\n\n";
+                var_dump($session);
+                (new Follow($this->pdo, $session)->handle($data));
         }
     }
 

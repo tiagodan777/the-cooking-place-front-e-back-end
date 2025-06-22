@@ -90,7 +90,7 @@ class CMS {
 
     public function getFollow() {
         if ($this->follow === null) {
-            $this->follow = new Follow($this->db);
+            $this->follow = new Follow($this->db, null);
         }
         return $this->follow;
     }

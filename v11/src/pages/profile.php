@@ -1,5 +1,10 @@
 <?php
- 
+$tokenLogin = $_GET['loginToken'] ?? '';
+
+if ($session->id != 0 && empty($tokenLogin)) {
+    $tokenLogin = $cms->getToken()->create($session->id, 'login');
+}
+
 if (!$id) {
     include 'error-page.php';
 }
@@ -19,6 +24,7 @@ if (mb_strtolower($parts[2]) != mb_strtolower($membro['seo_name'])) {
 $data['conteudos'] = $conteudos;
 $data['membro'] = $membro;
 $data['seguem_se'] = $seguem_se;
+$data['tokenLogin'] = $tokenLogin;
 
 echo $twig->render('profile.html', $data);
 ?>
