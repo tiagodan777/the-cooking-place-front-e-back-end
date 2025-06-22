@@ -44,7 +44,7 @@ class WebSocket implements MessageComponentInterface {
                 $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
                 (new Like($this->pdo, $session)->handle($data));
 
-                $this->broadcastNotifications($data, $session);
+                $this->broadcastNotifications($data, $session, 'like');
                 break;
             case 'save':
                 $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
@@ -52,11 +52,13 @@ class WebSocket implements MessageComponentInterface {
                 break;
             case 'follow':
                 $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
-                echo "<pre>";
-                var_dump($this->pdo);
-                echo "\n\n\n";
-                var_dump($session);
-                (new Follow($this->pdo, $session)->handle($data));
+                $follow = new Follow($this->pdo, $session);
+                $result = $follow->handle($data);
+
+                foreach ($this->clients as $client) {
+                    $client->send(json_encode($result));
+                }
+                break;
         }
     }
 
@@ -70,10 +72,18 @@ class WebSocket implements MessageComponentInterface {
         $conn->close();
     }
 
-    private function broadcastNotifications($data, $session) {
-        foreach ($this->clients as $client) {
-            $likes = new Like($this->pdo, $session)->count($data);
-            $client->send(json_encode($likes));
+    private function broadcastNotifications($data, $session, $type = null) {
+        if ($type == 'like') {
+            foreach ($this->clients as $client) {
+                $likes = new Like($this->pdo, $session)->count($data);
+                $client->send(json_encode($likes));
+            }
+        } elseif ($type == 'follow') {
+            var_dump($data);
+            foreach ($this->clients as $client) {
+                $followers = new Follow($this->pdo, $session)->countFollowers($data['profileId']);
+                $client->send(json_decode($followers['followers']));
+            }
         }
     }
 

@@ -12,7 +12,6 @@ class Follow {
     }
 
     public function get($membro_id_1, $membro_id_2) {
-        echo "OKOKOK";
         $arguments['membro_id_1'] = $membro_id_1;
         $arguments['membro_id_2'] = $membro_id_2;
 
@@ -62,21 +61,34 @@ class Follow {
         return true;
     }
 
+    public function countFollowers($id) {
+        $sql = "SELECT COUNT(membro_id_2) 
+                FROM seguir
+                WHERE membro_id_2 = :id;";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['id' => $id]);
+        $followers = $statement->fetchColumn();
+        return ['type' => 'follow', 'followers' => $followers];
+    }
+
     public function handle($data) {
         $this->data = $data;
         unset($this->data['type']);
 
-        echo "\n\n\n";
-        echo "Array Data ";
-        var_dump($data);
-        echo "\n\n\n";
-        echo "Array Session ";
-        var_dump($this->session);
         $followed = $this->get($this->session->id, $data['profileId']);
         if ($followed) {
             $this->delete($this->session->id, $data['profileId']);
+            $status = 'unfollowed';
         } else {
             $this->create($this->session->id, $data['profileId']);
+            $status = 'followed';
         }
+
+        return [
+            'type' => 'follow',
+            'profileId' => $data['profileId'],
+            'status' => $status,
+            'userId' => $this->session->id
+        ];
     }
 }

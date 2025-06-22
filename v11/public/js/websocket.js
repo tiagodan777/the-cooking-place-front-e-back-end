@@ -17,9 +17,8 @@ ws.onmessage = function(event) {
     if (data.type === 'like') {
         updateNumberOfLikes(data)
     } else if (data.type === 'follow') {
-        console.log('A funcionar')
+        updateFollowSatus(data)
     }
-    // console.log(`Ganda parva: ${data}`)
 }
 
 function updateNumberOfLikes(data) {
@@ -27,6 +26,19 @@ function updateNumberOfLikes(data) {
     // alert(likes)
     // console.log(likes.textContent)
     likes.textContent = data.likes
+}
+
+function updateFollowSatus(data) {
+    let follow = window.document.querySelector(`button#seguir-${data.profileId}`)
+    let followers = window.document.querySelector(`button#button-followers`)
+
+    if (follow.textContent == 'Seguir') {
+        follow.textContent = 'A Seguir'
+        followers.textContent = Number(followers.textContent) + 1
+    } else {
+        follow.textContent = 'Seguir'
+        followers.textContent = Number(followers.textContent) - 1
+    }
 }
 
 window.document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
@@ -50,7 +62,7 @@ window.document.querySelectorAll("div[id^='icone-salvar-']").forEach((span) => {
             type : 'save',
             contentId : contentId,
             file: file,
-            tipo_conteudo : tipo_conteudo
+            tipo_conteudo : tipo_conteudo,
         }
 
         console.log(data)
@@ -63,9 +75,11 @@ window.document.querySelectorAll("button[id^='seguir-']").forEach((button) => {
     button.addEventListener('click', function () {
         let profileId = this.id.replace("seguir-", "")
         let data = {
-            type: "follow",
-            profileId: profileId
+            type : 'follow',
+            profileId : profileId,
         }
+
+        console.log('OK ' + data)
 
         ws.send(JSON.stringify(data))
     })
