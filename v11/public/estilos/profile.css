@@ -216,5 +216,13 @@ dialog.iframes-profile {
     width: 70vw;
 }
 
+.seguir {
+    background-color: var(--cor3);
+}
+
+.a_seguir {
+    background-color: var(--cor0);
+}
+
 
 

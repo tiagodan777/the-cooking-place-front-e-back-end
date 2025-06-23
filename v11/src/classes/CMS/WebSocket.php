@@ -52,14 +52,10 @@ class WebSocket implements MessageComponentInterface {
                 break;
             case 'follow':
                 $session = $this->connSessions[$from->resourceId] ?? $this->globalSession;
-                $follow = new Follow($this->pdo, $session);
-                $result = $follow->handle($data);
-
-                foreach ($this->clients as $client) {
-                    $client->send(json_encode($result));
-                }
+                $status = (new Follow($this->pdo, $session))->handle($data);
+                $this->broadcastNotifications($status, $session, 'follow', $from);
                 break;
-        }
+            }
     }
 
     public function onClose(ConnectionInterface $conn) {
@@ -72,17 +68,31 @@ class WebSocket implements MessageComponentInterface {
         $conn->close();
     }
 
-    private function broadcastNotifications($data, $session, $type = null) {
+    private function broadcastNotifications($data, $session, $type = null, ConnectionInterface $from = null) {
         if ($type == 'like') {
             foreach ($this->clients as $client) {
                 $likes = new Like($this->pdo, $session)->count($data);
                 $client->send(json_encode($likes));
             }
         } elseif ($type == 'follow') {
-            var_dump($data);
+            $followers = (new Follow($this->pdo, $session))->countFollowers($data['profileId']);
+
             foreach ($this->clients as $client) {
-                $followers = new Follow($this->pdo, $session)->countFollowers($data['profileId']);
-                $client->send(json_decode($followers['followers']));
+                $isSender = $client === $from; // <-- identifica o autor da ação
+
+                $payload = [
+                    'type' => 'follow',
+                    'profileId' => $data['profileId'],
+                    'followers' => $followers['followers']
+                ];
+
+                if ($isSender) {
+                    // Só quem clicou recebe o estado para atualizar o botão
+                    $payload['status'] = $data['status'];
+                    $payload['userId'] = $data['userId'];
+                }
+
+                $client->send(json_encode($payload));
             }
         }
     }

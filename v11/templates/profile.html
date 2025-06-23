@@ -11,9 +11,9 @@
             <p>{{ membro.bio }}</p>
             {% if membro.id != session.id %}
                 {% if not seguem_se %}
-                    <button id="seguir-{{ membro.id }}">Seguir</button>
+                    <button id="seguir-{{ membro.id }}" class="seguir">Seguir</button>
                 {% else %}
-                    <button id="seguir-{{ membro.id }}">A seguir</button>
+                    <button id="seguir-{{ membro.id }}" class="a_seguir">A seguir</button>
                 {% endif %}
             {% endif %}
         </div>

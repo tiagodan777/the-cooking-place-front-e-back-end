@@ -1,128 +1,71 @@
-let ws = new WebSocket("ws://localhost:8080")
+let ws = new WebSocket("ws://localhost:8080");
 
-ws.onopen = function() {
-    let sessionToken = window.document.getElementById('sessionToken')?.value || ''
-
+ws.onopen = function () {
+    let sessionToken = document.getElementById('sessionToken')?.value || '';
     console.log("Sending auth with token:", sessionToken);
 
     let authData = {
         type: "auth",
         token: sessionToken
-    }
-    ws.send(JSON.stringify(authData))
-}
+    };
+    ws.send(JSON.stringify(authData));
+};
 
-ws.onmessage = function(event) {
-    let data = JSON.parse(event.data)
+ws.onmessage = function (event) {
+    let data = JSON.parse(event.data);
+    console.log("WebSocket message:", data);
+
     if (data.type === 'like') {
-        updateNumberOfLikes(data)
-    } else if (data.type === 'follow') {
-        updateFollowSatus(data)
+        updateNumberOfLikes(data);
     }
-}
+    if (data.type === 'follow') {
+        updateFollowStatus(data);
+    }
+};
 
 function updateNumberOfLikes(data) {
-    let likes = window.document.querySelector(`span#icone-reacao-num-${data.contentId}`)
-    // alert(likes)
-    // console.log(likes.textContent)
-    likes.textContent = data.likes
-}
-
-function updateFollowSatus(data) {
-    let follow = window.document.querySelector(`button#seguir-${data.profileId}`)
-    let followers = window.document.querySelector(`button#button-followers`)
-
-    if (follow.textContent == 'Seguir') {
-        follow.textContent = 'A Seguir'
-        followers.textContent = Number(followers.textContent) + 1
-    } else {
-        follow.textContent = 'Seguir'
-        followers.textContent = Number(followers.textContent) - 1
+    let likes = document.querySelector(`span#icone-reacao-num-${data.contentId}`);
+    if (likes) {
+        likes.textContent = data.likes;
     }
 }
 
-window.document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
-    span.addEventListener('click', function () {
-        let contentId = this.id.replace("icone-reacao-", "")
-        let data = {
-            type : 'like',
-            contentId : contentId,
-        }
+function updateFollowStatus(data) {
+    const profileId = data.profileId;
+    const followButton = document.querySelector(`button#seguir-${profileId}`);
+    const followersCount = document.querySelector('button#button-followers');
 
-        ws.send(JSON.stringify(data))
-    })
-})  
+    if (!followersCount) return;
 
-window.document.querySelectorAll("div[id^='icone-salvar-']").forEach((span) => {
-    span.addEventListener('click', function () {
-        let contentId = this.id.replace("icone-salvar-", "")
-        let file = this.getAttribute('file')
-        let tipo_conteudo = this.getAttribute('tipo_conteudo')
-        let data = {
-            type : 'save',
-            contentId : contentId,
-            file: file,
-            tipo_conteudo : tipo_conteudo,
-        }
+    // Atualiza o número de seguidores (para todos)
+    if (typeof data.followers !== 'undefined') {
+        followersCount.textContent = data.followers;
+    }
 
-        console.log(data)
+    // Só o cliente que clicou deve mudar o botão
+    if (!data.status || !followButton) return;
 
-        ws.send(JSON.stringify(data))
-    })
-})
+    if (data.status === 'followed') {
+        followButton.textContent = 'A Seguir';
+        followButton.classList.remove('seguir');
+        followButton.classList.add('a_seguir');
+    } else if (data.status === 'unfollowed') {
+        followButton.textContent = 'Seguir';
+        followButton.classList.remove('a_seguir');
+        followButton.classList.add('seguir');
+    }
 
-window.document.querySelectorAll("button[id^='seguir-']").forEach((button) => {
-    button.addEventListener('click', function () {
-        let profileId = this.id.replace("seguir-", "")
-        let data = {
-            type : 'follow',
-            profileId : profileId,
-        }
-
-        console.log('OK ' + data)
-
-        ws.send(JSON.stringify(data))
-    })
-}) 
-
-window.document.querySelectorAll("span[id^='icone-de-guardado-']").forEach((span) => {
-    // Inicializa o estado visual no load da página
-    updateSavedStyle(span);
-
-    // Toggle no clique
-    span.addEventListener('click', function () {
-    this.setAttribute('saved', this.getAttribute('saved') === 'nao-guardado' ? 'guardado' : 'nao-guardado');
-    updateSavedStyle(this);
-    });
-});
-
-// Função utilitária para não repetir código
-function updateSavedStyle(span) {
-    let isSaved = span.getAttribute('saved');
-    span.style.fontVariationSettings = isSaved === 'guardado' ? "'FILL' 1" : "'FILL' 0";
-    span.style.color = isSaved === 'guardado' ? '#ED7D3A' : '#363537';
+    followButton.disabled = false;
 }
 
-// Quando a página carrega
-document.addEventListener("DOMContentLoaded", function() {
+// 👇 Atualiza likes visualmente e envia evento
+document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
+    span.addEventListener('click', function () {
+        let contentId = this.id.replace("icone-reacao-", "");
+        let numSpan = document.querySelector(`#icone-reacao-num-${contentId}`);
 
-    // 1️⃣ No load: percorre todos os spans e garante que a cor está certa
-    window.document.querySelectorAll("span[id^='icone-reacao-num-']").forEach((numSpan) => {
-        if (numSpan.classList.contains('eu-gostei')) {
-            numSpan.style.color = '#F7D500'; // cor de "gostei"
-        } else {
-            numSpan.style.color = '#363537'; // cor de "não gostei"
-        }
-    });
-
-    // 2️⃣ No clique no like, alterna a classe e a cor
-    window.document.querySelectorAll("span[id^='icone-reacao-']").forEach((span) => {
-        span.addEventListener('click', function () {
-            let contentId = this.id.replace("icone-reacao-", "");
-            let numSpan = window.document.querySelector(`#icone-reacao-num-${contentId}`);
-            if (!numSpan) return;
-
-            // Alternar entre classes e cores
+        if (numSpan) {
+            // Alternar estilo
             if (numSpan.classList.contains('eu-gostei')) {
                 numSpan.classList.remove('eu-gostei');
                 numSpan.classList.add('nao-gostei');
@@ -132,6 +75,71 @@ document.addEventListener("DOMContentLoaded", function() {
                 numSpan.classList.add('eu-gostei');
                 numSpan.style.color = '#F7D500';
             }
-        });
+        }
+
+        ws.send(JSON.stringify({
+            type: 'like',
+            contentId: contentId
+        }));
+    });
+});
+
+// 👇 Guardar conteúdos
+document.querySelectorAll("div[id^='icone-salvar-']").forEach((span) => {
+    span.addEventListener('click', function () {
+        let contentId = this.id.replace("icone-salvar-", "");
+        let file = this.getAttribute('file');
+        let tipo_conteudo = this.getAttribute('tipo_conteudo');
+
+        ws.send(JSON.stringify({
+            type: 'save',
+            contentId,
+            file,
+            tipo_conteudo
+        }));
+    });
+});
+
+// 👇 Botão seguir com proteção contra spam
+document.querySelectorAll("button[id^='seguir-']").forEach((button) => {
+    button.addEventListener('click', function () {
+        if (button.disabled) return;
+
+        button.disabled = true; // Evita spam até vir resposta do backend
+
+        let profileId = this.id.replace("seguir-", "");
+
+        ws.send(JSON.stringify({
+            type: 'follow',
+            profileId: profileId
+        }));
+    });
+});
+
+// 👇 Estilo dos guardados (inicialização e clique)
+document.querySelectorAll("span[id^='icone-de-guardado-']").forEach((span) => {
+    updateSavedStyle(span);
+
+    span.addEventListener('click', function () {
+        let estado = this.getAttribute('saved');
+        this.setAttribute('saved', estado === 'nao-guardado' ? 'guardado' : 'nao-guardado');
+        updateSavedStyle(this);
+    });
+});
+
+function updateSavedStyle(span) {
+    let isSaved = span.getAttribute('saved');
+    span.style.fontVariationSettings = isSaved === 'guardado' ? "'FILL' 1" : "'FILL' 0";
+    span.style.color = isSaved === 'guardado' ? '#ED7D3A' : '#363537';
+}
+
+// 👇 Cores dos likes ao carregar a página
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("span[id^='icone-reacao-num-']").forEach((numSpan) => {
+        if (numSpan.classList.contains('eu-gostei')) {
+            numSpan.style.color = '#F7D500';
+        } else {
+            numSpan.style.color = '#363537';
+        }
     });
 });
